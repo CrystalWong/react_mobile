@@ -1,0 +1,23 @@
+
+.main{ overflow:hidden; background:#eee; min-height:500px; }
+
+input::-webkit-input-placeholder{color:#666;}
+
+input:-moz-placeholder{color:#666;}
+
+.addren{ margin-top:1.5rem;  background:#fff; width:100%;}
+.addren ul li{ margin:0 ; border-bottom:1px solid #eee; padding-left:.5rem; color:#999; position:relative;}
+.addren ul li input{ color:#333; border:none;padding:1rem 0;width:100%; font-size:1.6rem;}
+.addren ul li:last-child{ border-bottom:none;}
+.chose{ width:13px; height:22px; display:inline-block; position:absolute; right:0; top:1.2rem; background:url(../images/yue/you.png) no-repeat 50% 50%;}
+.addren ul{ margin-left:1.5rem;margin-right:1.5rem;}
+/*成功失败**/
+
+/*.buye2{ width:163px; height:38px; line-height:38px; border:1px solid #d3d3d3; background:#eee; color:#999; margin-left:20px; display:inline-block;font-size:18px; border-radius:3px;}*/
+
+.yue-but{ height:3.9rem; line-height:3.9rem; color:#fff; font-size:1.8rem; text-align:center; margin:3rem 3% ; width:93%; display:block; background:#ff6600; border-radius:3px;}
+
+
+input[type=number] {-moz-appearance:textfield;}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button {-webkit-appearance: none;margin: 0;}
+
