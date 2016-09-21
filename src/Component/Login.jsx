@@ -6,6 +6,7 @@ import {Tool, merged} from '../Tool';
 import {DataLoad, DataNull, Header, TipMsgSignin, Footer} from './common/index';
 import URLS from '../constants/urls';
 import {COMMON_HEADERS_POST} from '../constants/headers';
+import {Toast} from '../Component/common/Tip';
 
 /**
  * 模块入口
@@ -18,14 +19,25 @@ class Login extends Component {
         super(props);
         console.log(props);
         this.state = {
-            button: '登录'
+            button: '登录',
+            tipContent: '',
+            display: ''
         };
+
         this.signin = () => {
             var userName = this.refs.phone.value,
                 passWord = this.refs.password.value,
-                source = "app";
+                source = "app",
+                self = this;
             //this.props.signinSuccess({a:1,b:2});   //action > state
-            // if (!accesstoken) return alert('不能为空！');
+            if (!userName){
+                this.setState({ tipContent: '号码不能为空',display: 'toasts' });
+                return;
+            }
+            if(!passWord){
+                this.setState({ tipContent: '密码不能为空',display: 'toasts' });
+                return;
+            }
             this.setState({ button: '登录中...' });
             // Tool.post('/api/v1/accesstoken', { accesstoken }, (res) => {
             //     if (res.success) {
@@ -82,6 +94,13 @@ class Login extends Component {
         }
 
     }
+
+    toastDisplay(state){
+        this.setState({
+          display: state
+        });
+    }
+
     render() {
         return (
             <div>
@@ -92,10 +111,11 @@ class Login extends Component {
                             <input ref="phone" type="text" placeholder="请输入手机号" />
                             <input ref="password" type="password" placeholder="请输入密码" />
                         </div>
-                        <button className="btn" onClick={this.signin}>{this.state.button}</button>
+                        <button className="btn" onClick={this.signin.bind(this)}>{this.state.button}</button>
                         <div style={{marginTop: '10px',color: '#666'}}><a className="fl">注册</a><a className="fr">找回密码</a></div>
                     </div>
                 </div>
+                <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} />
             </div>
         );
     }

@@ -8,6 +8,7 @@ import store from './Config/Store';
 //import 'normalize.css'; //重置浏览器默认样式
 //import 'flex.css'; //flex布局
 import './Style/common'; //加载公共样式
+import './Style/tip'; 
 import './Style/index';
 //import './Iconfont/iconfont.css'; //字体图标
 
