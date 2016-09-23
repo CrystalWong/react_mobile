@@ -3,6 +3,30 @@ import * as config from './Config/Config';
 
 var origin = process.env.NODE_ENV !== 'production' ? '' : config.origin;
 const Tool = {};
+
+
+
+/**
+ * (加载数据)
+ * 
+ * @method Fetch
+ */
+Tool.fetch = function(obj,data){
+    fetch(data.url,{
+      method: data.type,
+      body:data.body,
+      headers: data.headers
+    }).then(response => {
+        if(response.status >= 500){
+            obj.setState({ tipContent: '网络连接失败，请检查您的网络',display: 'toasts' });
+        }
+        return response.json();
+    }).then(json => {
+      data.successMethod(json);
+    });
+}
+
+
 /**
  * 发送ajax请求和服务器交互
  * @param {object} mySetting 配置ajax的配置

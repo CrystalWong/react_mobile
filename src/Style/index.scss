@@ -49,9 +49,20 @@ body{
 	.center{
 		
 		.text{
+			position: relative;
 			padding: 0 10px;
 			background: #fff;
 			border: 1px solid #e6e6e6;
+			span{
+			    position: absolute;
+			    bottom: 12px;
+			    right: 12px;
+			    padding-left: 10px;
+			    height: 1.5rem;
+			    color: #ff6600;
+			    border-left: 1px solid #e6e6e6;
+			    line-height: 1.5rem;
+			}
 		}
 	}
 	input{
@@ -61,11 +72,12 @@ body{
 		font-size: 1.05rem;
 		line-height: 3.3rem;
 		border: none;
-		background: url(../images/login/phone_icon.png) no-repeat 0 center;
+		background: url(../images/login/password_icon.png) no-repeat 0 center;
 		background-size: 1.3rem auto;
 		color: #999;
 	}
-	input[type='text']{border-bottom: 1px solid #e6e6e6;background: url(../images/login/password_icon.png) no-repeat 0 center;background-size: 1.3rem auto;}
+	input[type='text']{border-bottom: 1px solid #e6e6e6;background: url(../images/login/phone_icon.png) no-repeat 0 center;background-size: 1.3rem auto;}
+	input[type='num']{background: url(../images/login/code.png) no-repeat 0 center;background-size: 1.3rem auto;}
 	.btn{
 		margin-top: 20px;
 		padding: 1rem 0;
@@ -75,6 +87,27 @@ body{
 		background: #f60;
 		color: #ffbf94;
 		font-size: 1.2rem;
+	}
+	.protocol{
+		margin-top: 20px;
+		color: #666666;
+		line-height: 1.2rem;
+		a{
+			color: #45b3fc;
+		}
+		span{
+			display: inline-block;
+			margin-right: 5px;
+			width: 1.2rem;
+			height: 1.2rem;
+			background: url(../images/login/pro_yes.png) no-repeat 0 center;
+		    background-size: 100% auto;
+		    vertical-align: middle;
+		    &.no-pro{
+		    	background: url(../images/login/pro_no.png) no-repeat 0 center;
+		    	background-size: 100% auto;
+		    }
+		}
 	}
 } 
 /**  登录页面样式  **/

@@ -17,7 +17,7 @@ var server = new WebpackDevServer(webpack(config), {
     historyApiFallback: true,
     headers: { 'Access-Control-Allow-Origin': '*' },
     proxy:{
-      '*': {
+      '/user-api/*': {
         target: 'http://10.10.32.81',
         secure: false
       }
