@@ -48,7 +48,7 @@ class Register extends Component {
             });
 
         }
-
+        Tool.rem();
     }
 
     readProtocol(){ //同意协议
