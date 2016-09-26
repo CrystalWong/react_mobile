@@ -1,10 +1,12 @@
 import React,{Component,PropTypes} from 'react';
 import URLS from '../constants/urls';
+import {Tool, merged} from '../Tool';
 import '../Style/download';
 
 class Download extends Component {
 	constructor(props){
 		super(props);
+		Tool.rem();
 	}
 	render(){
 		return(

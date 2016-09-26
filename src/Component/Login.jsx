@@ -58,7 +58,7 @@ class Login extends Component {
                 }
             });
         }
-
+        Tool.rem();
     }
 
     toastDisplay(state){

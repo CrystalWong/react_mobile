@@ -2,6 +2,7 @@ import React, { Component,PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 // import {reduxForm} from 'redux-form';
 import { connect } from 'react-redux';
+import {Tool, merged} from '../Tool';
 import '../Style/yue.css';
 
 /**
@@ -15,6 +16,7 @@ export default class Yue extends Component {
    */
   goYue(){
     console.log(88888888888888888888888888888);
+    Tool.rem();
     //账号密码
     // console.log(md5(this.refs.password.value))
     // var data = {
