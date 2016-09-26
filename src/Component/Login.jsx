@@ -39,9 +39,10 @@ class Login extends Component {
                 return;
             }
             this.setState({ button: '登录中...' });
-            let headers = COMMON_HEADERS_POST('content-type', 'application/json');
+            // let headers = COMMON_HEADERS_POST('content-type', 'application/json');
+            let headers = COMMON_HEADERS_POST();
             Tool.fetch(this,{
-                url: `${URLS.LOGIN}?userName=${userName}&passWord=${passWord}&source=${source}`,
+                url: `${URLS.LOGIN}?userName=${userName}&passWord=${passWord}&source=${source}&version=14`,
                 type: "post",
                 body: "",
                 headers: headers,

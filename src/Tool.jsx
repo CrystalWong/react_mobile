@@ -12,11 +12,12 @@ const Tool = {};
  * @method Fetch
  */
 Tool.fetch = function(obj,data){
-    fetch(data.url,{
+    var d = {
       method: data.type,
-      body:data.body,
       headers: data.headers
-    }).then(response => {
+    };
+    if(data.body){d.body = data.body;}
+    fetch(data.url,d).then(response => {
         if(response.status >= 500){
             obj.setState({ tipContent: '网络连接失败，请检查您的网络',display: 'toasts' });
         }

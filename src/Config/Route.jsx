@@ -3,11 +3,11 @@ import { Router, Route, IndexRoute, browserHistory, hashHistory } from 'react-ro
 
 import IndexList from '../Component/IndexList'; //首页组件
 import Topic from '../Component/Topic'; //主题详情
-import TopicCreate from '../Component/TopicCreate'; //发布主题
 import MyMessages from '../Component/MyMessages'; //我的消息
 import UserView from '../Component/UserView'; //我的个人中心
 import Login from '../Component/Login'; //登录
 import Register from '../views/Register'; //注册
+import RegisterPro from '../views/RegisterPro'; //注册协议
 import Signout from '../Component/Signout'; //退出
 import Yue from '../views/yue'; //预约
 
@@ -30,7 +30,7 @@ const RouteConfig = (
         <Route path="/" component={Roots}>
             <IndexRoute component={Login} />
             <Route path="register" component={Register} />
-            <Route path="topic/create" component={TopicCreate} />
+            <Route path="registerpro" component={RegisterPro} />
             <Route path="topic/:id" component={Topic} />
             <Route path="my/messages" component={MyMessages} />
             <Route path="user/:loginname" component={UserView} />

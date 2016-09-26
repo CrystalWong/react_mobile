@@ -34,8 +34,8 @@ plugins.push(new webpack.NoErrorsPlugin());
 
 module.exports = {
     // devtool: '#source-map',
-    devtool: 'cheap-module-eval-source-map',
-    // devtool: false,
+    // devtool: 'cheap-module-eval-source-map',
+    devtool: false,
     entry: {
         app: [
           'webpack-dev-server/client?http://localhost:3000',
