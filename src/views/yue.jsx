@@ -9,14 +9,16 @@ import '../Style/yue.css';
  * 预约页面.
  */
 export default class Yue extends Component {
+    constructor(props){
+      super(props);
+      Tool.rem();
+    }
 
   /**
    * 预约
    * @return {[type]} [description]
    */
   goYue(){
-    console.log(88888888888888888888888888888);
-    Tool.rem();
     //账号密码
     // console.log(md5(this.refs.password.value))
     // var data = {
