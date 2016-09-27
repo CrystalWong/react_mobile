@@ -18,7 +18,7 @@ class Main extends Component {
             this.props.signin();
             this.context.router.replace({pathname: '/'});
         }
-
+        Tool.rem();
     }
     render() {
         return (
