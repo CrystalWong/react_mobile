@@ -11,7 +11,7 @@ import {Tool, merged} from '../Tool';
 /**
  * 模块入口
  * 
- * @class Login
+ * @class Register
  * @extends {Component}
  */
 class Register extends Component {
@@ -48,7 +48,6 @@ class Register extends Component {
             });
 
         }
-        Tool.rem();
     }
 
     readProtocol(){ //同意协议

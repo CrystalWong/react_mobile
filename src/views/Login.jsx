@@ -3,7 +3,7 @@ import { Router, Route, IndexRoute, browserHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
 import action from '../Action/Index';
 import {Tool, merged} from '../Tool';
-import {DataLoad, DataNull, Header, TipMsgSignin, Footer} from './common/index';
+import {DataLoad, DataNull, Header, TipMsgSignin, Footer} from '../Component/common/index';
 import URLS from '../constants/urls';
 import {COMMON_HEADERS_POST} from '../constants/headers';
 import {Toast} from '../Component/common/Tip';
@@ -80,7 +80,7 @@ class Login extends Component {
                             <span><img href="" /></span>
                         </div>
                         <button className="btn" onClick={this.signin.bind(this)}>{this.state.button}</button>
-                        <div style={{marginTop: '10px'}}><Link to="/register" style={{color: '#666'}}><span className="fl" href="">注册</span></Link><a className="fr">找回密码</a></div>
+                        <div style={{marginTop: '10px'}}><Link to="/register" style={{color: '#666'}}><span className="fl">注册</span></Link><Link to="/registerpd" style={{color: '#666'}}><span className="fr">找回密码</span></Link></div>
                     </div>
                 </div>
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} />
