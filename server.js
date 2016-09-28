@@ -33,7 +33,7 @@ console.log(config.output.publicPath);
 console.log("**************************");
 //将其他路由，全部返回index.html
 server.app.get('*', function (req,res) {
-    res.sendFile('./index.html')
+    res.sendFile('/index.html')
 });
 
 server.listen(3000);

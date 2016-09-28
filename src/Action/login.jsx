@@ -1,33 +1,49 @@
-import { INCREMENT_COUNTER, DECREMENT_COUNTER } from '../constants/ActionTypes';
+import { REGISTER } from '../constants/ActionTypes';
 
-export function increment() {
+export const register = (login) => {
   return {
-    type: INCREMENT_COUNTER
-  };
+    type: REGISTER,
+    login
+  }
 }
 
-export function decrement() {
-  return {
-    type: DECREMENT_COUNTER
-  };
-}
+// export function registerUuid() {
+//   return (dispatch, getState) => {
+//     dispatch({
+//             type: REGISTER,
+//             login: "1111111"
+//         });
+//   };
+// }
 
-export function incrementIfOdd() {
-  return (dispatch, getState) => {
-    const { counter } = getState();
+// export function increment() {
+//   return {
+//     type: INCREMENT_COUNTER
+//   };
+// }
 
-    if (counter % 2 === 0) {
-      return;
-    }
+// export function decrement() {
+//   return {
+//     type: DECREMENT_COUNTER
+//   };
+// }
 
-    dispatch(increment());
-  };
-}
+// export function incrementIfOdd() {
+//   return (dispatch, getState) => {
+//     const { counter } = getState();
 
-export function incrementAsync() {
-  return dispatch => {
-    setTimeout(() => {
-      dispatch(increment());
-    }, 1000);
-  };
-}
+//     if (counter % 2 === 0) {
+//       return;
+//     }
+
+//     dispatch(increment());
+//   };
+// }
+
+// export function incrementAsync() {
+//   return dispatch => {
+//     setTimeout(() => {
+//       dispatch(increment());
+//     }, 1000);
+//   };
+// }

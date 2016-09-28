@@ -1,13 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import { Router, Route, IndexRoute, browserHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
-import action from '../Action/Index';
+import {register} from '../Action/login';
+// import { default as action } from '../Action/login';
 import {Tool, merged} from '../Tool';
 import {DataLoad, DataNull, Header, TipMsgSignin, Footer} from '../Component/common/index';
 import URLS from '../constants/urls';
 import {COMMON_HEADERS_POST} from '../constants/headers';
 import {Toast} from '../Component/common/Tip';
-
+// console.log(registerUuid);
 /**
  * 模块入口
  * 
@@ -17,7 +18,8 @@ import {Toast} from '../Component/common/Tip';
 class Login extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
+        console.log(this.props);
+        console.log(3333333333);
         this.state = {
             button: '登录',
             tipContent: '',
@@ -51,7 +53,7 @@ class Login extends Component {
                     //{"responseBody":{"password":"70ed0011afee14509cf8a9cb4fd932f591b355b7a2c3d4527c3d6e3a","tokenid":"a3dd0adcZf19bcadcZ1574fbcc15dZb4ab","roleId":"1","sex":"0","name":"HYS15810341mq","photo":"http://image1.jyall.com/v1/tfs/T1Nqh_B4bT1R4cSCrK","userId":"HYS000705"},"responseHeader":{"errorCode":0,"message":"success"}}
                     if(json.responseHeader){//登录成功
                     //json
-
+                        self.props.register1("yongwang");
                     }else{
                        self.setState({ tipContent: json.message,display: 'toasts' });
                     }
@@ -80,7 +82,7 @@ class Login extends Component {
                             <span><img href="" /></span>
                         </div>
                         <button className="btn" onClick={this.signin.bind(this)}>{this.state.button}</button>
-                        <div style={{marginTop: '10px'}}><Link to="/register" style={{color: '#666'}}><span className="fl">注册</span></Link><Link to="/registerpd" style={{color: '#666'}}><span className="fr">找回密码</span></Link></div>
+                        <div style={{marginTop: '10px'}}><Link to="/register" style={{color: '#666'}}><span className="fl">{this.props.login}</span></Link><Link to="/registerpd" style={{color: '#666'}}><span className="fr">找回密码</span></Link></div>
                     </div>
                 </div>
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} />
@@ -92,5 +94,26 @@ Login.contextTypes = {//父组件跨级传数据
     router: React.PropTypes.object.isRequired
 }
 
+function mapStateToProps(state,ownProps) {
+  console.log(state);  
+  return {
+    login: state.login
+  };
+}
 
-export default connect((state) => {console.log(state);console.log("state"); return { User: state.User }; }, action('User'))(Login); //连接redux
+// function mapDispatchToProps(register){
+//    return {
+//         register: register
+//         // registerUuid(dispatch,"1111111111");
+//    }
+// }
+
+
+function mapDispatchToProps(dispatch) {  
+  return {
+    register1: (username) => dispatch(register(username))
+  };
+}
+
+// export default connect((state) => {return { User: state.User }; }, registerUuid('User'))(Login); 
+export default connect(mapStateToProps,mapDispatchToProps)(Login); //连接redux

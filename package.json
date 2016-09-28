@@ -18,9 +18,6 @@
   },
   "homepage": "https://github.com/1340641314/react-cnode#readme",
   "dependencies": {
-    "flex.css": "1.0.1",
-    "get-next-page": "1.0.0",
-    "normalize.css": "^4.1.1",
     "obj-merged": "^1.0.5",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
