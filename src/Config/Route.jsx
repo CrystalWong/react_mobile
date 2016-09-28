@@ -5,9 +5,11 @@ import Login from '../views/Login'; //登录
 import Register from '../views/Register'; //注册
 import RegisterPro from '../views/RegisterPro'; //注册协议
 import Yue from '../views/yue'; //预约
-import Download from '../views/Download'; //预约
+import Download from '../views/Download'; //下载
+import Center from '../views/Center'; //个人中心
 import RegisterPassword from '../views/RegisterPassword'; //设置密码
 import {Tool, merged} from '../Tool';
+
 
 /**
  * (路由根目录组件，显示当前符合条件的组件)
@@ -32,6 +34,7 @@ const RouteConfig = (
             <Route path="registerpro" component={RegisterPro} />
             <Route path="yue" component={Yue} />
             <Route path="download" component={Download} />
+            <Route path="center" component={Center} />
         </Route>
     </Router>
 );
