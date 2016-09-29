@@ -1,9 +1,14 @@
-import { REGISTER } from '../constants/ActionTypes';
+import { REGISTER ,LOGIN } from '../constants/ActionTypes';
 
-export const register = (login) => {
+export const login = (login) => {
+  login.type = LOGIN;	
+  return login;
+}
+
+export const register = (register) => {
   return {
     type: REGISTER,
-    login
+    register
   }
 }
 

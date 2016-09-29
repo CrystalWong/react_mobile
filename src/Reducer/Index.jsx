@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { default as login } from './gin';
+import { default as login } from './Login';
 // import {Tool, merged} from '../Tool';
 // /**
 //  * 存储登录的用户信息

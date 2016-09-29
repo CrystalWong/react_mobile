@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
-import { Router, Route, IndexRoute, browserHistory, Link } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory, hashHistory,Link } from 'react-router';
 import { connect } from 'react-redux';
-import action from '../Action/Index';
+import {register} from '../Action/login';
 import {Header} from '../Component/common/index';
 import URLS from '../constants/urls';
 import {COMMON_HEADERS_POST,COMMON_HEADERS,SIGN} from '../constants/headers';
@@ -30,7 +30,8 @@ class Register extends Component {
 
         this.validate = () => {
             let phone = this.refs.phone.value,
-                num = this.refs.num.value;
+                num = this.refs.num.value,
+                self = this;
             if (!phone){
                 this.setState({ tipContent: '号码不能为空',display: 'toasts' });return;
             }
@@ -43,7 +44,10 @@ class Register extends Component {
                 type: "get",
                 headers: headers,
                 successMethod: function(json){
-                    console.log(json.uuid);
+                    // console.log(json.uuid);
+                    self.props.register(json);
+                    var history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHistory;
+                    history.push('/registerpd');
                 }
             });
 
@@ -112,4 +116,18 @@ class Register extends Component {
 //     router: React.PropTypes.object.isRequired
 // }
 
-export default connect((state) => {return { User: state.User }; }, action('User'))(Register); //连接redux
+
+
+
+function mapStateToProps(state,ownProps) {
+  console.log(state);  
+  return state;
+}
+function mapDispatchToProps(dispatch) {  
+  return {
+    register: (username) => dispatch(register(username))
+  };
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Register);
+//export default connect((state) => {return { User: state.User }; }, action('User'))(Register); //连接redux
