@@ -29,6 +29,7 @@ class Login extends Component {
         this.signin = () => {
             var userName = this.refs.phone.value,
                 passWord = this.refs.password.value,
+                code = this.refs.code,
                 source = "app",
                 self = this;
             //this.props.signinSuccess({a:1,b:2});   //action > state
@@ -40,11 +41,16 @@ class Login extends Component {
                 this.setState({ tipContent: '密码不能为空',display: 'toasts' });
                 return;
             }
+            if(code.style.display == "block"&&!code.value){
+                this.setState({ tipContent: '验证码不能为空',display: 'toasts' });
+                return;
+            }
+            
             this.setState({ button: '登录中...' });
             // let headers = COMMON_HEADERS_POST('content-type', 'application/json');
             let headers = COMMON_HEADERS_POST();
             Tool.fetch(this,{
-                url: `${URLS.LOGIN}?userName=${userName}&passWord=${passWord}&source=${source}&version=14`,
+                url: `${URLS.LOGIN}?userName=${userName}&passWord=${passWord}&source=${source}&version=14&code=${code.value}&uuid=${this.random}`,
                 type: "post",
                 body: "",
                 headers: headers,
@@ -54,19 +60,35 @@ class Login extends Component {
                     if(json.responseHeader){//登录成功
                     //json
                         self.props.loginAction(json.responseBody);
+                        self.context.router.goBack();
                     }else{
-                       self.setState({ tipContent: json.message,display: 'toasts' });
+                       if(json.code == 400001039){
+
+                            self.getRondom(self);
+                           self.setState({ tipContent: json.message,display: 'toasts' });
+                           self.refs.code.style.display = "block";
+                           self.refs.img.style.display = "inline";
+                           
+                       } else{
+                           self.setState({ tipContent: json.message,display: 'toasts' });
+                       }
                     }
                 }
             });
         }
-        Tool.rem();
     }
 
     toastDisplay(state){
         this.setState({
           display: state
         });
+    }
+
+    getRondom(obj){
+        obj.random = Math.random();
+        console.log(obj.random);
+        obj.refs.img.getElementsByTagName("img")[0].src = URLS.LOGINRANDOMIMAGE+"?uuid="+obj.random;
+        console.log("wwwwww");
     }
 
     render() {
@@ -79,7 +101,7 @@ class Login extends Component {
                             <input ref="phone" type="text" placeholder="请输入手机号" />
                             <input ref="password" type="password" placeholder="请输入密码" />
                             <input ref="code" type="num" placeholder="请输入验证码" style={{borderTop:'1px solid #e6e6e6',display: 'none'}} />
-                            <span><img href="" /></span>
+                            <span ref="img" style={{display: 'none'}}><img href="" /></span>
                         </div>
                         <button className="btn" onClick={this.signin.bind(this)}>{this.state.button}</button>
                         <div style={{marginTop: '10px'}}><Link to="/register" style={{color: '#666'}}><span className="fl">注册</span></Link><Link to="/registerpd" style={{color: '#666'}}><span className="fr">找回密码</span></Link></div>

@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { Router, Route, IndexRoute, browserHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
-import action from '../Action/Index';
 import {Header} from '../Component/common/index';
 import URLS from '../constants/urls';
 import {COMMON_HEADERS_POST,COMMON_HEADERS,SIGN} from '../constants/headers';
@@ -25,18 +24,30 @@ class RegisterPassword extends Component {
         };
 
         this.setPassword = () => {
-            let password = this.refs.password.value;
+            let password = this.refs.password.value,
+                self = this;
             if (!password){
                 this.setState({ tipContent: '密码不能为空',display: 'toasts' });return;
             }
 
             let headers = COMMON_HEADERS('sign', SIGN);
+            // headers = COMMON_HEADERS('deviceid', "M");
+
             Tool.fetch(this,{
-                url: URLS.Vcode+phone+"/"+num,
-                type: "get",
+                url: URLS.Register+"?uuid="+this.props.login.uuid,
+                type: "post",
                 headers: headers,
-                successMethod: function(json){
-                    console.log(json.uuid);
+                body: '{mobile:'+this.props.login.phone+',loginName:"",password:"'+ password +'",source:"app",userType:"1"}',
+                successMethod: function(json,status){
+                    console.log(json);
+                    if(status == 200){
+                        self.setState({ tipContent: '注册成功！',display: 'toasts' });
+                        setTimeout(function(){
+                            Tool.history.push('/');
+                        },1500);
+                    }else{
+                        self.setState({ tipContent: json.message,display: 'toasts' });
+                    }
                 }
             });
 
@@ -66,4 +77,9 @@ class RegisterPassword extends Component {
     }
 }
 
-export default connect((state) => {return { User: state.User }; }, action('User'))(RegisterPassword); //连接redux
+function mapStateToProps(state,ownProps) {
+    console.log(state);
+  return state;
+}
+
+export default connect(mapStateToProps)(RegisterPassword);
