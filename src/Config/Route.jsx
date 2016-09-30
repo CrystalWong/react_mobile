@@ -9,6 +9,8 @@ import Download from '../views/Download'; //下载
 import Center from '../views/Center'; //个人中心
 import RegisterPassword from '../views/RegisterPassword'; //设置密码
 import {Tool, merged} from '../Tool';
+import Address from '../views/Address'; //收货地址
+import AddressAdd from '../views/Address_add'; //新增收货地址
 
 
 /**
@@ -35,6 +37,8 @@ const RouteConfig = (
             <Route path="yue" component={Yue} />
             <Route path="download" component={Download} />
             <Route path="center" component={Center} />
+            <Route path="address" component={Address} />
+            <Route path="address-add" component={AddressAdd} />
         </Route>
     </Router>
 );
