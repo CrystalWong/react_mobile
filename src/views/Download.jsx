@@ -6,7 +6,6 @@ import '../Style/download';
 class Download extends Component {
 	constructor(props){
 		super(props);
-		Tool.rem();
 	}
 	render(){
 		return(
