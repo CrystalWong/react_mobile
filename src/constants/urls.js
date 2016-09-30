@@ -12,5 +12,7 @@ export default {
 	Vcode: `${domain}/user-api/v1/authcenter/app/vcode/`,
 	Register: `${domain}/user-api/v1/authcenter/app/addUser`,
 	//下载地址
-	Download : 'https://itunes.apple.com/cn/app/jin-se-jia-yuan-wang/id1033724221?mt=8'
+	Download : 'https://itunes.apple.com/cn/app/jin-se-jia-yuan-wang/id1033724221?mt=8',
+	//家园豆
+	bean : 'http://app.jyall.com/jysales-api/v1/coupon/getUserCouponAndBeanInfo'
 };
