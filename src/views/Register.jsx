@@ -29,6 +29,9 @@ class Register extends Component {
         };
 
         this.validate = () => {
+            if(!this.state.protocol){
+                this.setState({ tipContent: '请同意协议',display: 'toasts' });return;
+            }
             let phone = this.refs.phone.value,
                 num = this.refs.num.value,
                 self = this;
@@ -45,9 +48,14 @@ class Register extends Component {
                 headers: headers,
                 successMethod: function(json){
                     // console.log(json.uuid);
-                    self.props.register(json);
-                    var history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHistory;
-                    history.push('/registerpd');
+                    if(json.uuid){
+                        self.props.register({uuid:json.uuid,phone:phone});
+                        var history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHistory;
+                        clearInterval(self.inte);
+                        history.push('/registerpd');
+                    }else{
+                        self.setState({ tipContent: json.message,display: 'toasts' });
+                    }
                 }
             });
 
@@ -79,13 +87,18 @@ class Register extends Component {
             type: "get",
             headers: headers,
             successMethod: function(json){
-                let n = 60,
-                    inte = setInterval(function(){
+                console.log(typeof json);
+                if(typeof json == "object"){
+                    self.setState({ tipContent: json.message,display: 'toasts' });
+                    return;
+                }
+                let n = 60;
+                    self.inte = setInterval(function(){
                         self.setState({codeText: `重新发送（${n}s）`});
                         n--;
                         if(n == 0){
                             self.setState({codeText: "重新发送",codeControl:true});
-                            clearInterval(inte);
+                            clearInterval(self.inte);
                         }
                     },1000);
             }
@@ -120,7 +133,6 @@ class Register extends Component {
 
 
 function mapStateToProps(state,ownProps) {
-  console.log(state);  
   return state;
 }
 function mapDispatchToProps(dispatch) {  
@@ -130,4 +142,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(Register);
-//export default connect((state) => {return { User: state.User }; }, action('User'))(Register); //连接redux

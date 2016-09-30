@@ -8,6 +8,7 @@ const domain = 'http://localhost:3000';//本地调试
 export default {
 	//登录
 	LOGIN: `${domain}/user-api/v1/authcenter/app/userLogin`,
+	LOGINRANDOMIMAGE: `${domain}/user-api/v1/authcenter/app/randomImage`,
 	//注册
 	Vcode: `${domain}/user-api/v1/authcenter/app/vcode/`,
 	Register: `${domain}/user-api/v1/authcenter/app/addUser`,

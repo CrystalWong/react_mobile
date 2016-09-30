@@ -1,5 +1,6 @@
 import merged from 'obj-merged';
 import * as config from './Config/Config';
+import { Router, Route, IndexRoute, browserHistory,hashHistory, Link } from 'react-router';
 
 var origin = process.env.NODE_ENV !== 'production' ? '' : config.origin;
 const Tool = {};
@@ -15,15 +16,17 @@ Tool.fetch = function(obj,data){
     var d = {
       method: data.type,
       headers: data.headers
-    };
+    },
+    status = 0;
     if(data.body){d.body = data.body;}
     fetch(data.url,d).then(response => {
         if(response.status >= 500){
             obj.setState({ tipContent: '网络连接失败，请检查您的网络',display: 'toasts' });
         }
+        status = response.status;
         return response.json();
     }).then(json => {
-      data.successMethod(json);
+      data.successMethod(json,status);
     });
 }
 
@@ -37,6 +40,10 @@ Tool.rem = function(){
     }
     window.onload = window.onresize = resetREM;
 }
+
+//获取路由方式
+Tool.history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHistory;
+
 
 /**
  * 发送ajax请求和服务器交互

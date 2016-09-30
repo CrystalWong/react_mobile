@@ -24,7 +24,9 @@ export default function login(login = initLogin, action) {
   	// login = merged(action)
     return action;	
   case REGISTER:
-  	login = login.merged(action)
+  	login.uuid = action.register.uuid;
+  	login.phone = action.register.phone;
+  	login.type = action.type;
     return login;
   default:
     return login;
