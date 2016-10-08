@@ -15,11 +15,12 @@ class Center extends Component {
 		};
 		//获取家园豆
 		this.getBean = () => {
+			let _this = this;
 			Tool.fetch(this,{
                 url: URLS.bean + "?" + this.state.userId,
                 type: "get",
                 successMethod: function(json){
-                    this.setState({bean : json.beanTotal});
+                    _this.setState({bean : json.beanTotal});
                 }
             });
 		}
