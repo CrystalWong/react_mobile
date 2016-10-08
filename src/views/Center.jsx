@@ -1,21 +1,23 @@
 import React,{Component,PropTypes} from 'react';
+import Cookie from 'react-cookie';
 import {Tool, merged} from '../Tool';
 import '../Style/center';
 
 class Center extends Component {
 	constructor(props){
 		super(props);
-		this.state = {
-/*			userId : this.props.login.userId,
-			avatarURL : this.props.login.avatarURL,
-			nickname : this.props.login.avatarURL,
-			bean : ''
-*/		};
 
+		this.state = {
+			userId : Cookie.load('userId'),
+			avatarURL : Cookie.load('photo'),
+			nickname : Cookie.load('name'),
+			bean : 0
+		};
+		console.log('用户ID：' + this.state.userId);
 		//获取家园豆
 		this.getBean = () => {
 			Tool.fetch(this,{
-                url: URLS.bean + "?" + this.props.login.userId,
+                url: URLS.bean + "?" + this.state.userId,
                 type: "get",
                 successMethod: function(json){
                     this.setState({bean : json.beanTotal});
