@@ -39,6 +39,7 @@ class Center extends Component {
 	}
 
 	componentDidMount() {
+	    this.getBean();
 	    // this.getBean();
 	}
 

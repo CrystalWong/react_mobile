@@ -1,4 +1,4 @@
-import { REGISTER ,LOGIN } from '../constants/ActionTypes';
+import { REGISTER ,LOGIN ,FINDPWDBYMOBILE} from '../constants/ActionTypes';
 
 export const login = (login) => {
   login.type = LOGIN;	
@@ -9,6 +9,13 @@ export const register = (register) => {
   return {
     type: REGISTER,
     register
+  }
+}
+
+export const findPwdByMobile = (findPwd) => {
+  return {
+    type: FINDPWDBYMOBILE,
+    findPwd
   }
 }
 

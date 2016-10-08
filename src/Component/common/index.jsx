@@ -3,10 +3,8 @@ import { Router, Route, IndexRoute, browserHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
 import action from '../../Action/Index';
 import {Tool, merged} from '../../Tool';
-import GetData from './GetData';
-import GetNextPage from './GetNextPage';
-
-export {GetData, GetNextPage}
+// import GetData from './GetData';
+// export {GetData, GetNextPage}
 
 
 /**

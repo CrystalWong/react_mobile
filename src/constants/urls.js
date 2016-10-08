@@ -1,5 +1,5 @@
-const domain = 'http://localhost:3000';//本地调试
-//const domain = 'http://app.jyall.com';//线上、测试
+import {ONLINE} from '../constants/common';
+const domain = ONLINE?'http://m.jyall.com':'http://localhost:3000';
 
 /**
  * URL常量.
@@ -12,6 +12,8 @@ export default {
 	//注册
 	Vcode: `${domain}/user-api/v1/authcenter/app/vcode/`,
 	Register: `${domain}/user-api/v1/authcenter/app/addUser`,
+	//找回密码
+	FINDPWDBYMOBILE: `${domain}/user-api/v1/authcenter/app/resetPswByMobile/`,//{mobile}/{password}
 	//下载地址
 	Download : 'https://itunes.apple.com/cn/app/jin-se-jia-yuan-wang/id1033724221?mt=8',
 	//家园豆
