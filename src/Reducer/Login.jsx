@@ -1,4 +1,4 @@
-import {REGISTER,LOGIN} from '../constants/ActionTypes';
+import {REGISTER,LOGIN,FINDPWDBYMOBILE} from '../constants/ActionTypes';
 import merged from 'obj-merged';
 
 
@@ -18,7 +18,7 @@ const initLogin = {
 };
 
 export default function login(login = initLogin, action) {
-	console.log(action);
+  console.log(action);
   switch (action.type) {
   case LOGIN:
   	// login = merged(action)
@@ -28,6 +28,10 @@ export default function login(login = initLogin, action) {
   	login.phone = action.register.phone;
   	login.type = action.type;
     return login;
+  case FINDPWDBYMOBILE: 
+  	login.pwd = action.findPwd;
+  	login.type = action.type;
+  	return login;  
   default:
     return login;
   }

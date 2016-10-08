@@ -25,7 +25,9 @@ class Register extends Component {
             protocol: true,
             protocolClass: '',
             codeText: '获取验证码',
-            codeControl: true
+            codeControl: true,
+            title: '注册',
+            protocolDisplay: 'block'
         };
 
         this.validate = () => {
@@ -50,9 +52,9 @@ class Register extends Component {
                     // console.log(json.uuid);
                     if(json.uuid){
                         self.props.register({uuid:json.uuid,phone:phone});
-                        var history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHistory;
+                        // var history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHistory;
                         clearInterval(self.inte);
-                        history.push('/registerpd');
+                        Tool.history.push('/registerpd');
                     }else{
                         self.setState({ tipContent: json.message,display: 'toasts' });
                     }
@@ -105,10 +107,17 @@ class Register extends Component {
         });
     }
 
+    componentDidMount(){
+        if(this.props.login.pwd == "findpwd"){
+            this.setState({ title: '找回密码'});
+            this.setState({ protocolDisplay: 'none'});
+        }
+    }
+
     render() {
         return (
             <div>
-                <Header title="注册" leftIcon="fanhui" />
+                <Header title={this.state.title} leftIcon="fanhui" />
                 <div className="signin">
                     <div className="center">
                         <div className="text">
@@ -116,7 +125,7 @@ class Register extends Component {
                             <input ref="num" type="num" placeholder="请输入验证码" />
                             <span onClick={this.getRandomCode.bind(this)} ref="codeText">{this.state.codeText}</span>
                         </div>
-                        <div className="protocol"><span onClick={this.readProtocol.bind(this)} className={this.state.protocolClass}></span>我已经阅读并同意遵守<Link to="/registerpro" style={{color: '#45b3fc'}}>《金色家园用户服务协议》</Link></div>
+                        <div className="protocol" style={{display: this.state.protocolDisplay}}><span onClick={this.readProtocol.bind(this)} className={this.state.protocolClass}></span>我已经阅读并同意遵守<Link to="/registerpro" style={{color: '#45b3fc'}}>《金色家园用户服务协议》</Link></div>
                         <button className="btn" onClick={this.validate.bind(this)}>{this.state.button}</button>
                     </div>
                 </div>

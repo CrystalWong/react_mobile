@@ -8,6 +8,9 @@ import Yue from '../views/yue'; //预约
 import Download from '../views/Download'; //下载
 import Center from '../views/Center'; //个人中心
 import RegisterPassword from '../views/RegisterPassword'; //设置密码
+import ShoppingCart from '../views/ShoppingCart'; //购物车
+import OrderClosed from '../views/OrderClosed'; //订单结算
+import SetBill from '../views/SetBill'; //设置发票信息
 import {Tool, merged} from '../Tool';
 
 
@@ -35,6 +38,9 @@ const RouteConfig = (
             <Route path="yue" component={Yue} />
             <Route path="download" component={Download} />
             <Route path="center" component={Center} />
+            <Route path="shoppingcart" component={ShoppingCart} />
+            <Route path="orderclosed" component={OrderClosed} />
+            <Route path="setbill" component={SetBill} />
         </Route>
     </Router>
 );

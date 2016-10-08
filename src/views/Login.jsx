@@ -1,12 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import { Router, Route, IndexRoute, browserHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
-import {login} from '../Action/login';
+import cookie from 'react-cookie';
+import {login,findPwdByMobile} from '../Action/login';
 // import { default as action } from '../Action/login';
 import {Tool, merged} from '../Tool';
 import {DataLoad, DataNull, Header, TipMsgSignin, Footer} from '../Component/common/index';
 import URLS from '../constants/urls';
 import {COMMON_HEADERS_POST} from '../constants/headers';
+import {ONLINE} from '../constants/common';
 import {Toast} from '../Component/common/Tip';
 // console.log(registerUuid);
 /**
@@ -59,7 +61,12 @@ class Login extends Component {
                     //{"responseBody":{"password":"70ed0011afee14509cf8a9cb4fd932f591b355b7a2c3d4527c3d6e3a","tokenid":"a3dd0adcZf19bcadcZ1574fbcc15dZb4ab","roleId":"1","sex":"0","name":"HYS15810341mq","photo":"http://image1.jyall.com/v1/tfs/T1Nqh_B4bT1R4cSCrK","userId":"HYS000705"},"responseHeader":{"errorCode":0,"message":"success"}}
                     if(json.responseHeader){//登录成功
                     //json
+                        var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"m.jyall.com":"localhost") }
                         self.props.loginAction(json.responseBody);
+                        cookie.save('tokenid', json.responseBody.tokenid, cookieObj);
+                        cookie.save('name', json.responseBody.name, cookieObj);
+                        cookie.save('userId', json.responseBody.userId, cookieObj);
+                        cookie.save('photo', json.responseBody.userId, cookieObj);
                         self.context.router.goBack();
                     }else{
                        if(json.code == 400001039){
@@ -86,9 +93,16 @@ class Login extends Component {
 
     getRondom(obj){
         obj.random = Math.random();
-        console.log(obj.random);
         obj.refs.img.getElementsByTagName("img")[0].src = URLS.LOGINRANDOMIMAGE+"?uuid="+obj.random;
-        console.log("wwwwww");
+    }
+
+    findPdByPhone(){
+        this.props.findPwdByMobile("findpwd");
+        Tool.history.push('/register');
+    }
+
+    componentDidMount(){
+        this.props.findPwdByMobile("");
     }
 
     render() {
@@ -104,7 +118,7 @@ class Login extends Component {
                             <span ref="img" style={{display: 'none'}}><img href="" /></span>
                         </div>
                         <button className="btn" onClick={this.signin.bind(this)}>{this.state.button}</button>
-                        <div style={{marginTop: '10px'}}><Link to="/register" style={{color: '#666'}}><span className="fl">注册</span></Link><Link to="/registerpd" style={{color: '#666'}}><span className="fr">找回密码</span></Link></div>
+                        <div style={{marginTop: '10px'}}><Link to="/register" style={{color: '#666'}}><span className="fl">注册</span></Link><span className="fr" style={{color: '#666'}} onClick={this.findPdByPhone.bind(this)}>找回密码</span></div>
                     </div>
                 </div>
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} />
@@ -124,7 +138,8 @@ function mapStateToProps(state,ownProps) {
 }
 function mapDispatchToProps(dispatch) {  
   return {
-    loginAction: (username) => dispatch(login(username))
+    loginAction: (user) => dispatch(login(user)),
+    findPwdByMobile: (pwd) => dispatch(findPwdByMobile(pwd))
   };
 }
 

@@ -20,7 +20,9 @@ class RegisterPassword extends Component {
         this.state = {
             button: '完成',
             tipContent: '',
-            display: ''
+            display: '',
+            title: '注册',
+            subTitle: '请设置密码'
         };
 
         this.setPassword = () => {
@@ -32,38 +34,62 @@ class RegisterPassword extends Component {
 
             let headers = COMMON_HEADERS('sign', SIGN);
             // headers = COMMON_HEADERS('deviceid', "M");
-
-            Tool.fetch(this,{
-                url: URLS.Register+"?uuid="+this.props.login.uuid,
-                type: "post",
-                headers: headers,
-                body: '{mobile:'+this.props.login.phone+',loginName:"",password:"'+ password +'",source:"app",userType:"1"}',
-                successMethod: function(json,status){
-                    console.log(json);
-                    if(status == 200){
-                        self.setState({ tipContent: '注册成功！',display: 'toasts' });
-                        setTimeout(function(){
-                            Tool.history.push('/');
-                        },1500);
-                    }else{
-                        self.setState({ tipContent: json.message,display: 'toasts' });
+            if(this.props.login.pwd == "findpwd"){
+                Tool.fetch(this,{
+                    url: URLS.FINDPWDBYMOBILE+this.props.login.phone+"/"+password+"?uuid="+this.props.login.uuid,
+                    type: "get",
+                    headers: headers,
+                    successMethod: function(json,status){
+                        console.log(json);
+                        if(status == 200){
+                            self.setState({ tipContent: '重置密码成功！',display: 'toasts' });
+                            setTimeout(function(){
+                                Tool.history.push('/');
+                            },1500);
+                        }else{
+                            self.setState({ tipContent: json.message,display: 'toasts' });
+                        }
                     }
-                }
-            });
+                });
+            }else{
+                Tool.fetch(this,{
+                    url: URLS.Register+"?uuid="+this.props.login.uuid,
+                    type: "post",
+                    headers: headers,
+                    body: '{mobile:'+this.props.login.phone+',loginName:"",password:"'+ password +'",source:"app",userType:"1"}',
+                    successMethod: function(json,status){
+                        console.log(json);
+                        if(status == 200){
+                            self.setState({ tipContent: '注册成功！',display: 'toasts' });
+                            setTimeout(function(){
+                                Tool.history.push('/');
+                            },1500);
+                        }else{
+                            self.setState({ tipContent: json.message,display: 'toasts' });
+                        }
+                    }
+                });
+            }
+
 
         }
     }
 
     //toast
     toastDisplay(state){  this.setState({display: state}); }
-
+    componentDidMount(){
+        if(this.props.login.pwd == "findpwd"){
+            this.setState({ title: '找回密码'});
+            this.setState({ subTitle: '请重新设置密码'});
+        }
+    }
     render() {
         return (
             <div>
-                <Header title="注册" leftIcon="fanhui" />
+                <Header title={this.state.title} leftIcon="fanhui" />
                 <div className="signin">
                     <div className="center">
-                        <div className="title">请设置密码</div>
+                        <div className="title">{this.state.subTitle}</div>
                         <div className="text">
                             <input ref="password" type="password" placeholder="请设置密码" />
                         </div>

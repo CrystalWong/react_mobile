@@ -40,7 +40,7 @@ class Center extends Component {
 
 	componentDidMount() {
 	    this.getBean();
-	},
+	}
 
 
 	render(){
