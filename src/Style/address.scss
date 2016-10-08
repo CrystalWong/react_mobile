@@ -1,0 +1,49 @@
+// 无地址
+body{background-image:none;}
+.no-address{
+	position: absolute;top:50%;margin-top:-1.11rem;width:100%;
+	.na-ico{background:url(../images/address/no-address.png) no-repeat;width:1.63rem;height:1.54rem;display: block;background-size:contain;margin:0 auto .1rem auto;}
+	p{text-align:center;font-size:.28rem;color:#666;line-height:.37rem;}
+}
+.add-address-btn{color:#FFF;height:1rem;width:100%;line-height:1rem;background-color:#f60;display: block;text-align:center;font-size:.34rem;position: fixed;bottom:0;}
+
+//有地址
+.address-list{
+	li{
+		background-color:#FFF;margin-bottom:.2rem;
+		.address-msg{
+			padding:.2rem;
+			h6{
+				font-size:.32rem;font-weight:normal;color:#333;
+				span{margin-right:.1rem;}
+				em{color:#FFF;background-color:#f60;border-radius:.05rem;font-size:.24rem;font-style:normal;position: relative;top:-.02rem;padding:.02rem;}
+			}
+			p{font-size:.28rem;color:#666;margin-top:.15rem;}
+		}
+		.address-operation{
+			border-top:1px solid #eee;height:.88rem;line-height:.88rem;padding:0 .2rem;font-size:.28rem;
+			.current{
+				background:url(../images/address/off.png) no-repeat left center;padding: .05rem 0 .05rem .45rem;background-size:.35rem .35rem;
+				&.on{background:url(../images/address/on.png) no-repeat;background-size:.35rem .35rem;}
+			}
+			.ao-edit{background:url(../images/address/edit.png) no-repeat left center;padding-left:.45rem;background-size:.32rem .32rem;float:right;margin-right:.3rem;}
+			.ao-del{background:url(../images/address/del.png) no-repeat left center;padding-left:.45rem;background-size:.32rem .32rem;float:right;}
+		}
+	}
+} 
+
+
+// 新增地址
+.address-form{
+	li{
+		background-color:#FFF;border-bottom:1px solid #eee;height:.92rem;display:table;width:100%;padding:0 .2rem;
+		label{
+			display:table-cell;vertical-align: middle;color:#333;font-size:.28rem;width:1.4rem;white-space:nowrap;
+			p{color:#999;font-size:.2rem;}
+		}
+		blockquote{
+			display:table-cell;vertical-align: middle;
+			input{width:100%;border:none;font-size:.28rem;padding:.1rem 0}
+		}
+	}
+}

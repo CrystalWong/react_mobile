@@ -5,14 +5,12 @@ import '../Style/center';
 class Center extends Component {
 	constructor(props){
 		super(props);
-		console.log(props)
-		Tool.rem();
 		this.state = {
-			userId : this.props.login.userId,
+/*			userId : this.props.login.userId,
 			avatarURL : this.props.login.avatarURL,
 			nickname : this.props.login.avatarURL,
 			bean : ''
-		};
+*/		};
 
 		//获取家园豆
 		this.getBean = () => {
@@ -35,11 +33,12 @@ class Center extends Component {
 	}
 
 	componentWillMount(){
-		this.noLogin();
+		// this.noLogin();
 	}
 
 	componentDidMount() {
 	    this.getBean();
+	    // this.getBean();
 	}
 
 
