@@ -17,5 +17,5 @@ export default {
 	//下载地址
 	Download : 'https://itunes.apple.com/cn/app/jin-se-jia-yuan-wang/id1033724221?mt=8',
 	//家园豆
-	bean : 'http://app.jyall.com/jysales-api/v1/coupon/getUserCouponAndBeanInfo'
+	bean : `${domain}/jysales-api/v1/coupon/getUserCouponAndBeanInfo`
 };
