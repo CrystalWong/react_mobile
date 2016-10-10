@@ -8,6 +8,7 @@ import {Tool, merged} from '../Tool';
 import URLS from '../constants/urls';
 import {COMMON_HEADERS} from '../constants/headers';
 import {shoppingCartCount} from '../Action/ShoppingCart';
+import {Toast} from '../Component/common/Tip';
 
 /**
  * 模块入口
@@ -24,7 +25,9 @@ class ShoppingCart extends Component {
             title: "购物车()",
             list: [],
             allMoney: 0,
-            allNum: 0
+            allNum: 0,
+            tipContent: '',
+            display: ''
         };
 
         let headers = COMMON_HEADERS();
@@ -59,14 +62,24 @@ class ShoppingCart extends Component {
             }
         });
     }
+
+    toastDisplay(state){
+        this.setState({
+          display: state
+        });
+    }
+
     //给子组件回调 数量加减
-    shoppingCartCount(num,index){ 
+    shoppingCartCount(data){ 
+        if(data.more){
+            self.setState({ tipContent: "已达库存上限",display: 'toasts' });
+        }
         let list = this.state.list,
             self = this,
             allItem = 0;
         this.allMoney = 0;
         this.allNum = 0;
-        list[index].count = num;
+        list[data.index].count = data.num;
 
         list.map(item => {
             if(item.state==1&&item.status==1&&item.salesState==2&&item.select){
@@ -146,6 +159,7 @@ class ShoppingCart extends Component {
                 		<div className="fr">合计:<span style={{color: "#cc0000",marginRight: ".2rem"}}>￥{this.state.allMoney}</span><b className="statement" onClick={this.statement.bind(this)}>结算(<span>{this.state.allNum}</span>)</b></div>
                 	</footer>
                 </div>
+                <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
             </div>
         );
     }

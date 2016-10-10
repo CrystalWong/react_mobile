@@ -1,5 +1,9 @@
 import React, {Component, PropTypes} from 'react';
+import cookie from 'react-cookie';
 import '../Style/addreduce';
+import {Tool, merged} from '../Tool';
+import URLS from '../constants/urls';
+import {COMMON_HEADERS_POST,COMMON_HEADERS} from '../constants/headers';
 /**
  * @export
  * @class AddReduce
@@ -20,17 +24,53 @@ export class AddReduce extends Component {
         e.stopPropagation(); 
         e.preventDefault();
         if(this.state.num <= 1){return;}
-        this.setState({num: --this.state.num});
-        if(this.state.num == 1){this.setState({color: "#999999"});}
-        this.props.callback(this.state.num,this.props.index);
+        let isLogin = 0,
+            uKey = cookie.load('tokenid'),
+            groupSkuId = this.props.groupSkuId,
+            count=1,
+            self = this; 
+        if(cookie.load('tokenid'))isLogin = 1;
+
+        Tool.fetch(this.props.parent,{
+            url: `${URLS.MINUSITEM}${isLogin}/${uKey}/${groupSkuId}/${count}`,
+            type: "put",
+            headers: COMMON_HEADERS,
+            successMethod: function(json){
+                if(json.flag == true){
+                    self.setState({num: --self.state.num});
+                    if(self.state.num == 1){self.setState({color: "#999999"});}
+                    self.props.callback({num: self.state.num,index: self.props.index});
+                }
+            }
+        });
     }
 
     add(e){
         e.stopPropagation(); 
         e.preventDefault();
-        this.setState({color: "#333333"});
-        this.setState({num: ++this.state.num});
-        this.props.callback(this.state.num,this.props.index);
+        let isLogin = 0,
+            uKey = cookie.load('tokenid'),
+            groupSkuId = this.props.groupSkuId,
+            count=1,
+            self = this;
+        this.more = true;    
+        if(cookie.load('tokenid'))isLogin = 1;
+        if(self.state.num >= this.props.stock){
+            self.props.callback({more: true});
+            return;
+        }
+        Tool.fetch(this.props.parent,{
+            url: `${URLS.ADDITEM}${isLogin}/${uKey}/${groupSkuId}/${count}`,
+            type: "post",
+            headers: COMMON_HEADERS_POST,
+            successMethod: function(json){
+                if(json.flag == true){
+                    self.setState({color: "#333333"});
+                    self.setState({num: ++self.state.num});
+                    self.props.callback({num: self.state.num,index: self.props.index,more: false});
+                }
+            }
+        });
     }
 
     componentDidMount() {
