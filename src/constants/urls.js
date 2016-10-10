@@ -14,6 +14,8 @@ export default {
 	Register: `${domain}/user-api/v1/authcenter/app/addUser`,
 	//找回密码
 	FINDPWDBYMOBILE: `${domain}/user-api/v1/authcenter/app/resetPswByMobile/`,//{mobile}/{password}
+	//购物车列表
+	QUERYCART: `${domain}/jygoods-api/v1/jycart/queryCart`,
 	//下载地址
 	Download : 'https://itunes.apple.com/cn/app/jin-se-jia-yuan-wang/id1033724221?mt=8',
 	//家园豆

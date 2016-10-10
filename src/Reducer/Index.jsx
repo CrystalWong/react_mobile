@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { default as login } from './Login';
+import { default as shoppingCart } from './ShoppingCart';
 // import {Tool, merged} from '../Tool';
 // /**
 //  * 存储登录的用户信息
@@ -67,5 +68,6 @@ import { default as login } from './Login';
 
 
 export default combineReducers({
-    login
+    login,
+    shoppingCart
 });
