@@ -26,6 +26,10 @@ export default {
 	CONCELITEM: `${domain}/jygoods-api/v1/jycart/cancelItem/`,
 	//下载地址
 	Download : 'https://itunes.apple.com/cn/app/jin-se-jia-yuan-wang/id1033724221?mt=8',
+	//收货地址
+	Address : `${domain}/user-manage/v1/address`,
 	//家园豆
-	bean : `${domain}/jysales-api/v1/coupon/getUserCouponAndBeanInfo`
+	bean : `${domain}/jysales-api/v1/coupon/getUserCouponAndBeanInfo`,
+	//订单结算
+	OrderClosed:`${domain}/jyorder-center/v1/order/app/appSettlement`
 };
