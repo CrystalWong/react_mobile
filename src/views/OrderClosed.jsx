@@ -1,6 +1,9 @@
 import React, {Component, PropTypes} from 'react';
-import {Header} from '../Component/common/index';
 import '../Style/orderclosed';
+import {Tool, merged} from '../Tool';
+import URLS from '../constants/urls';
+import {Toast} from '../Component/common/Tip';
+import {COMMON_HEADERS_POST} from '../constants/headers';
 /**
  * 模块入口
  * 
@@ -8,6 +11,27 @@ import '../Style/orderclosed';
  * @extends {Component}
  */
 class OrderClosed extends Component {
+	    constructor(props) {
+        super(props);
+        console.log(this.props);
+        console.log('订单结算..');
+        this.state = {
+            button: '提交订单',
+            tipContent: '',
+            display: ''
+        };
+			let headers = COMMON_HEADERS_POST();
+            Tool.fetch(this,{
+                url: `${URLS.OrderClosed}`,
+                type: "post",
+                body: '{"cartFlag":"1"}',
+                headers: headers,
+                successMethod: function(json){
+                    console.log(json);
+                }
+            });
+        }
+    
     render() {
         return (
             <div>
