@@ -1,4 +1,6 @@
 import React,{Component,PropTypes} from 'react';
+import Cookie from 'react-cookie';
+import URLS from '../constants/urls.js';
 import {Header} from '../Component/common/index';
 import {Tool, merged} from '../Tool';
 import '../Style/address';
@@ -8,16 +10,38 @@ class Address extends Component {
 		super(props);
 		console.log(props)
 		this.state = {
-			
+			userId : Cookie.load('userId')
 		};
+		console.log('userId:'+ this.state.userId)
+		this.getAddress = () => {
+			let _this = this;
+			Tool.fetch(this,{
+                url: URLS.Address + "/user/" + this.state.userId,
+                type: "get",
+                successMethod: function(json){
+                    console.log(json)
+                }
+            });
+		}
 	}
 
+
+	componentWillMount(){
+		this.getAddress();
+	}
+	//设为默认地址
+	addressDefault(){
+		console.log(this)
+	}
+
+	//编辑地址
 	addressEdit(){
-
+		console.log('edit')
 	}
 
+	//删除地址
 	addressDel(){
-
+		console.log('del')
 	}
 
 	render(){
@@ -32,9 +56,9 @@ class Address extends Component {
 							<p>北京北京市东城区广渠门外南街8号金色家园大厦</p>
 						</div>
 						<div className="address-operation">
-							<span className="current on">设为默认</span>
-							<span className="ao-del">删除</span>
-							<span className="ao-edit">编辑</span>
+							<span className="current on" onClick={this.addressDefault.bind(this)}>设为默认</span>
+							<span className="ao-del" onClick={this.addressDel.bind(this)}>删除</span>
+							<span className="ao-edit" onClick={this.addressEdit.bind(this)}>编辑</span>
 						</div>
 					</li>
 					<li>
@@ -43,9 +67,9 @@ class Address extends Component {
 							<p>北京北京市东城区广渠门外南街8号金色家园大厦</p>
 						</div>
 						<div className="address-operation">
-							<span className="current">设为默认</span>
-							<span className="ao-del">删除</span>
-							<span className="ao-edit">编辑</span>
+							<span className="current" onClick={this.addressDefault.bind(this)}>设为默认</span>
+							<span className="ao-del" onClick={this.addressDel.bind(this)}>删除</span>
+							<span className="ao-edit" onClick={this.addressEdit.bind(this)}>编辑</span>
 						</div>
 					</li>
 				</ul>
