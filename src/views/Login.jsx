@@ -65,7 +65,7 @@ class Login extends Component {
                         cookie.save('tokenid', json.responseBody.tokenid, cookieObj);
                         cookie.save('name', json.responseBody.name, cookieObj);
                         cookie.save('userId', json.responseBody.userId, cookieObj);
-                        cookie.save('photo', json.responseBody.userId, cookieObj);
+                        cookie.save('photo', json.responseBody.photo, cookieObj);
                         self.context.router.goBack();
                     }else{
                        if(json.code == 400001039){

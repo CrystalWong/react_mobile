@@ -1,0 +1,209 @@
+.orderClose {
+	font-size: .28rem;
+}
+.orderClose .address {
+	width: 100%;
+	height: 1rem;
+	background: #fff;
+	line-height: .9rem;
+}
+
+.orderClose .address1 {
+	background: url(../images/orderclosed/address_bg@2x.png) no-repeat;
+	background-size: 100% 100%;
+	height: 2.2rem;
+}
+
+.orderClose .address1 img {
+	height: 20%;
+	width: 5%;
+	display: inline-block;
+	vertical-align: middle;
+	margin: .9rem 0 0 .2rem;
+}
+
+.orderClose .address1 .adinfo {
+	float: right;
+	height: 100%;
+	width: 88%;
+	margin-left: .2rem;
+}
+
+.orderClose .address1 .adinfo h3 {
+	margin: .5rem 0rem .3rem 0;
+}
+
+.orderClose .address img {
+	vertical-align: middle;
+	margin: .2rem;
+}
+
+.orderClose .tanm {
+	width: 100%;
+	display: block;
+	height: 2.7rem;
+	background-color: #fff;
+	margin: .2rem 0 .1rem 0;
+	border-bottom: solid 1px #D2D2D2;
+}
+
+.orderClose .tanm dl {
+	padding: 10px;
+}
+
+.orderClose .tanm dl dt {
+	border: 1px solid #d3d3d3;
+	width: 23%;
+	height: 1.5rem;
+	position: relative;
+	float: left
+}
+
+.orderClose .tanm dl dt img {
+	width: 100%;
+	height: auto;
+	border: solid 1px black;
+}
+
+.orderClose .tanm dl dd {
+	margin-left: 10px;
+	overflow: hidden;
+	position: relative;
+	margin-left: 2rem;
+	text-overflow: ellipsis
+}
+
+.orderClose .tanm dl dd p {
+	color: #333;
+	font-size: 0.3rem;
+	line-height: .4rem;
+	height: .5rem;
+	width: 40%;
+	display: inline-block;
+}
+
+.orderClose .tanm dl dd p span {
+	color: grey;
+}
+
+.orderClose .tanm dl dd p.price {
+	color: #ce0000;
+	margin-top: 4px;
+	height: 16px;
+	float: right;
+}
+
+.orderClose .tanm dl dd p.num {
+	height: 14px;
+	float: right;
+}
+
+.orderClose .tanm dl dd p.category {
+	height: 33px;
+	float: left;
+}
+
+.orderClose .liu {
+	background: #fff;
+	height: .8rem;
+	color: black;
+}
+
+.orderClose .liu input {
+	height: .6rem;
+	width: 90%;
+	border: solid 1px #D6D6D6;
+	border-radius: .1rem;
+}
+
+.orderClose .line {
+	height: .8rem;
+	width: 100%;
+	margin: .25rem 0 0 0;
+	background-color: #fff;
+	line-height: .4rem;
+	padding: .2rem .1rem .1rem .2rem;
+}
+
+.orderClose .line dt {
+	display: inline-block;
+	width: 20%;
+}
+
+.orderClose .line dd {
+	display: inline-block;
+	width: 75%;
+	text-align: right;
+}
+
+.orderClose .fp {
+}
+
+.orderClose .fp dt {
+	display: inline-block;
+	width: 20%;
+}
+
+.orderClose .fp dd {
+	display: inline-block;
+	width: 75%;
+	text-align: right;
+}
+
+.orderClose .fp img {
+	vertical-align: middle;
+	margin: 0rem 0 0rem .13rem;
+}
+
+.orderClose .fp span {
+	vertical-align: middle;
+}
+
+.orderClose .jinediv .jine {
+	margin: 0;
+}
+
+.orderClose .jinediv .jine span {
+	color: #ce0000;
+}
+
+.orderClose .jinediv {
+	margin-top: .25rem;
+}
+
+.orderClose .bootm {
+	border: 1px solid #d3d3d3;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	height: 1.2rem;
+	width: 100%;
+	background: #fff;
+}
+
+.orderClose .bootm a {
+	text-align: center;
+	width: 49%;
+	line-height: 1.2rem;
+	font-size: 24px;
+	display: inline-block;
+	float: left;
+}
+
+.orderClose .bootm .heji {
+	width: 59%;
+}
+
+.orderClose .bootm .heji span {
+	color: #ce0000;
+}
+
+.orderClose .bootm .subbtn {
+	width: 41%;
+	background: #f60;
+	color: #fff;
+}
+
+.orderClose .route-div {
+	padding-top: 1.05rem;
+}
