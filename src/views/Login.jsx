@@ -10,7 +10,6 @@ import URLS from '../constants/urls';
 import {COMMON_HEADERS_POST} from '../constants/headers';
 import {ONLINE} from '../constants/common';
 import {Toast} from '../Component/common/Tip';
-// console.log(registerUuid);
 /**
  * 模块入口
  * 
