@@ -33,10 +33,10 @@ export class Toast extends Component {
 export class Confirm extends Component {
 
     render() {
-        let {title,content,leftText,rightText} = this.props;
+        let {title,content,leftText,rightText} = this.props.confirm;
         
         return (
-            <div className="confirm" ref="confirm">
+            <div className="confirm" ref="confirm" style={{display: "block"}}>
                 <header>{title}</header>
                 <div className="content">{content}</div>
                 <div className="button">

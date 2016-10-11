@@ -50,7 +50,7 @@
     z-index: 200;
     left: 50%;
     margin-left: -140px;
-    display: block;
+    display: none;
     width: 280px;
     border-radius: .2rem;
     vertical-align: middle;
