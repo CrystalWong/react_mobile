@@ -2,53 +2,30 @@ import React,{Component,PropTypes} from 'react';
 import Cookie from 'react-cookie';
 import URLS from '../constants/urls.js';
 import {Header} from '../Component/common/index';
+import {AddressItem} from '../Component/addressItem';
 import {Tool, merged} from '../Tool';
 import '../Style/address';
 
 class Address extends Component {
 	constructor(props){
 		super(props);
-		console.log(props)
 		this.state = {
-			userId : Cookie.load('userId')
+			userId : Cookie.load('userId'),
 		};
-		console.log('userId:'+ this.state.userId)
-		this.getAddress = () => {
-			let _this = this;
-			Tool.fetch(this,{
-                url: URLS.Address + "/user/" + this.state.userId,
-                type: "get",
-                successMethod: function(json){
-                    console.log(json)
-                }
-            });
-		}
 	}
 
 
 	componentWillMount(){
-		this.getAddress();
+		
 	}
-	//设为默认地址
-	addressDefault(){
-		console.log(this)
-	}
-
-	//编辑地址
-	addressEdit(){
-		console.log('edit')
-	}
-
-	//删除地址
-	addressDel(){
-		console.log('del')
-	}
+	
 
 	render(){
 		return(
 			<div>
 				<Header title="管理收货地址" leftIcon="fanhui" />
-				{/* 有地址 */}
+				<AddressItem />
+				{/* 有地址 
 				<ul className="address-list">
 					<li>
 						<div className="address-msg">
@@ -73,7 +50,7 @@ class Address extends Component {
 						</div>
 					</li>
 				</ul>
-				{/* 无地址 
+				无地址 
 				<div className="no-address">
 					<i className="na-ico"></i>
 					<p>收货地址还是空的快去新建地址吧</p>
