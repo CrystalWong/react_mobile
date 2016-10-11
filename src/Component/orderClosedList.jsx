@@ -5,10 +5,7 @@ import React, {Component, PropTypes} from 'react';
  * @extends {Component}
  */
 export class orderClosedList extends Component {
-    //const {json} = this.props;
-    constructor(props) {
-        super(props);
-    }
+    
     render() {
         console.log('订单子组件..');
         console.log(this.props);

@@ -16,7 +16,7 @@ import {orderClosedList} from '../Component/orderClosedList';
 class OrderClosed extends Component {
 	    constructor(props) {
         super(props);
-        console.log(this.props);
+        console.log(orderClosedList);
         console.log('订单结算..');
         this.state = {
             a:{}
@@ -58,7 +58,7 @@ class OrderClosed extends Component {
 		                		<span>地址：</span><span>北京市东城区广渠门外南街金色家园网大厦8-0-1sdsdsdsd</span>
 		                	</div>
 		                </div>
-					      <orderClosedList {...this.state}/>
+					      <orderClosedList checked={this.state}/>
 						<dl className="line">
 							<dt>配送方式</dt>
 							<dd>快递</dd>
