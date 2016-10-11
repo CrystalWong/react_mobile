@@ -29,7 +29,7 @@ class OrderClosed extends Component {
             	},
             	rightText: "确定",
             	rightMethod: function(){
-
+            		alert("确定");
             	},
             	display: "block"
             }
