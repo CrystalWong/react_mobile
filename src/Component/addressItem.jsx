@@ -7,24 +7,10 @@ export class AddressItem extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			userId : Cookie.load('userId'),
-			addressMsg : []
-		}
-		this.getAddress = () => {
-			let _this = this;
-			Tool.fetch(this,{
-                url: URLS.Address + "/user/" + this.state.userId,
-                type: "get",
-                successMethod: function(json){
-                	_this.setState({addressMsg : json});
-                }
-            });
+			addressType : this.props.type == 1 ? true : false
 		}
 	}
 
-	componentWillMount(){
-		this.getAddress();
-	}
 	//设为默认地址
 	addressDefault(){
 		console.log(this)
@@ -41,31 +27,20 @@ export class AddressItem extends Component{
 	}
 
 	render(){
-		let Dom = [];
-		if(this.state.addressMsg.length > 0){
-			let liItem = [];
-			this.state.addressMsg.map((item,index) => {
-				liItem.push(<li key={index}>
-					<div className="address-msg">
-						<h6><span>{item.consigneeName}</span><span>{item.consigneeMobile}</span><em>默认</em></h6>
-						<p>{item.detailInfo}</p>
-					</div>
-					<div className="address-operation">
-						<span className="current on" onClick={this.addressDefault.bind(this)}>设为默认</span>
-						<span className="ao-del" onClick={this.addressDel.bind(this)}>删除</span>
-						<span className="ao-edit" onClick={this.addressEdit.bind(this)}>编辑</span>
-					</div>
-				</li>)
-			});
-			Dom.push(<ul className="address-list">{liItem}</ul>)
-		}else{
-			Dom.push(<div className="no-address"><i className="na-ico"></i><p>收货地址还是空的快去新建地址吧</p></div>)
-		}
-
+		console.log(this.props)
+		let {consigneeName,consigneeMobile,detailInfo,type} = this.props;
 		return(
-			<div>
-				{Dom}
-			</div>
+			<li>
+				<div className="address-msg">
+					<h6><span>{consigneeName}</span><span>{consigneeMobile}</span>{this.state.addressType ? <em>默认</em> : ''}</h6>
+					<p>{detailInfo}</p>
+				</div>
+				<div className="address-operation">
+					<span className={this.state.addressType ? 'current on' : 'current'} onClick={this.addressDefault.bind(this)}>设为默认</span>
+					<span className="ao-del" onClick={this.addressDel.bind(this)}>删除</span>
+					<span className="ao-edit" onClick={this.addressEdit.bind(this)}>编辑</span>
+				</div>
+			</li>
 		)
 	}
 }
