@@ -1,9 +1,12 @@
 import React, {Component, PropTypes} from 'react';
 import '../Style/orderclosed';
 import {Tool, merged} from '../Tool';
+import {Header} from '../Component/common/index';
 import URLS from '../constants/urls';
 import {Toast} from '../Component/common/Tip';
 import {COMMON_HEADERS_POST} from '../constants/headers';
+import cookie from 'react-cookie';
+import {orderClosedList} from '../Component/orderClosedList';
 /**
  * 模块入口
  * 
@@ -16,30 +19,36 @@ class OrderClosed extends Component {
         console.log(this.props);
         console.log('订单结算..');
         this.state = {
-            button: '提交订单',
-            tipContent: '',
-            display: ''
+            a:{}
         };
-			let headers = COMMON_HEADERS_POST();
+			let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),self=this;
+			console.log(cookie.load('tokenid'));
             Tool.fetch(this,{
                 url: `${URLS.OrderClosed}`,
                 type: "post",
-                body: '{"cartFlag":"1"}',
+                body:JSON.stringify({"cartFlag":"1"}),
                 headers: headers,
                 successMethod: function(json){
                     console.log(json);
+                    self.setState({a:json});
+                    console.log(self.state);
+        			console.log('订单结算数据返回..');
+                    // for(let v of json.storeVOList){
+                    // 	for(let l of v.goodsVOList){
+                    // 		console.log(l);
+                    // 	}
+                    // }
                 }
             });
         }
     
     render() {
+
         return (
             <div>
-                <header className="common-header">
-                    <div className="left-arrow"><a><i></i></a></div>
-                    <h2 className="title">订单结算</h2></header>
+            	<Header title="订单结算" leftIcon="fanhui" />
                     <div className="orderClose">
-                    	<div className="address">
+                    	<div className="address" onClick={()=>alert('您点击了新增收货地址')}>
 							<img src="src/images/orderclosed/add@2x.png" alt="添加"/> 新增收货地址
 		                </div>
 		                <div className="address1">
@@ -49,25 +58,14 @@ class OrderClosed extends Component {
 		                		<span>地址：</span><span>北京市东城区广渠门外南街金色家园网大厦8-0-1sdsdsdsd</span>
 		                	</div>
 		                </div>
-		               <a className="tanm">
-						    <dl className="clearfix">
-						        <dt>
-						            <img src="http://image1.jyall.com/v1/tfs/T1TqJ_BTWv1RXrhCrK.jpg"/>
-						        </dt>
-						        <dd>
-						        	<p>艾理思 美式实木真皮配布沙发 Y630-19<br/><span>颜色分类:<span>红色</span></span></p>
-		 				        <p className="price">¥ 9250.00<br/><span>x1</span></p>
-						        </dd>
-						    </dl>
-						 <div className="liu"><label>留言:</label><input type="text"/></div>
-						</a>
+					      <orderClosedList {...this.state}/>
 						<dl className="line">
 							<dt>配送方式</dt>
 							<dd>快递</dd>
 						</dl>
 						<dl className="line fp">
 							<dt>发票</dt>
-							<dd><span>不开发票</span><img src="src/images/orderclosed/fp@2x.png"/></dd>
+							<dd><a href="/setbill"><span>不开发票</span><img src="src/images/orderclosed/fp@2x.png"/></a></dd>
 
 						</dl>
 						<div className="jinediv">
@@ -80,11 +78,11 @@ class OrderClosed extends Component {
 								<dd><span>¥98898</span></dd>
 							</dl>
 						</div>
-						<div className="bootm">
+                    </div>
+                    	<div className="bootm">
 							<a className="heji">合计:<span>¥100000</span></a>
 							<a className="subbtn" href="">提交订单</a>
 						</div>
-                    </div>
                 
             </div>
         );

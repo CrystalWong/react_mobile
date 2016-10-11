@@ -11,9 +11,7 @@ class SetBill extends Component {
     render() {
         return (
             <div>
-                <header className="common-header">
-                    <div className="left-arrow"><a><i></i></a></div>
-                    <h2 className="title">订单结算</h2></header>
+            	<Header title="发票" leftIcon="fanhui" />
                     <div className="setBill">
                     	<div className="fptype">
 			              	<h3>
