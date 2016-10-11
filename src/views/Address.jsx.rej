@@ -1,0 +1,14 @@
+diff a/src/views/Address.jsx b/src/views/Address.jsx	(rejected hunks)
+@@ -67,9 +67,9 @@
+ 							<p>北京北京市东城区广渠门外南街8号金色家园大厦</p>
+ 						</div>
+ 						<div className="address-operation">
+-							<span className="current">设为默认</span>
+-							<span className="ao-del">删除</span>
+-							<span className="ao-edit">编辑</span>
++							<span className="current" onClick={this.addressDefault.bind(this)}>设为默认</span>
++							<span className="ao-del" onClick={this.addressDel.bind(this)}>删除</span>
++							<span className="ao-edit" onClick={this.addressEdit.bind(this)}>编辑</span>
+ 						</div>
+ 					</li>
+ 				</ul>
