@@ -22,38 +22,31 @@ export class ShoppingItem extends Component {
         let isLogin = 0,
             uKey = cookie.load('tokenid'),
             groupSkuId = this.props.groupId+"_"+this.props.skuId,
-            suitIds = 
-            count=1,
+            suitIds = "",
             self = this; 
         if(cookie.load('tokenid'))isLogin = 1;
 
         if(this.refs.icon.src.match("no_select")){
-            this.refs.icon.src = "src/images/shopping/select.png";
-            this.props.callback2(true,this.props.index);
             Tool.fetch(this.props.parent,{
-                url: `${URLS.MINUSITEM}${isLogin}/${uKey}/${groupSkuId}/${count}`,
+                url: `${URLS.SELECTITEM}${isLogin}/${uKey}?groupSkuId=${groupSkuId}&selectAll=0`,
                 type: "put",
                 headers: COMMON_HEADERS,
                 successMethod: function(json){
                     if(json.flag == true){
-                        self.setState({num: --self.state.num});
-                        if(self.state.num == 1){self.setState({color: "#999999"});}
-                        self.props.callback({num: self.state.num,index: self.props.index});
+                        self.refs.icon.src = "src/images/shopping/select.png";
+                        self.props.callback2(true,self.props.index);
                     }
                 }
             });
         }else{
-            this.refs.icon.src = "src/images/shopping/no_select.png";
-            this.props.callback2(false,this.props.index);
             Tool.fetch(this.props.parent,{
-                url: `${URLS.CONCELITEM}${isLogin}/${uKey}/${groupSkuId}/${count}`,
+                url: `${URLS.CONCELITEM}${isLogin}/${uKey}?groupSkuId=${groupSkuId}&selectAll=0`,
                 type: "put",
                 headers: COMMON_HEADERS,
                 successMethod: function(json){
                     if(json.flag == true){
-                        self.setState({num: --self.state.num});
-                        if(self.state.num == 1){self.setState({color: "#999999"});}
-                        self.props.callback({num: self.state.num,index: self.props.index});
+                        self.refs.icon.src = "src/images/shopping/no_select.png";
+                        self.props.callback2(false,self.props.index);
                     }
                 }
             });
