@@ -1,5 +1,6 @@
 .orderClose {
 	font-size: .28rem;
+	padding-bottom: 1.58rem;
 }
 .orderClose .address {
 	width: 100%;
@@ -170,8 +171,7 @@
 .orderClose .jinediv {
 	margin-top: .25rem;
 }
-
-.orderClose .bootm {
+.bootm {
 	border: 1px solid #d3d3d3;
 	position: fixed;
 	bottom: 0;
@@ -180,8 +180,7 @@
 	width: 100%;
 	background: #fff;
 }
-
-.orderClose .bootm a {
+.bootm a {
 	text-align: center;
 	width: 49%;
 	line-height: 1.2rem;
@@ -189,21 +188,18 @@
 	display: inline-block;
 	float: left;
 }
-
-.orderClose .bootm .heji {
+.bootm .heji {
 	width: 59%;
 }
-
-.orderClose .bootm .heji span {
+.bootm .heji span {
 	color: #ce0000;
 }
 
-.orderClose .bootm .subbtn {
+.bootm .subbtn {
 	width: 41%;
 	background: #f60;
 	color: #fff;
 }
-
-.orderClose .route-div {
+.route-div {
 	padding-top: 1.05rem;
 }

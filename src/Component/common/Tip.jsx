@@ -24,3 +24,25 @@ export class Toast extends Component {
         }, false);
     }
 }
+
+/**
+ * @export
+ * @class Confirm
+ * @extends {Component}
+ */
+export class Confirm extends Component {
+
+    render() {
+        let {title,content,leftText,rightText,display,leftMethod} = this.props;
+        
+        return (
+            <div className="confirm" ref="confirm" style={{display: display}}>
+                <header>{title}</header>
+                <div className="content">{content}</div>
+                <div className="button">
+                    <span onClick={leftMethod}>{leftText}</span><span>{rightText}</span>
+                </div>
+            </div>
+        );
+    }
+}
