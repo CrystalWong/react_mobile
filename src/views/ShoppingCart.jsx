@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import cookie from 'react-cookie';
+import { Link } from 'react-router';
 import {Header} from '../Component/common/index';
 import '../Style/shoppingcart';
 import {ShoppingItem} from '../Component/ShoppingItem';
@@ -27,7 +28,8 @@ class ShoppingCart extends Component {
             allMoney: 0,
             allNum: 0,
             tipContent: '',
-            display: ''
+            display: '',
+            nolist: 'none'
         };
 
         let headers = COMMON_HEADERS();
@@ -53,11 +55,13 @@ class ShoppingCart extends Component {
             	})
 
             	if(json.totalItemCount > 999){json.totalItemCount = "999+";}
+                // json.cartItems = [];
                 self.setState({ 
                 	list: json.cartItems,
                 	title: "购物车("+ json.totalGoodsCount +")",
                 	allMoney: self.allMoney,
-                	allNum: self.allNum
+                	allNum: self.allNum,
+                    nolist: json.cartItems.length==0?"block":"none"
                 });
             }
         });
@@ -120,28 +124,58 @@ class ShoppingCart extends Component {
             self = this;
         self.allMoney = 0;
         self.allNum = 0;
+
+        let isLogin = 0,
+            uKey = cookie.load('tokenid');
+        if(cookie.load('tokenid'))isLogin = 1;
+
+
         if(selectAll.className.match("selectall")){
-            selectAll.className = "no-select-all";
-            selectControl = false;
-        }else {
-            selectAll.className = "no-select-all selectall";
-            selectControl = true;
-        }
-        list.map(item => {
-            if(item.state==1&&item.status==1&&item.salesState==2){
-                item.select = selectControl;
-                if(selectControl){
-                    self.allMoney += item.count*item.sellPrice;
-                    self.allNum += item.count;
+            Tool.fetch(this.props.parent,{
+                url: `${URLS.CONCELITEM}${isLogin}/${uKey}?selectAll=1`,
+                type: "put",
+                headers: COMMON_HEADERS,
+                successMethod: function(json){
+                    if(json.flag == true){
+                        selectAll.className = "no-select-all";
+                        selectControl = false;
+                        result();
+                    }
                 }
-            }
-        })
-        this.setState({list: list,allMoney: self.allMoney,allNum: self.allNum});
+            });
+        }else {
+            Tool.fetch(this,{
+                url: `${URLS.SELECTITEM}${isLogin}/${uKey}?selectAll=1`,
+                type: "put",
+                headers: COMMON_HEADERS,
+                successMethod: function(json){
+                    if(json.flag == true){
+                        selectAll.className = "no-select-all selectall";
+                        selectControl = true;
+                        result();
+                    }
+                }
+            });
+        }
+
+        let result = function(){
+            list.map(item => {
+                if(item.state==1&&item.status==1&&item.salesState==2){
+                    item.select = selectControl;
+                    if(selectControl){
+                        self.allMoney += item.count*item.sellPrice;
+                        self.allNum += item.count;
+                    }
+                }
+            })
+            self.setState({list: list,allMoney: self.allMoney,allNum: self.allNum});
+        }
+
     }
 
     statement(e){ //结算
         e.stopPropagation(); 
-        e.preventDefault();
+        // e.preventDefault();
     }
 
     render() {
@@ -150,20 +184,37 @@ class ShoppingCart extends Component {
                 <Header title={this.state.title} leftIcon="fanhui" />
                 <div className="shoppingc-art">
                 	<ul>
-                	    {this.state.list.map((item,index) =>
-					      <ShoppingItem key={item.skuId} index={index} callback={this.shoppingCartCount.bind(this)} callback2={this.selectStatement.bind(this)} {...item} />
-					    )}
+                	    {
+                            this.state.list.map((item,index) =>
+					            <ShoppingItem key={item.skuId} index={index} callback={this.shoppingCartCount.bind(this)} callback2={this.selectStatement.bind(this)} {...item} />
+					        )
+                        }
                 	</ul>
                 	<footer onClick={this.selectAll.bind(this)}>
                 		<span className="no-select-all" ref="selectAll">全选</span>
-                		<div className="fr">合计:<span style={{color: "#cc0000",marginRight: ".2rem"}}>￥{this.state.allMoney}</span><b className="statement" onClick={this.statement.bind(this)}>结算(<span>{this.state.allNum}</span>)</b></div>
+                		<div className="fr">合计:<span style={{color: "#cc0000",marginRight: ".2rem"}}>￥{this.state.allMoney}</span><Link to="/orderclosed"><b className="statement" onClick={this.statement.bind(this)}>结算(<span>{this.state.allNum}</span>)</b></Link></div>
                 	</footer>
                 </div>
+                <NoList display={this.state.nolist} />
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
             </div>
         );
     }
 }
+
+
+
+var NoList = React.createClass({
+  render: function() {
+    return (
+        <div style={{ display: this.props.display }} className="no-list">
+            <img src="src/images/shopping/empty_shopping.png" />
+            <p>购物车里还什么都没有<br/>赶快去逛逛吧~ <br/></p>
+            <a href="http://m.jyall.com"><button>去看看</button></a>
+        </div>
+    );
+  }
+});
 
 export default ShoppingCart;  
 

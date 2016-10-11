@@ -88,3 +88,20 @@
 		}
 	}
 }
+
+.shoppingc-art + .no-list{
+	position: absolute;
+	top: 50%;
+	margin-top: -1rem;
+	width: 100%;
+	color: #666666;
+	text-align: center;
+	button{
+		padding: .08rem .4rem;
+		margin-top: .2rem;
+		color: #999999;
+	}
+	img{
+		width: 1.5rem;
+	}
+}
