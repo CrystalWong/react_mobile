@@ -42,51 +42,46 @@
     100%{top: 50%;}
 }
 /*confirm弹框*/
-.tip-confirm{
+.confirm{
     position: absolute;
     top: 50%;
     margin-top: -80px;
-    padding-top: 15px;
+    padding-top: .48rem;
     z-index: 200;
     left: 50%;
     margin-left: -140px;
-    display: block;
+    display: none;
     width: 280px;
-    border-radius: 5px;
+    border-radius: .2rem;
     vertical-align: middle;
     text-align: center;
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: .32rem;
+    line-height: 1;
     color: #333;
     background: #fff;
 }
-.tip-confirm div:nth-child(1),.tip-confirm div:nth-child(2){
-    padding-bottom: 15px;
-    display: table;
-    /*height: 120px;*/
+.confirm .content{
+    margin-top: .24rem;
+    padding-bottom: .48rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+.confirm .button{
+    display: box;
+    display:-webkit-box;
     width: 100%;
+    height: .9rem;
+    color: #0079ff;
+    line-height: .9rem;
 }
-.tip-confirm div:nth-child(1) div,.tip-confirm div:nth-child(2) div{
-    padding: 15px 10px;
-    display: table-cell;
-    vertical-align: middle;
+.confirm .button span{
+    display: block;
+    -webkit-box-flex:1;
+    box-flex:1;
 }
-.tip-confirm div.confirm-title{
-    padding-bottom: 0;
+.confirm .button span:nth-child(1){
+    border-right: 1px solid #e0e0e0;
 }
-.tip-confirm div.content{font-size: 14px;}
-.tip-confirm .confirm-button{
-    display: table;
-    padding-bottom: 0 !important;
-    width: 100%;
-    border-top: 1px solid #ccc;
-}
-.tip-confirm .confirm-button :nth-child(1),.tip-confirm .confirm-button :nth-child(2){
-    display: table-cell;
-    width: 50%;
-    line-height: 44px;
-}
-.tip-confirm .confirm-button :nth-child(2){ color: #FF374A;border-left: 1px solid #e6e6e6;}
+
 
 
 /**/
@@ -344,7 +339,7 @@
     display: none;
     width: 100%;
     height: 100%;
-    z-index: 101;
+    z-index: 11;
     top: 0;
     left: 0;
     background: rgba(0,0,0,0.2);
