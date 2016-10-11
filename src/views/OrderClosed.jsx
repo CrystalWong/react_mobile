@@ -83,11 +83,7 @@ class OrderClosed extends Component {
 							<a className="heji">合计:<span>¥100000</span></a>
 							<a className="subbtn" href="">提交订单</a>
 						</div>
-                    </div>
-                <Confirm title="是否确认拨打此电话？" content="刘德华 13409090909" leftText="取消" rightText="确定"/>
-                <div className="mask" style={{display: "block"}}></div>
             </div>
-
         );
     }
 }
