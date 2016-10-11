@@ -19,7 +19,20 @@ class OrderClosed extends Component {
         console.log(orderClosedList);
         console.log('订单结算..');
         this.state = {
-            a:{}
+            a:{},
+            confirm: {
+            	title: "是否确认拨打此电话？",
+            	content: "刘德华 13409090909", 
+            	leftText: "取消",
+            	leftMethod: function(){
+            		alert("取消");
+            	},
+            	rightText: "确定",
+            	rightMethod: function(){
+
+            	},
+            	display: "block"
+            }
         };
 			let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),self=this;
 			console.log(cookie.load('tokenid'));
@@ -47,42 +60,45 @@ class OrderClosed extends Component {
         return (
             <div>
             	<Header title="订单结算" leftIcon="fanhui" />
-                    <div className="orderClose">
-                    	<div className="address" onClick={()=>alert('您点击了新增收货地址')}>
-							<img src="src/images/orderclosed/add@2x.png" alt="添加"/> 新增收货地址
-		                </div>
-		                <div className="address1">
-		                	<img src="src/images/orderclosed/address@2x.png"/>
-		                	<div className="adinfo">
-		                		<h3>张三&nbsp;15121345566</h3>
-		                		<span>地址：</span><span>北京市东城区广渠门外南街金色家园网大厦8-0-1sdsdsdsd</span>
-		                	</div>
-		                </div>
-					      <orderClosedList checked={this.state}/>
-						<dl className="line">
-							<dt>配送方式</dt>
-							<dd>快递</dd>
-						</dl>
-						<dl className="line fp">
-							<dt>发票</dt>
-							<dd><a href="/setbill"><span>不开发票</span><img src="src/images/orderclosed/fp@2x.png"/></a></dd>
+                <div className="orderClose">
+                	<div className="address" onClick={()=>alert('您点击了新增收货地址')}>
+						<img src="src/images/orderclosed/add@2x.png" alt="添加"/> 新增收货地址
+	                </div>
+	                <div className="address1">
+	                	<img src="src/images/orderclosed/address@2x.png"/>
+	                	<div className="adinfo">
+	                		<h3>张三&nbsp;15121345566</h3>
+	                		<span>地址：</span><span>北京市东城区广渠门外南街金色家园网大厦8-0-1sdsdsdsd</span>
+	                	</div>
+	                </div>
+				      <orderClosedList checked={this.state}/>
+					<dl className="line">
+						<dt>配送方式</dt>
+						<dd>快递</dd>
+					</dl>
+					<dl className="line fp">
+						<dt>发票</dt>
+						<dd><a href="/setbill"><span>不开发票</span><img src="src/images/orderclosed/fp@2x.png"/></a></dd>
 
+					</dl>
+					<div className="jinediv">
+						<dl className="line jine">
+							<dt>商品总金额</dt>
+							<dd><span>¥98898</span></dd>
 						</dl>
-						<div className="jinediv">
-							<dl className="line jine">
-								<dt>商品总金额</dt>
-								<dd><span>¥98898</span></dd>
-							</dl>
-							<dl className="line jine">
-								<dt>运费</dt>
-								<dd><span>¥98898</span></dd>
-							</dl>
-						</div>
-                    </div>
-                    	<div className="bootm">
-							<a className="heji">合计:<span>¥100000</span></a>
-							<a className="subbtn" href="">提交订单</a>
-						</div>
+						<dl className="line jine">
+							<dt>运费</dt>
+							<dd><span>¥98898</span></dd>
+						</dl>
+					</div>
+                </div>
+            	<div className="bootm">
+					<a className="heji">合计:<span>¥100000</span></a>
+					<a className="subbtn" href="">提交订单</a>
+				</div>
+				<Confirm  {...this.state.confirm}/>
+                <div className="mask" style={{display: this.state.confirm.display}}></div>
+		
             </div>
         );
     }
