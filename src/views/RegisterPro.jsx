@@ -11,9 +11,9 @@ import '../Style/RegisterPro.css';
 class RegisterPro extends Component {
     render() {
         return (
-            <div>
+            <div className="xieyi">
                 <Header title="用户服务协议" leftIcon="fanhui" />
-                <div class="xieyi">
+                <div>
                     <h4>一、导语</h4>
                     <p>尊敬的用户，欢迎您注册成为金色家园网（以下简称"金色家园"）用户。</p>
                     <p>在注册前请您仔细阅读如下服务条款：本协议双方为您与金色家园，本协议具有合同效力。您确认本协议后，本协议即在您和金色家园之间产生法律效力。请您务必在注册之前认真阅读协议内容，如有任何疑问，可向金色家园咨询。无论您事实上是否在注册之前认真阅读了本协议，只要您点击协议正本下方的"同意"按钮并按照金色家园注册程序成功注册为用户，您的行为均表示您阅读、同意并签署了本协议。</p>
