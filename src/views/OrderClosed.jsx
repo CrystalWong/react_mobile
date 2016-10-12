@@ -6,7 +6,7 @@ import URLS from '../constants/urls';
 import {Toast,Confirm} from '../Component/common/Tip';
 import {COMMON_HEADERS_POST} from '../constants/headers';
 import cookie from 'react-cookie';
-import {orderClosedList} from '../Component/orderClosedList';
+import {OrderClosedList} from '../Component/orderClosedList';
 /**
  * 模块入口
  * 
@@ -16,7 +16,6 @@ import {orderClosedList} from '../Component/orderClosedList';
 class OrderClosed extends Component {
 	    constructor(props) {
         super(props);
-        console.log(orderClosedList);
         console.log('订单结算..');
         this.state = {
             data1:{
@@ -78,7 +77,7 @@ class OrderClosed extends Component {
 	                		<span>地址：</span><span>北京市东城区广渠门外南街金色家园网大厦8-0-1sdsdsdsd</span>
 	                	</div>
 	                </div>
-				      <orderClosedList {...this.state.data1}/>
+				    <OrderClosedList {...this.state.data1}/>
 					<dl className="line">
 						<dt>配送方式</dt>
 						<dd>快递</dd>
