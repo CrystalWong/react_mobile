@@ -4,15 +4,20 @@ import React, {Component, PropTypes} from 'react';
  * @class AddReduce
  * @extends {Component}
  */
-export class orderClosedList extends Component {
-    
+export class OrderClosedList extends Component {
     render() {
-        console.log('订单子组件..');
-        console.log(this.props);
+        let {address,couponUserList,goodsTotalFee,orderTotalFee,storeVOList,totalShipFee} = this.props;
+        console.log(".....订单结算子组件");
+        //console.log(storeVOList);
+        // storeVOList.map((item,index) =>
+        //                             console.log(item)
+        //                         )
         return (
                         <a className="tanm">
                             {
-
+                                if(storeVOList.length!=undefined&&storeVOList.length!=0){
+                                    console.log(storeVOList)
+                                }
                             }
                             <dl className="clearfix">
                                 <dt>
@@ -20,10 +25,10 @@ export class orderClosedList extends Component {
                                 </dt>
                                 <dd>
                                     <p>艾理思 美式实木真皮配布沙发 Y630-19<br/><span>颜色分类:<span>红色</span></span></p>
-                                <p className="price">¥ 9250.00<br/><span>x1</span></p>
+                                    <p className="price">¥ 9250.00<br/><span>x1</span></p>
                                 </dd>
                             </dl>
-                         <div className="liu"><label>留言:</label><input type="text"/></div>
+                            <div className="liu"><label>留言:</label><input type="text"/></div>
                         </a>
         );
     }
