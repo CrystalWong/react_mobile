@@ -13,7 +13,7 @@ export class AddressItem extends Component{
 
 	//设为默认地址
 	addressDefault(){
-		console.log(this)
+		this.props.callbackDefault(this);
 	}
 
 	//编辑地址
@@ -23,11 +23,10 @@ export class AddressItem extends Component{
 
 	//删除地址
 	addressDel(){
-		console.log('del')
+		this.props.callbackDel(this);
 	}
 
 	render(){
-		console.log(this.props)
 		let {consigneeName,consigneeMobile,detailInfo,type} = this.props;
 		return(
 			<li>
