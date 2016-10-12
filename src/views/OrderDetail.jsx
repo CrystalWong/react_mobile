@@ -5,14 +5,14 @@ import '../Style/orderdetail';
 /**
  * 模块入口
  * 
- * @class MyOrder
+ * @class OrderDetail
  * @extends {Component}
  */
 class OrderDetail extends Component {
     render() {
         return (
             <div className="order-detail">
-                <Header title="全部订单" leftIcon="fanhui" />
+                <Header title="订单结算" leftIcon="fanhui" />
                 <div>
                     内容
                 </div>
