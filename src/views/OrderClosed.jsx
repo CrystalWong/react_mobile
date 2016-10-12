@@ -19,7 +19,14 @@ class OrderClosed extends Component {
         console.log(orderClosedList);
         console.log('订单结算..');
         this.state = {
-            a:{},
+            data1:{
+            	address:"",
+            	couponUserList:"",
+            	goodsTotalFee:"",
+            	orderTotalFee:"",
+            	storeVOList:"",
+            	totalShipFee:"ccc"
+            },
             confirm: {
             	title: "是否确认拨打此电话？",
             	content: "刘德华 13409090909", 
@@ -31,7 +38,7 @@ class OrderClosed extends Component {
             	rightMethod: function(){
             		alert("确定");
             	},
-            	display: "block"
+            	display: "none"
             }
         };
 			let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),self=this;
@@ -43,8 +50,9 @@ class OrderClosed extends Component {
                 headers: headers,
                 successMethod: function(json){
                     console.log(json);
-                    self.setState({a:json});
-                    console.log(self.state);
+                    //self.setState({data:json});
+                    console.log(self.state.data1);
+                    console.log(self.state.confirm.title);
         			console.log('订单结算数据返回..');
                     // for(let v of json.storeVOList){
                     // 	for(let l of v.goodsVOList){
@@ -56,7 +64,6 @@ class OrderClosed extends Component {
         }
     
     render() {
-
         return (
             <div>
             	<Header title="订单结算" leftIcon="fanhui" />
@@ -71,7 +78,7 @@ class OrderClosed extends Component {
 	                		<span>地址：</span><span>北京市东城区广渠门外南街金色家园网大厦8-0-1sdsdsdsd</span>
 	                	</div>
 	                </div>
-				      <orderClosedList checked={this.state}/>
+				      <orderClosedList {...this.state.data1}/>
 					<dl className="line">
 						<dt>配送方式</dt>
 						<dd>快递</dd>
