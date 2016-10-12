@@ -16,15 +16,14 @@ import {OrderClosedList} from '../Component/orderClosedList';
 class OrderClosed extends Component {
 	    constructor(props) {
         super(props);
-        console.log('订单结算..');
         this.state = {
             data1:{
-            	address:"",
-            	couponUserList:"",
-            	goodsTotalFee:"",
-            	orderTotalFee:"",
-            	storeVOList:"",
-            	totalShipFee:"ccc"
+            	// address:"",
+            	// couponUserList:"",
+            	// goodsTotalFee:"",
+            	// orderTotalFee:"",
+            	// storeVOList:"",
+            	// totalShipFee:"ccc"
             },
             confirm: {
             	title: "是否确认拨打此电话？",
@@ -41,18 +40,13 @@ class OrderClosed extends Component {
             }
         };
 			let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),self=this;
-			console.log(cookie.load('tokenid'));
             Tool.fetch(this,{
                 url: `${URLS.OrderClosed}`,
                 type: "post",
                 body:JSON.stringify({"cartFlag":"1"}),
                 headers: headers,
                 successMethod: function(json){
-                    console.log(json);
-                    //self.setState({data:json});
-                    console.log(self.state.data1);
-                    console.log(self.state.confirm.title);
-        			console.log('订单结算数据返回..');
+                    self.setState({data1:json});
                     // for(let v of json.storeVOList){
                     // 	for(let l of v.goodsVOList){
                     // 		console.log(l);
