@@ -6,9 +6,6 @@ import {Tool, merged} from '../Tool';
 export class AddressItem extends Component{
 	constructor(props){
 		super(props);
-		this.state = {
-			addressType : this.props.type == 1 ? true : false
-		}
 	}
 
 	//设为默认地址
@@ -31,11 +28,11 @@ export class AddressItem extends Component{
 		return(
 			<li>
 				<div className="address-msg">
-					<h6><span>{consigneeName}</span><span>{consigneeMobile}</span>{this.state.addressType ? <em>默认</em> : ''}</h6>
+					<h6><span>{consigneeName}</span><span>{consigneeMobile}</span>{this.props.type==1 ? <em>默认</em> : ''}</h6>
 					<p>{detailInfo}</p>
 				</div>
 				<div className="address-operation">
-					<span className={this.state.addressType ? 'current on' : 'current'} onClick={this.addressDefault.bind(this)}>设为默认</span>
+					<span className={this.props.type==1? 'current on' : 'current'} onClick={this.addressDefault.bind(this)}>设为默认</span>
 					<span className="ao-del" onClick={this.addressDel.bind(this)}>删除</span>
 					<span className="ao-edit" onClick={this.addressEdit.bind(this)}>编辑</span>
 				</div>

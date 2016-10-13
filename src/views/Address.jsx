@@ -16,7 +16,6 @@ class Address extends Component {
 			display : '',
 			nolist : 'none',
 			addressMsg : [],
-			flag : 0,
 			confirm: {
             	title: "",
             	content: "", 
@@ -33,6 +32,7 @@ class Address extends Component {
                 url: URLS.Address + "/user/" + this.state.userId,
                 type: "get",
                 successMethod: function(json){
+                	console.log(json);
                 	_this.setState({
                 		addressMsg : json,
                 		nolist : json.length  > 0 ? 'none' : 'block'
@@ -61,8 +61,7 @@ class Address extends Component {
             headers: headers,
             successMethod: function(json){
             	console.log('成功设置为默认地址');
-            	_this.setState({flag : _this.state.flag+1})
-            	window.location.reload()
+            	_this.getAddress();
             }
         });
 	}
@@ -83,8 +82,9 @@ class Address extends Component {
 			            url: URLS.Address + '/' + id,
 			            type : "delete",
 			            successMethod: function(json){
-			            	console.log(json);
-			            	window.location.reload()
+			            	console.log('删除成功');
+			            	_this.getAddress();
+			            	_this.state.confirm.leftMethod();
 			            }
 			        });
             	},
@@ -94,8 +94,6 @@ class Address extends Component {
 	}
 
 	render(){
-
-
 		return(
 			<div>
 				<Header title="管理收货地址" leftIcon="fanhui" />
