@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {Header} from '../Component/common/index';
 import '../Style/setbill';
+import Cookie from 'react-cookie';
+import {Toast,Confirm} from '../Component/common/Tip';
 /**
  * 模块入口
  * 
@@ -8,6 +10,75 @@ import '../Style/setbill';
  * @extends {Component}
  */
 class SetBill extends Component {
+	constructor(props){
+		super(props);
+		this.state = {
+			addressType:true,
+			fptype:"per",
+			initClass:{
+				has:"active",
+				noHas:""
+			},
+			tipContent:"",
+			isShowBg:"none",
+			isShowSm:"none",
+			display:"none"
+		};
+		function siblings(o) {
+		    var a = [];
+		    var p = o.previousSibling;
+		    while (p) {
+		        if (p.nodeType === 1) {
+		            a.push(p);
+		        }
+		        p = p.previousSibling
+		    }
+		    a.reverse();var n = o.nextSibling;
+		    while (n) {
+		        if (n.nodeType === 1) {
+		            a.push(n);
+		        }
+		        n = n.nextSibling;
+		    }
+		    return a
+		}
+		this.getFptype = (e) => {
+			console.log(e.target.innerHTML)
+			e.target.setAttribute("class","active");
+			for(let sib of siblings(e.target)){
+				sib.setAttribute("class","");
+			}
+			this.setState({fptype:e.target.getAttribute("data-info")});
+			this.state.fptype=e.target.getAttribute("data-info");
+			if(this.state.fptype){
+				this.setState({isShowBg:"block"});
+			}else{
+				this.setState({isShowBg:"none"});
+			}
+			console.log(this.state)
+		}
+		this.perchange = (e) => {
+			//this.state.addressType=Boolean(!this.state.addressType);
+			this.setState({addressType:Boolean(!this.state.addressType)});
+			//this.setState({fptype:e.target.getAttribute("data-info")});
+			this.state.fptype=e.target.getAttribute("data-info");
+			if(e.target.getAttribute("data-info")=="comp"){
+				this.setState({isShowSm:"block"});
+			}else{
+				this.setState({isShowSm:"none"});
+			}
+			console.log(this.state);
+		}
+		this.getVal = (e) => {
+			//如果是单位发票,抬头不为空
+			if(this.state.fptype=="comp"&&this.refs.fptt.value.trim()==""){
+				this.setState({tipContent:"抬头不为空",display:"block"});
+			}
+			console.log(this.refs.fptt.value);
+		}
+	}
+	//toast
+    toastDisplay(state){  this.setState({display: state}); }
     render() {
         return (
             <div>
@@ -17,27 +88,27 @@ class SetBill extends Component {
 			              	<h3>
 			              		发票类型
 			              	</h3>
-			              	<div className="typediv">
-			              		<a data-info="">不需要</a>
-			               		<a data-info="" className="active">电子发票</a>
-			               		<a data-info="">纸质发票</a>
+			              	<div  className="typediv" onClick={this.getFptype.bind(this)}>
+			              		<a data-info="" className={this.state.initClass.has}>不需要</a>
+			               		<a data-info="ele">电子发票</a>
+			               		<a data-info="pap">纸质发票</a>
 			              	</div>
 		               </div>
-		               <div className="fptype1">
+		               <div className="fptype1" style={{display: this.state.isShowBg}}>
 			              	<h3>
 			              		发票抬头
 			              	</h3>
 			              	<div className="typediv1">
-			              		<a data-info="per"><span className="checked"></span><span>个人</span></a>
-			               		<a data-info="comp"><span className="unchecked"></span><span>单位</span></a>
-			               		<p><input type="text" id="fptt"/></p>
+			              		<a><span data-info="per" className={this.state.addressType ? 'checked' : 'unchecked'} onClick={this.perchange}></span><span>个人</span></a>
+			               		<a><span data-info="comp" className={!this.state.addressType ? 'checked' : 'unchecked'} onClick={this.perchange}></span><span>单位</span></a>
+			               		<p style={{display: this.state.isShowSm}}><input placeholder="单位名称" type="text" ref="fptt" /></p>
 			              	</div>
 		               </div>
 		               <div className="bootm">
-							<a className="confpinfo">确定</a>
+							<a className="confpinfo" onClick={this.getVal}>确定</a>
 						</div>
                     </div>
-               
+               		<Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} />
             </div>
         );
     }
