@@ -40,9 +40,8 @@
 }
 
 .orderClose .tanm {
+	display: inline-block;
 	width: 100%;
-	display: block;
-	height: 2.7rem;
 	background-color: #fff;
 	margin: .2rem 0 .1rem 0;
 	border-bottom: solid 1px #D2D2D2;
@@ -50,6 +49,7 @@
 
 .orderClose .tanm dl {
 	padding: 10px;
+	float: left;
 }
 
 .orderClose .tanm dl dt {
@@ -106,8 +106,10 @@
 
 .orderClose .liu {
 	background: #fff;
-	height: .8rem;
 	color: black;
+	width: 100%;
+    padding-bottom: .2rem;
+    float: left;
 }
 
 .orderClose .liu input {

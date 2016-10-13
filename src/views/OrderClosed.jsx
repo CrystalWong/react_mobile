@@ -22,7 +22,131 @@ class OrderClosed extends Component {
             	// couponUserList:"",
             	// goodsTotalFee:"",
             	// orderTotalFee:"",
-            	// storeVOList:"",
+            	 storeVOList: [
+        {
+            "storeId": "IMHZS2016080501290",
+            "payType": 1,
+            "goodsVOList": [
+                {
+                    "goodsId": "IMGDSKU2016081821082114400001",
+                    "groupId": "IMGDG2016081811592",
+                    "goodsName": "美的/Midea MK-TM1502电热水壶 防烫 自动断电",
+                    "goodsPrice": 115,
+                    "storePrice": 115,
+                    "discountedPrice": null,
+                    "goodsMainPhoto": "http://image1.jyall.com/v1/tfs/T1cf__BgJT1RXrhCrK.jpg",
+                    "paymentMethod": 1,
+                    "paymentMethodDesc": "全额",
+                    "count": 24,
+                    "enjoyedPromotionDesc": null,
+                    "payment": 2760,
+                    "actualPayment": null,
+                    "instalmentPayment": null,
+                    "bookCode": null,
+                    "bookCodeAccount": null,
+                    "industryId": null,
+                    "goodsChoiceType": 2,
+                    "isSend": "1",
+                    "storeVO": {
+                        "storeId": "IMHZS2016080501290",
+                        "storeName": "B-北京米扬方略科技发展有限公司",
+                        "storePhone": null
+                    },
+                    "promotionVO": null,
+                    "appointmentOrderId": null,
+                    "appointmentOrderList": null,
+                    "templateId": "IMFreightTemplateId201608050129000000",
+                    "goodsWeight": "0.0",
+                    "goodsVolume": "0.0",
+                    "spec": "",
+                    "partnerSkuId": "",
+                    "upScale": 1.8,
+                    "commissionBusinessId2": null,
+                    "activityId": null
+                }
+            ]
+        },
+        {
+            "storeId": "HZS201608120000000371",
+            "payType": 1,
+            "goodsVOList": [
+                {
+                    "goodsId": "GDSKU201610080000002062",
+                    "groupId": "GDG201610080000001112",
+                    "goodsName": "王萌用到的",
+                    "goodsPrice": 500,
+                    "storePrice": 1000,
+                    "discountedPrice": null,
+                    "goodsMainPhoto": "http://image1.jyall.com/v1/tfs/T1GzhTB4C_1RXrhCrK.jpg",
+                    "paymentMethod": 1,
+                    "paymentMethodDesc": "全额",
+                    "count": 2,
+                    "enjoyedPromotionDesc": null,
+                    "payment": 2000,
+                    "actualPayment": null,
+                    "instalmentPayment": null,
+                    "bookCode": null,
+                    "bookCodeAccount": null,
+                    "industryId": null,
+                    "goodsChoiceType": 2,
+                    "isSend": "1",
+                    "storeVO": {
+                        "storeId": "HZS201608120000000371",
+                        "storeName": "欧阳测试家电",
+                        "storePhone": null
+                    },
+                    "promotionVO": null,
+                    "appointmentOrderId": null,
+                    "appointmentOrderList": null,
+                    "templateId": "f86c22134ce34a05a1a4ae3d7e67276f",
+                    "goodsWeight": "12",
+                    "goodsVolume": "12",
+                    "spec": "",
+                    "partnerSkuId": "",
+                    "upScale": 1.03,
+                    "commissionBusinessId2": null,
+                    "activityId": null
+                },
+                {
+                    "goodsId": "GDSKU201610080000002063",
+                    "groupId": "GDG201610080000001113",
+                    "goodsName": "得分王",
+                    "goodsPrice": 500,
+                    "storePrice": 1500,
+                    "discountedPrice": null,
+                    "goodsMainPhoto": "http://image1.jyall.com/v1/tfs/T1jyLTBjCg1RXrhCrK.jpg",
+                    "paymentMethod": 1,
+                    "paymentMethodDesc": "全额",
+                    "count": 1,
+                    "enjoyedPromotionDesc": null,
+                    "payment": 1500,
+                    "actualPayment": null,
+                    "instalmentPayment": null,
+                    "bookCode": null,
+                    "bookCodeAccount": null,
+                    "industryId": null,
+                    "goodsChoiceType": 2,
+                    "isSend": "1",
+                    "storeVO": {
+                        "storeId": "HZS201608120000000371",
+                        "storeName": "欧阳测试家电",
+                        "storePhone": null
+                    },
+                    "promotionVO": null,
+                    "appointmentOrderId": null,
+                    "appointmentOrderList": null,
+                    "templateId": "f86c22134ce34a05a1a4ae3d7e67276f",
+                    "goodsWeight": "11",
+                    "goodsVolume": "11",
+                    "spec": "",
+                    "partnerSkuId": "",
+                    "upScale": 1.03,
+                    "commissionBusinessId2": null,
+                    "activityId": null
+                }
+            ]
+        }
+    ]
             	// totalShipFee:"ccc"
             },
             confirm: {
@@ -46,7 +170,7 @@ class OrderClosed extends Component {
                 body:JSON.stringify({"cartFlag":"1"}),
                 headers: headers,
                 successMethod: function(json){
-                    self.setState({data1:json});
+                    //self.setState({data1:json});
                     // for(let v of json.storeVOList){
                     // 	for(let l of v.goodsVOList){
                     // 		console.log(l);
