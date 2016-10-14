@@ -6,7 +6,7 @@ import store from './Config/Store';
 
 
 import './Style/common'; //加载公共样式
-import './Style/tip'; 
+import './Style/tip';
 import './Style/index';
 
 store.subscribe(function () {

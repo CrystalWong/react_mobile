@@ -24,7 +24,7 @@ body{background-image:none;}
 			border-top:1px solid #eee;height:.88rem;line-height:.88rem;padding:0 .2rem;font-size:.28rem;
 			.current{
 				background:url(../images/address/off.png) no-repeat left center;padding: .05rem 0 .05rem .45rem;background-size:.35rem .35rem;
-				&.on{background:url(../images/address/on.png) no-repeat;background-size:.35rem .35rem;}
+				&.on{background-image:url(../images/address/on.png);background-size:.35rem .35rem;}
 			}
 			.ao-edit{background:url(../images/address/edit.png) no-repeat left center;padding-left:.45rem;background-size:.32rem .32rem;float:right;margin-right:.3rem;}
 			.ao-del{background:url(../images/address/del.png) no-repeat left center;padding-left:.45rem;background-size:.32rem .32rem;float:right;}

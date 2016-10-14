@@ -16,15 +16,145 @@ import {OrderClosedList} from '../Component/orderClosedList';
 class OrderClosed extends Component {
 	    constructor(props) {
         super(props);
-        console.log('订单结算..');
         this.state = {
-            data1:{
-            	address:"",
-            	couponUserList:"",
-            	goodsTotalFee:"",
-            	orderTotalFee:"",
-            	storeVOList:"",
-            	totalShipFee:"ccc"
+            ajdata:{
+            	 address:{consigneeName:""},
+            	 totalShipFee:"",
+            	 goodsTotalFee:"",
+            	 orderTotalFee:"",
+            	// couponUserList:"",
+            	// goodsTotalFee:"",
+            	// orderTotalFee:"",
+            	 storeVOList: [
+        // {
+        //     "storeId": "IMHZS2016080501290",
+        //     "payType": 1,
+        //     "goodsVOList": [
+        //         {
+        //             "goodsId": "IMGDSKU2016081821082114400001",
+        //             "groupId": "IMGDG2016081811592",
+        //             "goodsName": "美的/Midea MK-TM1502电热水壶 防烫 自动断电",
+        //             "goodsPrice": 115,
+        //             "storePrice": 115,
+        //             "discountedPrice": null,
+        //             "goodsMainPhoto": "http://image1.jyall.com/v1/tfs/T1cf__BgJT1RXrhCrK.jpg",
+        //             "paymentMethod": 1,
+        //             "paymentMethodDesc": "全额",
+        //             "count": 24,
+        //             "enjoyedPromotionDesc": null,
+        //             "payment": 2760,
+        //             "actualPayment": null,
+        //             "instalmentPayment": null,
+        //             "bookCode": null,
+        //             "bookCodeAccount": null,
+        //             "industryId": null,
+        //             "goodsChoiceType": 2,
+        //             "isSend": "1",
+        //             "storeVO": {
+        //                 "storeId": "IMHZS2016080501290",
+        //                 "storeName": "B-北京米扬方略科技发展有限公司",
+        //                 "storePhone": null
+        //             },
+        //             "promotionVO": null,
+        //             "appointmentOrderId": null,
+        //             "appointmentOrderList": null,
+        //             "templateId": "IMFreightTemplateId201608050129000000",
+        //             "goodsWeight": "0.0",
+        //             "goodsVolume": "0.0",
+        //             "spec": "",
+        //             "partnerSkuId": "",
+        //             "upScale": 1.8,
+        //             "commissionBusinessId2": null,
+        //             "activityId": null
+        //         }
+        //     ]
+        // },
+        // {
+        //     "storeId": "HZS201608120000000371",
+        //     "payType": 1,
+        //     "goodsVOList": [
+        //         {
+        //             "goodsId": "GDSKU201610080000002062",
+        //             "groupId": "GDG201610080000001112",
+        //             "goodsName": "王萌用到的",
+        //             "goodsPrice": 500,
+        //             "storePrice": 1000,
+        //             "discountedPrice": null,
+        //             "goodsMainPhoto": "http://image1.jyall.com/v1/tfs/T1GzhTB4C_1RXrhCrK.jpg",
+        //             "paymentMethod": 1,
+        //             "paymentMethodDesc": "全额",
+        //             "count": 2,
+        //             "enjoyedPromotionDesc": null,
+        //             "payment": 2000,
+        //             "actualPayment": null,
+        //             "instalmentPayment": null,
+        //             "bookCode": null,
+        //             "bookCodeAccount": null,
+        //             "industryId": null,
+        //             "goodsChoiceType": 2,
+        //             "isSend": "1",
+        //             "storeVO": {
+        //                 "storeId": "HZS201608120000000371",
+        //                 "storeName": "欧阳测试家电",
+        //                 "storePhone": null
+        //             },
+        //             "promotionVO": null,
+        //             "appointmentOrderId": null,
+        //             "appointmentOrderList": null,
+        //             "templateId": "f86c22134ce34a05a1a4ae3d7e67276f",
+        //             "goodsWeight": "12",
+        //             "goodsVolume": "12",
+        //             "spec": "",
+        //             "partnerSkuId": "",
+        //             "upScale": 1.03,
+        //             "commissionBusinessId2": null,
+        //             "activityId": null
+        //         },
+        //         {
+        //             "goodsId": "GDSKU201610080000002063",
+        //             "groupId": "GDG201610080000001113",
+        //             "goodsName": "得分王",
+        //             "goodsPrice": 500,
+        //             "storePrice": 1500,
+        //             "discountedPrice": null,
+        //             "goodsMainPhoto": "http://image1.jyall.com/v1/tfs/T1jyLTBjCg1RXrhCrK.jpg",
+        //             "paymentMethod": 1,
+        //             "paymentMethodDesc": "全额",
+        //             "count": 1,
+        //             "enjoyedPromotionDesc": null,
+        //             "payment": 1500,
+        //             "actualPayment": null,
+        //             "instalmentPayment": null,
+        //             "bookCode": null,
+        //             "bookCodeAccount": null,
+        //             "industryId": null,
+        //             "goodsChoiceType": 2,
+        //             "isSend": "1",
+        //             "storeVO": {
+        //                 "storeId": "HZS201608120000000371",
+        //                 "storeName": "欧阳测试家电",
+        //                 "storePhone": null
+        //             },
+        //             "promotionVO": null,
+        //             "appointmentOrderId": null,
+        //             "appointmentOrderList": null,
+        //             "templateId": "f86c22134ce34a05a1a4ae3d7e67276f",
+        //             "goodsWeight": "11",
+        //             "goodsVolume": "11",
+        //             "spec": "",
+        //             "partnerSkuId": "",
+        //             "upScale": 1.03,
+        //             "commissionBusinessId2": null,
+        //             "activityId": null
+        //         }
+        //     ]
+        // }
+    ]
+            	// totalShipFee:"ccc"
+            },
+            isShow:{
+            	adOn:'none',
+            	adOff:'block'
             },
             confirm: {
             	title: "是否确认拨打此电话？",
@@ -41,43 +171,41 @@ class OrderClosed extends Component {
             }
         };
 			let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),self=this;
-			console.log(cookie.load('tokenid'));
             Tool.fetch(this,{
                 url: `${URLS.OrderClosed}`,
                 type: "post",
                 body:JSON.stringify({"cartFlag":"1"}),
                 headers: headers,
                 successMethod: function(json){
-                    console.log(json);
-                    //self.setState({data:json});
-                    console.log(self.state.data1);
-                    console.log(self.state.confirm.title);
-        			console.log('订单结算数据返回..');
-                    // for(let v of json.storeVOList){
-                    // 	for(let l of v.goodsVOList){
-                    // 		console.log(l);
-                    // 	}
-                    // }
+                	console.log(json);
+                    self.setState({ajdata:json});
+                    if(json.address==null||json.address==undefined||json.address==""){
+                    	self.state.isShow.adOn="block";
+                    	self.state.isShow.adOff="none";
+                    }
                 }
             });
         }
     
     render() {
+    	console.log('orderClose render........');
+    	console.log(this.state);
         return (
+
             <div>
             	<Header title="订单结算" leftIcon="fanhui" />
                 <div className="orderClose">
-                	<div className="address" onClick={()=>alert('您点击了新增收货地址')}>
+                	<div style={{display: this.state.isShow.adOn}} className="address" onClick={()=>alert('您点击了新增收货地址')}>
 						<img src="src/images/orderclosed/add@2x.png" alt="添加"/> 新增收货地址
 	                </div>
-	                <div className="address1">
+	                <div className="address1" style={{display: this.state.isShow.adOff}}>
 	                	<img src="src/images/orderclosed/address@2x.png"/>
 	                	<div className="adinfo">
-	                		<h3>张三&nbsp;15121345566</h3>
-	                		<span>地址：</span><span>北京市东城区广渠门外南街金色家园网大厦8-0-1sdsdsdsd</span>
+	                		<h3>{this.state.ajdata.address.consigneeName}&nbsp;{this.state.ajdata.address.consigneeMobile}</h3>
+	                		<span>地址：</span><span>{this.state.ajdata.address.detailInfo}</span>
 	                	</div>
 	                </div>
-				    <OrderClosedList {...this.state.data1}/>
+				    <OrderClosedList {...this.state.ajdata}/>
 					<dl className="line">
 						<dt>配送方式</dt>
 						<dd>快递</dd>
@@ -90,16 +218,16 @@ class OrderClosed extends Component {
 					<div className="jinediv">
 						<dl className="line jine">
 							<dt>商品总金额</dt>
-							<dd><span>¥98898</span></dd>
+							<dd><span>¥{this.state.ajdata.goodsTotalFee}</span></dd>
 						</dl>
 						<dl className="line jine">
 							<dt>运费</dt>
-							<dd><span>¥98898</span></dd>
+							<dd><span>¥{this.state.ajdata.totalShipFee}</span></dd>
 						</dl>
 					</div>
                 </div>
             	<div className="bootm">
-					<a className="heji">合计:<span>¥100000</span></a>
+					<a className="heji">合计:<span>¥{this.state.ajdata.orderTotalFee}</span></a>
 					<a className="subbtn" href="">提交订单</a>
 				</div>
 				<Confirm  {...this.state.confirm}/>
