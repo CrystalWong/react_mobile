@@ -12,12 +12,13 @@ import './Style/index';
 store.subscribe(function () {
     // console.log(store.getState());
 });
-
+let App = document.createElement('div')
+    App.className= "appwrap"
 render(
     <Provider store={store}>
         {route}
     </Provider>,
-    document.body.appendChild(document.createElement('div'))
+    document.body.appendChild(App)
 );
 
 module.hot.accept();
