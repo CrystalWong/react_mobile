@@ -33,5 +33,12 @@ export default {
 	//订单结算
 	OrderClosed:`${domain}/jyorder-center/v1/order/app/appSettlement`,
 	//提交订单
-	SubmitOrder:`${domain}/jyorder-center/v1/order/app/submitOrder`
+	SubmitOrder:`${domain}/jyorder-center/v1/order/app/submitOrder`,
+	//预约单
+	APPOINTMENTLIST:`${domain}/jyall-workflowV2/v1/orderquery/pageorder/user`,
+	//四级地址  http://10.10.32.46/swagger/index.html#!
+	PROVINCE: `${domain}/common-city/v1/province/queryAllProvinces`,  //?containChilds=false
+	CITY: `${domain}/common-city/v1/city/queryCitys/`, //130000000
+	COUNTRY: `${domain}/common-city/v1/country/queryCountrysByCityId/`,
+	XZ: `${domain}/common-city/v1/xz/getXzsByCountyId/`
 };

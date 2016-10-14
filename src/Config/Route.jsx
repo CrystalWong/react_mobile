@@ -14,6 +14,7 @@ import SetBill from '../views/SetBill'; //设置发票信息
 import {Tool, merged} from '../Tool';
 import Address from '../views/Address'; //收货地址
 import AddressAdd from '../views/Address_add'; //新增收货地址
+import Appointment from '../views/Appointment'; //预约单
 
 
 /**
@@ -45,6 +46,7 @@ const RouteConfig = (
             <Route path="setbill" component={SetBill} />
             <Route path="address" component={Address} />
             <Route path="address-add" component={AddressAdd} />
+            <Route path="appointment" component={Appointment} />
         </Route>
     </Router>
 );

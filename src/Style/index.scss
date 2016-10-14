@@ -2,6 +2,9 @@
 body{
 	background:url(../images/common/back-logo.png) no-repeat #eee center bottom;font-size:.28rem;background-size:52% auto;
 }
+.appwrap{
+	height: 100%;
+}
 /**  头部样式  **/
 .common-header{
 	position: fixed;
@@ -121,3 +124,71 @@ body{
 	}
 } 
 /**  登录页面样式  **/
+
+
+/******* 城市选择 *********/
+.cascade-select{
+	/*display: none;*/
+	position: fixed;
+	z-index: 12;
+	background: #fff;
+	width: 100%;
+	height: 8rem;
+	bottom: 0;
+	-webkit-transform: translate3d(0,100%,0);
+    transform: translate3d(0,100%,0);
+    transition: transform 1s;
+    -webkit-transition: -webkit-transform 1s; /* Safari 和 Chrome */
+    line-height: 1;
+}
+.cascade-select header{
+	margin-top: .38rem;
+	padding-bottom: .46rem;
+	text-align: center;
+	font-size: .3rem;
+}
+.cascade-select header span{
+    display: inline-block;
+    margin-top: -.2rem;
+    padding-right: 0rem;
+    /* margin-top: 5px; */
+    float: right;
+    margin-right: 5px;
+    /* vertical-align: middle; */
+    width: .6rem;
+    height: .6rem;
+    line-height: 1;
+    font-size: .6rem;
+    font-weight: 100;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    color: #999999;
+}
+.cascade-select .select-value{
+	padding: 0 0 .12rem .2rem;
+	border-bottom: 1px solid #e6e6e6;
+	width: 100%;
+	font-size: .28rem;
+}
+.cascade-select .select-value span{
+	margin-right: .2rem;
+}
+.cascade-select .select-scroll{height: 6.46rem;overflow: auto;}
+.cascade-select .select-scroll ul{
+	width: 100%;
+}
+.cascade-select .select-scroll ul li{
+	padding-left: .2rem;
+	height: .8rem;
+	text-align: left;
+	line-height: .8rem;
+	color: #333333;
+}
+.cascade-select .select-scroll li.select{
+	margin-right: .2rem;
+	color: #ff6600;
+	background: url(../images/common/list-select.png) no-repeat right center;
+	background-size: .3rem auto;
+}
+
+/******* 城市选择 *********/
