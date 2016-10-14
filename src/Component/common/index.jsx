@@ -122,31 +122,34 @@ export class AddressSelect extends Component {
         });
     }
 
-    getCity(id){
+    getCity(id,select){
+        if(select != 0){id = this.state.provinceId;}
         let self = this;
         Tool.fetch(this,{
             url: `${URLS.CITY}${id}`,
             type: "get",
             headers: COMMON_HEADERS,
             successMethod: function(json){
-                self.setState({index: 0,list: json,status: 1,city: ""});
+                self.setState({index: 0,list: json,status: 1,city: "",country: "",xz:""});
             }
         });
     }
 
-    getCountry(id){
+    getCountry(id,select){
+        if(select != 0){id = this.state.cityId;}
         let self = this;
         Tool.fetch(this,{
             url: `${URLS.COUNTRY}${id}`,
             type: "get",
             headers: COMMON_HEADERS,
             successMethod: function(json){
-                self.setState({index: 0,list: json,status: 2,country: ""});
+                self.setState({index: 0,list: json,status: 2,country: "",xz:""});
             }
         });
     }   
 
-    getXz(id){
+    getXz(id,select){
+        if(select != 0){id = this.state.xzId;}
         let self = this;
         Tool.fetch(this,{
             url: `${URLS.XZ}${id}`,
@@ -162,16 +165,16 @@ export class AddressSelect extends Component {
         if(data.status == 0){
             this.refs.province.innerText = data.name;
             this.setState({province: data.name,provinceId: data.id,select: "",index: data.index});
-            this.getCity(data.id);
+            this.getCity(data.id,0);
         }else if(data.status == 1){
             this.refs.city.innerText = data.name;
             this.setState({city: data.name,cityId: data.id,index: data.index});
-            this.getCountry(data.id);
+            this.getCountry(data.id,0);
             console.log(this.state.provinceId);
         }else if(data.status == 2){
             this.refs.country.innerText = data.name;
             this.setState({country: data.name,countryId: data.id,index: data.index});
-            this.getXz(data.id);
+            this.getXz(data.id,0);
         }else if(data.status == 3){
             this.refs.xz.innerText = data.name;
             this.setState({xz: data.name,xzId: data.id,index: data.index});
