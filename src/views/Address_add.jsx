@@ -1,5 +1,5 @@
 import React,{Component,PropTypes} from 'react';
-import {Header} from '../Component/common/index';
+import {Header,AddressSelect} from '../Component/common/index';
 import {Toast} from '../Component/common/Tip';
 import {Tool, merged} from '../Tool';
 import '../Style/address';
@@ -9,7 +9,12 @@ class AddressAdd extends Component {
 		super(props);
 		this.state = {
 			tipContent: '',
-            display: ''
+            display: '',
+            addressSelectStyle: "100%",
+            provinceId: "",
+            cityId: "",
+            countryId: "",
+            xzId: ""
 		};
 
 		this.saveAddress = () => {
@@ -49,6 +54,28 @@ class AddressAdd extends Component {
 	//toast
     toastDisplay(state){this.setState({display: state}); }
 
+    addressSelect(){
+    	this.setState({addressSelectStyle: "0"});
+    }
+
+    closeAddress(){
+    	this.setState({addressSelectStyle: "100%"});
+    }
+
+    addressResult(data){//获取四级地址结果
+    	console.log(data);
+    	this.setState({
+    		addressSelectStyle: "100%",
+            provinceId: data.provinceId,
+            cityId: data.cityId,
+            countryId: data.countryId,
+            xzId: data.xzId
+    	});
+    }
+    // componentDidUpdate(){
+    // 	console.log(this.state);
+    // }
+
 	render(){
 		return(
 			<div>
@@ -56,12 +83,14 @@ class AddressAdd extends Component {
 				<ul className="address-form">
 					<li><label>收货人：</label><blockquote><input type="text" ref="name"/></blockquote></li>
 					<li><label>联系方式：</label><blockquote><input type="text" ref="contact"/></blockquote></li>
-					<li><label>所在地区：</label><blockquote className="area-box"><input type="text" ref="area"/></blockquote></li>
+					<li><label>所在地区：</label><blockquote className="area-box"><input type="text" ref="area" readOnly="readonly" onClick={this.addressSelect.bind(this)} /></blockquote></li>
 					<li><label>详细地址：</label><blockquote><input type="text" ref="address" placeholder="街道、楼牌号等"/></blockquote></li>
 					<li><label>设为默认地址<p>注：设为默认后，下单时会使用该地址</p></label><blockquote className="pub_switch_box"><input type="checkbox" id="pub_switch_a1" className="pub_switch" ref="current" /><label htmlFor="pub_switch_a1"></label></blockquote></li>
 				</ul>
 				<a href="javascript:void(0)" className="add-address-btn" onClick={this.saveAddress.bind(this)}>保存并使用</a>
 				<Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} />
+				<AddressSelect _style={this.state.addressSelectStyle} close = {this.closeAddress.bind(this)} addressResult={this.addressResult.bind(this)} />
+				<div className="mask" style={{display: this.state.addressSelectStyle=="0"?"block":"none"}}></div>
 			</div>
 		)
 	}
