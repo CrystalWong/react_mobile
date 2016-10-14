@@ -31,5 +31,7 @@ export default {
 	//家园豆
 	bean : `${domain}/jysales-api/v1/coupon/getUserCouponAndBeanInfo`,
 	//订单结算
-	OrderClosed:`${domain}/jyorder-center/v1/order/app/appSettlement`
+	OrderClosed:`${domain}/jyorder-center/v1/order/app/appSettlement`,
+	//提交订单
+	SubmitOrder:`${domain}/jyorder-center/v1/order/app/submitOrder`
 };

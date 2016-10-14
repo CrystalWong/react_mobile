@@ -3,6 +3,7 @@ import {Header} from '../Component/common/index';
 import '../Style/setbill';
 import Cookie from 'react-cookie';
 import {Toast,Confirm} from '../Component/common/Tip';
+import {OrderClosed} from './OrderClosed';
 /**
  * 模块入口
  * 
@@ -14,7 +15,8 @@ class SetBill extends Component {
 		super(props);
 		this.state = {
 			addressType:true,
-			fptype:"per",
+			fptype:"",
+			fptype1:"",
 			initClass:{
 				has:"active",
 				noHas:""
@@ -22,7 +24,8 @@ class SetBill extends Component {
 			tipContent:"",
 			isShowBg:"none",
 			isShowSm:"none",
-			display:"none"
+			display:"none",
+			fptt:""
 		};
 		function siblings(o) {
 		    var a = [];
@@ -61,7 +64,7 @@ class SetBill extends Component {
 			//this.state.addressType=Boolean(!this.state.addressType);
 			this.setState({addressType:Boolean(!this.state.addressType)});
 			//this.setState({fptype:e.target.getAttribute("data-info")});
-			this.state.fptype=e.target.getAttribute("data-info");
+			this.state.fptype1=e.target.getAttribute("data-info");
 			if(e.target.getAttribute("data-info")=="comp"){
 				this.setState({isShowSm:"block"});
 			}else{
@@ -73,8 +76,13 @@ class SetBill extends Component {
 			//如果是单位发票,抬头不为空
 			if(this.state.fptype=="comp"&&this.refs.fptt.value.trim()==""){
 				this.setState({tipContent:"抬头不为空",display:"block"});
+			}else{
+				this.setState({tipContent:"",display:"none"});
+				this.setState({fptt:this.refs.fptt.value.trim()});
+				location.href="/orderclosed?fptype="+this.state.fptype+"&fptype1="+this.state.fptype1+"&fptt="+encodeURIComponent(this.refs.fptt.value.trim())
 			}
-			console.log(this.refs.fptt.value);
+			console.log(this.state);
+			
 		}
 	}
 	//toast
@@ -90,8 +98,8 @@ class SetBill extends Component {
 			              	</h3>
 			              	<div  className="typediv" onClick={this.getFptype.bind(this)}>
 			              		<a data-info="" className={this.state.initClass.has}>不需要</a>
-			               		<a data-info="ele">电子发票</a>
-			               		<a data-info="pap">纸质发票</a>
+			               		<a data-info="0">电子发票</a>
+			               		<a data-info="1">纸质发票</a>
 			              	</div>
 		               </div>
 		               <div className="fptype1" style={{display: this.state.isShowBg}}>
@@ -113,5 +121,5 @@ class SetBill extends Component {
         );
     }
 }
-
+console.log(OrderClosed);
 export default SetBill;
