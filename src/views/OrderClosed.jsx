@@ -61,76 +61,76 @@ class OrderClosed extends Component {
                 headers: headers,
                 successMethod: function(json){
                 	json={
-    "storeVOList": [
-        {
-            "storeId": "IMHZS2016080502804",
-            "payType": 1,
-            "goodsVOList": [
-                {
-                    "goodsId": "GDSKU201610100000002071",
-                    "groupId": "GDG201610100000001120",
-                    "goodsName": "单个商品上下架",
-                    "goodsPrice": 5,
-                    "storePrice": 5,
-                    "discountedPrice": null,
-                    "goodsMainPhoto": "http://image1.jyall.com/v1/tfs/T1pabTBghv1RXrhCrK.jpg",
-                    "paymentMethod": 1,
-                    "paymentMethodDesc": "全额",
-                    "count": 1,
-                    "enjoyedPromotionDesc": null,
-                    "payment": 5,
-                    "actualPayment": null,
-                    "instalmentPayment": null,
-                    "bookCode": null,
-                    "bookCodeAccount": null,
-                    "industryId": null,
-                    "goodsChoiceType": 2,
-                    "isSend": "1",
-                    "storeVO": {
-                        "storeId": "IMHZS2016080502804",
-                        "storeName": "X-小狗电器（北京）有限公司",
-                        "storePhone": null
-                    },
-                    "promotionVO": null,
-                    "appointmentOrderId": null,
-                    "appointmentOrderList": null,
-                    "templateId": "af1d3c2cb5714fab82c9c1a623f0983c",
-                    "goodsWeight": "",
-                    "goodsVolume": "",
-                    "spec": "",
-                    "partnerSkuId": "",
-                    "upScale": 1.03,
-                    "commissionBusinessId2": null,
-                    "activityId": null,
-                    "cooperationMode": 0
-                }
-            ]
-        }
-    ],
-    "totalShipFee": 5,
-    "address": {
-        "id": "1300c98ebf634b83a91215000c78224e",
-        "provinceId": "1003",
-        "cityId": "10003",
-        "countyId": "100043",
-        "townId": "116971",
-        "areaId": null,
-        "detailInfo": "sdfsdfsdf",
-        "consigneeTelephone": null,
-        "consigneeMobile": "15001191549",
-        "consigneeName": "sdfs",
-        "zip": null,
-        "memberId": "HYS000705",
-        "memberUsername": "HYS15810341mq",
-        "type": 1,
-        "status": null,
-        "createTime": 1476288000000,
-        "locationInfo": null
-    },
-    "orderTotalFee": 10,
-    "couponUserList": [],
-    "goodsTotalFee": 5
-}
+                        "storeVOList": [
+                            {
+                                "storeId": "IMHZS2016080502804",
+                                "payType": 1,
+                                "goodsVOList": [
+                                    {
+                                        "goodsId": "GDSKU201610100000002071",
+                                        "groupId": "GDG201610100000001120",
+                                        "goodsName": "单个商品上下架",
+                                        "goodsPrice": 5,
+                                        "storePrice": 5,
+                                        "discountedPrice": null,
+                                        "goodsMainPhoto": "http://image1.jyall.com/v1/tfs/T1pabTBghv1RXrhCrK.jpg",
+                                        "paymentMethod": 1,
+                                        "paymentMethodDesc": "全额",
+                                        "count": 1,
+                                        "enjoyedPromotionDesc": null,
+                                        "payment": 5,
+                                        "actualPayment": null,
+                                        "instalmentPayment": null,
+                                        "bookCode": null,
+                                        "bookCodeAccount": null,
+                                        "industryId": null,
+                                        "goodsChoiceType": 2,
+                                        "isSend": "1",
+                                        "storeVO": {
+                                            "storeId": "IMHZS2016080502804",
+                                            "storeName": "X-小狗电器（北京）有限公司",
+                                            "storePhone": null
+                                        },
+                                        "promotionVO": null,
+                                        "appointmentOrderId": null,
+                                        "appointmentOrderList": null,
+                                        "templateId": "af1d3c2cb5714fab82c9c1a623f0983c",
+                                        "goodsWeight": "",
+                                        "goodsVolume": "",
+                                        "spec": "",
+                                        "partnerSkuId": "",
+                                        "upScale": 1.03,
+                                        "commissionBusinessId2": null,
+                                        "activityId": null,
+                                        "cooperationMode": 0
+                                    }
+                                ]
+                            }
+                        ],
+                        "totalShipFee": 5,
+                        "address": {
+                            "id": "1300c98ebf634b83a91215000c78224e",
+                            "provinceId": "1003",
+                            "cityId": "10003",
+                            "countyId": "100043",
+                            "townId": "116971",
+                            "areaId": null,
+                            "detailInfo": "sdfsdfsdf",
+                            "consigneeTelephone": null,
+                            "consigneeMobile": "15001191549",
+                            "consigneeName": "sdfs",
+                            "zip": null,
+                            "memberId": "HYS000705",
+                            "memberUsername": "HYS15810341mq",
+                            "type": 1,
+                            "status": null,
+                            "createTime": 1476288000000,
+                            "locationInfo": null
+                        },
+                        "orderTotalFee": 10,
+                        "couponUserList": [],
+                        "goodsTotalFee": 5
+                    }
                     self.setState({ajdata:json});
                     if(json.address==null||json.address==undefined||json.address==""){
                     	self.state.isShow.adOn="block";

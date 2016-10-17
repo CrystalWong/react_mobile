@@ -62,52 +62,65 @@
     font-size: .20rem;
     border-radius: .2rem;
 }
+.order-detail .line {
+    height: .8rem;
+    width: 100%;
+    margin: .25rem 0 0 0;
+    background-color: #fff;
+    line-height: .4rem;
+    padding: .2rem .1rem .1rem .2rem;
+}
 
-.product {
-    background: #FFFFFF;
-    position: relative;
-    margin-top: .2rem;
-}
-.product ul li {
-    height: 2rem;
-    border-bottom: 1px solid #ccc;
-}
-.product ul li div:nth-child(1) {
-    width: 1.77rem;
-    height: 2rem;
-    text-align: center;
-}
-.product ul li div:nth-child(1) span {
-    height: 100%;
+.order-detail .line dt {
     display: inline-block;
-    vertical-align: middle;
+    width: 20%;
 }
-.product ul li div:nth-child(1) img {
-    width: 1.37rem;
-    height: 1.35rem;
-    vertical-align: middle;
-}
-.product ul li div:nth-child(2) {
-    width: 4rem;
-    height: 2rem;
-    position: absolute;
-    top: .3rem;
-    left: 1.8rem;
-}
-.product ul li div:nth-child(2) p {
-    color: #B5B5B5;
-}
-.product ul li div:nth-child(3) {
-    width: 2rem;
-    position: absolute;
-    top: .3rem;
-    right: .2rem;
-}
-.product ul li div:nth-child(3) span {
-    display: block;
+
+.order-detail .line dd {
+    display: inline-block;
+    width: 75%;
     text-align: right;
-    font-size: .28rem;
 }
-.product ul li div:nth-child(3) span:nth-child(1) {
-    color: #CD0000;
+
+.order-detail .fp {
+}
+
+.order-detail .fp dt {
+    display: inline-block;
+    width: 20%;
+}
+
+.order-detail .fp dd {
+    display: inline-block;
+    width: 75%;
+    text-align: right;
+}
+
+.order-detail .fp img {
+    vertical-align: middle;
+    margin: 0rem 0 0rem .13rem;
+    height: .4rem;
+}
+
+.order-detail .fp span {
+    vertical-align: middle;
+}
+.orderClose {
+    font-size: .28rem;
+    padding-bottom: 0rem;
+    padding-top: 0rem;
+}
+.order-detail .jinediv .jine {
+    margin: 0;
+}
+.order-detail .jinediv dl {
+    height: .6rem;
+    padding: .1rem .1rem .1rem .2rem;
+}
+.order-detail .jinediv .jine span {
+    color: #ce0000;
+}
+
+.order-detail .jinediv {
+    margin-top: .25rem;
 }
