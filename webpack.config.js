@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin'); //css单独打包
 var HtmlWebpackPlugin = require('html-webpack-plugin'); //生成html
+var WebpackStripLoader = require('strip-loader');
 
 var publicPath = '/'; //服务器路径
 var path = __dirname + '/';
@@ -30,6 +31,20 @@ plugins.push(new HtmlWebpackPlugin({ //根据模板插入css/js等生成最终H
 plugins.push(new webpack.optimize.OccurenceOrderPlugin());
 plugins.push(new webpack.HotModuleReplacementPlugin());
 plugins.push(new webpack.NoErrorsPlugin());
+plugins.push(new webpack.optimize.UglifyJsPlugin({
+      output: {
+        comments: false,  // remove all comments
+      },
+      compress: {
+        warnings: false
+      }
+    }));
+plugins.push(new webpack.DefinePlugin({
+      'process.env': {
+          NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      },
+    }));
+
         
 
 module.exports = {
@@ -76,9 +91,14 @@ module.exports = {
             },
              {
                 test: /\.jsx$/,
-                // exclude: /^node_modules$/,
+                exclude: /^node_modules$/,
                 loaders: ['react-hot','babel?presets[]=es2015,presets[]=react']
             },
+            {  
+               test: [/\.js$/, /\.es6$/],
+               exclude: /node_modules/,
+               loader: WebpackStripLoader.loader('console.log')
+            }
             //{test:/\.jsx$/, loaders: ["react-hot-loader", "babel-loader?stage=0"]}
         ]
     },

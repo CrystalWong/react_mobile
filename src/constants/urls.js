@@ -24,8 +24,6 @@ export default {
 	SELECTITEM: `${domain}/jygoods-api/v1/jycart/selectItem/`,
 	//取消选择购物项
 	CONCELITEM: `${domain}/jygoods-api/v1/jycart/cancelItem/`,
-	//下载地址
-	Download : 'https://itunes.apple.com/cn/app/jin-se-jia-yuan-wang/id1033724221?mt=8',
 	//收货地址
 	Address : `${domain}/user-manage/v1/address`,
 	//家园豆
