@@ -24,7 +24,7 @@ body{background-image:none;}
 			border-top:1px solid #eee;height:.88rem;line-height:.88rem;padding:0 .2rem;font-size:.28rem;
 			.current{
 				background:url(../images/address/off.png) no-repeat left center;padding: .05rem 0 .05rem .45rem;background-size:.35rem .35rem;
-				&.on{background:url(../images/address/on.png) no-repeat;background-size:.35rem .35rem;}
+				&.on{background-image:url(../images/address/on.png);background-size:.35rem .35rem;}
 			}
 			.ao-edit{background:url(../images/address/edit.png) no-repeat left center;padding-left:.45rem;background-size:.32rem .32rem;float:right;margin-right:.3rem;}
 			.ao-del{background:url(../images/address/del.png) no-repeat left center;padding-left:.45rem;background-size:.32rem .32rem;float:right;}
@@ -56,7 +56,7 @@ body{background-image:none;}
 .pub_switch { display: none;}
 .pub_switch + label {display: inline-block;position: relative;width: .9rem;height: .46rem;background-color: #e1e1e1;border-radius: .2rem;-webkit-transition: all 0.1s ease-in;transition: all 0.1s ease-in;float:right;}
 .pub_switch  + label:after {content: ' ';position: absolute;top: 0;width: 100%;height: 100%;-webkit-transition: box-shadow 0.1s ease-in;transition: box-shadow 0.1s ease-in;left: 0;border-radius: 100px;box-shadow: inset 0 0 0 0 #eee, 0 0 1px rgba(0,0,0,0.4);}
-.pub_switch  + label:before {content: ' ';position: absolute;top: 0px;left: 1px;z-index: 999999;width: .46rem;height:.46rem;-webkit-transition: all 0.1s ease-in;transition: all 0.1s ease-in;border-radius: 100px;box-shadow: 0 3px 1px rgba(0,0,0,0.05), 0 0px 1px rgba(0,0,0,0.3);background: white;}
+.pub_switch  + label:before {content: ' ';position: absolute;top: 0px;left: 1px;z-index: 1;width: .46rem;height:.46rem;-webkit-transition: all 0.1s ease-in;transition: all 0.1s ease-in;border-radius: 100px;box-shadow: 0 3px 1px rgba(0,0,0,0.05), 0 0px 1px rgba(0,0,0,0.3);background: white;}
 .pub_switch:active + label:after {box-shadow: inset 0 0 0 .2rem #eee, 0 0 1px #eee;}
 .pub_switch:active + label:before {width: .46rem;}
 .pub_switch:checked:active + label:before {width: .46rem;left: .2rem;}	
