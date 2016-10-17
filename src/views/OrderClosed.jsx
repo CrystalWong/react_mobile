@@ -36,8 +36,8 @@ class OrderClosed extends Component {
             	 storeVOList: []
             },
             isShow:{
-            	adOn:'none',
-            	adOff:'block'
+            	adOn:'block',
+            	adOff:'none'
             },
             confirm: {
             	title: "是否确认拨打此电话？",
@@ -108,7 +108,25 @@ class OrderClosed extends Component {
         }
     ],
     "totalShipFee": 5,
-    "address": null,
+    "address": {
+        "id": "1300c98ebf634b83a91215000c78224e",
+        "provinceId": "1003",
+        "cityId": "10003",
+        "countyId": "100043",
+        "townId": "116971",
+        "areaId": null,
+        "detailInfo": "sdfsdfsdf",
+        "consigneeTelephone": null,
+        "consigneeMobile": "15001191549",
+        "consigneeName": "sdfs",
+        "zip": null,
+        "memberId": "HYS000705",
+        "memberUsername": "HYS15810341mq",
+        "type": 1,
+        "status": null,
+        "createTime": 1476288000000,
+        "locationInfo": null
+    },
     "orderTotalFee": 10,
     "couponUserList": [],
     "goodsTotalFee": 5
