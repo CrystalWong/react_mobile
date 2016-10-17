@@ -29,12 +29,12 @@ class Appointment extends Component {
           this.state = {
                // userId : Cookie.load('userId'),
                pageNo : 1,
-               pageSize : 10,
-               // button:'联系他',
-               // genero:'您的专属管家：',
-               // address:'',
-               // time:'',
-               // remarks:'',
+               pageSize : 3,
+               more:'上拉加载更多',
+               nextPage: false, //下一页控制器
+               scrollNoData: false, //分页没有数据
+               y:'',
+               display: '',
                nolist : 'none',
                dataList : []
 
@@ -50,7 +50,13 @@ class Appointment extends Component {
                          if(!json.code){//登录成功
                               //json
                               console.log("json");
-                              console.log(json,json.length);
+                              console.log(json,json.length,_this.state.pageSize);
+                              if(json.length>0&&json.length<=_this.state.pageSize){
+                                   _this.state.scrollNoData = false;
+                              }else{
+
+                                   _this.state.scrollNoData = true;
+                              }
                               _this.setState({
                                    dataList : json,
                                    nolist : json.length > 0 ? 'none' : 'block'
@@ -67,33 +73,132 @@ class Appointment extends Component {
                });
 
           }
-     }
 
+           this.getAppointmentMoreList = () => {
+               let _this = this,
+                    headers = COMMON_HEADERS('tokenid', Cookie.load("tokenid"));
+               Tool.fetch(this,{
+                    url: URLS.APPOINTMENTLIST+"?pageSize="+this.state.pageSize+"&pageNo="+this.state.pageNo,// + this.state.userId,
+                    type: "get",
+                    headers:headers,
+                    successMethod: function(json){
+                         if(!json.code){//登录成功
+                              //json
+                              console.log("json");
+                              console.log(json,json.length,_this.state.pageSize);
+
+                              if(json.length>0&&json.length==_this.state.pageSize){
+                                   _this.state.scrollNoData = false;
+                                   _this.state.more="上拉加载更多";
+                                   _this.setState({
+                                        dataList : _this.state.dataList.concat(json),
+                                        nolist : json.length > 0 ? 'none' : 'block'
+                                   });
+
+                              }else if(json.length>0&&json.length<_this.state.pageSize){
+                                   _this.state.scrollNoData = true;
+                                   _this.state.more="";
+                                   _this.setState({
+                                        dataList : _this.state.dataList.concat(json),
+                                        nolist : json.length > 0 ? 'none' : 'block'
+                                   });
+                              }else{
+                                   _this.state.more="";
+                                   _this.state.scrollNoData = true;
+                              }
+                             
+                         }else{
+                              // dataList
+                              _this.setState({ tipContent: json.message,display: 'toasts' });
+                              setTimeout(function(){
+                                   Tool.history.push('/');
+                              },2000);
+                         }
+                    },
+
+               });
+
+          }
+     }
+     // let this=this;
      toastDisplay(state){
         this.setState({
           display: state
         });
      }
 
-     onScrollEnd(){
+     onScrollEnd(iScrollInstance){
+          console.log(this,iScrollInstance);
+          console.log(this.state);
           console.log("iScroll end scrolling")
+          let yScroll = iScrollInstance.y;
+
+       console.log("vertical position:" + yScroll);
+       console.log("this.state.nextPage:" + this.state.nextPage);
+       console.log(this.state.scrollNoData);
+
+       if(this.state.scrollNoData){return;}
+          console.log(iScrollInstance.maxScrollY,iScrollInstance.startY);
+          if((iScrollInstance.maxScrollY < 0 && Math.abs(iScrollInstance.startY) - Math.abs(iScrollInstance.maxScrollY) > 30) || (iScrollInstance.maxScrollY > 0 && iScrollInstance.directionY == 1 && iScrollInstance.distY > 30)){
+              //if(this.state.noPage)return;
+              this.state.more = "刷新成功";
+              this.setState({
+               display: this.state
+             });
+              this.state.nextPage = true;
+              console.log("______________________this.state.nextPage: "+this.state.nextPage);
+          }else {
+              this.state.more="上拉加载更多";
+              this.state.nextPage = false;
+          }
+          this.setState({
+               display: this.state
+             });
+          if(this.state.nextPage){
+              this.state.pageNo = this.state.pageNo;
+              
+              // this.state.collection.fetch({url: this.state.currentListUrl,data: this.state.currentUrlCondition,reset: true,success:function(){
+               // this.state.more = "松开刷新";
+               this.state.pageNo++;
+               this.getAppointmentMoreList();
+               console.log(this.state.pageNo);
+              // }});
+          }
      }
-     onScrollStart(){
-          console.log("iScroll starts scrolling")
+
+     onScrollStart(iScrollInstance){
+     // let yScroll = iScrollInstance.y;
+
+     //   console.log("vertical position:" + yScroll);
+     //      // if((iScrollInstance.maxScrollY < 0 && Math.abs(iScrollInstance.startY) - Math.abs(iScrollInstance.maxScrollY) > 30) || (iScrollInstance.maxScrollY > 0 && iScrollInstance.directionY == 1 && iScrollInstance.distY > 30)){
+
+          
+     //      this.state.more = "松开刷新";
+     //           this.setState({
+     //               display: this.state
+     //           });
+     //      // }
+     }
+
+     onRefresh(iScrollInstance,state) {
+       let yScroll = iScrollInstance.y;
+
+       console.log("onRefresh vertical position:" + yScroll)
+
      }
 
 
      //渲染完成之后再执行
      //componentDidMount(){
      componentWillMount(){
-          this.getAppointmentList();
+          this.getAppointmentMoreList();
      }
 
      render() {
          this.props = {
               options: {
-                  // mouseWheel: true,
-                  // scrollbars: true
+                  mouseWheel: true,
+                  scrollbars: true
               }
           } 
         return (
@@ -102,8 +207,9 @@ class Appointment extends Component {
                 <div className="listbox">
                      <ReactIScroll iScroll={iScroll}
                               options={this.props.options}
-                           onScrollStart={this.onScrollStart}
-                           onScrollEnd={this.onScrollEnd}>
+                               onRefresh={this.onRefresh.bind(this)}
+                           onScrollStart={this.onScrollStart.bind(this)}
+                           onScrollEnd={this.onScrollEnd.bind(this)}>
                      <div className="appointmentbox" >
                      
                          {
@@ -111,9 +217,11 @@ class Appointment extends Component {
                                    <OrderList key={index}{...item} />
                               )
                          }
+                     <div id="pullUp" className="pull-up" display={this.state.display}><span id="pull_up_label">{this.state.more}</span></div>
                      </div>
                      </ReactIScroll>
                 </div>
+                
                 <NoList display={this.state.nolist} />
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} />
             </div>
@@ -146,6 +254,8 @@ var OrderList = React.createClass({
           );
      }
 });
+
+
 
 var NoList = React.createClass({
   render: function() {
