@@ -1,4 +1,5 @@
 import React,{Component,PropTypes} from 'react';
+import { connect } from 'react-redux';
 import Cookie from 'react-cookie';
 import URLS from '../constants/urls.js';
 import {Header} from '../Component/common/index';
@@ -7,6 +8,7 @@ import {Tool, merged} from '../Tool';
 import {Toast,Confirm} from '../Component/common/Tip';
 import {COMMON_HEADERS_POST} from '../constants/headers';
 import '../Style/address';
+import {address} from '../Action/Address';
 
 class Address extends Component {
 	constructor(props){
@@ -93,14 +95,33 @@ class Address extends Component {
 		})
 	}
 
+	goBack(){
+
+		console.log(1111111111111111111);
+		this.context.router.goBack();
+		console.log(22222222222222);
+	}
+
 	render(){
+		function mapStateToProps(state,ownProps) {
+		  return {
+		    address: state.address
+		  };
+		}
+		function mapDispatchToProps(dispatch) {  
+		  return {
+		    saveAddressInfo: (user) => dispatch(address(user))
+		  };
+		}
+
+		let AddressItemConnect = connect(mapStateToProps,mapDispatchToProps)(AddressItem);
 		return(
 			<div>
 				<Header title="管理收货地址" leftIcon="fanhui" />
 				<ul className="address-list">
 					{
 						this.state.addressMsg.map((item,index) => 
-							<AddressItem key={index}{...item} flag={this.state.flag} callbackDefault={this.onChildDefault.bind(this)}  callbackDel={this.callbackDel.bind(this)} />
+							<AddressItemConnect key={index}{...item} flag={this.state.flag} callbackDefault={this.onChildDefault.bind(this)}  callbackDel={this.callbackDel.bind(this)} goBack={this.goBack.bind(this)}/>
 						)
 					}
 				</ul>
@@ -124,5 +145,7 @@ var Nolist = React.createClass({
 	}
 });
 
-
+Address.contextTypes = {
+    router: React.PropTypes.object.isRequired
+}
 export default Address;
