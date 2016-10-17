@@ -158,9 +158,13 @@ export class AddressSelect extends Component {
             this.setState({xz: data.name,xzId: data.id,index: data.index});
             this.props.addressResult({
                 provinceId: this.state.provinceId,
+                province: this.state.province,
                 cityId: this.state.cityId,
+                city: this.state.city,
                 countryId: this.state.countryId,
-                xzId: data.id
+                country: this.state.country,
+                xzId: data.id,
+                xz: data.name
             });
         }
     }
