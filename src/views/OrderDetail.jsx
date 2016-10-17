@@ -12,7 +12,6 @@ class OrderDetail extends Component {
     render() {
         return (
             <div className="order-detail">
-<<<<<<< HEAD
                 <Header title="全部订单" leftIcon="fanhui" />
                 <div className="num">
                     <p>订单号:39483903948483030</p>
@@ -54,11 +53,6 @@ class OrderDetail extends Component {
                             </div>
                         </li>
                     </ul>
-=======
-                <Header title="订单结算" leftIcon="fanhui" />
-                <div>
-                    内容
->>>>>>> 169f9f6623b32940a0e175e180328384118605c8
                 </div>
             </div>
         );
