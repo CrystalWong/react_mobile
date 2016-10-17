@@ -96,10 +96,7 @@ class Address extends Component {
 	}
 
 	goBack(){
-
-		console.log(1111111111111111111);
 		this.context.router.goBack();
-		console.log(22222222222222);
 	}
 
 	render(){
