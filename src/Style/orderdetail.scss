@@ -1,3 +1,6 @@
+.order-detail{
+    font-family: '微软雅黑';
+}
 .order-detail .num {
     height: .88rem;
     background: #FFFFFF;
@@ -8,6 +11,15 @@
     color: #333333;
     font-size: .28rem;
     padding-left: .2rem;
+    display: inline-block;
+}
+.order-detail .num .ordernum {
+    width: 58%;
+}
+.order-detail .num .orderstate {
+    text-align: right;
+    width: 40%;
+    color: #f60;
 }
 .order-detail .address1 {
     background: url(../images/orderdetail/address_bg@2x.png) no-repeat;

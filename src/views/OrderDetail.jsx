@@ -14,7 +14,8 @@ class OrderDetail extends Component {
             <div className="order-detail">
                 <Header title="全部订单" leftIcon="fanhui" />
                 <div className="num">
-                    <p>订单号:39483903948483030</p>
+                    <p className="ordernum">订单号:39483903948483030</p>
+                    <p className="orderstate">等待发货</p>
                 </div>
                 <div className="address1">
                     <div className="adinfo">
