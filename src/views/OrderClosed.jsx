@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import { connect } from 'react-redux';
 import '../Style/orderclosed';
 import {Tool, merged} from '../Tool';
 import {Header} from '../Component/common/index';
@@ -16,6 +17,9 @@ import {OrderClosedList} from '../Component/orderClosedList';
 class OrderClosed extends Component {
 	    constructor(props) {
         super(props);
+        console.log(2222222222222222222222222222);
+        console.log(props.address);
+        console.log(2222222222222222222222222222);
         this.getQueryString = (name) => {
 		        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
 		        let r = window.location.search.substr(1).match(reg);
@@ -220,4 +224,12 @@ class OrderClosed extends Component {
     }
 }
 
-export default OrderClosed;
+// export default OrderClosed;
+
+function mapStateToProps(state,ownProps) {
+  return {
+    address: state.address
+  };
+}
+
+export default connect(mapStateToProps)(OrderClosed);
