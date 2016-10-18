@@ -32,6 +32,8 @@ export default {
 	OrderClosed:`${domain}/jyorder-center/v1/order/app/appSettlement`,
 	//提交订单
 	SubmitOrder:`${domain}/jyorder-center/v1/order/app/submitOrder`,
+	//订单详情
+	OrderDetail:`${domain}/jyorder-center/v1/order/app/queryOrderById`,
 	//预约单
 	APPOINTMENTLIST:`${domain}/jyall-workflowV2/v1/orderquery/pageorder/user`,
 	//四级地址  http://10.10.32.46/swagger/index.html#!

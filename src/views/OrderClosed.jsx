@@ -27,6 +27,7 @@ class OrderClosed extends Component {
 		        return "";
 		};
         this.state = {
+            choseAddress:props.address,
         	setBillData:{
         		fptype:this.getQueryString("fptype")||"",
 				fptype1:this.getQueryString("fptype1")||"",
@@ -172,10 +173,11 @@ class OrderClosed extends Component {
 	            });
             }
             this.choseAddress=()=>{
-            	location.href="/";
+            	location.href="/address";
             }
         }
     render() {
+        console.log(this.state);
         return (
 
             <div>
@@ -184,11 +186,12 @@ class OrderClosed extends Component {
                 	<div style={{display: this.state.isShow.adOff}} className="address" onClick={this.choseAddress.bind(this)}>
 						<img src="src/images/orderclosed/add@2x.png" alt="添加"/> 新增收货地址
 	                </div>
-	                <div className="address1" style={{display: this.state.isShow.adOn}}>
+	                <div className="address1" style={{display: this.state.isShow.adOn}} onClick={this.choseAddress.bind(this)}>
 	                	<img src="src/images/orderclosed/address@2x.png"/>
 	                	<div className="adinfo">
-	                		<h3>{this.state.ajdata.address.consigneeName}&nbsp;{this.state.ajdata.address.consigneeMobile}</h3>
-	                		<span>地址：</span><span>{this.state.ajdata.address.detailInfo}</span>
+	                		<h3>{this.state.choseAddress.consigneeName?this.state.choseAddress.consigneeName:this.state.ajdata.address.consigneeName}&nbsp;
+                            {this.state.choseAddress.consigneeMobile?this.state.choseAddress.consigneeMobile:this.state.ajdata.address.consigneeMobile}</h3>
+	                		<span>地址：</span><span>{this.state.choseAddress.locationInfo?this.state.choseAddress.locationInfo:this.state.ajdata.address.detailInfo}</span>
 	                	</div>
 	                </div>
 				    <OrderClosedList {...this.state.ajdata}/>
