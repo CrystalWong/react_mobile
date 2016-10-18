@@ -37,14 +37,20 @@ DataLoad.defaultProps = {
  */
 export class Header extends Component {
     render() {
-        let {title, leftIcon} = this.props;
-        let left = null;
-
+        let {title, leftIcon , hadeScreen} = this.props;
+        let left = null,
+            hScreen = null;
+/*screen="true"*/
         if (leftIcon === 'fanhui') { //返回上一页
             left = (
                 <a onClick={this.context.router.goBack}>
                     <i></i>
                 </a>
+            );
+        }
+        if(hadeScreen === 'true'){//头部筛选
+            hScreen = (
+                <a></a>
             );
         }
         return (
@@ -53,6 +59,7 @@ export class Header extends Component {
                     {left}
                 </div>
                 <h2 className="title">{title}</h2>
+                <div className="h-screen">{hScreen}</div>
             </header>
         );
     }
