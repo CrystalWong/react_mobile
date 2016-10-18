@@ -19,6 +19,7 @@ Tool.fetch = function(obj,data){
     status = 0;
     if(data.body){d.body = data.body;}
     fetch(data.url,d).then(response => {
+        console.log(response.error);
         if(response.status >= 500){
             obj.setState({ tipContent: '网络连接失败，请检查您的网络',display: 'toasts' });
         }
@@ -28,7 +29,22 @@ Tool.fetch = function(obj,data){
       data.successMethod(json,status);
     });
 }
-
+/**
+ * (毫秒转化 2016-10-18 17:02:09)
+ * 
+ * @method Fetch
+ */
+Tool.formatSeconds = function(seconds){
+    let date=new Date(seconds);
+    function numTowDisplay(num){
+            if(num < 10 && num >= 0){
+                num = "0"+num;
+            }
+            return num+"";
+    }
+    return numTowDisplay(date.getFullYear())+"-"+numTowDisplay(date.getMonth()+1)+"-"+numTowDisplay(date.getDate())+
+    " "+numTowDisplay(date.getHours())+":"+numTowDisplay(date.getMinutes())+":"+numTowDisplay(date.getSeconds());
+}
 
 Tool.rem = function(){
     let rem,window_w;
