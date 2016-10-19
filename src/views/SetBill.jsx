@@ -4,6 +4,7 @@ import '../Style/setbill';
 import Cookie from 'react-cookie';
 import {Toast,Confirm} from '../Component/common/Tip';
 import {OrderClosed} from './OrderClosed';
+import {Tool} from '../Tool';
 /**
  * 模块入口
  * 
@@ -79,7 +80,8 @@ class SetBill extends Component {
 			}else{
 				this.setState({tipContent:"",display:"none"});
 				this.setState({fptt:this.refs.fptt.value.trim()});
-				location.href="/orderclosed?fptype="+this.state.fptype+"&fptype1="+this.state.fptype1+"&fptt="+encodeURIComponent(this.refs.fptt.value.trim())
+				Tool.history.push("/orderclosed?fptype="+this.state.fptype+"&fptype1="+this.state.fptype1+"&fptt="+encodeURIComponent(this.refs.fptt.value.trim()));
+				//location.href="/orderclosed?fptype="+this.state.fptype+"&fptype1="+this.state.fptype1+"&fptt="+encodeURIComponent(this.refs.fptt.value.trim())
 			}
 			console.log(this.state);
 			

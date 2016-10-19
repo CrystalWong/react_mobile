@@ -19,7 +19,6 @@ class OrderClosed extends Component {
         super(props);
         console.log(2222222222222222222222222222);
         console.log(props.address);
-        console.log(2222222222222222222222222222);
         this.getQueryString = (name) => {
 		        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
 		        let r = window.location.search.substr(1).match(reg);
@@ -65,77 +64,6 @@ class OrderClosed extends Component {
                 body:JSON.stringify({"cartFlag":"1"}),
                 headers: headers,
                 successMethod: function(json){
-                	json={
-                        "storeVOList": [
-                            {
-                                "storeId": "IMHZS2016080502804",
-                                "payType": 1,
-                                "goodsVOList": [
-                                    {
-                                        "goodsId": "GDSKU201610100000002071",
-                                        "groupId": "GDG201610100000001120",
-                                        "goodsName": "单个商品上下架",
-                                        "goodsPrice": 5,
-                                        "storePrice": 5,
-                                        "discountedPrice": null,
-                                        "goodsMainPhoto": "http://image1.jyall.com/v1/tfs/T1pabTBghv1RXrhCrK.jpg",
-                                        "paymentMethod": 1,
-                                        "paymentMethodDesc": "全额",
-                                        "count": 1,
-                                        "enjoyedPromotionDesc": null,
-                                        "payment": 5,
-                                        "actualPayment": null,
-                                        "instalmentPayment": null,
-                                        "bookCode": null,
-                                        "bookCodeAccount": null,
-                                        "industryId": null,
-                                        "goodsChoiceType": 2,
-                                        "isSend": "1",
-                                        "storeVO": {
-                                            "storeId": "IMHZS2016080502804",
-                                            "storeName": "X-小狗电器（北京）有限公司",
-                                            "storePhone": null
-                                        },
-                                        "promotionVO": null,
-                                        "appointmentOrderId": null,
-                                        "appointmentOrderList": null,
-                                        "templateId": "af1d3c2cb5714fab82c9c1a623f0983c",
-                                        "goodsWeight": "",
-                                        "goodsVolume": "",
-                                        "spec": "",
-                                        "partnerSkuId": "",
-                                        "upScale": 1.03,
-                                        "commissionBusinessId2": null,
-                                        "activityId": null,
-                                        "cooperationMode": 0
-                                    }
-                                ]
-                            }
-                        ],
-                        "totalShipFee": 5,
-                        "address": {
-                            "id": "1300c98ebf634b83a91215000c78224e",
-                            "provinceId": "1003",
-                            "cityId": "10003",
-                            "countyId": "100043",
-                            "townId": "116971",
-                            "areaId": null,
-                            "detailInfo": "sdfsdfsdf",
-                            "consigneeTelephone": null,
-                            "consigneeMobile": "15001191549",
-                            "consigneeName": "sdfs",
-                            "zip": null,
-                            "memberId": "HYS000705",
-                            "memberUsername": "HYS15810341mq",
-                            "type": 1,
-                            "status": null,
-                            "createTime": 1476288000000,
-                            "locationInfo": null
-                        },
-                        "orderTotalFee": 10,
-                        "couponUserList": [],
-                        "goodsTotalFee": 5
-                    }
                     self.setState({ajdata:json});
                     if(json.address==null||json.address==undefined||json.address==""){
                     	self.state.isShow.adOn="block";
@@ -154,12 +82,12 @@ class OrderClosed extends Component {
             	let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),self=this,
             	paramData={
 				    "addressVO": {
-				        "addressId": this.state.ajdata.address.id
+				        "addressId": props.address.id||this.state.ajdata.address.id
 				    },
 				    "couponList": [],//优惠券列表
 				    "goodsListVO": goodsListVO,
 				    "invoiceVO": {
-				        "invoiceType": this.state.setBillData.fptype,
+				        "invoiceType": this.state.setBillData.fptype||0,
 				        "invoiceCompanyName": this.state.setBillData.fptt
 				    }
 				};
@@ -169,19 +97,30 @@ class OrderClosed extends Component {
 	                body:JSON.stringify(paramData),
 	                headers: headers,
 	                successMethod: function(json){
+                        if(json.errorList.length){
+                            self.setState({confirm:{display: "block"}});
+                        }else{
+                            location.href="";
+                        }
 	                }
 	            });
             }
             this.choseAddress=()=>{
             	location.href="/address";
             }
+            this.goBack=()=>{
+                location.href="";
+            }
+            // window.onbeforeunload=function(){
+            //   return "快住手！！别点下去！！";
+            // };
         }
     render() {
         console.log(this.state);
         return (
 
             <div>
-            	<Header title="订单结算" leftIcon="fanhui" />
+            	<Header leftIcon="fanhui" title="订单结算" onClick={this.goBack} />
                 <div className="orderClose">
                 	<div style={{display: this.state.isShow.adOff}} className="address" onClick={this.choseAddress.bind(this)}>
 						<img src="src/images/orderclosed/add@2x.png" alt="添加"/> 新增收货地址

@@ -42,7 +42,7 @@ const RouteConfig = (
             <Route path="yue" component={Yue} />
             <Route path="center" component={Center} />
             <Route path="shoppingcart" component={ShoppingCart} />
-            <Route path="orderclosed" component={OrderClosed} />
+            <Route path="orderclosed*" component={OrderClosed} />
             <Route path="setbill" component={SetBill} />
             <Route path="address" component={Address} />
             <Route path="address-add" component={AddressAdd} />
