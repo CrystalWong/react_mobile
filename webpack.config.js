@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin'); //css单独打包
 var HtmlWebpackPlugin = require('html-webpack-plugin'); //生成html
 var WebpackStripLoader = require('strip-loader');
+// var ImageminPlugin = require('imagemin-webpack-plugin').default;
 
 var publicPath = '/'; //服务器路径
 var path = __dirname + '/';
@@ -39,18 +40,33 @@ plugins.push(new webpack.optimize.UglifyJsPlugin({
         warnings: false
       }
     }));
-plugins.push(new webpack.DefinePlugin({
-      'process.env': {
-          NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      },
-    }));
+
+// plugins.push(new ImageminPlugin({
+//       disable: false,
+//       optipng: {
+//         optimizationLevel: 3
+//       },
+//       gifsicle: {
+//         optimizationLevel: 1
+//       },
+//       jpegtran: {
+//         progressive: false
+//       },
+//       svgo: {
+//       },
+//       pngquant: null, // pngquant is not run unless you pass options here 
+//       plugins: []
+//     }));
+
+
+
 
         
 
 module.exports = {
     // devtool: '#source-map',
-    // devtool: 'cheap-module-eval-source-map',
-    devtool: false,
+    devtool: 'cheap-module-eval-source-map',
+    // devtool: false,
     entry: {
         app: [
           'webpack-dev-server/client?http://localhost:3000',
@@ -105,5 +121,8 @@ module.exports = {
     plugins,
     resolve: {
         extensions: ['', '.js', '.jsx','.css', '.less' , '.scss'], //后缀名自动补全
+    },
+    node: {
+        Buffer: false
     }
 };
