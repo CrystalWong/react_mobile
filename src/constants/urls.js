@@ -34,6 +34,12 @@ export default {
 	SubmitOrder:`${domain}/jyorder-center/v1/order/app/submitOrder`,
 	//订单详情
 	OrderDetail:`${domain}/jyorder-center/v1/order/app/queryOrderById`,
+	//订单详情-删除订单-post
+	DeleateOrder:`${domain}/v1/order/app/deleteOrderById/`,
+	//订单详情-确认收货-post
+	ConfirmGetDoods:`${domain}/v1/order/app/batchReceipt/`,
+	//订单详情-取消订单-post
+	CancelOrder:`${domain}/v1/order/app/cancleOrderById/`,
 	//预约单
 	APPOINTMENTLIST:`${domain}/jyall-workflowV2/v1/orderquery/pageorder/user`,
 	//四级地址  http://10.10.32.46/swagger/index.html#!

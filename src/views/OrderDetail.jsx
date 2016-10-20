@@ -56,12 +56,12 @@ class OrderDetail extends Component {
         }
         this.orderState={
             "-1":"已删除",
-            "10":"未付款",
+            "10":"未付款",//2
             "14":"分期付款中",
             "20":"已付款(待发货)",
-            "30":"已发货",
-            "40":"交易成功",
-            "70":"交易关闭",
+            "30":"已发货",//2-2
+            "40":"交易成功",//1
+            "70":"交易关闭",//1-2
             "100":"快递配送中",
             "200":"自提点自提"
         }
@@ -78,6 +78,42 @@ class OrderDetail extends Component {
             });
             this.choseAddress=()=>{
                 location.href="/";
+            }
+            //取消订单
+            this.cancelOrder=()=>{
+                Tool.fetch(this,{
+                    url: `${URLS.CancelOrder}`,
+                    type: "post",
+                    body:JSON.stringify({"id":this.state.ajdata.id}),
+                    headers: headers,
+                    successMethod: function(json){
+                        console.log(json);
+                    }
+                });
+            }
+            //确认收货
+            this.confirmGetDoods=()=>{
+                Tool.fetch(this,{
+                    url: `${URLS.ConfirmGetDoods}`,
+                    type: "post",
+                    body:JSON.stringify({"id":this.state.ajdata.id}),
+                    headers: headers,
+                    successMethod: function(json){
+                        console.log(json);
+                    }
+                });
+            }
+            //删除订单
+            this.deleateOrder=()=>{
+                Tool.fetch(this,{
+                    url: `${URLS.DeleateOrder}`,
+                    type: "post",
+                    body:JSON.stringify({"id":this.state.ajdata.id}),
+                    headers: headers,
+                    successMethod: function(json){
+                        console.log(json);
+                    }
+                });
             }
         }
     render() {
@@ -146,9 +182,19 @@ class OrderDetail extends Component {
                             <dd style={{color: '#D4D1D1'}}>下单时间:{Tool.formatSeconds(this.state.ajdata.orderDate)}</dd>
                         </dl>
                 </div>
-                <div className="bootm">
-                    <a className="subbtn">确认收货</a>
-                    <a className="subbtn1">查看物流</a>
+                <div className="bootm" style={{display: this.state.ajdata.orderStatus==10?"block":"none"}}>
+                    <a className="subbtn" href="">付款</a>
+                    <a className="subbtn1" onClick={this.cancelOrder.bind(this)}>取消订单</a>
+                </div>
+                <div className="bootm" style={{display: this.state.ajdata.orderStatus==30?"block":"none"}}>
+                    <a className="subbtn" onClick={this.confirmGetDoods.bind(this)}>确认收货</a>
+                    <a style={{display:"none"}} className="subbtn1">查看物流</a>
+                </div>
+                <div className="bootm" style={{display: this.state.ajdata.orderStatus==40?"block":"none"}}>
+                    <a className="subbtn" href="">再次购买</a>
+                </div>
+                <div className="bootm" style={{display: this.state.ajdata.orderStatus==70?"block":"none"}}>
+                    <a className="subbtn1" onClick={this.deleateOrder.bind(this)}>删除订单</a>
                 </div>
             </div>
         );
