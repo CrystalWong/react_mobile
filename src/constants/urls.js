@@ -38,5 +38,8 @@ export default {
 	PROVINCE: `${domain}/common-city/v1/province/queryAllProvinces`,  //?containChilds=false
 	CITY: `${domain}/common-city/v1/city/queryCitys/`, //130000000
 	COUNTRY: `${domain}/common-city/v1/country/queryCountrysByCityId/`,
-	XZ: `${domain}/common-city/v1/xz/getXzsByCountyId/`
+	XZ: `${domain}/common-city/v1/xz/getXzsByCountyId/`,
+	//预约
+	YUYUE: `${domain}/jyall-workflowV2/v1/order/yuyue/stateless`,
+	YUYUECODE: `${domain}/jyall-workflowV2/v1/order/yuyue/sendIdentifyCode/`
 };
