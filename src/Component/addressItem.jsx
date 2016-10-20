@@ -40,8 +40,7 @@ export class AddressItem extends Component{
 			locationInfo: this.props.locationInfo,
 			memberId: this.props.memberId
 		});
-		// this.props.goBack();
-		Tool.history.push('/orderclosed');
+		Tool.history.goBack();
 	}
 
 	render(){
