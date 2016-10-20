@@ -122,7 +122,7 @@ class OrderDetail extends Component {
         console.log((this.state.ajdata.periodOrderList)[0]);
         return (
             <div className="order-detail">
-                <Header title="全部订单" leftIcon="fanhui" />
+                <Header title="订单详情" leftIcon="fanhui" />
                 <div className="num">
                     <p className="ordernum">订单号:{this.state.ajdata.orderId}</p>
                     <p className="orderstate">{this.orderState[this.state.ajdata.orderStatus]}</p>
