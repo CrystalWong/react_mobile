@@ -143,13 +143,16 @@
   float: left;
   padding: 0 0 .3rem .3rem;
   width: 50%;
+  overflow: hidden;
 }
 .lf-list li a {
   background-color: #fff;
   display: block;
 }
 .lf-list li a .lf-thumb img {
-  width: 100%;
+  height: 3rem;
+  width: auto;
+  margin: auto;
 }
 
 .lf-list li a .lf-tit {

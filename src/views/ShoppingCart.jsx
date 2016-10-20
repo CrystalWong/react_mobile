@@ -29,7 +29,8 @@ class ShoppingCart extends Component {
             allNum: 0,
             tipContent: '',
             display: '',
-            nolist: 'none'
+            nolist: 'none',
+            recommentList: []
         };
 
         let headers = COMMON_HEADERS();
@@ -63,6 +64,17 @@ class ShoppingCart extends Component {
                 	allNum: self.allNum,
                     nolist: json.cartItems.length==0?"block":"none"
                 });
+            }
+        });
+
+        Tool.fetch(this,{
+            url: `${URLS.RECOMMENDGOODS}1?userId=${cookie.load("userId")}&num=4`,
+            type: "get",
+            headers: COMMON_HEADERS,
+            successMethod: function(json,status){
+                if(status == 200){
+                    self.setState({recommentList:json});
+                }
             }
         });
     }
@@ -195,7 +207,7 @@ class ShoppingCart extends Component {
                 		<div className="fr">合计:<span style={{color: "#cc0000",marginRight: ".2rem"}}>￥{this.state.allMoney}</span><Link to="/orderclosed"><b className="statement" onClick={this.statement.bind(this)}>结算(<span>{this.state.allNum}</span>)</b></Link></div>
                 	</footer>
                 </div>
-                <NoList display={this.state.nolist} />
+                <NoList display={this.state.nolist} recommentList={this.state.recommentList} />
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
             </div>
         );
@@ -203,8 +215,19 @@ class ShoppingCart extends Component {
 }
 
 
-
+//没有数据时的显示
 var NoList = React.createClass({
+ // getInitialState: function(){
+ //    Tool.fetch(ShoppingCart,{
+ //        url: `${URLS.SELECTITEM}${isLogin}/${uKey}?selectAll=1`,
+ //        type: "put",
+ //        headers: COMMON_HEADERS,
+ //        successMethod: function(json){
+
+ //        }
+ //    });
+ //  }
+
   render: function() {
     return (
         <div style={{ display: this.props.display }} className="no-list">
@@ -216,50 +239,21 @@ var NoList = React.createClass({
             <div className="like-floor">
                 <h3><span>为您推荐</span></h3>
                 <ul className="lf-list">
-                    <li>
-                        <a className="clearfix" href="">
-                            <div className="lf-thumb">
-                                <img src="http://n.static.jyall.com/mobile_f/1.0.0/static/page/revision/homenew/img11.jpg" title="" />
-                            </div>
-                            <div className="lf-tit">
-                                <h6>酷开(coocaa)K60 电视 60英寸 全高清 智能Wi</h6>
-                                <p>¥ 3999.00</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a className="clearfix" href="">
-                            <div className="lf-thumb">
-                                <img src="http://n.static.jyall.com/mobile_f/1.0.0/static/page/revision/homenew/img11.jpg" title="" />
-                            </div>
-                            <div className="lf-tit">
-                                <h6>酷开(coocaa)K60 电视 60英寸 全高清 智能Wi</h6>
-                                <p>¥ 3999.00</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a className="clearfix" href="">
-                            <div className="lf-thumb">
-                                <img src="http://n.static.jyall.com/mobile_f/1.0.0/static/page/revision/homenew/img11.jpg" title="" />
-                            </div>
-                            <div className="lf-tit">
-                                <h6>酷开(coocaa)K60 电视 60英寸 全高清 智能Wi</h6>
-                                <p>¥ 3999.00</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a className="clearfix" href="">
-                            <div className="lf-thumb">
-                                <img src="http://n.static.jyall.com/mobile_f/1.0.0/static/page/revision/homenew/img11.jpg" title="" />
-                            </div>
-                            <div className="lf-tit">
-                                <h6>酷开(coocaa)K60 电视 60英寸 全高清 智能Wi</h6>
-                                <p>¥ 3999.00</p>
-                            </div>
-                        </a>
-                    </li>
+                    {
+                        this.props.recommentList.map((item,index) =>(
+                            <li key={index}>
+                                <a className="clearfix" href={item.URL}>
+                                    <div className="lf-thumb">
+                                        <img src={item.image} title="" />
+                                    </div>
+                                    <div className="lf-tit">
+                                        <h6>{item.name}</h6>
+                                        <p>¥ {item.price}</p>
+                                    </div>
+                                </a>
+                            </li>
+                        ))
+                    }
                 </ul>
             </div>
         </div>
