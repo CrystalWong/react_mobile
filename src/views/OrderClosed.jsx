@@ -25,8 +25,10 @@ class OrderClosed extends Component {
 		        if (r != null) return decodeURIComponent(r[2]);
 		        return "";
 		};
+        let choseAddress;
+        props.address.consigneeName==undefined?choseAddress={consigneeName:""}:choseAddress=props.address;
         this.state = {
-            choseAddress:props.address,
+            choseAddress:choseAddress,
         	setBillData:{
         		fptype:this.getQueryString("fptype")||"",
 				fptype1:this.getQueryString("fptype1")||"",
@@ -37,7 +39,8 @@ class OrderClosed extends Component {
             	 totalShipFee:"",
             	 goodsTotalFee:"",
             	 orderTotalFee:"",
-            	 storeVOList: []
+            	 storeVOList: [],
+                 errorList: []
             },
             isShow:{
             	adOn:'block',
@@ -97,8 +100,22 @@ class OrderClosed extends Component {
 	                body:JSON.stringify(paramData),
 	                headers: headers,
 	                successMethod: function(json){
-                        if(json.errorList.length){
-                            self.setState({confirm:{display: "block"}});
+                        if(json.errorList==undefined){
+                        self.setState({
+                            confirm: {
+                                title: "是否确认拨打此电话？",
+                                content: "刘德华 13409090909<img src='http://image1.jyall.com/v1/tfs/T1QyWTBjWg1RXrhCrK.jpg'>",
+                                leftText: "取消",
+                                leftMethod: function() {
+                                    alert("取消");
+                                },
+                                rightText: "确定",
+                                rightMethod: function() {
+                                    alert("确定");
+                                },
+                                display: "block"
+                            }
+                        });
                         }else{
                             location.href="";
                         }
@@ -109,18 +126,38 @@ class OrderClosed extends Component {
             	location.href="/address";
             }
             this.goBack=()=>{
-                location.href="";
+            self.setState({
+                confirm: {
+                    title: "",
+                    content: "东西这么实惠，真的要离我而去么",
+                    leftText: "去意已决",
+                    leftMethod: function() {
+                        Tool.history.back();
+                    },
+                    rightText: "我再想想",
+                    rightMethod: function() {
+                        self.setState({confirm:{display:"none"}});
+                    },
+                    display: "block"
+                }
+            });
             }
             // window.onbeforeunload=function(){
             //   return "快住手！！别点下去！！";
             // };
         }
     render() {
-        console.log(this.state);
         return (
-
             <div>
-            	<Header leftIcon="fanhui" title="订单结算" onClick={this.goBack} />
+                <header className="common-header">
+                    <div className="left-arrow" onClick={this.goBack}>
+                        <a>
+                            <i></i>
+                        </a>
+                    </div>
+                    <h2 className="title">订单结算</h2>
+                </header>
+            	
                 <div className="orderClose">
                 	<div style={{display: this.state.isShow.adOff}} className="address" onClick={this.choseAddress.bind(this)}>
 						<img src="src/images/orderclosed/add@2x.png" alt="添加"/> 新增收货地址
@@ -153,6 +190,19 @@ class OrderClosed extends Component {
 							<dd><span>¥{this.state.ajdata.totalShipFee}</span></dd>
 						</dl>
 					</div>
+                    <a className="tanm">
+                            <dl className="clearfix">
+                                    <dt>
+                                        <img src="http://image1.jyall.com/v1/tfs/T1QyWTBjWg1RXrhCrK.jpg"/>
+                                        <span>已失效</span>
+                                    </dt>
+                                    <dd>
+                                        <p>失效商品<br/><span>规格</span></p>
+                                        <p className="price">¥ 价格<br/><span>x6</span></p>
+                                    </dd>
+                                    <p className="sxp">对不起,宝贝已经卖光了</p>
+                            </dl>
+                    </a>
                 </div>
             	<div className="bootm">
 					<a className="heji">合计:<span>¥{this.state.ajdata.orderTotalFee}</span></a>

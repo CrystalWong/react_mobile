@@ -40,6 +40,7 @@ class Appointment extends Component {
 
           }
           this.getAppointmentList = () => {
+               
                let _this = this,
                     headers = COMMON_HEADERS('tokenid', Cookie.load("tokenid"));
                Tool.fetch(this,{
@@ -49,43 +50,6 @@ class Appointment extends Component {
                     successMethod: function(json){
                          if(!json.code){//登录成功
                               //json
-                              console.log("json");
-                              console.log(json,json.length,_this.state.pageSize);
-                              if(json.length>0&&json.length<=_this.state.pageSize){
-                                   _this.state.scrollNoData = false;
-                              }else{
-
-                                   _this.state.scrollNoData = true;
-                              }
-                              _this.setState({
-                                   dataList : json,
-                                   nolist : json.length > 0 ? 'none' : 'block'
-                              });
-                         }else{
-                              // dataList
-                              _this.setState({ tipContent: json.message,display: 'toasts' });
-                              setTimeout(function(){
-                                   Tool.history.push('/');
-                              },2000);
-                         }
-                    },
-
-               });
-
-          }
-
-           this.getAppointmentMoreList = () => {
-               let _this = this,
-                    headers = COMMON_HEADERS('tokenid', Cookie.load("tokenid"));
-               Tool.fetch(this,{
-                    url: URLS.APPOINTMENTLIST+"?pageSize="+this.state.pageSize+"&pageNo="+this.state.pageNo,// + this.state.userId,
-                    type: "get",
-                    headers:headers,
-                    successMethod: function(json){
-                         if(!json.code){//登录成功
-                              //json
-                              console.log("json");
-                              console.log(json,json.length,_this.state.pageSize);
 
                               if(json.length>0&&json.length==_this.state.pageSize){
                                    _this.state.scrollNoData = false;
@@ -128,25 +92,16 @@ class Appointment extends Component {
      }
 
      onScrollEnd(iScrollInstance){
-          console.log(this,iScrollInstance);
-          console.log(this.state);
-          console.log("iScroll end scrolling")
-          let yScroll = iScrollInstance.y;
 
-       console.log("vertical position:" + yScroll);
-       console.log("this.state.nextPage:" + this.state.nextPage);
-       console.log(this.state.scrollNoData);
+          if(this.state.scrollNoData){return;}
 
-       if(this.state.scrollNoData){return;}
-          console.log(iScrollInstance.maxScrollY,iScrollInstance.startY);
-          if((iScrollInstance.maxScrollY < 0 && Math.abs(iScrollInstance.startY) - Math.abs(iScrollInstance.maxScrollY) > 30) || (iScrollInstance.maxScrollY > 0 && iScrollInstance.directionY == 1 && iScrollInstance.distY > 30)){
+          if((iScrollInstance.maxScrollY < 0 && Math.abs(iScrollInstance.startY) - Math.abs(iScrollInstance.maxScrollY) > 20) || (iScrollInstance.maxScrollY > 0 && iScrollInstance.directionY == 1 && iScrollInstance.distY > 20)){
               //if(this.state.noPage)return;
-              this.state.more = "刷新成功";
+              this.state.more = "正在加载";
               this.setState({
                display: this.state
              });
               this.state.nextPage = true;
-              console.log("______________________this.state.nextPage: "+this.state.nextPage);
           }else {
               this.state.more="上拉加载更多";
               this.state.nextPage = false;
@@ -160,8 +115,7 @@ class Appointment extends Component {
               // this.state.collection.fetch({url: this.state.currentListUrl,data: this.state.currentUrlCondition,reset: true,success:function(){
                // this.state.more = "松开刷新";
                this.state.pageNo++;
-               this.getAppointmentMoreList();
-               console.log(this.state.pageNo);
+               this.getAppointmentList();
               // }});
           }
      }
@@ -181,9 +135,9 @@ class Appointment extends Component {
      }
 
      onRefresh(iScrollInstance,state) {
-       let yScroll = iScrollInstance.y;
+       // let yScroll = iScrollInstance.y;
 
-       console.log("onRefresh vertical position:" + yScroll)
+       // console.log("onRefresh vertical position:" + yScroll)
 
      }
 
@@ -191,14 +145,17 @@ class Appointment extends Component {
      //渲染完成之后再执行
      //componentDidMount(){
      componentWillMount(){
-          this.getAppointmentMoreList();
+          this.getAppointmentList();
      }
 
      render() {
          this.props = {
               options: {
-                  mouseWheel: true,
-                  scrollbars: true
+                    mouseWheel: true,
+                    scrollbars: true,
+                    interactiveScrollbars: true,
+                    shrinkScrollbars: 'scale',
+                    fadeScrollbars: true
               }
           } 
         return (

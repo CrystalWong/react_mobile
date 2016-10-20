@@ -28,7 +28,7 @@ export class ShoppingItem extends Component {
 
         if(this.refs.icon.src.match("no_select")){
             Tool.fetch(this.props.parent,{
-                url: `${URLS.SELECTITEM}${isLogin}/${uKey}?groupSkuId=${groupSkuId}&selectAll=0`,
+                url: `${URLS.SELECTITEM}${isLogin}/${uKey}?groupSkuIds=${groupSkuId}&selectAll=0&source=2`,
                 type: "put",
                 headers: COMMON_HEADERS,
                 successMethod: function(json){
@@ -40,7 +40,7 @@ export class ShoppingItem extends Component {
             });
         }else{
             Tool.fetch(this.props.parent,{
-                url: `${URLS.CONCELITEM}${isLogin}/${uKey}?groupSkuId=${groupSkuId}&selectAll=0`,
+                url: `${URLS.CONCELITEM}${isLogin}/${uKey}?groupSkuIds=${groupSkuId}&selectAll=0&source=2`,
                 type: "put",
                 headers: COMMON_HEADERS,
                 successMethod: function(json){
