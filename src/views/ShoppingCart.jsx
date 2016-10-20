@@ -208,9 +208,60 @@ var NoList = React.createClass({
   render: function() {
     return (
         <div style={{ display: this.props.display }} className="no-list">
-            <img src="src/images/shopping/empty_shopping.png" />
-            <p>购物车里还什么都没有<br/>赶快去逛逛吧~ <br/></p>
-            <a href="http://m.jyall.com"><button>去看看</button></a>
+            <div style={{ background: "#fff",padding: ".8rem 0 1.2rem" }}>
+                <img src="src/images/shopping/empty_shopping.png" />
+                <p>购物车里还什么都没有<br/>赶快去逛逛吧~ <br/></p>
+                <a href="http://m.jyall.com"><button>去看看</button></a>
+            </div>
+            <div className="like-floor">
+                <h3><span>为您推荐</span></h3>
+                <ul className="lf-list">
+                    <li>
+                        <a className="clearfix" href="">
+                            <div className="lf-thumb">
+                                <img src="http://n.static.jyall.com/mobile_f/1.0.0/static/page/revision/homenew/img11.jpg" title="" />
+                            </div>
+                            <div className="lf-tit">
+                                <h6>酷开(coocaa)K60 电视 60英寸 全高清 智能Wi</h6>
+                                <p>¥ 3999.00</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a className="clearfix" href="">
+                            <div className="lf-thumb">
+                                <img src="http://n.static.jyall.com/mobile_f/1.0.0/static/page/revision/homenew/img11.jpg" title="" />
+                            </div>
+                            <div className="lf-tit">
+                                <h6>酷开(coocaa)K60 电视 60英寸 全高清 智能Wi</h6>
+                                <p>¥ 3999.00</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a className="clearfix" href="">
+                            <div className="lf-thumb">
+                                <img src="http://n.static.jyall.com/mobile_f/1.0.0/static/page/revision/homenew/img11.jpg" title="" />
+                            </div>
+                            <div className="lf-tit">
+                                <h6>酷开(coocaa)K60 电视 60英寸 全高清 智能Wi</h6>
+                                <p>¥ 3999.00</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a className="clearfix" href="">
+                            <div className="lf-thumb">
+                                <img src="http://n.static.jyall.com/mobile_f/1.0.0/static/page/revision/homenew/img11.jpg" title="" />
+                            </div>
+                            <div className="lf-tit">
+                                <h6>酷开(coocaa)K60 电视 60英寸 全高清 智能Wi</h6>
+                                <p>¥ 3999.00</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     );
   }
