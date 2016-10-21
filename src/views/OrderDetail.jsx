@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import { connect } from 'react-redux';
 import {Header} from '../Component/common/index';
 import '../Style/orderdetail.css';
 import {COMMON_HEADERS_POST} from '../constants/headers';
@@ -6,7 +7,7 @@ import cookie from 'react-cookie';
 import {Tool, merged} from '../Tool';
 import URLS from '../constants/urls';
 import {OrderClosedListItemSun} from '../Component/orderClosedItemSun';
-
+import {order} from '../Action/Order';
 /**
  * 模块入口
  * 
@@ -116,13 +117,19 @@ class OrderDetail extends Component {
                 });
             }
         }
+        //查看物流详情
+        toExpressinfo(){
+            this.props.saveOrderId({orderId: this.state.ajdata.orderId});
+            Tool.history.push("/expressinfo");
+
+        }
     render() {
         console.log(this.state.ajdata);
         console.log("-------------------------------");
         console.log((this.state.ajdata.periodOrderList)[0]);
         return (
             <div className="order-detail">
-                <Header title="全部订单" leftIcon="fanhui" />
+                <Header title="订单详情" leftIcon="fanhui" />
                 <div className="num">
                     <p className="ordernum">订单号:{this.state.ajdata.orderId}</p>
                     <p className="orderstate">{this.orderState[this.state.ajdata.orderStatus]}</p>
@@ -188,7 +195,7 @@ class OrderDetail extends Component {
                 </div>
                 <div className="bootm" style={{display: this.state.ajdata.orderStatus==30?"block":"none"}}>
                     <a className="subbtn" onClick={this.confirmGetDoods.bind(this)}>确认收货</a>
-                    <a style={{display:"none"}} className="subbtn1">查看物流</a>
+                    <a style={{display:"none"}} className="subbtn1" onClick={this.toExpressinfo.bind(this)}>查看物流</a>
                 </div>
                 <div className="bootm" style={{display: this.state.ajdata.orderStatus==40?"block":"none"}}>
                     <a className="subbtn" href="">再次购买</a>
@@ -201,4 +208,16 @@ class OrderDetail extends Component {
     }
 }
 
-export default OrderDetail;
+
+function mapStateToProps(state,ownProps) {
+  return {
+    order: state.order
+  };
+}
+function mapDispatchToProps(dispatch) {  
+  return {
+    saveOrderId: (action) => dispatch(order(action))
+  };
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(OrderDetail);

@@ -16,6 +16,7 @@ import AddressAdd from '../views/Address_add'; //新增收货地址
 import MyOrder from '../views/MyOrder'; //全部订单
 import OrderDetail from '../views/OrderDetail'; //订单详情
 import Appointment from '../views/Appointment'; //预约单
+import ExpressInfo from '../views/ExpressInfo'; //物流详情
 
 
 /**
@@ -73,6 +74,7 @@ const RouteConfig = (
             <Route path="myorder" component={MyOrder} />
             <Route path="orderdetail" component={OrderDetail} />
             <Route path="appointment" component={Appointment} />
+            <Route path="expressinfo" component={ExpressInfo} />
         </Route>
     </Router>
 );
