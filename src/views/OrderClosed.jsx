@@ -104,10 +104,10 @@ class OrderClosed extends Component {
                         self.setState({
                             confirm: {
                                 title: "是否确认拨打此电话？",
-                                content: "刘德华 13409090909<img src='http://image1.jyall.com/v1/tfs/T1QyWTBjWg1RXrhCrK.jpg'>",
+                                content: "<img src='http://image1.jyall.com/v1/tfs/T1QyWTBjWg1RXrhCrK.jpg'>",
                                 leftText: "取消",
                                 leftMethod: function() {
-                                    alert("取消");
+                                   self.setState({confirm:{display: "none"}});
                                 },
                                 rightText: "确定",
                                 rightMethod: function() {
