@@ -8,6 +8,7 @@ import {Tool, merged} from '../Tool';
 import URLS from '../constants/urls';
 import {OrderClosedListItemSun} from '../Component/orderClosedItemSun';
 import {order} from '../Action/Order';
+import {Toast} from '../Component/common/Tip';
 /**
  * 模块入口
  * 
@@ -42,7 +43,9 @@ class OrderDetail extends Component {
             },
             show0:"none",
             show1:"none",
-            show2:"none"
+            show2:"none",
+            tipContent: '',
+            display: ''
         };
         //枚举类 开票类型
         this.getkaipType=(val)=>{
@@ -123,6 +126,39 @@ class OrderDetail extends Component {
             Tool.history.push("/expressinfo");
 
         }
+        //再次购买
+        goShopping(){
+            let isLogin = 0,
+                uKey = cookie.load('tokenid'),
+                productList = this.state.ajdata.productList,
+                groupSkuId = productList[0].groupId+"_"+JSON.parse(productList[0].enjoyedPromotionDesc).skuId,
+                count=1,
+                self = this;
+            this.more = true;    
+            if(uKey)isLogin = 1;
+            if(self.state.num >= this.props.stock){
+                self.props.callback({more: true});
+                return;
+            }
+            Tool.fetch(this,{
+                url: `${URLS.ADDITEM}${isLogin}/${uKey}/${groupSkuId}/${count}`,
+                type: "post",
+                headers: COMMON_HEADERS_POST,
+                successMethod: function(json){
+                    if(json.flag == true){
+                        Tool.history.push("/shoppingcart");
+                    }else{
+                        self.setState({ tipContent: json.message,display: 'toasts' });
+                    }
+                }
+            });
+        }
+
+    toastDisplay(state){
+        this.setState({
+          display: state
+        });
+    }
     render() {
         console.log(this.state.ajdata);
         console.log("-------------------------------");
@@ -190,7 +226,7 @@ class OrderDetail extends Component {
                         </dl>
                 </div>
                 <div className="bootm" style={{display: this.state.ajdata.orderStatus==10?"block":"none"}}>
-                    <a className="subbtn" href="">付款</a>
+                    <a className="subbtn" href="javascript:;">付款</a>
                     <a className="subbtn1" onClick={this.cancelOrder.bind(this)}>取消订单</a>
                 </div>
                 <div className="bootm" style={{display: this.state.ajdata.orderStatus==30?"block":"none"}}>
@@ -198,11 +234,12 @@ class OrderDetail extends Component {
                     <a style={{display:"none"}} className="subbtn1" onClick={this.toExpressinfo.bind(this)}>查看物流</a>
                 </div>
                 <div className="bootm" style={{display: this.state.ajdata.orderStatus==40?"block":"none"}}>
-                    <a className="subbtn" href="">再次购买</a>
+                    <a className="subbtn" href="javascript:;" onClick={this.goShopping.bind(this)}>再次购买</a>
                 </div>
                 <div className="bootm" style={{display: this.state.ajdata.orderStatus==70?"block":"none"}}>
                     <a className="subbtn1" onClick={this.deleateOrder.bind(this)}>删除订单</a>
                 </div>
+                <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
             </div>
         );
     }
