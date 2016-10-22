@@ -8,6 +8,7 @@ body{
 /**  头部样式  **/
 .common-header{
 	position: fixed;
+	z-index: 10;
 	top: 0;
 	background: #fefefe;
 	height: .97rem;

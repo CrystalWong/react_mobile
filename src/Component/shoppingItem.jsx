@@ -20,11 +20,11 @@ export class ShoppingItem extends Component {
         }
 
         let isLogin = 0,
-            uKey = cookie.load('tokenid'),
+            uKey = cookie.load('tokenid')?cookie.load('tokenid'):cookie.load('jycart_uKey'),
             groupSkuId = this.props.groupId+"_"+this.props.skuId,
             suitIds = "",
             self = this; 
-        if(cookie.load('tokenid'))isLogin = 1;
+        if(cookie.load('tokenid') != "undefined")isLogin = 1;
 
         if(this.refs.icon.src.match("no_select")){
             Tool.fetch(this.props.parent,{

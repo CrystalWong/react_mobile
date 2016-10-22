@@ -53,5 +53,7 @@ export default {
 	YUYUE: `${domain}/jyall-workflowV2/v1/order/yuyue/stateless`,
 	YUYUECODE: `${domain}/jyall-workflowV2/v1/order/yuyue/sendIdentifyCode/`,
 	//商品推荐
-	RECOMMENDGOODS: `${domain}/jygoods-api/v1/goods/recommend/goods/`
+	RECOMMENDGOODS: `${domain}/jygoods-api/v1/goods/recommend/goods/`,
+	//物流详情
+	EXPRESSINFO: `${domain}/jyorder-center/v1/order/app/expressInfo/`
 };

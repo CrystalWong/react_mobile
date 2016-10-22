@@ -31,14 +31,16 @@ export class Toast extends Component {
  * @extends {Component}
  */
 export class Confirm extends Component {
-
+    componentDidUpdate(){
+        this.refs.content.innerHTML = this.props.content;
+    }
     render() {
         let {title,content,leftText,rightText,display,leftMethod,rightMethod} = this.props;
         
         return (
             <div className="confirm" ref="confirm" style={{display: display}}>
                 <header>{title}</header>
-                <div className="content">{content}</div>
+                <div className="content" ref="content"></div>
                 <div className="button">
                     <span onClick={leftMethod}>{leftText}</span><span onClick={rightMethod}>{rightText}</span>
                 </div>

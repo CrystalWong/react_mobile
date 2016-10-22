@@ -9,7 +9,8 @@ import {Tool, merged} from '../Tool';
 import URLS from '../constants/urls';
 import {COMMON_HEADERS} from '../constants/headers';
 import {shoppingCartCount} from '../Action/ShoppingCart';
-import {Toast} from '../Component/common/Tip';
+import {Toast,Confirm} from '../Component/common/Tip';
+import {ONLINE} from '../constants/common';
 
 /**
  * 模块入口
@@ -30,22 +31,38 @@ class ShoppingCart extends Component {
             tipContent: '',
             display: '',
             nolist: 'none',
-            recommentList: []
+            recommentList: [],
+            uKey: "",
+            confirm: {
+                title: "以下商品不足或已下架，无法被购买您可以继续结算其他商品",
+                content: "<img src='http://image1.jyall.com/v1/tfs/T1QyWTBjWg1RXrhCrK.jpg' /><img src='http://image1.jyall.com/v1/tfs/T1QyWTBjWg1RXrhCrK.jpg' />", 
+                leftText: "取消",
+                leftMethod: function(){
+                    alert("取消");
+                },
+                rightText: "确定",
+                rightMethod: function(){
+                    alert("确定");
+                },
+                display: "none"
+            }
         };
 
         let headers = COMMON_HEADERS();
         let self = this;
         this.count = 0;
+        let params = cookie.load('tokenid')?("&tokenId="+cookie.load('tokenid')):(cookie.load('jycart_uKey')?"&uKey="+cookie.load('jycart_uKey'):'');
         Tool.fetch(this,{
-            url: `${URLS.QUERYCART}?tokenId=${cookie.load('tokenid')}`,
+            url: `${URLS.QUERYCART}?source=2${params}`,
             type: "get",
             body: "",
             headers: headers,
             successMethod: function(json){
-            	if(json.code == 400001012){
-            		//用户未登录
-            		return;
-            	}
+                if(json.uKey){//未登录
+                    var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"jyall.com":"") }
+                    cookie.save('jycart_uKey', json.uKey, cookieObj);
+                    self.setState({uKey: json.uKey});
+                }
             	self.allMoney = 0;
             	self.allNum = 0;
             	json.cartItems.map(item => {
@@ -209,6 +226,8 @@ class ShoppingCart extends Component {
                 </div>
                 <NoList display={this.state.nolist} recommentList={this.state.recommentList} />
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
+                <Confirm  {...this.state.confirm}/>
+                <div className="mask" style={{display: this.state.confirm.display}}></div>
             </div>
         );
     }
@@ -217,16 +236,6 @@ class ShoppingCart extends Component {
 
 //没有数据时的显示
 var NoList = React.createClass({
- // getInitialState: function(){
- //    Tool.fetch(ShoppingCart,{
- //        url: `${URLS.SELECTITEM}${isLogin}/${uKey}?selectAll=1`,
- //        type: "put",
- //        headers: COMMON_HEADERS,
- //        successMethod: function(json){
-
- //        }
- //    });
- //  }
 
   render: function() {
     return (
@@ -262,18 +271,3 @@ var NoList = React.createClass({
 });
 
 export default ShoppingCart;  
-
-
-//全局state替换本地组件之间state
-// function mapStateToProps(state,ownProps) {
-//   console.log(state);  
-//   return {
-//     shoppingcart: state.shoppingCart
-//   };
-// }
-// function mapDispatchToProps(dispatch) {  
-//   return {
-//     shoppingCartCount: (user) => dispatch(shoppingCartCount(count))
-//   };
-// }
-// export default connect(mapStateToProps,mapDispatchToProps)(ShoppingCart);
