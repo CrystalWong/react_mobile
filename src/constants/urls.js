@@ -34,6 +34,12 @@ export default {
 	SubmitOrder:`${domain}/jyorder-center/v1/order/app/submitOrder`,
 	//订单详情
 	OrderDetail:`${domain}/jyorder-center/v1/order/app/queryOrderById`,
+	//订单详情-删除订单-post
+	DeleateOrder:`${domain}/v1/order/app/deleteOrderById/`,
+	//订单详情-确认收货-post
+	ConfirmGetDoods:`${domain}/v1/order/app/batchReceipt/`,
+	//订单详情-取消订单-post
+	CancelOrder:`${domain}/v1/order/app/cancleOrderById/`,
 	//预约单
 	APPOINTMENTLIST:`${domain}/jyall-workflowV2/v1/orderquery/pageorder/user`,
 	//四级地址  http://10.10.32.46/swagger/index.html#!
@@ -42,5 +48,10 @@ export default {
 	COUNTRY: `${domain}/common-city/v1/country/queryCountrysByCityId/`,
 	XZ: `${domain}/common-city/v1/xz/getXzsByCountyId/`,
 	//个人订单查询
-	myOrder: `${domain}/jyorder-center/v1/order/app/queryOrderList`
+	myOrder: `${domain}/jyorder-center/v1/order/app/queryOrderList`,
+	//预约
+	YUYUE: `${domain}/jyall-workflowV2/v1/order/yuyue/stateless`,
+	YUYUECODE: `${domain}/jyall-workflowV2/v1/order/yuyue/sendIdentifyCode/`,
+	//商品推荐
+	RECOMMENDGOODS: `${domain}/jygoods-api/v1/goods/recommend/goods/`
 };

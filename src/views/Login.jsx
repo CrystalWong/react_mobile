@@ -5,7 +5,7 @@ import cookie from 'react-cookie';
 import {login,findPwdByMobile} from '../Action/login';
 // import { default as action } from '../Action/login';
 import {Tool, merged} from '../Tool';
-import {DataLoad, DataNull, Header, TipMsgSignin, Footer} from '../Component/common/index';
+import {Header} from '../Component/common/index';
 import URLS from '../constants/urls';
 import {COMMON_HEADERS_POST} from '../constants/headers';
 import {ONLINE} from '../constants/common';

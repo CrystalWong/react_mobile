@@ -91,17 +91,81 @@
 
 .shoppingc-art + .no-list{
 	position: absolute;
-	top: 50%;
-	margin-top: -1rem;
+	top: 0;
+	margin-top: 1rem;
 	width: 100%;
+	height: 100%;
+	overflow: auto;
 	color: #666666;
 	text-align: center;
+	background: #eee;
 	button{
-		padding: .08rem .4rem;
+		padding: .08rem .2rem;
 		margin-top: .2rem;
 		color: #999999;
 	}
 	img{
 		width: 1.5rem;
 	}
+}
+
+/*为您推荐*/
+.like-floor h3{
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    position: relative;
+}
+.like-floor h3::after{
+	content: "";
+	position: absolute;
+	z-index: 9;
+	height: .5rem;
+	border-bottom: 2px solid #ddd;
+	width: 80%;
+	left: 50%;
+	margin-left: -40%;
+}
+.like-floor h3 span{
+	background: #F1F1F1;
+	padding: 0 .2rem;
+	color: #666;
+    font-size: .3rem;
+    position: relative;
+    z-index: 999
+}
+.like-floor h6{color: #333;font-weight: 400;}
+.lf-list {
+  margin-left: -.3rem;
+}
+.lf-list li {
+  box-sizing: border-box;
+  float: left;
+  padding: 0 0 .3rem .3rem;
+  width: 50%;
+  overflow: hidden;
+}
+.lf-list li a {
+  background-color: #fff;
+  display: block;
+}
+.lf-list li a .lf-thumb img {
+  height: 3rem;
+  width: auto;
+  margin: auto;
+}
+
+.lf-list li a .lf-tit {
+    padding: .1rem .36rem;
+}
+
+.lf-list li a .lf-tit h6 {
+    font-size: .28rem;
+    height: 1rem;
+    overflow: hidden;
+}
+
+.lf-list li a .lf-tit p {
+    color: #c00;
+    font-size: .32rem;
 }

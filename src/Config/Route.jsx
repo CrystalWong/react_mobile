@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import { Router, Route, IndexRoute, browserHistory, hashHistory } from 'react-router';
+import { Router, Route, IndexRoute,Redirect, browserHistory, hashHistory } from 'react-router';
 
 import Login from '../views/Login'; //登录
 import Register from '../views/Register'; //注册
@@ -32,6 +32,30 @@ class Roots extends Component {
     }
 }
 var history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHistory;
+
+// const rootRoute = {
+//   childRoutes: [ {
+//     path: '/',
+//     component: Roots,
+//     // childRoutes: [
+//     //   { path: 'register', component: Register },
+//     //   { path: 'appointment', component: Appointment }
+//     // ]
+//     getChildRoutes(location, cb) {
+//         require.ensure([], (require) => {
+//           cb(null, [
+//               { path: 'register', component: Register },
+//               { path: 'appointment', component: Appointment }
+//           ]);
+//         });
+//     }    
+//   } ]
+// }
+
+// const RouteConfig = (
+//     <Router history={history} routes={rootRoute}></Router>
+// );
+
 const RouteConfig = (
     <Router history={history}>
         <Route path="/" component={Roots}>
@@ -39,10 +63,10 @@ const RouteConfig = (
             <Route path="register" component={Register} />
             <Route path="registerpd" component={RegisterPassword} />
             <Route path="registerpro" component={RegisterPro} />
-            <Route path="yue" component={Yue} />
+            <Route path="yue*" component={Yue} />
             <Route path="center" component={Center} />
             <Route path="shoppingcart" component={ShoppingCart} />
-            <Route path="orderclosed" component={OrderClosed} />
+            <Route path="orderclosed*" component={OrderClosed} />
             <Route path="setbill" component={SetBill} />
             <Route path="address" component={Address} />
             <Route path="address-add" component={AddressAdd} />
@@ -52,6 +76,47 @@ const RouteConfig = (
         </Route>
     </Router>
 );
+
+
+
+function errorLoading(err) {
+  console.error('Dynamic page loading failed', err);
+}
+
+function loadRoute(cb) {
+  return (module) => cb(null, module.default);
+}
+
+// export default {
+//   component: Roots,
+//   childRoutes: [
+//     {
+//       path: '/',
+//       getComponent(location, cb) {
+//         System.import('../views/Login')
+//           .then(loadRoute(cb))
+//           .catch(errorLoading);
+//       }
+//     },
+    // {
+    //   path: 'register',
+    //   getComponent(location, cb) {
+    //     System.import(Register)
+    //       .then(loadRoute(cb))
+    //       .catch(errorLoading);
+    //   }
+    // },
+//     {
+//       path: 'registerpro',
+//       getComponent(location, cb) {
+//         System.import('../views/RegisterPro')
+//           .then(loadRoute(cb))
+//           .catch(errorLoading);
+//       }
+//     },
+//   ]
+// };
+
 Tool.rem();
 
 export default RouteConfig;
