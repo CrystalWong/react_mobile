@@ -132,7 +132,7 @@ class OrderClosed extends Component {
                     content: "东西这么实惠，真的要离我而去么",
                     leftText: "去意已决",
                     leftMethod: function() {
-                        Tool.history.back();
+                        Tool.history.goBack();
                     },
                     rightText: "我再想想",
                     rightMethod: function() {

@@ -45,13 +45,13 @@
 .confirm{
     position: absolute;
     top: 50%;
-    margin-top: -80px;
+    margin-top: -1.6rem;
     padding-top: .48rem;
     z-index: 200;
     left: 50%;
-    margin-left: -140px;
+    margin-left: -2.8rem;
     display: none;
-    width: 280px;
+    width: 5.6rem;
     border-radius: .2rem;
     vertical-align: middle;
     text-align: center;
@@ -60,11 +60,23 @@
     color: #333;
     background: #fff;
 }
+.confirm header{line-height: 1.4;}
+.confirm header,.confirm .content{
+    margin: 0 .4rem;
+}
 .confirm .content{
     margin-top: .24rem;
-    padding-bottom: .48rem;
-    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: .48rem;
+    overflow-x: auto;
+    width: 4.8rem;
+    white-space: nowrap
 }
+.confirm .content img{
+    margin: 0 .2rem;
+    width: 1rem;
+    height: 1rem;
+}
+.confirm .content img:nth-child(1){margin-left: 0;}
 .confirm .button{
     display: box;
     display:-webkit-box;
@@ -72,6 +84,7 @@
     height: .9rem;
     color: #0079ff;
     line-height: .9rem;
+    border-top: 1px solid #e0e0e0;
 }
 .confirm .button span{
     display: block;
