@@ -40,5 +40,7 @@ export default {
 	PROVINCE: `${domain}/common-city/v1/province/queryAllProvinces`,  //?containChilds=false
 	CITY: `${domain}/common-city/v1/city/queryCitys/`, //130000000
 	COUNTRY: `${domain}/common-city/v1/country/queryCountrysByCityId/`,
-	XZ: `${domain}/common-city/v1/xz/getXzsByCountyId/`
+	XZ: `${domain}/common-city/v1/xz/getXzsByCountyId/`,
+	//个人订单查询
+	myOrder: `${domain}/jyorder-center/v1/order/app/queryOrderList`
 };
