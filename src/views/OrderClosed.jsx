@@ -8,6 +8,7 @@ import {Toast,Confirm} from '../Component/common/Tip';
 import {COMMON_HEADERS_POST} from '../constants/headers';
 import cookie from 'react-cookie';
 import {OrderClosedList} from '../Component/orderClosedList';
+import {OrderClosedListItemSun} from '../Component/orderClosedItemSun';
 /**
  * 模块入口
  * 
@@ -147,6 +148,7 @@ class OrderClosed extends Component {
             // };
         }
     render() {
+        console.log(this.state);
         return (
             <div>
                 <header className="common-header">
@@ -190,6 +192,13 @@ class OrderClosed extends Component {
 							<dd><span>¥{this.state.ajdata.totalShipFee}</span></dd>
 						</dl>
 					</div>
+                    <a className="tanm">
+                            {
+                                    this.state.ajdata.errorList.map((item,index)=>
+                                        <OrderClosedListItemSun key={index} {...item}/>
+                                    )
+                            }
+                    </a>
                     <a className="tanm">
                             <dl className="clearfix">
                                     <dt>

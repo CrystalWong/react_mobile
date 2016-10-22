@@ -47,6 +47,8 @@ export default {
 	CITY: `${domain}/common-city/v1/city/queryCitys/`, //130000000
 	COUNTRY: `${domain}/common-city/v1/country/queryCountrysByCityId/`,
 	XZ: `${domain}/common-city/v1/xz/getXzsByCountyId/`,
+	//个人订单查询
+	myOrder: `${domain}/jyorder-center/v1/order/app/queryOrderList`,
 	//预约
 	YUYUE: `${domain}/jyall-workflowV2/v1/order/yuyue/stateless`,
 	YUYUECODE: `${domain}/jyall-workflowV2/v1/order/yuyue/sendIdentifyCode/`,

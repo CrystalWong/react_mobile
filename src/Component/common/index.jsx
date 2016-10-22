@@ -12,12 +12,42 @@ import {COMMON_HEADERS_POST,COMMON_HEADERS} from '../../constants/headers';
  * @export
  * @class Header
  * @extends {Component}
+
  */
 export class Header extends Component {
-    render() {
-        let {title, leftIcon} = this.props;
-        let left = null;
+        constructor(props) {
+        
+        super(props);
+        this.state = {
+            hClass: 'h-screen',
+            hPar:false
+        };
+    }
+    classify(){
+        if(!this.state.hPar){
+            this.setState({ hClass: 'h-screen hs-icoUp',hPar:true});
+        }else{
+            this.setState({ hClass: 'h-screen',hPar:false });
+        }
+        this.props.callbackParent(this.state.hPar);
+    }
+    industry(e){
+        if(e.target.parentNode.tagName == "LI"){
+            this.props.callback(e.target.parentNode.id);
+            for(var i = 0; i < this.refs.industry.childNodes.length;i++){
+                this.refs.industry.childNodes[i].className = " ";
+            }
+            e.target.parentNode.className = "active"; 
+            this.setState({ hClass: 'h-screen',hPar:false });
+            this.props.callbackParent(this.state.hPar);
 
+       }
+    }
+
+    render() {
+        let {title, leftIcon , hadeScreen="",hClass="h-screen"} = this.props;
+        let left = null,
+            hScreen = null;
         if (leftIcon === 'fanhui') { //返回上一页
             left = (
                 <a onClick={this.context.router.goBack}>
@@ -25,12 +55,34 @@ export class Header extends Component {
                 </a>
             );
         }
+        if(hadeScreen === 'true'){//头部筛选
+
+            hScreen = (
+                <div className="h-screen-warp">
+                    <div className={this.state.hClass} ref="hState" onClick={this.classify.bind(this)}>
+                    </div>
+                    <div className="h-s-list" style={{display: this.state.hPar?"block":"none"}}>
+                        <ul className="clearfix" onClick={this.industry.bind(this)} ref="industry">
+                            <li id="0" className="active"><span>全部订单</span></li>
+                            <li id="1"><span>家居订单</span></li>
+                            <li id="2"><span>家装订单</span></li>
+                            <li id="4"><span>家电订单</span></li>
+                            <li id="3"><span>家具订单</span></li>
+                            <li id="5"><span>家政订单</span></li>
+                        </ul>
+                    </div>
+                </div>
+            );
+        }
+        
         return (
             <header className="common-header">
                 <div className="left-arrow">
                     {left}
                 </div>
-                <h2 className="title">{title}</h2>
+                <h2 className="title">{title}
+                    {hScreen}
+                </h2>
             </header>
         );
     }
