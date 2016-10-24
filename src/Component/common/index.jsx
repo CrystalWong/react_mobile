@@ -15,7 +15,7 @@ import {COMMON_HEADERS_POST,COMMON_HEADERS} from '../../constants/headers';
 
  */
 export class Header extends Component {
-        constructor(props) {
+    constructor(props) {
         
         super(props);
         this.state = {
@@ -37,6 +37,7 @@ export class Header extends Component {
             for(var i = 0; i < this.refs.industry.childNodes.length;i++){
                 this.refs.industry.childNodes[i].className = " ";
             }
+            this.refs.sHead.innerText=e.target.innerText;
             e.target.parentNode.className = "active"; 
             this.setState({ hClass: 'h-screen',hPar:false });
             this.props.callbackParent(this.state.hPar);
@@ -80,7 +81,7 @@ export class Header extends Component {
                 <div className="left-arrow">
                     {left}
                 </div>
-                <h2 className="title">{title}
+                <h2 className="title"><span ref="sHead">{title}</span>
                     {hScreen}
                 </h2>
             </header>

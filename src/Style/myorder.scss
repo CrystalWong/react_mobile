@@ -34,6 +34,9 @@ $deSize: .28rem;
 		}
 	}
 }
+.mo-main{
+	height:256px;
+}
 .mom-head{
 	background: #fff;
 	height: .88rem;
@@ -131,7 +134,7 @@ $deSize: .28rem;
 		border-bottom:0 none;
 	};
 	.mm-but{
-		display: inline-block;
+		display: none;
 		font-size: $deSize;
 		margin-left: .2rem;
 		color: #333;
@@ -142,6 +145,8 @@ $deSize: .28rem;
 		width: 1.6rem;
 		text-align: center;
 		vertical-align: middle;
+		float: right;
+		margin-top: 7px;
 	}
 	.mm-but.but-org{
 		color: #f60;
