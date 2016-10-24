@@ -58,7 +58,7 @@ var history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHisto
 // );
 
 const RouteConfig = (
-    <Router history={history}>
+    <Router history={browserHistory}>
         <Route path="/" component={Roots}>
             <IndexRoute component={Login} />
             <Route path="register" component={Register} />

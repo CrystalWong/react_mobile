@@ -9,7 +9,6 @@ const initAddress = {
 };
 
 export default function address(address = initAddress, action) {
-  console.log(action);
   switch (action.type) {
   case ADDRESS:
     return action;	

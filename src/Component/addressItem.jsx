@@ -2,6 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import Cookie from 'react-cookie';
 import URLS from '../constants/urls.js';
 import {Tool, merged} from '../Tool';
+import {ONLINE} from '../constants/common';
+import cookie from 'react-cookie';
 
 export class AddressItem extends Component{
 	constructor(props){
@@ -40,7 +42,13 @@ export class AddressItem extends Component{
 			locationInfo: this.props.locationInfo,
 			memberId: this.props.memberId
 		});
-		Tool.history.goBack();
+        var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"m.jyall.com":"") }
+        cookie.save('addressId', this.props.id, cookieObj);
+        cookie.save('consigneeName', this.props.consigneeName, cookieObj);
+
+		// setTimeout(function(){
+			Tool.history.goBack();
+		// },1000);
 	}
 
 	render(){

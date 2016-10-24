@@ -55,5 +55,7 @@ export default {
 	//商品推荐
 	RECOMMENDGOODS: `${domain}/jygoods-api/v1/goods/recommend/goods/`,
 	//物流详情
-	EXPRESSINFO: `${domain}/jyorder-center/v1/order/app/expressInfo/`
+	EXPRESSINFO: `${domain}/jyorder-center/v1/order/app/expressInfo/`,
+	//跳转到支付
+	TOPAY: `${domain}/jyorder-center/v1/order/app/pay/`
 };

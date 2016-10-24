@@ -58,7 +58,7 @@ class AddressAdd extends Component {
                 	if(status == 200){
                 		self.setState({ tipContent: '添加地址成功',display: 'toasts' });
                 		setTimeout(function(){
-                			Tool.history.push('/address');
+                			Tool.history.goBack();
                 		},1500);
                 	}
                 }

@@ -74,6 +74,7 @@ class Address extends Component {
 		this.setState({
 			confirm : {
 				title: "确定删除本地址吗",
+				content: "",
             	leftText: "取消",
             	leftMethod: ()=>{
             		_this.setState({confirm : {display : 'none'}});
@@ -107,7 +108,9 @@ class Address extends Component {
 		}
 		function mapDispatchToProps(dispatch) {  
 		  return {
-		    saveAddressInfo: (user) => dispatch(address(user))
+		    saveAddressInfo: (user) => {
+		    	dispatch(address(user));
+		    }
 		  };
 		}
 
