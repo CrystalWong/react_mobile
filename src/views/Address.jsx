@@ -49,7 +49,7 @@ class Address extends Component {
 	}
 
 	onChildDefault(child){
-		let {memberId , id} = child.props,_this = this;
+		let {memberId , id} = child.props.item,_this = this;
 		let headers = COMMON_HEADERS_POST('tokenid', Cookie.load('tokenid'));
 		let data = {
 			"memberId" : memberId,
@@ -70,10 +70,11 @@ class Address extends Component {
 
 	// 删除
 	callbackDel(child){
-		let {id} = child.props,_this = this;
+		let {id} = child.props.item,_this = this;
 		this.setState({
 			confirm : {
 				title: "确定删除本地址吗",
+				content: "",
             	leftText: "取消",
             	leftMethod: ()=>{
             		_this.setState({confirm : {display : 'none'}});
@@ -107,7 +108,9 @@ class Address extends Component {
 		}
 		function mapDispatchToProps(dispatch) {  
 		  return {
-		    saveAddressInfo: (user) => dispatch(address(user))
+		    saveAddressInfo: (user) => {
+		    	dispatch(address(user));
+		    }
 		  };
 		}
 
@@ -118,7 +121,7 @@ class Address extends Component {
 				<ul className="address-list">
 					{
 						this.state.addressMsg.map((item,index) => 
-							<AddressItemConnect key={index}{...item} flag={this.state.flag} callbackDefault={this.onChildDefault.bind(this)}  callbackDel={this.callbackDel.bind(this)} goBack={this.goBack.bind(this)}/>
+							<AddressItemConnect key={index} item = {item} flag={this.state.flag} callbackDefault={this.onChildDefault.bind(this)}  callbackDel={this.callbackDel.bind(this)} goBack={this.goBack.bind(this)}/>
 						)
 					}
 				</ul>

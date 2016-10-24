@@ -1,1 +1,1 @@
-export const ONLINE = false;//是否线上
+export const ONLINE = process.env.NODE_ENV !== 'production' ? false : true;//是否线上

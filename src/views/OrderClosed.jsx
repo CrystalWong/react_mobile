@@ -8,7 +8,6 @@ import {Toast,Confirm} from '../Component/common/Tip';
 import {COMMON_HEADERS_POST} from '../constants/headers';
 import cookie from 'react-cookie';
 import {OrderClosedList} from '../Component/orderClosedList';
-import {OrderClosedListItemSun} from '../Component/orderClosedItemSun';
 /**
  * 模块入口
  * 
@@ -102,29 +101,48 @@ class OrderClosed extends Component {
 	                headers: headers,
 	                successMethod: function(json){
                         if(json.errorList==undefined){
-                        self.setState({
-                            confirm: {
-                                title: "是否确认拨打此电话？",
-                                content: "刘德华 13409090909<img src='http://image1.jyall.com/v1/tfs/T1QyWTBjWg1RXrhCrK.jpg'>",
-                                leftText: "取消",
-                                leftMethod: function() {
-                                    alert("取消");
-                                },
-                                rightText: "确定",
-                                rightMethod: function() {
-                                    alert("确定");
-                                },
-                                display: "block"
-                            }
-                        });
+                        // self.setState({
+                        //     confirm: {
+                        //         title: "是否确认拨打此电话？",
+                        //         content: "<img src='http://image1.jyall.com/v1/tfs/T1QyWTBjWg1RXrhCrK.jpg'>",
+                        //         leftText: "取消",
+                        //         leftMethod: function() {
+                        //            self.setState({confirm:{display: "none"}});
+                        //         },
+                        //         rightText: "确定",
+                        //         rightMethod: function() {
+                        //             alert("确定");
+                        //         },
+                        //         display: "block"
+                        //     }
+                        // });
+                            Tool.fetch(this,{//获取支付地址
+                                url: `${URLS.TOPAY}${json.id}`,
+                                type: "post",
+                                headers: headers,
+                                successMethod: function(json){
+                                    
+                                }
+                            });
+                            
+                            // 
                         }else{
-                            location.href="";
+                            if(json.errorType=="1"){
+                                alert("部分库存不足");
+                            }else if(json.errorType=="2"){
+                                alert("商品不再配送区域");
+                            }else if(json.errorType=="3"){
+                                alert("商品库存不足");
+                            }
+                            // location.href="";
+                            //跳支付
                         }
 	                }
 	            });
             }
             this.choseAddress=()=>{
-            	location.href="/address";
+            	// location.href="/address";
+                Tool.history.push("/address");
             }
             this.goBack=()=>{
             self.setState({
@@ -148,7 +166,6 @@ class OrderClosed extends Component {
             // };
         }
     render() {
-        console.log(this.state);
         return (
             <div>
                 <header className="common-header">
@@ -192,13 +209,6 @@ class OrderClosed extends Component {
 							<dd><span>¥{this.state.ajdata.totalShipFee}</span></dd>
 						</dl>
 					</div>
-                    <a className="tanm">
-                            {
-                                    this.state.ajdata.errorList.map((item,index)=>
-                                        <OrderClosedListItemSun key={index} {...item}/>
-                                    )
-                            }
-                    </a>
                     <a className="tanm">
                             <dl className="clearfix">
                                     <dt>
