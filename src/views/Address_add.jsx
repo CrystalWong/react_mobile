@@ -1,4 +1,5 @@
 import React,{Component,PropTypes} from 'react';
+import { connect } from 'react-redux';
 import cookie from 'react-cookie';
 import {Header,AddressSelect} from '../Component/common/index';
 import {Toast} from '../Component/common/Tip';
@@ -10,6 +11,7 @@ import {COMMON_HEADERS_POST} from '../constants/headers';
 class AddressAdd extends Component {
 	constructor(props){
 		super(props);
+		console.log(props);
 		this.state = {
 			tipContent: '',
             display: '',
@@ -91,9 +93,21 @@ class AddressAdd extends Component {
             xz: data.xz
     	});
     }
-    // componentDidUpdate(){
-    // 	console.log(this.state);
-    // }
+    componentDidMount(){
+    	let addressItem = this.props.address;
+    	if(addressItem.from && addressItem.from == "edit"){
+    		this.refs.contact.value = addressItem.consigneeMobile;
+    		this.refs.name.value = addressItem.consigneeName;
+    		this.refs.current.checked = (addressItem.type1 == 1)?true:false;
+	    	this.setState({
+	            provinceId: addressItem.provinceId,
+	            province: addressItem.locationInfo,
+	            cityId: addressItem.cityId,
+	            countryId: addressItem.countryId,
+	            xzId: addressItem.townId
+	    	});
+    	}
+    }
 
 	render(){
 		return(
@@ -106,7 +120,7 @@ class AddressAdd extends Component {
 					<li><label>详细地址：</label><blockquote><input type="text" ref="address" placeholder="街道、楼牌号等"/></blockquote></li>
 					<li><label>设为默认地址<p>注：设为默认后，下单时会使用该地址</p></label><blockquote className="pub_switch_box"><input type="checkbox" id="pub_switch_a1" className="pub_switch" ref="current" /><label htmlFor="pub_switch_a1"></label></blockquote></li>
 				</ul>
-				<a href="javascript:void(0)" className="add-address-btn" onClick={this.saveAddress.bind(this)}>保存并使用</a>
+				<a href="javascript:void(0)" className="add-address-btn" onClick={this.saveAddress.bind(this)}>保存</a>
 				<Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} />
 				<AddressSelect _style={this.state.addressSelectStyle} close = {this.closeAddress.bind(this)} addressResult={this.addressResult.bind(this)} />
 				<div className="mask" style={{display: this.state.addressSelectStyle=="0"?"block":"none"}}></div>
@@ -115,4 +129,11 @@ class AddressAdd extends Component {
 	}
 }
 
-export default AddressAdd;
+// export default AddressAdd;
+function mapStateToProps(state,ownProps) {
+  return {
+    address: state.address
+  };
+}
+
+export default connect(mapStateToProps)(AddressAdd);
