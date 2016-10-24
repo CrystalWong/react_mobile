@@ -8,6 +8,7 @@ var publicPath = '/';//服务器路径
 var path = __dirname + '/';
 
 var plugins = [];
+var devtool = 'cheap-module-eval-source-map';
 
 var hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000';
 
@@ -19,6 +20,7 @@ if (process.argv.indexOf('-p') > -1) {//生产环境
     }));
     publicPath = '/build/dist/';
     path = __dirname + '/build/dist/';
+    devtool = false;
 }
 plugins.push(new ExtractTextPlugin('[name].css'));//css单独打包
 
@@ -65,8 +67,7 @@ plugins.push(new webpack.optimize.UglifyJsPlugin({
 
 module.exports = {
     // devtool: '#source-map',
-    devtool: 'cheap-module-eval-source-map',
-    // devtool: false,
+    devtool: devtool,
     entry: {
         app: [
           'webpack-dev-server/client?http://localhost:3000',
