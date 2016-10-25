@@ -30,15 +30,21 @@
 				em{font-style:normal;margin-left:.2rem;color:#f00;}
 				&:before{background-image:url(../images/center/cart.png);}
 			}
-			&.cm-sell{
-				&:before{background-image:url(../images/center/sell.png);}
+			// &.cm-sell{
+			// 	&:before{background-image:url(../images/center/sell.png);}
+			// }
+			// &.cm-buy{
+			// 	&:before{background-image:url(../images/center/buy.png);}
+			// }
+			// &.cm-entrust{
+			// 	&:before{background-image:url(../images/center/entrust.png);}
+			// }
+			&.cm-yue{
+				&:before{background-image:url(../images/center/yue.png);}
 			}
-			&.cm-buy{
-				&:before{background-image:url(../images/center/buy.png);}
-			}
-			&.cm-entrust{
-				&:before{background-image:url(../images/center/entrust.png);}
-			}
+			&.cm-order{
+				&:before{background-image:url(../images/center/order.png);}
+			}			
 			&.cm-address{
 				&:before{background-image:url(../images/center/address.png);}
 			}
