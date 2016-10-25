@@ -97,14 +97,16 @@ module.exports = {
             },{
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader!sass-loader")
-            }, {
-                test: /\.(eot|woff|svg|ttf|woff2|gif|appcache)(\?|$)/,
-                exclude: /^node_modules$/,
-                loader: 'file-loader?name=[name].[ext]'
-            }, {
+            }, 
+            // {
+            //     test: /\.(eot|woff|svg|ttf|woff2|gif|appcache)(\?|$)/,
+            //     exclude: /^node_modules$/,
+            //     loader: 'file-loader?name=[name].[ext]'
+            // }, 
+            {
                 test: /\.(png|jpg)$/,
                 exclude: /^node_modules$/,
-                loader: 'url?limit=20000&name=[name].[ext]'//注意后面那个limit的参数，当你图片大小小于这个限制的时候，会自动启用base64编码图片
+                loader: 'url?limit=8192&name=[name].[ext]'//注意后面那个limit的参数，当你图片大小小于这个限制的时候，会自动启用base64编码图片
             },
              {
                 test: /\.jsx$/,
@@ -115,7 +117,13 @@ module.exports = {
                test: [/\.js$/, /\.es6$/],
                exclude: /node_modules/,
                loader: WebpackStripLoader.loader('console.log')
-            }
+            },
+            {
+                    //html模板加载器，可以处理引用的静态资源，默认配置参数attrs=img:src，处理图片的src引用的资源
+                    //比如你配置，attrs=img:src img:data-src就可以一并处理data-src引用的资源了，就像下面这样
+                test: /\.html$/,
+                loader: "html"//?attrs=img:src img:data-src
+            },
             //{test:/\.jsx$/, loaders: ["react-hot-loader", "babel-loader?stage=0"]}
         ]
     },

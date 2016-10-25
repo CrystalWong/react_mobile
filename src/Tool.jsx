@@ -26,9 +26,6 @@ Tool.fetch = function(obj,data){
         status = response.status;
         return response.json();
     }).then(json => {
-      if(json.code==400001012){
-        location.href="/";
-      }
       data.successMethod(json,status);
     });
 }

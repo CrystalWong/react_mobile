@@ -45,7 +45,7 @@ export class ShoppingItem extends Component {
                 headers: COMMON_HEADERS,
                 successMethod: function(json){
                     if(json.flag == true){
-                        self.refs.icon.src = "src/images/shopping/no_select.png";
+                        self.refs.icon.src = "./src/images/shopping/no_select.png";
                         self.props.callback2(false,self.props.index);
                     }
                 }
@@ -56,7 +56,7 @@ export class ShoppingItem extends Component {
     render() {
         console.log(this.props);
         let {skuName,mainImg,speczs,sellPrice,state,count,select,status,salesState ,stock } = this.props;
-        let icon = (state==1&&status==1&&salesState==2)?(select?"src/images/shopping/select.png":"src/images/shopping/no_select.png"):"src/images/shopping/invalid.png",
+        let icon = (state==1&&status==1&&salesState==2)?(select?"./src/images/shopping/select.png":"./src/images/shopping/no_select.png"):"./src/images/shopping/invalid.png",
             width = state==1?".4rem":".6rem",
             width2 = state==1?"2.6rem":"2.8rem";
 

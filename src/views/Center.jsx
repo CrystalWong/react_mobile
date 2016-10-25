@@ -5,6 +5,7 @@ import {COMMON_HEADERS} from '../constants/headers';
 import URLS from '../constants/urls.js';
 import {Tool, merged} from '../Tool';
 import '../Style/center';
+import {Header} from '../Component/common/index';
 
 class Center extends Component {
 	constructor(props){
@@ -53,6 +54,7 @@ class Center extends Component {
 	render(){
 		return(
 			<div>
+			    <Header title="个人中心" leftIcon="fanhui" />
 				<header className="center-header">
 					<a href="#" className="ch-setting">设置</a>
 					<div className="ch-avatar"><img src={this.state.photo} /></div>
