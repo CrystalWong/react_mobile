@@ -32,7 +32,7 @@ class Address extends Component {
 		this.getAddress = () => {
 			let _this = this;
 			Tool.fetch(this,{
-                url: URLS.Address + "/user/" + this.state.userId,
+                url: URLS.Address + "/user/" + this.state.userId+"?_t="+Cookie.load('tokenid'),
                 type: "get",
 
                 successMethod: function(json){

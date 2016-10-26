@@ -99,7 +99,7 @@ class OrderClosed extends Component {
 	                type: "post",
 	                body:JSON.stringify(paramData),
 	                headers: headers,
-	                successMethod: function(json){
+	                successMethod: function(json,status){
                         if(json.errorList==undefined){
                         // self.setState({
                         //     confirm: {
@@ -116,15 +116,17 @@ class OrderClosed extends Component {
                         //         display: "block"
                         //     }
                         // });
-                            Tool.fetch(this,{//获取支付地址
-                                url: `${URLS.TOPAY}${json.id}`,
-                                type: "post",
-                                headers: headers,
-                                successMethod: function(json){
-                                    
+                                if(status == 200){
+                                     Tool.fetch(this,{//获取支付地址
+                                        url: `${URLS.TOPAY}${json.id}?source=WAP`,
+                                        type: "post",
+                                        headers: headers,
+                                        successMethod: function(json){
+                                            console.log(json);
+                                            location.href=json.wapPayUrl;
+                                        }
+                                    });                           
                                 }
-                            });
-                            
                             // 
                         }else{
                             if(json.errorType=="1"){
