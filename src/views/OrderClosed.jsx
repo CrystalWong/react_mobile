@@ -66,6 +66,7 @@ class OrderClosed extends Component {
                 url: `${URLS.OrderClosed}`,
                 type: "post",
                 headers: headers,
+                tokenid: cookie.load('tokenid'),
                 successMethod: function(json){
                     self.setState({ajdata:json});
                     if(json.address==null||json.address==undefined||json.address==""){
@@ -79,12 +80,18 @@ class OrderClosed extends Component {
             Tool.fetch(this,data);
             this.submitOrder = () => {
             	let goodsListVO=[];
-            	for(let v of this.state.ajdata.storeVOList){
-					for(let b of v.goodsVOList){
-						goodsListVO.push(b);
-					}
-				}
-				console.log(this.state);
+
+                this.state.ajdata.storeVOList.forEach(function(item){
+                    item.goodsVOList.forEach(function(it){
+                        goodsListVO.push(it);
+                    });
+                });
+
+    //         	for(let v of self.state.ajdata.storeVOList){
+    //                 for(let b of v.goodsVOList){
+    //                     goodsListVO.push(b);
+    //                 }
+				// }
             	let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),self=this,
             	paramData={
 				    "addressVO": {
@@ -170,6 +177,9 @@ class OrderClosed extends Component {
             //   return "快住手！！别点下去！！";
             // };
         }
+    // componentDidUpdate(){
+    //     alert(this.refs.h3.innerText)
+    // }    
     render() {
         return (
             <div>

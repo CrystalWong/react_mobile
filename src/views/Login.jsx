@@ -53,7 +53,6 @@ class Login extends Component {
             Tool.fetch(this,{
                 url: `${URLS.LOGIN}?userName=${userName}&passWord=${passWord}&source=${source}&version=14&code=${code.value}&uuid=${this.random}`,
                 type: "post",
-                body: "",
                 headers: headers,
                 successMethod: function(json){
                     self.setState({ button: '登录' });
