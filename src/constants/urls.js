@@ -24,12 +24,38 @@ export default {
 	SELECTITEM: `${domain}/jygoods-api/v1/jycart/selectItem/`,
 	//取消选择购物项
 	CONCELITEM: `${domain}/jygoods-api/v1/jycart/cancelItem/`,
-	//下载地址
-	Download : 'https://itunes.apple.com/cn/app/jin-se-jia-yuan-wang/id1033724221?mt=8',
 	//收货地址
 	Address : `${domain}/user-manage/v1/address`,
 	//家园豆
 	bean : `${domain}/jysales-api/v1/coupon/getUserCouponAndBeanInfo`,
 	//订单结算
-	OrderClosed:`${domain}/jyorder-center/v1/order/app/appSettlement`
+	OrderClosed:`${domain}/jyorder-center/v1/order/app/appSettlement`,
+	//提交订单
+	SubmitOrder:`${domain}/jyorder-center/v1/order/app/submitOrder`,
+	//订单详情
+	OrderDetail:`${domain}/jyorder-center/v1/order/app/queryOrderById`,
+	//订单详情-删除订单-post
+	DeleateOrder:`${domain}/v1/order/app/deleteOrderById/`,
+	//订单详情-确认收货-post
+	ConfirmGetDoods:`${domain}/v1/order/app/batchReceipt/`,
+	//订单详情-取消订单-post
+	CancelOrder:`${domain}/v1/order/app/cancleOrderById/`,
+	//预约单
+	APPOINTMENTLIST:`${domain}/jyall-workflowV2/v1/orderquery/pageorder/user`,
+	//四级地址  http://10.10.32.46/swagger/index.html#!
+	PROVINCE: `${domain}/common-city/v1/province/queryAllProvinces`,  //?containChilds=false
+	CITY: `${domain}/common-city/v1/city/queryCitys/`, //130000000
+	COUNTRY: `${domain}/common-city/v1/country/queryCountrysByCityId/`,
+	XZ: `${domain}/common-city/v1/xz/getXzsByCountyId/`,
+	//个人订单查询
+	myOrder: `${domain}/jyorder-center/v1/order/app/queryOrderList`,
+	//预约
+	YUYUE: `${domain}/jyall-workflowV2/v1/order/yuyue/stateless`,
+	YUYUECODE: `${domain}/jyall-workflowV2/v1/order/yuyue/sendIdentifyCode/`,
+	//商品推荐
+	RECOMMENDGOODS: `${domain}/jygoods-api/v1/goods/recommend/goods/`,
+	//物流详情
+	EXPRESSINFO: `${domain}/jyorder-center/v1/order/app/expressInfo/`,
+	//跳转到支付
+	TOPAY: `${domain}/jyorder-center/v1/order/app/pay/`
 };

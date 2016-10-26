@@ -25,7 +25,7 @@ export class AddReduce extends Component {
         e.preventDefault();
         if(this.state.num <= 1){return;}
         let isLogin = 0,
-            uKey = cookie.load('tokenid'),
+            uKey = cookie.load('tokenid')?cookie.load('tokenid'):cookie.load('jycart_uKey'),
             groupSkuId = this.props.groupSkuId,
             count=1,
             self = this; 
@@ -49,7 +49,7 @@ export class AddReduce extends Component {
         e.stopPropagation(); 
         e.preventDefault();
         let isLogin = 0,
-            uKey = cookie.load('tokenid'),
+            uKey = cookie.load('tokenid')?cookie.load('tokenid'):cookie.load('jycart_uKey'),
             groupSkuId = this.props.groupSkuId,
             count=1,
             self = this;

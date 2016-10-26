@@ -20,15 +20,15 @@ export class ShoppingItem extends Component {
         }
 
         let isLogin = 0,
-            uKey = cookie.load('tokenid'),
+            uKey = cookie.load('tokenid')?cookie.load('tokenid'):cookie.load('jycart_uKey'),
             groupSkuId = this.props.groupId+"_"+this.props.skuId,
             suitIds = "",
             self = this; 
-        if(cookie.load('tokenid'))isLogin = 1;
+        if(cookie.load('tokenid') != "undefined")isLogin = 1;
 
         if(this.refs.icon.src.match("no_select")){
             Tool.fetch(this.props.parent,{
-                url: `${URLS.SELECTITEM}${isLogin}/${uKey}?groupSkuId=${groupSkuId}&selectAll=0`,
+                url: `${URLS.SELECTITEM}${isLogin}/${uKey}?groupSkuIds=${groupSkuId}&selectAll=0&source=2`,
                 type: "put",
                 headers: COMMON_HEADERS,
                 successMethod: function(json){
@@ -40,12 +40,12 @@ export class ShoppingItem extends Component {
             });
         }else{
             Tool.fetch(this.props.parent,{
-                url: `${URLS.CONCELITEM}${isLogin}/${uKey}?groupSkuId=${groupSkuId}&selectAll=0`,
+                url: `${URLS.CONCELITEM}${isLogin}/${uKey}?groupSkuIds=${groupSkuId}&selectAll=0&source=2`,
                 type: "put",
                 headers: COMMON_HEADERS,
                 successMethod: function(json){
                     if(json.flag == true){
-                        self.refs.icon.src = "src/images/shopping/no_select.png";
+                        self.refs.icon.src = "./src/images/shopping/no_select.png";
                         self.props.callback2(false,self.props.index);
                     }
                 }
@@ -56,7 +56,7 @@ export class ShoppingItem extends Component {
     render() {
         console.log(this.props);
         let {skuName,mainImg,speczs,sellPrice,state,count,select,status,salesState ,stock } = this.props;
-        let icon = (state==1&&status==1&&salesState==2)?(select?"src/images/shopping/select.png":"src/images/shopping/no_select.png"):"src/images/shopping/invalid.png",
+        let icon = (state==1&&status==1&&salesState==2)?(select?"./src/images/shopping/select.png":"./src/images/shopping/no_select.png"):"./src/images/shopping/invalid.png",
             width = state==1?".4rem":".6rem",
             width2 = state==1?"2.6rem":"2.8rem";
 
@@ -64,11 +64,11 @@ export class ShoppingItem extends Component {
             <li onClick={this.select.bind(this)}>
     			<span style={{ width: width2 }}>
     			    <img src={icon} className="fl" ref = "icon" style={{ width: width }} />
-    			    <img src={mainImg} className="fl" />
+    			    <img src={mainImg?mainImg:""} className="fl" />
     			</span>
     			<div className = "shopping-content">
     				<p className="item-title">{skuName}</p>
-    				<p>{speczs}</p>
+                    <p>{speczs&&speczs.map((item) =>item.specName+":"+item.specValueName+" ")}</p>
     				<p>￥{sellPrice}</p>
     			</div>
     			<AddReduce num={count} callback={this.props.callback} index={this.props.index} groupSkuId={this.props.groupId+"_"+this.props.skuId} stock={stock} parent={this.props.parent} />

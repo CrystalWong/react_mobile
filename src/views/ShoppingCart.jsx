@@ -9,7 +9,8 @@ import {Tool, merged} from '../Tool';
 import URLS from '../constants/urls';
 import {COMMON_HEADERS} from '../constants/headers';
 import {shoppingCartCount} from '../Action/ShoppingCart';
-import {Toast} from '../Component/common/Tip';
+import {Toast,Confirm} from '../Component/common/Tip';
+import {ONLINE} from '../constants/common';
 
 /**
  * 模块入口
@@ -29,22 +30,39 @@ class ShoppingCart extends Component {
             allNum: 0,
             tipContent: '',
             display: '',
-            nolist: 'none'
+            nolist: 'none',
+            recommentList: [],
+            uKey: "",
+            confirm: {
+                title: "以下商品不足或已下架，无法被购买您可以继续结算其他商品",
+                content: "<img src='http://image1.jyall.com/v1/tfs/T1QyWTBjWg1RXrhCrK.jpg' /><img src='http://image1.jyall.com/v1/tfs/T1QyWTBjWg1RXrhCrK.jpg' />", 
+                leftText: "取消",
+                leftMethod: function(){
+                    alert("取消");
+                },
+                rightText: "确定",
+                rightMethod: function(){
+                    alert("确定");
+                },
+                display: "none"
+            }
         };
 
         let headers = COMMON_HEADERS();
         let self = this;
         this.count = 0;
+        let params = cookie.load('tokenid')?("&tokenId="+cookie.load('tokenid')):(cookie.load('jycart_uKey')?"&uKey="+cookie.load('jycart_uKey'):'');
         Tool.fetch(this,{
-            url: `${URLS.QUERYCART}?tokenId=${cookie.load('tokenid')}`,
+            url: `${URLS.QUERYCART}?source=2${params}`,
             type: "get",
             body: "",
             headers: headers,
             successMethod: function(json){
-            	if(json.code == 400001012){
-            		//用户未登录
-            		return;
-            	}
+                if(json.uKey){//未登录
+                    var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"jyall.com":"") }
+                    cookie.save('jycart_uKey', json.uKey, cookieObj);
+                    self.setState({uKey: json.uKey});
+                }
             	self.allMoney = 0;
             	self.allNum = 0;
             	json.cartItems.map(item => {
@@ -56,6 +74,7 @@ class ShoppingCart extends Component {
 
             	if(json.totalItemCount > 999){json.totalItemCount = "999+";}
                 // json.cartItems = [];
+                console.log(json.cartItems);
                 self.setState({ 
                 	list: json.cartItems,
                 	title: "购物车("+ json.totalGoodsCount +")",
@@ -63,6 +82,17 @@ class ShoppingCart extends Component {
                 	allNum: self.allNum,
                     nolist: json.cartItems.length==0?"block":"none"
                 });
+            }
+        });
+
+        Tool.fetch(this,{
+            url: `${URLS.RECOMMENDGOODS}1?userId=${cookie.load("userId")}&num=4`,
+            type: "get",
+            headers: COMMON_HEADERS,
+            successMethod: function(json,status){
+                if(status == 200){
+                    self.setState({recommentList:json});
+                }
             }
         });
     }
@@ -186,7 +216,7 @@ class ShoppingCart extends Component {
                 	<ul>
                 	    {
                             this.state.list.map((item,index) =>
-					            <ShoppingItem key={item.skuId} index={index} callback={this.shoppingCartCount.bind(this)} callback2={this.selectStatement.bind(this)} {...item} />
+					            <ShoppingItem key={index} index={index} callback={this.shoppingCartCount.bind(this)} callback2={this.selectStatement.bind(this)} {...item} />
 					        )
                         }
                 	</ul>
@@ -195,40 +225,50 @@ class ShoppingCart extends Component {
                 		<div className="fr">合计:<span style={{color: "#cc0000",marginRight: ".2rem"}}>￥{this.state.allMoney}</span><Link to="/orderclosed"><b className="statement" onClick={this.statement.bind(this)}>结算(<span>{this.state.allNum}</span>)</b></Link></div>
                 	</footer>
                 </div>
-                <NoList display={this.state.nolist} />
+                <NoList display={this.state.nolist} recommentList={this.state.recommentList} />
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
+                <Confirm  {...this.state.confirm}/>
+                <div className="mask" style={{display: this.state.confirm.display}}></div>
             </div>
         );
     }
 }
 
 
-
+//没有数据时的显示
 var NoList = React.createClass({
+
   render: function() {
     return (
         <div style={{ display: this.props.display }} className="no-list">
-            <img src="src/images/shopping/empty_shopping.png" />
-            <p>购物车里还什么都没有<br/>赶快去逛逛吧~ <br/></p>
-            <a href="http://m.jyall.com"><button>去看看</button></a>
+            <div style={{ background: "#fff",padding: ".8rem 0 1.2rem" }}>
+                <img src="src/images/shopping/empty_shopping.png" />
+                <p>购物车里还什么都没有<br/>赶快去逛逛吧~ <br/></p>
+                <a href="http://m.jyall.com"><button>去看看</button></a>
+            </div>
+            <div className="like-floor">
+                <h3><span>为您推荐</span></h3>
+                <ul className="lf-list">
+                    {
+                        this.props.recommentList.map((item,index) =>(
+                            <li key={index}>
+                                <a className="clearfix" href={item.URL}>
+                                    <div className="lf-thumb">
+                                        <img src={item.image} title="" />
+                                    </div>
+                                    <div className="lf-tit">
+                                        <h6>{item.name}</h6>
+                                        <p>¥ {item.price}</p>
+                                    </div>
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
         </div>
     );
   }
 });
 
 export default ShoppingCart;  
-
-
-//全局state替换本地组件之间state
-// function mapStateToProps(state,ownProps) {
-//   console.log(state);  
-//   return {
-//     shoppingcart: state.shoppingCart
-//   };
-// }
-// function mapDispatchToProps(dispatch) {  
-//   return {
-//     shoppingCartCount: (user) => dispatch(shoppingCartCount(count))
-//   };
-// }
-// export default connect(mapStateToProps,mapDispatchToProps)(ShoppingCart);

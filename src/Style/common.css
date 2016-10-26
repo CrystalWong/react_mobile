@@ -63,5 +63,7 @@ body,article, aside, canvas, details, figcaption, figure, footer, header, hgroup
     display: -webkit-box; /* Safari and Chrome */
     display: box;
 }
+.clearfix:after{content:"";display:block;height:0;clear:both;visibility:hidden}
+.clearfix{*zoom:1}
 .fl{float: left;}
 .fr{float: right;}
