@@ -21,4 +21,4 @@ render(
     document.body.appendChild(App)
 );
 
-module.hot.accept();
+process.env.NODE_ENV !== 'production'||module.hot.accept();

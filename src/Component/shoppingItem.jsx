@@ -64,11 +64,11 @@ export class ShoppingItem extends Component {
             <li onClick={this.select.bind(this)}>
     			<span style={{ width: width2 }}>
     			    <img src={icon} className="fl" ref = "icon" style={{ width: width }} />
-    			    <img src={mainImg} className="fl" />
+    			    <img src={mainImg?mainImg:""} className="fl" />
     			</span>
     			<div className = "shopping-content">
     				<p className="item-title">{skuName}</p>
-    				<p>{speczs}</p>
+                    <p>{speczs&&speczs.map((item) =>item.specName+":"+item.specValueName+" ")}</p>
     				<p>￥{sellPrice}</p>
     			</div>
     			<AddReduce num={count} callback={this.props.callback} index={this.props.index} groupSkuId={this.props.groupId+"_"+this.props.skuId} stock={stock} parent={this.props.parent} />

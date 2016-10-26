@@ -60,20 +60,23 @@ class OrderClosed extends Component {
             	display: "none"
             }
         };
-			let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),self=this;
-            Tool.fetch(this,{
+		let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),
+            self=this,
+            data = {
                 url: `${URLS.OrderClosed}`,
                 type: "post",
-                body:JSON.stringify({"cartFlag":"1"}),
                 headers: headers,
                 successMethod: function(json){
                     self.setState({ajdata:json});
                     if(json.address==null||json.address==undefined||json.address==""){
-                    	self.state.isShow.adOn="block";
-                    	self.state.isShow.adOff="none";
+                        self.state.isShow.adOn="block";
+                        self.state.isShow.adOff="none";
                     }
                 }
-            });
+            };
+
+            if(!this.getQueryString('cartFlag'))data.body = JSON.stringify({"cartFlag":"1"})
+            Tool.fetch(this,data);
             this.submitOrder = () => {
             	let goodsListVO=[];
             	for(let v of this.state.ajdata.storeVOList){

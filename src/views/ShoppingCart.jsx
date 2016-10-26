@@ -74,6 +74,7 @@ class ShoppingCart extends Component {
 
             	if(json.totalItemCount > 999){json.totalItemCount = "999+";}
                 // json.cartItems = [];
+                console.log(json.cartItems);
                 self.setState({ 
                 	list: json.cartItems,
                 	title: "购物车("+ json.totalGoodsCount +")",
@@ -215,7 +216,7 @@ class ShoppingCart extends Component {
                 	<ul>
                 	    {
                             this.state.list.map((item,index) =>
-					            <ShoppingItem key={item.skuId} index={index} callback={this.shoppingCartCount.bind(this)} callback2={this.selectStatement.bind(this)} {...item} />
+					            <ShoppingItem key={index} index={index} callback={this.shoppingCartCount.bind(this)} callback2={this.selectStatement.bind(this)} {...item} />
 					        )
                         }
                 	</ul>
