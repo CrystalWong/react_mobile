@@ -194,10 +194,10 @@ class OrderClosed extends Component {
             	
                 <div className="orderClose">
                 	<div style={{display: this.state.isShow.adOff}} className="address" onClick={this.choseAddress.bind(this)}>
-						<img src="src/images/orderclosed/add@2x.png" alt="添加"/> 新增收货地址
+						<img src={require('../images/orderclosed/add@2x.png')} alt="添加"/> 新增收货地址
 	                </div>
 	                <div className="address1" style={{display: this.state.isShow.adOn}} onClick={this.choseAddress.bind(this)}>
-	                	<img src="src/images/orderclosed/address@2x.png"/>
+	                	<img src={require("../images/orderclosed/address@2x.png")}/>
 	                	<div className="adinfo">
 	                		<h3>{this.state.choseAddress.consigneeName?this.state.choseAddress.consigneeName:this.state.ajdata.address.consigneeName}&nbsp;
                             {this.state.choseAddress.consigneeMobile?this.state.choseAddress.consigneeMobile:this.state.ajdata.address.consigneeMobile}</h3>
