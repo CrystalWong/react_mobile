@@ -51,6 +51,7 @@ class ShoppingCart extends Component {
         let headers = COMMON_HEADERS();
         let self = this;
         this.count = 0;
+        this.selectItem = 0;
         let params = cookie.load('tokenid')?("&tokenId="+cookie.load('tokenid')):(cookie.load('jycart_uKey')?"&uKey="+cookie.load('jycart_uKey'):'');
         Tool.fetch(this,{
             url: `${URLS.QUERYCART}?source=2${params}`,
@@ -205,24 +206,29 @@ class ShoppingCart extends Component {
 
     statement(e){ //结算
         e.stopPropagation(); 
-        // e.preventDefault();
+        e.preventDefault();
+        if(this.selectItem <= 0){
+            this.setState({tipContent: '请选择商品',display: 'toasts',});
+            return;
+        } 
+        Tool.history.push("/orderclosed");
     }
 
     render() {
         return (
-            <div>
+            <div style={{height: '100%'}}>
                 <Header title={this.state.title} leftIcon="fanhui" />
                 <div className="shoppingc-art">
                 	<ul>
                 	    {
                             this.state.list.map((item,index) =>
-					            <ShoppingItem key={index} index={index} callback={this.shoppingCartCount.bind(this)} callback2={this.selectStatement.bind(this)} {...item} />
+					            <ShoppingItem key={index} index={index} callback={this.shoppingCartCount.bind(this)} callback2={this.selectStatement.bind(this)} {...item} obj={this}/>
 					        )
                         }
                 	</ul>
                 	<footer onClick={this.selectAll.bind(this)}>
                 		<span className="no-select-all" ref="selectAll">全选</span>
-                		<div className="fr">合计:<span style={{color: "#cc0000",marginRight: ".2rem"}}>￥{this.state.allMoney}</span><Link to="/orderclosed"><b className="statement" onClick={this.statement.bind(this)}>结算(<span>{this.state.allNum}</span>)</b></Link></div>
+                		<div className="fr">合计:<span style={{color: "#cc0000",marginRight: ".2rem"}}>￥{this.state.allMoney}</span><a href="javascript:;"><b className="statement" onClick={this.statement.bind(this)}>结算(<span>{this.state.allNum}</span>)</b></a></div>
                 	</footer>
                 </div>
                 <NoList display={this.state.nolist} recommentList={this.state.recommentList} />

@@ -24,6 +24,8 @@ export default {
 	SELECTITEM: `${domain}/jygoods-api/v1/jycart/selectItem/`,
 	//取消选择购物项
 	CONCELITEM: `${domain}/jygoods-api/v1/jycart/cancelItem/`,
+	//删除购物车
+	REMOVEITEM: `${domain}/jygoods-api/v1/jycart/removeItem/`,
 	//收货地址
 	Address : `${domain}/user-manage/v1/address`,
 	//家园豆

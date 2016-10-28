@@ -12,24 +12,24 @@ const Tool = {};
  * @method Fetch
  */
 Tool.fetch = function(obj,data){
-    // if(typeof fetch != "undefined"){
-    //     var d = {
-    //       method: data.type,
-    //       headers: data.headers
-    //     },
-    //     status = 0;
-    //     if(data.body){d.body = data.body;}
-    //     fetch(data.url,d).then(response => {
-    //         console.log(response.error);
-    //         if(response.status >= 500){
-    //             obj.setState({ tipContent: '网络连接失败，请检查您的网络',display: 'toasts' });
-    //         }
-    //         status = response.status;
-    //         return response.json();
-    //     }).then(json => {
-    //       data.successMethod(json,status);
-    //     });
-    // }else {
+    if(typeof fetch != "undefined"){
+        var d = {
+          method: data.type,
+          headers: data.headers
+        },
+        status = 0;
+        if(data.body){d.body = data.body;}
+        fetch(data.url,d).then(response => {
+            console.log(response.error);
+            if(response.status >= 500){
+                obj.setState({ tipContent: '网络连接失败，请检查您的网络',display: 'toasts' });
+            }
+            status = response.status;
+            return response.json();
+        }).then(json => {
+          data.successMethod(json,status);
+        });
+    }else {
         try {
             var xmlhttp,status = 0;
             if (window.XMLHttpRequest){
@@ -52,11 +52,11 @@ Tool.fetch = function(obj,data){
             xmlhttp.setRequestHeader("sign", "BAD3426489851754C1C14A46A22ABF82");  
             xmlhttp.setRequestHeader("deviceid", "M");
             if(data.tokenid)xmlhttp.setRequestHeader("tokenid", data.tokenid);
-            if(data.type == "post"){
+            // if(data.type == "post"){
                 xmlhttp.send(data.body?data.body:"");
-            }else{
-                xmlhttp.send();
-            }  
+            // }else{
+            //     xmlhttp.send();
+            // }  
             
 
             // if(data.type && data.type == "post"){
@@ -93,7 +93,7 @@ Tool.fetch = function(obj,data){
         } finally {
 
         }
-    // }
+    }
 
 }
 /**

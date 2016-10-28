@@ -1,3 +1,8 @@
+.shoppingc-art{
+    padding-bottom: 1.28rem;
+    height: 100%;
+    overflow: auto;
+}
 .shoppingc-art li{
 	position: relative;
 	display: table;
@@ -5,6 +10,7 @@
 	width: 100%;
 	background: #fff;
 	border-bottom: 1px solid #e6e6e6;
+	overflow: hidden;
 	span{
 		display: inline-block;
 		width: 2.6rem;
@@ -50,6 +56,24 @@
     		color: #cc0000;
     		line-height: 1.6;
         }
+    }
+    .delete{
+    	position: absolute;
+ 		right: 0;
+ 		top: 0;
+ 		padding: 0 .25rem;
+ 		height: 100%;
+ 		color: #fff;
+    	background: #FF3A30;
+    	-webkit-transform: translate3d(100%,0,0);
+        transform: translate3d(100%,0,0);
+        line-height: 1.9rem;
+	    transition: transform 500ms;
+	    -webkit-transition: -webkit-transform 500ms; /* Safari 和 Chrome */
+    }
+    .delete-out{
+    	-webkit-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);    	
     }
 
 }
