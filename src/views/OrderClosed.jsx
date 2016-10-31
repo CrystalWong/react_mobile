@@ -16,56 +16,66 @@ import {OrderClosedList} from '../Component/orderClosedList';
  */
 class OrderClosed extends Component {
 	    constructor(props) {
-        super(props);
-        console.log(2222222222222222222222222222);
-        console.log(props.address);
-        this.getQueryString = (name) => {
-		        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-		        let r = window.location.search.substr(1).match(reg);
-		        if (r != null) return decodeURIComponent(r[2]);
-		        return "";
-		};
-        let choseAddress;
-        props.address.consigneeName==undefined?choseAddress={consigneeName:""}:choseAddress=props.address;
-        this.state = {
-            choseAddress:choseAddress,
-        	setBillData:{
-        		fptype:this.getQueryString("fptype")||"",
-				fptype1:this.getQueryString("fptype1")||"",
-				fptt:this.getQueryString("fptt")||""
-        	},
-            ajdata:{
-            	 address:{consigneeName:""},
-            	 totalShipFee:"",
-            	 goodsTotalFee:"",
-            	 orderTotalFee:"",
-            	 storeVOList: [],
-                 errorList: []
-            },
-            isShow:{
-            	adOn:'block',
-            	adOff:'none'
-            },
-            confirm: {
-            	title: "是否确认拨打此电话？",
-            	content: "刘德华 13409090909", 
-            	leftText: "取消",
-            	leftMethod: function(){
-            		alert("取消");
+            super(props);
+            console.log(2222222222222222222222222222);
+            console.log(props.address);
+            this.getQueryString = (name) => {
+    		        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    		        let r = window.location.search.substr(1).match(reg);
+    		        if (r != null) return decodeURIComponent(r[2]);
+    		        return "";
+    		};
+            let choseAddress;
+            props.address.consigneeName==undefined?choseAddress={consigneeName:""}:choseAddress=props.address;
+            this.state = {
+                choseAddress:choseAddress,
+            	setBillData:{
+            		fptype:this.getQueryString("fptype")||"",
+    				fptype1:this.getQueryString("fptype1")||"",
+    				fptt:this.getQueryString("fptt")||""
             	},
-            	rightText: "确定",
-            	rightMethod: function(){
-            		alert("确定");
-            	},
-            	display: "none"
-            }
-        };
-		let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),
-            self=this,
+                ajdata:{
+                	 address:{consigneeName:""},
+                	 totalShipFee:"",
+                	 goodsTotalFee:"",
+                	 orderTotalFee:"",
+                	 storeVOList: [],
+                     errorList: []
+                },
+                isShow:{
+                	adOn:'block',
+                	adOff:'none'
+                },
+                confirm: {
+                	title: "是否确认拨打此电话？",
+                	content: "刘德华 13409090909", 
+                	leftText: "取消",
+                	leftMethod: function(){
+                		alert("取消");
+                	},
+                	rightText: "确定",
+                	rightMethod: function(){
+                		alert("确定");
+                	},
+                	display: "none"
+                }
+            };
+    		let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),
+                self=this,
+                data = {},
+                params = "";
+            if(this.getQueryString('cartParamJson')){
+                // cartParamJson = "cartParamJson="+this.getQueryString('cartParamJson');
+                params = this.getQueryString('cartParamJson');
+            }else{
+                params = JSON.stringify({"cartFlag":"1"});
+            }    
+
             data = {
                 url: `${URLS.OrderClosed}`,
                 type: "post",
                 headers: headers,
+                body: params,
                 tokenid: cookie.load('tokenid'),
                 successMethod: function(json){
                     self.setState({ajdata:json});
@@ -74,9 +84,10 @@ class OrderClosed extends Component {
                         self.state.isShow.adOff="none";
                     }
                 }
-            };
+            }
+            // if(!this.getQueryString('cartParamJson'))data.body = JSON.stringify({"cartFlag":"1"});
 
-            if(!this.getQueryString('cartFlag'))data.body = JSON.stringify({"cartFlag":"1"})
+            
             Tool.fetch(this,data);
             this.submitOrder = () => {
             	let goodsListVO=[];
