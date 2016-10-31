@@ -88,7 +88,7 @@ class Address extends Component {
             	rightText: "确定",
             	rightMethod: ()=>{
             		Tool.fetch(this,{
-			            url: URLS.Address + '/' + id,
+			            url: URLS.Address + '/' + id+'?_t='+Cookie.load('tokenid'),
 			            type : "delete",
 			            successMethod: function(json){
 			            	console.log('删除成功');

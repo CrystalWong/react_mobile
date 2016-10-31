@@ -52,7 +52,7 @@ class AddressAdd extends Component {
 			}
 			let headers = COMMON_HEADERS_POST('Accept','application/json');
 			Tool.fetch(this,{
-                url: `${URLS.Address}/`,//提交地址
+                url: `${URLS.Address}/?_t=${cookie.load('tokenid')}`,//提交地址
                 type: "post",
                 headers: headers,
                 body: '{"provinceId" : '+this.state.provinceId+',"cityId" : '+this.state.cityId+',"countyId" : '+this.state.countryId+',"townId" : '+this.state.xzId+',"areaId" : null,"detailInfo" : "'+ address +'","consigneeTelephone" : '+(contact?contact:null)+',"consigneeMobile" : '+(phone?phone:null)+',"consigneeName" : "'+ name +'","zip" : null,"memberId" : "'+cookie.load("userId")+'","memberUsername" : "'+cookie.load("name")+'","type" : '+ (current?1:2) +',"status" : null,"locationInfo" : null}',
