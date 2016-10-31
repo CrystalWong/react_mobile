@@ -1,0 +1,69 @@
+@charset "utf-8";
+
+/*@media screen and (min-width: 320px){
+    html {font-size: 12px;}
+}
+@media screen and (min-width: 345px){
+    html {font-size: 13px;}
+}
+@media screen and (min-width: 370px){
+    html {font-size: 14px;}
+}
+@media screen and (min-width: 400px){
+    html {font-size: 15px;}
+}
+@media screen and (min-width: 427px) {
+    html {font-size: 16px;}
+}
+@media screen and (min-width: 453px) {
+    html {font-size: 17px;}
+}
+@media screen and (min-width: 480px) {
+    html {font-size: 18px;}
+}
+@media screen and (min-width: 505px) {
+    html {font-size: 19px;/*10 ÷ 16 × 100% = 62.5%}
+}*/
+html,body{
+    width: 100%;
+    height: 100%;
+}
+body{    
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #000;
+}
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    /*-webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);*/
+}
+.route-div{
+    padding-top: 1.28rem;
+}
+li{list-style-type:none;}
+a{text-decoration:none;-webkit-tap-highlight-color:rgba(162,162,162,0.5);}
+input[type=number] {-moz-appearance:textfield;}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button {-webkit-appearance: none;margin: 0;}
+.clear{clear: both;border: none;}
+input,button,select,textarea{outline:none;}
+textarea{resize:none;}
+.ell{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+body,article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+    display: block;
+}
+.box{
+    display: -webkit-box; /* Safari and Chrome */
+    display: box;
+}
+.clearfix:after{content:"";display:block;height:0;clear:both;visibility:hidden}
+.clearfix{*zoom:1}
+.fl{float: left;}
+.fr{float: right;}
