@@ -161,8 +161,9 @@ class Yue extends Component {
     }
 
     componentDidMount(){
-      var search = location.search.split("?")[1];
+      var search = location.href.split("?")[1];
       search = search?search.split("&"):[];
+      console.log(search);
       for(var item of search){
           if(item.split("=")[0] == "showClassId"){
             this.showClassId = item.split("=")[1];

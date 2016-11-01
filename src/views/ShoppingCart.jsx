@@ -9,7 +9,7 @@ import {Tool, merged} from '../Tool';
 import URLS from '../constants/urls';
 import {COMMON_HEADERS} from '../constants/headers';
 import {shoppingCartCount} from '../Action/ShoppingCart';
-import {Toast,Confirm} from '../Component/common/Tip';
+import {Toast,Confirm,AjaxTip} from '../Component/common/Tip';
 import {ONLINE} from '../constants/common';
 
 /**
@@ -45,7 +45,9 @@ class ShoppingCart extends Component {
                     alert("确定");
                 },
                 display: "none"
-            }
+            },
+            ajaxDisplay: "block",
+            maskDisplay: "block"
         };
 
         let headers = COMMON_HEADERS();
@@ -53,6 +55,7 @@ class ShoppingCart extends Component {
         this.count = 0;
         this.selectItem = 0;
         let params = cookie.load('tokenid')?("&tokenId="+cookie.load('tokenid')):(cookie.load('jycart_uKey')?"&uKey="+cookie.load('jycart_uKey'):'');
+        
         Tool.fetch(this,{
             url: `${URLS.QUERYCART}?source=2${params}`,
             type: "get",
@@ -261,7 +264,8 @@ class ShoppingCart extends Component {
                 <NoList display={this.state.nolist} recommentList={this.state.recommentList} />
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
                 <Confirm  {...this.state.confirm}/>
-                <div className="mask" style={{display: this.state.confirm.display}}></div>
+                <AjaxTip display={this.state.ajaxDisplay} />
+                <div className="mask" style={{display: this.state.maskDisplay}}></div>
             </div>
         );
     }

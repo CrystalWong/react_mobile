@@ -1,5 +1,5 @@
 import {ONLINE} from '../constants/common';
-const domain = ONLINE?'http://m.jyall.com':'http://192.168.51.79:3000';
+const domain = ONLINE?'http://m.jyall.com':'http://localhost:3000';
 
 /**
  * URL常量.
@@ -14,6 +14,7 @@ export default {
 	Register: `${domain}/user-api/v1/authcenter/app/addUser`,
 	//找回密码
 	FINDPWDBYMOBILE: `${domain}/user-api/v1/authcenter/app/resetPswByMobile/`,//{mobile}/{password}
+	CHECKMOBILE: `${domain}/user-api/v1/authcenter/user/checkMobile/`,
 	//购物车列表
 	QUERYCART: `${domain}/jygoods-api/v1/jycart/queryCart`,
 	//购物车物品数量加1

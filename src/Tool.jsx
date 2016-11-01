@@ -1,7 +1,7 @@
 import merged from 'obj-merged';
 // import * as config from './Config/Config';
 import { Router, Route, IndexRoute, browserHistory,hashHistory, Link } from 'react-router';
-
+import cookie from 'react-cookie';
 const Tool = {};
 
 
@@ -27,6 +27,7 @@ Tool.fetch = function(obj,data){
             status = response.status;
             return response.json();
         }).then(json => {
+          obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
           data.successMethod(json,status);
         });
     }else {
@@ -42,7 +43,10 @@ Tool.fetch = function(obj,data){
             {
                 if (xmlhttp.readyState==4)
                 {
-                    // if(data.endLoading) data.endLoading();//结束加载中
+                    if(xmlhttp.status >= 500){
+                        obj.setState({ tipContent: '网络连接失败，请检查您的网络',display: 'toasts' });
+                    }    
+                    obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
                     status = xmlhttp.status;
                     data.successMethod(eval("("+ xmlhttp.responseText +")"),status);
                 }
@@ -51,12 +55,12 @@ Tool.fetch = function(obj,data){
             xmlhttp.setRequestHeader("content-type","application/json");
             xmlhttp.setRequestHeader("sign", "BAD3426489851754C1C14A46A22ABF82");  
             xmlhttp.setRequestHeader("deviceid", "M");
-            if(data.tokenid)xmlhttp.setRequestHeader("tokenid", data.tokenid);
-            // if(data.type == "post"){
+            xmlhttp.setRequestHeader("tokenid", cookie.load('tokenid'));
+            if(data.type == "post"){
                 xmlhttp.send(data.body?data.body:"");
-            // }else{
-            //     xmlhttp.send();
-            // }  
+            }else{
+                xmlhttp.send();
+            }  
             
 
             // if(data.type && data.type == "post"){

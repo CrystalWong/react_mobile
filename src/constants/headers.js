@@ -1,3 +1,4 @@
+import cookie from 'react-cookie';
 /**
  * 通用头信息-GET.
  */
@@ -5,7 +6,8 @@ export function COMMON_HEADERS(key, value) {
 	let result = {
 		"content-type": "application/json",
 		"sign": "BAD3426489851754C1C14A46A22ABF82",
-		"deviceid": "M"
+		"deviceid": "M",
+		"tokenid": cookie.load('tokenid')
 	};
 
 	key && (result[key] = value);
@@ -20,7 +22,8 @@ export function COMMON_HEADERS_POST(key, value){
 		// "content-type": "application/x-www-form-urlencoded"  //post默认
 		"content-type": "application/json",
 		"sign": "BAD3426489851754C1C14A46A22ABF82",
-		"deviceid": "M"
+		"deviceid": "M",
+		"tokenid": cookie.load('tokenid')
 	};
 
 	key && (result[key] = value);

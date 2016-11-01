@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {register} from '../Action/login';
 import {Header} from '../Component/common/index';
 import URLS from '../constants/urls';
-import {COMMON_HEADERS_POST,COMMON_HEADERS,SIGN} from '../constants/headers';
+import {COMMON_HEADERS_POST,COMMON_HEADERS} from '../constants/headers';
 import {Toast} from '../Component/common/Tip';
 import {Tool, merged} from '../Tool';
 
@@ -43,23 +43,34 @@ class Register extends Component {
             if(!num){
                 this.setState({ tipContent: '验证码不能为空',display: 'toasts' });return;
             }
-            let headers = COMMON_HEADERS('sign', SIGN);
-            Tool.fetch(this,{
-                url: URLS.Vcode+phone+"/"+num,
-                type: "get",
-                headers: headers,
-                successMethod: function(json){
-                    // console.log(json.uuid);
-                    if(json.uuid){
-                        self.props.register({uuid:json.uuid,phone:phone});
-                        // var history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHistory;
-                        clearInterval(self.inte);
-                        Tool.history.push('/registerpd');
-                    }else{
-                        self.setState({ tipContent: json.message,display: 'toasts' });
+            let headers = COMMON_HEADERS();
+            if(this.props.login.pwd != "findpwd"){
+                Tool.fetch(this,{
+                    url: URLS.CHECKMOBILE+phone,
+                    type: "get",
+                    headers: headers,
+                    successMethod: function(json){
+                        console.log(json);
                     }
-                }
-            });
+                });            
+            }
+
+            // Tool.fetch(this,{
+            //     url: URLS.Vcode+phone+"/"+num,
+            //     type: "get",
+            //     headers: headers,
+            //     successMethod: function(json){
+            //         // console.log(json.uuid);
+            //         if(json.uuid){
+            //             self.props.register({uuid:json.uuid,phone:phone});
+            //             // var history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHistory;
+            //             clearInterval(self.inte);
+            //             Tool.history.push('/registerpd');
+            //         }else{
+            //             self.setState({ tipContent: json.message,display: 'toasts' });
+            //         }
+            //     }
+            // });
 
         }
     }
