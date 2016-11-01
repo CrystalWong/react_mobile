@@ -188,7 +188,7 @@ class OrderDetail extends Component {
                 </div>
                 <div className="bootm" style={{display: this.state.ajdata.orderStatus==30?"block":"none"}}>
                     <a className="subbtn" onClick={this.confirmGetDoods.bind(this)}>确认收货</a>
-                    <a style={{display:"none"}} className="subbtn1">查看物流</a>
+                    <a className="subbtn1">查看物流</a>
                 </div>
                 <div className="bootm" style={{display: this.state.ajdata.orderStatus==40?"block":"none"}}>
                     <a className="subbtn" href="">再次购买</a>

@@ -17,7 +17,7 @@ export class OrderClosedListItemSun extends Component {
                                         <img src={goodsMainPhoto}/>
                                     </dt>
                                     <dd>
-                                        <p>{goodsName}<br/><span>{spec=undefined?goodSpec:"没有返回规格"}</span></p>
+                                        <p>{goodsName}<br/><span>{spec==undefined?goodSpec:"没有返回规格"}</span></p>
                                         <p className="price">¥ {goodsPrice}<br/><span>x{count}</span></p>
                                     </dd>
                             </dl>
