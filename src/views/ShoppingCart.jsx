@@ -83,6 +83,11 @@ class ShoppingCart extends Component {
                 	allNum: self.allNum,
                     nolist: json.cartItems.length==0?"block":"none"
                 });
+                for(let i of json.cartItems){
+                    if(i.state==1&&i.status==1&&i.salesState==2&&i.select){
+                        self.selectItem++;
+                    }
+                }
             }
         });
 
@@ -170,6 +175,7 @@ class ShoppingCart extends Component {
                     if(json.flag == true){
                         selectAll.className = "no-select-all";
                         selectControl = false;
+                        self.selectItem = 0;
                         result();
                     }
                 }
@@ -183,6 +189,7 @@ class ShoppingCart extends Component {
                     if(json.flag == true){
                         selectAll.className = "no-select-all selectall";
                         selectControl = true;
+                        self.selectItem = list.length;
                         result();
                     }
                 }
@@ -212,6 +219,14 @@ class ShoppingCart extends Component {
             return;
         } 
         Tool.history.push("/orderclosed");
+    }
+
+    componentDidUpdate(){
+        if(this.selectItem>0 && this.selectItem == this.state.list.length){
+            this.refs.selectAll.className = "no-select-all selectall";
+        }else{
+            this.refs.selectAll.className = "no-select-all";
+        }
     }
 
     render() {

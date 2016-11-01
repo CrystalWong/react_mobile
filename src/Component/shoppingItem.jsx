@@ -12,7 +12,7 @@ import {COMMON_HEADERS_POST,COMMON_HEADERS} from '../constants/headers';
 export class ShoppingItem extends Component {
     constructor(props) {
         super(props);
-        this.sx = 0,
+        this.sx = 0;
         this.ex = 0;
     }
 
@@ -37,8 +37,8 @@ export class ShoppingItem extends Component {
                     console.log(json);
                     if(json.flag == true){
                         self.refs.icon.src = require('../images/shopping/select.png');
-                        self.props.callback2(true,self.props.index);
                         self.props.obj.selectItem++;
+                        self.props.callback2(true,self.props.index);
                     }
                 }
             });
@@ -50,8 +50,8 @@ export class ShoppingItem extends Component {
                 successMethod: function(json){
                     if(json.flag == true){
                         self.refs.icon.src = require('../images/shopping/no_select.png');
-                        self.props.callback2(false,self.props.index);
                         self.props.obj.selectItem--;
+                        self.props.callback2(false,self.props.index);
                     }
                 }
             });
@@ -115,7 +115,6 @@ export class ShoppingItem extends Component {
         // this.refs.li.addEventListener('touchmove',this.touch.bind(this), false);  
         this.refs.li.addEventListener('touchend',this.touch.bind(this), false);  
     }
-
     render() {
         console.log(this.props);
         let {skuName,mainImg,speczs,sellPrice,state,count,select,status,salesState ,stock } = this.props;
@@ -126,7 +125,7 @@ export class ShoppingItem extends Component {
         this.itemSelect = "invalid";    
         if(state==1&&status==1&&salesState==2&&select){
             this.itemSelect = "select";
-            this.props.obj.selectItem++; 
+            // this.props.obj.selectItem++; 
         }else if(state==1&&status==1&&salesState==2&&!select){
             this.itemSelect = "no_select";
         }    

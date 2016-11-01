@@ -9,6 +9,13 @@ var path = __dirname + '/';
 
 var plugins = [];
 var devtool = 'cheap-module-eval-source-map';
+var entryObj = {
+        app: [
+          'webpack-dev-server/client?http://localhost:3000',
+          'webpack/hot/only-dev-server',
+          './src/App'
+        ]
+    };
 
 var hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000';
 
@@ -21,6 +28,11 @@ if (process.argv.indexOf('-p') > -1) {//生产环境
     publicPath = '/build/dist/';
     path = __dirname + '/build/dist/';
     devtool = false;
+    entryObj = {
+        app: [
+          './src/App'
+        ]
+    }
 }
 plugins.push(new ExtractTextPlugin('[name].css'));//css单独打包
 
@@ -68,13 +80,7 @@ plugins.push(new webpack.optimize.UglifyJsPlugin({
 module.exports = {
     // devtool: '#source-map',
     devtool: devtool,
-    entry: {
-        app: [
-          'webpack-dev-server/client?http://localhost:3000',
-          'webpack/hot/only-dev-server',
-          './src/App'
-        ]
-    },
+    entry: entryObj,
     output: {
         publicPath,//编译好的文件，在服务器的路径
         path,//编译到当前目录
