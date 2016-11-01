@@ -25,8 +25,6 @@ export default {
 	SELECTITEM: `${domain}/jygoods-api/v1/jycart/selectItem/`,
 	//取消选择购物项
 	CONCELITEM: `${domain}/jygoods-api/v1/jycart/cancelItem/`,
-	//删除购物车
-	REMOVEITEM: `${domain}/jygoods-api/v1/jycart/removeItem/`,
 	//收货地址
 	Address : `${domain}/user-manage/v1/address`,
 	//家园豆
@@ -50,15 +48,9 @@ export default {
 	CITY: `${domain}/common-city/v1/city/queryCitys/`, //130000000
 	COUNTRY: `${domain}/common-city/v1/country/queryCountrysByCityId/`,
 	XZ: `${domain}/common-city/v1/xz/getXzsByCountyId/`,
-	//个人订单查询
-	myOrder: `${domain}/jyorder-center/v1/order/app/queryOrderList`,
 	//预约
 	YUYUE: `${domain}/jyall-workflowV2/v1/order/yuyue/stateless`,
 	YUYUECODE: `${domain}/jyall-workflowV2/v1/order/yuyue/sendIdentifyCode/`,
 	//商品推荐
-	RECOMMENDGOODS: `${domain}/jygoods-api/v1/goods/recommend/goods/`,
-	//物流详情
-	EXPRESSINFO: `${domain}/jyorder-center/v1/order/app/expressInfo/`,
-	//跳转到支付
-	TOPAY: `${domain}/jyorder-center/v1/order/app/pay/`
+	RECOMMENDGOODS: `${domain}/jygoods-api/v1/goods/recommend/goods/`
 };
