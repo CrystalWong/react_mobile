@@ -97,7 +97,6 @@ export class ShoppingItem extends Component {
             groupSkuId = this.props.groupId+"_"+this.props.skuId,
             self = this;      
         if(cookie.load('tokenid') != "undefined")isLogin = 1;   
-        alert(1);
         Tool.fetch(this.props.parent,{
             url: `${URLS.REMOVEITEM}${isLogin}/${uKey}/${groupSkuId}?source=2`,
             type: "delete",

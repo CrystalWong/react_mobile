@@ -275,7 +275,7 @@ var NoList = React.createClass({
     return (
         <div style={{ display: this.props.display }} className="no-list">
             <div style={{ background: "#fff",padding: ".8rem 0 1.2rem" }}>
-                <img src="src/images/shopping/empty_shopping.png" />
+                <img src={require("../images/shopping/empty_shopping.png")} />
                 <p>购物车里还什么都没有<br/>赶快去逛逛吧~ <br/></p>
                 <a href="http://m.jyall.com"><button>去看看</button></a>
             </div>
