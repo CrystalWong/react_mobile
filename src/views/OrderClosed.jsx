@@ -22,7 +22,7 @@ class OrderClosed extends Component {
             console.log(props.address);
             this.getQueryString = (name) => {
     		        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-    		        let r = window.location.search.substr(1).match(reg);
+    		        let r = window.location.href.split("?")[1]?window.location.href.split("?")[1].match(reg):null;
     		        if (r != null) return decodeURIComponent(r[2]);
     		        return "";
     		};
