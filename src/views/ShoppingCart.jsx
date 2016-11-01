@@ -83,11 +83,22 @@ class ShoppingCart extends Component {
                 	allNum: self.allNum,
                     nolist: json.cartItems.length==0?"block":"none"
                 });
+
+                let selectAll = 0;
                 for(let i of json.cartItems){
-                    if(i.state==1&&i.status==1&&i.salesState==2&&i.select){
-                        self.selectItem++;
+                    if(i.state==1&&i.status==1&&i.salesState==2){
+                        selectAll++;
+                        if(i.select){
+                            self.selectItem++;
+                        }
                     }
+
                 }
+                if(self.selectItem>0 && self.selectItem == selectAll){
+                    self.refs.selectAll.className = "no-select-all selectall";
+                }else{
+                    self.refs.selectAll.className = "no-select-all";
+                }  
             }
         });
 
@@ -201,6 +212,7 @@ class ShoppingCart extends Component {
                 if(item.state==1&&item.status==1&&item.salesState==2){
                     item.select = selectControl;
                     if(selectControl){
+
                         self.allMoney += item.count*item.sellPrice;
                         self.allNum += item.count;
                     }
