@@ -2,6 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import Cookie from 'react-cookie';
 import URLS from '../constants/urls.js';
 import {Tool, merged} from '../Tool';
+import {ONLINE} from '../constants/common';
+import cookie from 'react-cookie';
 
 export class AddressItem extends Component{
 	constructor(props){
@@ -20,7 +22,11 @@ export class AddressItem extends Component{
 	addressEdit(e){
 		e.stopPropagation(); 
         e.preventDefault();
-		console.log('edit')
+		let addressItem = this.props.item;
+		addressItem.from = "edit";
+		addressItem.type1 = addressItem.type;
+		this.props.saveAddressInfo(addressItem);
+		Tool.history.push('/address-add');
 	}
 
 	//删除地址
@@ -31,28 +37,26 @@ export class AddressItem extends Component{
 	}
 
 	setAddressInfo(){//保存每项地址信息
-		this.props.saveAddressInfo({
-			id: this.props.id,
-			consigneeMobile: this.props.consigneeMobile,
-			consigneeName: this.props.consigneeName,
-			consigneeTelephone: this.props.consigneeTelephone,
-			detailInfo: this.props.detailInfo,
-			locationInfo: this.props.locationInfo,
-			memberId: this.props.memberId
-		});
-		Tool.history.goBack();
+		this.props.saveAddressInfo(this.props.item);
+        var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"m.jyall.com":"") }
+        // cookie.save('addressId', this.props.id, cookieObj);
+        // cookie.save('consigneeName', this.props.consigneeName, cookieObj);
+
+		// setTimeout(function(){
+			Tool.history.goBack();
+		// },1000);
 	}
 
 	render(){
-		let {consigneeName,consigneeMobile,detailInfo,type} = this.props;
+		let {consigneeName,consigneeMobile,detailInfo,type} = this.props.item;
 		return(
 			<li onClick={this.setAddressInfo.bind(this)}>
 				<div className="address-msg">
-					<h6><span>{consigneeName}</span><span>{consigneeMobile}</span>{this.props.type==1 ? <em>默认</em> : ''}</h6>
+					<h6><span>{consigneeName}</span><span>{consigneeMobile}</span>{type==1 ? <em>默认</em> : ''}</h6>
 					<p>{detailInfo}</p>
 				</div>
 				<div className="address-operation">
-					<span className={this.props.type==1? 'current on' : 'current'} onClick={this.addressDefault.bind(this)}>设为默认</span>
+					<span className={type==1? 'current on' : 'current'} onClick={this.addressDefault.bind(this)}>设为默认</span>
 					<span className="ao-del" onClick={this.addressDel.bind(this)}>删除</span>
 					<span className="ao-edit" onClick={this.addressEdit.bind(this)}>编辑</span>
 				</div>
