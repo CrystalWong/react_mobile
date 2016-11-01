@@ -9,6 +9,7 @@ import {Tool, merged} from '../Tool';
 import URLS from '../constants/urls';
 import {COMMON_HEADERS} from '../constants/headers';
 import {shoppingCartCount} from '../Action/ShoppingCart';
+import {address} from '../Action/Address';
 import {Toast,Confirm,AjaxTip} from '../Component/common/Tip';
 import {ONLINE} from '../constants/common';
 
@@ -23,6 +24,7 @@ class ShoppingCart extends Component {
         
         super(props);
         console.log(this.props);
+        this.props.saveAddressInfo({id:""});
         this.state = {
             title: "购物车()",
             list: [],
@@ -308,4 +310,18 @@ var NoList = React.createClass({
   }
 });
 
-export default ShoppingCart;  
+// export default ShoppingCart;  
+
+function mapStateToProps(state,ownProps) {
+  return {
+    address: state.address
+  };
+}
+function mapDispatchToProps(dispatch) {  
+  return {
+    saveAddressInfo: (user) => {
+        dispatch(address(user));
+    }
+  };
+}
+export default connect(mapStateToProps,mapDispatchToProps)(ShoppingCart);
