@@ -8,6 +8,7 @@ import {Toast,Confirm} from '../Component/common/Tip';
 import {COMMON_HEADERS_POST} from '../constants/headers';
 import cookie from 'react-cookie';
 import {OrderClosedList} from '../Component/orderClosedList';
+import {OrderClosedItemSunCancel} from '../Component/orderClosedItemSunCancel';
 /**
  * 模块入口
  * 
@@ -17,7 +18,7 @@ import {OrderClosedList} from '../Component/orderClosedList';
 class OrderClosed extends Component {
 	    constructor(props) {
             super(props);
-            console.log(2222222222222222222222222222);
+            console.log('本地调试...');
             console.log(props.address);
             this.getQueryString = (name) => {
     		        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -40,7 +41,7 @@ class OrderClosed extends Component {
                 	 goodsTotalFee:"",
                 	 orderTotalFee:"",
                 	 storeVOList: [],
-                     errorList: []
+                     errorGoodsList: []
                 },
                 isShow:{
                 	adOn:'block',
@@ -157,8 +158,17 @@ class OrderClosed extends Component {
                             }else if(json.errorType=="3"){
                                 alert("商品库存不足");
                             }
-                            // location.href="";
-                            //跳支付
+                            self.setState({
+                                confirm: {
+                                    title: "",
+                                    content: "以下商品库存不足或已下架，无法继续购买",
+                                    leftText: "我知道了",
+                                    leftMethod: function() {
+                                        Tool.history.goBack();
+                                    },
+                                    display: "block"
+                                }
+                            });
                         }
 	                }
 	            });
@@ -222,7 +232,7 @@ class OrderClosed extends Component {
 					</dl>
 					<dl className="line fp">
 						<dt>发票</dt>
-						<dd><a href="/setbill"><span>不开发票</span><img src="src/images/orderclosed/fp@2x.png"/></a></dd>
+						<dd><a href="/setbill"><span>不开发票</span><img src={require("../images/orderclosed/fp@2x.png")}/></a></dd>
 
 					</dl>
 					<div className="jinediv">
@@ -235,18 +245,12 @@ class OrderClosed extends Component {
 							<dd><span>¥{this.state.ajdata.totalShipFee}</span></dd>
 						</dl>
 					</div>
-                    <a className="tanm">
-                            <dl className="clearfix">
-                                    <dt>
-                                        <img src="http://image1.jyall.com/v1/tfs/T1QyWTBjWg1RXrhCrK.jpg"/>
-                                        <span>已失效</span>
-                                    </dt>
-                                    <dd>
-                                        <p>失效商品<br/><span>规格</span></p>
-                                        <p className="price">¥ 价格<br/><span>x6</span></p>
-                                    </dd>
-                                    <p className="sxp">对不起,宝贝已经卖光了</p>
-                            </dl>
+                    <a className="tanm" style={{display: this.state.ajdata.errorGoodsList.length>=1?'block':'none'}}>
+                                {
+                                    this.state.ajdata.errorGoodsList.map((item,index)=>
+                                        <OrderClosedItemSunCancel key={index} {...item}/>
+                                    )
+                                }
                     </a>
                 </div>
             	<div className="bootm">
