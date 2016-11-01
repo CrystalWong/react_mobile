@@ -83,11 +83,22 @@ class ShoppingCart extends Component {
                 	allNum: self.allNum,
                     nolist: json.cartItems.length==0?"block":"none"
                 });
+
+                let selectAll = 0;
                 for(let i of json.cartItems){
-                    if(i.state==1&&i.status==1&&i.salesState==2&&i.select){
-                        self.selectItem++;
+                    if(i.state==1&&i.status==1&&i.salesState==2){
+                        selectAll++;
+                        if(i.select){
+                            self.selectItem++;
+                        }
                     }
+
                 }
+                if(self.selectItem>0 && self.selectItem == selectAll){
+                    self.refs.selectAll.className = "no-select-all selectall";
+                }else{
+                    self.refs.selectAll.className = "no-select-all";
+                }  
             }
         });
 
@@ -201,6 +212,7 @@ class ShoppingCart extends Component {
                 if(item.state==1&&item.status==1&&item.salesState==2){
                     item.select = selectControl;
                     if(selectControl){
+
                         self.allMoney += item.count*item.sellPrice;
                         self.allNum += item.count;
                     }
@@ -263,7 +275,7 @@ var NoList = React.createClass({
     return (
         <div style={{ display: this.props.display }} className="no-list">
             <div style={{ background: "#fff",padding: ".8rem 0 1.2rem" }}>
-                <img src="src/images/shopping/empty_shopping.png" />
+                <img src={require("../images/shopping/empty_shopping.png")} />
                 <p>购物车里还什么都没有<br/>赶快去逛逛吧~ <br/></p>
                 <a href="http://m.jyall.com"><button>去看看</button></a>
             </div>
