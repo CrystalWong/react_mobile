@@ -14,7 +14,7 @@ export default {
 	Register: `${domain}/user-api/v1/authcenter/app/addUser`,
 	//找回密码
 	FINDPWDBYMOBILE: `${domain}/user-api/v1/authcenter/app/resetPswByMobile/`,//{mobile}/{password}
-	CHECKMOBILE: `${domain}/user-api/v1/authcenter/user/checkMobile/`,
+	CHECKMOBILE: `${domain}/user-api/v1/authcenter/app/checkRegistByMobile/`,
 	//购物车列表
 	QUERYCART: `${domain}/jygoods-api/v1/jycart/queryCart`,
 	//购物车物品数量加1
