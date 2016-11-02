@@ -130,21 +130,6 @@ class OrderClosed extends Component {
 	                headers: headers,
 	                successMethod: function(json,status){
                         if(json.errorList==undefined){
-                        // self.setState({
-                        //     confirm: {
-                        //         title: "是否确认拨打此电话？",
-                        //         content: "<img src='http://image1.jyall.com/v1/tfs/T1QyWTBjWg1RXrhCrK.jpg'>",
-                        //         leftText: "取消",
-                        //         leftMethod: function() {
-                        //            self.setState({confirm:{display: "none"}});
-                        //         },
-                        //         rightText: "确定",
-                        //         rightMethod: function() {
-                        //             alert("确定");
-                        //         },
-                        //         display: "block"
-                        //     }
-                        // });
                                 if(status == 200){
                                      Tool.fetch(this,{//获取支付地址
                                         url: `${URLS.TOPAY}${json.id}?source=WAP`,
@@ -154,17 +139,17 @@ class OrderClosed extends Component {
                                             console.log(json);
                                             location.href=json.wapPayUrl;
                                         }
-                                    });                           
+                                    });
                                 }
                             // 
                         }else{
-                            if(json.errorType=="1"){
-                                alert("部分库存不足");
-                            }else if(json.errorType=="2"){
-                                alert("商品不再配送区域");
-                            }else if(json.errorType=="3"){
-                                alert("商品库存不足");
-                            }
+                            // if(json.errorType=="1"){
+                            //     alert("部分库存不足");
+                            // }else if(json.errorType=="2"){
+                            //     alert("商品不再配送区域");
+                            // }else if(json.errorType=="3"){
+                            //     alert("商品库存不足");
+                            // }
                             self.setState({
                                 confirm: {
                                     title: "",
