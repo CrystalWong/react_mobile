@@ -29,7 +29,7 @@ export class ShoppingItem extends Component {
         if(cookie.load('tokenid') != "undefined")isLogin = 1;
 
         if(this.itemSelect == "no_select"){
-            Tool.fetch(this.props.parent,{
+            Tool.fetch(this.props.obj,{
                 url: `${URLS.SELECTITEM}${isLogin}/${uKey}?groupSkuIds=${groupSkuId}&selectAll=0&source=2`,
                 type: "put",
                 headers: COMMON_HEADERS,
@@ -43,7 +43,7 @@ export class ShoppingItem extends Component {
                 }
             });
         }else if(this.itemSelect == "select"){
-            Tool.fetch(this.props.parent,{
+            Tool.fetch(this.props.obj,{
                 url: `${URLS.CONCELITEM}${isLogin}/${uKey}?groupSkuIds=${groupSkuId}&selectAll=0&source=2`,
                 type: "put",
                 headers: COMMON_HEADERS,
@@ -127,7 +127,11 @@ export class ShoppingItem extends Component {
             // this.props.obj.selectItem++; 
         }else if(state==1&&status==1&&salesState==2&&!select){
             this.itemSelect = "no_select";
-        }    
+
+        }
+        if(stock==0||salesState==3){//库存为0 或下架
+            this.itemSelect = "invalid";
+        }          
 
         return (
             <li ref="li">
@@ -140,7 +144,7 @@ export class ShoppingItem extends Component {
                     <p>{speczs&&speczs.map((item) =>item.specName+":"+item.specValueName+" ")}</p>
     				<p>￥{sellPrice}</p>
     			</div>
-    			<AddReduce num={count} callback={this.props.callback} index={this.props.index} groupSkuId={this.props.groupId+"_"+this.props.skuId} stock={stock} parent={this.props.parent} />
+    			<AddReduce num={count} callback={this.props.callback} index={this.props.index} groupSkuId={this.props.groupId+"_"+this.props.skuId} stock={stock} parent={this.props.obj} />
     		    <div ref="del" className="delete" onClick={this.delete.bind(this)}>删除</div>
             </li>
         );

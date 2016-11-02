@@ -120,6 +120,28 @@ class Register extends Component {
                     }
                 }
             });            
+        }else{
+            Tool.fetch(this,{
+                url: URLS.Vcode+this.refs.phone.value,
+                type: "get",
+                headers: headers,
+                successMethod: function(json){
+                    console.log(typeof json);
+                    if(typeof json == "object"){
+                        self.setState({ tipContent: json.message,display: 'toasts' });
+                        return;
+                    }
+                    let n = 60;
+                        self.inte = setInterval(function(){
+                            self.setState({codeText: `重新发送（${n}s）`});
+                            n--;
+                            if(n == 0){
+                                self.setState({codeText: "重新发送",codeControl:true});
+                                clearInterval(self.inte);
+                            }
+                        },1000);
+                }
+            });            
         }            
 
     }
@@ -130,7 +152,12 @@ class Register extends Component {
             this.setState({ protocolDisplay: 'none'});
         }
     }
-
+    shouldComponentUpdate(nextProps, nextState) {
+          return this.state.protocolDisplay === nextState.protocolDisplay;
+    }
+    componentWillUnmount(){
+        clearInterval(this.inte);
+    }
     render() {
         return (
             <div>

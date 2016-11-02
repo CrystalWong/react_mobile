@@ -23,6 +23,7 @@ class ShoppingCart extends Component {
 	constructor(props) {
         
         super(props);
+        Tool.loginChecked(this);
         console.log(this.props);
         this.props.saveAddressInfo({id:""});
         this.state = {
@@ -128,7 +129,7 @@ class ShoppingCart extends Component {
     //给子组件回调 数量加减
     shoppingCartCount(data){ 
         if(data.more){
-            self.setState({ tipContent: "已达库存上限",display: 'toasts' });
+            this.setState({ tipContent: data.message,display: 'toasts' });return;
         }
         let list = this.state.list,
             self = this,
@@ -183,7 +184,7 @@ class ShoppingCart extends Component {
 
 
         if(selectAll.className.match("selectall")){
-            Tool.fetch(this.props.parent,{
+            Tool.fetch(this,{
                 url: `${URLS.CONCELITEM}${isLogin}/${uKey}?selectAll=1`,
                 type: "put",
                 headers: COMMON_HEADERS,
@@ -245,7 +246,9 @@ class ShoppingCart extends Component {
             this.refs.selectAll.className = "no-select-all";
         }
     }
-
+    // shouldComponentUpdate(nextProps, nextState) {
+    //       return this.state.ajaxDisplay !== nextState.ajaxDisplay;
+    // }
     render() {
         return (
             <div style={{height: '100%'}}>

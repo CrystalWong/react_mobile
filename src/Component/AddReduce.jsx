@@ -56,7 +56,7 @@ export class AddReduce extends Component {
         this.more = true;    
         if(cookie.load('tokenid'))isLogin = 1;
         if(self.state.num >= this.props.stock){
-            self.props.callback({more: true});
+            self.props.callback({more: true,message: '已达库存上限'});
             return;
         }
         Tool.fetch(this.props.parent,{
@@ -68,6 +68,8 @@ export class AddReduce extends Component {
                     self.setState({color: "#333333"});
                     self.setState({num: ++self.state.num});
                     self.props.callback({num: self.state.num,index: self.props.index,more: false});
+                }else{
+                    self.props.callback({more: true,message: json.message});
                 }
             }
         });

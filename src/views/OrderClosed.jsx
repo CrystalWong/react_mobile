@@ -18,6 +18,7 @@ import {OrderClosedItemSunCancel} from '../Component/orderClosedItemSunCancel';
 class OrderClosed extends Component {
 	    constructor(props) {
             super(props);
+            Tool.loginChecked(this);
             console.log('本地调试...');
             console.log(props.address);
             this.getQueryString = (name) => {
@@ -29,6 +30,8 @@ class OrderClosed extends Component {
             let choseAddress;
             props.address.consigneeName==undefined?choseAddress={consigneeName:""}:choseAddress=props.address;
             this.state = {
+                tipContent: '',
+                display: '',
                 choseAddress:choseAddress,
             	setBillData:{
             		fptype:this.getQueryString("fptype")||"",
@@ -78,11 +81,15 @@ class OrderClosed extends Component {
                 headers: headers,
                 body: params,
                 tokenid: cookie.load('tokenid'),
-                successMethod: function(json){
-                    self.setState({ajdata:json});
-                    if(json.address==null||json.address==undefined||json.address==""){
-                        self.state.isShow.adOn="block";
-                        self.state.isShow.adOff="none";
+                successMethod: function(json,status){
+                    if(status == 200){
+                        self.setState({ajdata:json});
+                        if(json.address==null||json.address==undefined||json.address==""){
+                            self.state.isShow.adOn="block";
+                            self.state.isShow.adOff="none";
+                        }
+                    }else{
+                        self.setState({ tipContent: json.message,display: 'toasts' });
                     }
                 }
             }
@@ -201,6 +208,11 @@ class OrderClosed extends Component {
     // componentDidUpdate(){
     //     alert(this.refs.h3.innerText)
     // }    
+    toastDisplay(state){
+        this.setState({
+          display: state
+        });
+    }
     render() {
         return (
             <div>
@@ -222,7 +234,7 @@ class OrderClosed extends Component {
 	                	<div className="adinfo">
 	                		<h3>{this.state.choseAddress.consigneeName?this.state.choseAddress.consigneeName:this.state.ajdata.address.consigneeName}&nbsp;
                             {this.state.choseAddress.consigneeMobile?this.state.choseAddress.consigneeMobile:this.state.ajdata.address.consigneeMobile}</h3>
-	                		<span>地址：</span><span>{this.state.choseAddress.locationInfo?this.state.choseAddress.locationInfo:this.state.ajdata.address.detailInfo}</span>
+	                		<span>地址：</span><span>{this.state.choseAddress.locationInfo?this.state.choseAddress.locationInfo+this.state.choseAddress.detailInfo:this.state.ajdata.address.locationInfo+this.state.ajdata.address.detailInfo}</span>
 	                	</div>
 	                </div>
 				    <OrderClosedList {...this.state.ajdata}/>
@@ -257,6 +269,7 @@ class OrderClosed extends Component {
 					<a className="heji">合计:<span>¥{this.state.ajdata.orderTotalFee}</span></a>
 					<a className="subbtn" onClick={this.submitOrder.bind(this)}>提交订单</a>
 				</div>
+                <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
 				<Confirm  {...this.state.confirm}/>
                 <div className="mask" style={{display: this.state.confirm.display}}></div>
 		

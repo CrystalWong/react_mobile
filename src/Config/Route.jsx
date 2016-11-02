@@ -120,5 +120,4 @@ function loadRoute(cb) {
 // };
 
 Tool.rem();
-
 export default RouteConfig;

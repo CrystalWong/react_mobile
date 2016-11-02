@@ -2,6 +2,8 @@ import merged from 'obj-merged';
 // import * as config from './Config/Config';
 import { Router, Route, IndexRoute, browserHistory,hashHistory, Link } from 'react-router';
 import cookie from 'react-cookie';
+import {COMMON_HEADERS} from './constants/headers';
+import URLS from './constants/urls';
 const Tool = {};
 
 
@@ -27,7 +29,7 @@ Tool.fetch = function(obj,data){
             status = response.status;
             return response.json();
         }).then(json => {
-          obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
+          obj.setState&&obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
           data.successMethod(json,status);
         });
     }else {
@@ -100,10 +102,33 @@ Tool.fetch = function(obj,data){
     }
 
 }
+
 /**
  * (毫秒转化 2016-10-18 17:02:09)
  * 
- * @method Fetch
+ * @method formatSeconds
+ */
+Tool.loginChecked = function(obj){
+    if(!cookie.load('tokenid')){
+        Tool.history.push('/');
+    }else{
+        Tool.fetch(obj,{
+            url: `${URLS.TOKENCHECKED}${cookie.load('tokenid')}`,
+            type: "get",
+            headers: COMMON_HEADERS,
+            successMethod: function(json){
+                if(!json.loginFlag){
+                    Tool.history.push('/');
+                }
+            }
+        });
+    }
+} 
+
+/**
+ * (毫秒转化 2016-10-18 17:02:09)
+ * 
+ * @method formatSeconds
  */
 Tool.formatSeconds = function(seconds){
     let date=new Date(seconds);
