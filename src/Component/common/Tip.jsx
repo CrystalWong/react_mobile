@@ -57,7 +57,6 @@ export class Confirm extends Component {
 export class AjaxTip extends Component {
     render() {
         let {display} = this.props;
-        
         return (
             <div className="loadEffect" id="loadEffect" ref="load" style={{display: display}}>
                 <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
