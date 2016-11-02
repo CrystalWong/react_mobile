@@ -81,8 +81,8 @@ class OrderClosed extends Component {
                 successMethod: function(json){
                     self.setState({ajdata:json});
                     if(json.address==null||json.address==undefined||json.address==""){
-                        self.state.isShow.adOn="block";
-                        self.state.isShow.adOff="none";
+                        self.state.isShow.adOn="none";
+                        self.state.isShow.adOff="block";
                     }
                 }
             }
