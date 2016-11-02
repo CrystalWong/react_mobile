@@ -85,8 +85,8 @@ class OrderClosed extends Component {
                     if(status == 200){
                         self.setState({ajdata:json});
                         if(json.address==null||json.address==undefined||json.address==""){
-                            self.state.isShow.adOn="block";
-                            self.state.isShow.adOff="none";
+                            self.state.isShow.adOn="none";
+                            self.state.isShow.adOff="block";
                         }
                     }else{
                         self.setState({ tipContent: json.message,display: 'toasts' });
