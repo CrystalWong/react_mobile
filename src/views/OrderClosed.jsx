@@ -219,7 +219,7 @@ class OrderClosed extends Component {
 	                	<div className="adinfo">
 	                		<h3>{this.state.choseAddress.consigneeName?this.state.choseAddress.consigneeName:this.state.ajdata.address.consigneeName}&nbsp;
                             {this.state.choseAddress.consigneeMobile?this.state.choseAddress.consigneeMobile:this.state.ajdata.address.consigneeMobile}</h3>
-	                		<span>地址：</span><span>{this.state.choseAddress.locationInfo?this.state.choseAddress.locationInfo+this.state.choseAddress.detailInfo:this.state.ajdata.address.locationInfo+this.state.ajdata.address.detailInfo}</span>
+                            <span>地址：</span><span>{this.state.choseAddress.locationInfo?this.state.choseAddress.locationInfo+this.state.choseAddress.detailInfo:(this.state.ajdata.address.detailInfo?(this.state.ajdata.address.locationInfo+this.state.ajdata.address.detailInfo):"请选择地址")}</span>
 	                	</div>
 	                </div>
 				    <OrderClosedList {...this.state.ajdata}/>
