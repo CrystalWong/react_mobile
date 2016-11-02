@@ -91,15 +91,17 @@ class ShoppingCart extends Component {
                 });
 
                 let selectAll = 0;
-                for(let i of json.cartItems){
+                // for(let i of json.cartItems){
+                json.cartItems.forEach(function(i){
                     if(i.state==1&&i.status==1&&i.salesState==2){
                         selectAll++;
                         if(i.select){
                             self.selectItem++;
                         }
                     }
+                });    
 
-                }
+                // }
                 if(self.selectItem>0 && self.selectItem == selectAll){
                     self.refs.selectAll.className = "no-select-all selectall";
                 }else{
