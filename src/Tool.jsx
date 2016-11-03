@@ -1,7 +1,9 @@
 import merged from 'obj-merged';
 // import * as config from './Config/Config';
 import { Router, Route, IndexRoute, browserHistory,hashHistory, Link } from 'react-router';
-
+import cookie from 'react-cookie';
+import {COMMON_HEADERS} from './constants/headers';
+import URLS from './constants/urls';
 const Tool = {};
 
 
@@ -12,30 +14,121 @@ const Tool = {};
  * @method Fetch
  */
 Tool.fetch = function(obj,data){
-    var d = {
-      method: data.type,
-      headers: data.headers
-    },
-    status = 0;
-    if(data.body){d.body = data.body;}
-    fetch(data.url,d).then(response => {
-        console.log(response.error);
-        if(response.status >= 500){
-            obj.setState({ tipContent: '网络连接失败，请检查您的网络',display: 'toasts' });
+    if(typeof fetch != "undefined"){
+        var d = {
+          method: data.type,
+          headers: data.headers
+        },
+        status = 0;
+        if(data.body){d.body = data.body;}
+        fetch(data.url,d).then(response => {
+            console.log(response.error);
+            if(response.status >= 500){
+                obj.setState({ tipContent: '网络连接失败，请检查您的网络',display: 'toasts' });
+            }
+            status = response.status;
+            return response.json();
+        }).then(json => {
+          obj.setState&&obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
+          data.successMethod(json,status);
+        });
+    }else {
+        try {
+            var xmlhttp,status = 0;
+            if (window.XMLHttpRequest){
+                xmlhttp=new XMLHttpRequest();
+            }
+            else {
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange=function()
+            {
+                if (xmlhttp.readyState==4)
+                {
+                    if(xmlhttp.status >= 500){
+                        obj.setState({ tipContent: '网络连接失败，请检查您的网络',display: 'toasts' });
+                    }    
+                    obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
+                    status = xmlhttp.status;
+                    data.successMethod(eval("("+ xmlhttp.responseText +")"),status);
+                }
+            }
+            xmlhttp.open(data.type,data.url,data.sync?false:true);
+            xmlhttp.setRequestHeader("content-type","application/json");
+            xmlhttp.setRequestHeader("sign", "BAD3426489851754C1C14A46A22ABF82");  
+            xmlhttp.setRequestHeader("deviceid", "M");
+            xmlhttp.setRequestHeader("tokenid", cookie.load('tokenid'));
+            if(data.type == "post"){
+                xmlhttp.send(data.body?data.body:"");
+            }else{
+                xmlhttp.send();
+            }  
+            
+
+            // if(data.type && data.type == "post"){
+            //     xmlhttp.open("post",data.url,data.sync?false:true);
+            //     headersSet(xmlhttp);
+            //     if(data.formData){//用于文件上传
+            //         xmlhttp.send(data.formData);
+            //     }else{
+            //         
+            //     }
+            // }else if(data.type && data.type == "get"){
+            //     xmlhttp.open("get",data.url,data.sync?false:true);
+            //     headersSet(xmlhttp);
+            //     // if(data.userToken)xmlhttp.setRequestHeader("User-Token", data.userToken);
+            //     xmlhttp.send();
+            // }
+
+
+            var timeout = data.timeout?data.timeout:40000;
+            // xmlhttp.timeout = setTimeout(function(){
+            //     if(xmlhttp.readyState!=4 || xmlhttp.status!=200){
+            //         xmlhttp.abort();
+            //         if(data.endLoading) data.endLoading();//结束加载中
+            //         noNetwork();
+            //     }
+            //     if(data.timeoutMethod){
+            //         //alert("5s超时，将关闭！");
+            //         if(data.endLoading) data.endLoading();//结束加载中
+            //         data.timeoutMethod();
+            //     }
+            // },timeout);
+        } catch(e) {
+            console.log(e.name +" "+ e.message);
+        } finally {
+
         }
-        status = response.status;
-        return response.json();
-    }).then(json => {
-      if(json.code==400001012){
-        location.href="/";
-      }
-      data.successMethod(json,status);
-    });
+    }
+
 }
+
 /**
  * (毫秒转化 2016-10-18 17:02:09)
  * 
- * @method Fetch
+ * @method formatSeconds
+ */
+Tool.loginChecked = function(obj){
+    if(!cookie.load('tokenid')){
+        Tool.history.push('/');
+    }else{
+        Tool.fetch(obj,{
+            url: `${URLS.TOKENCHECKED}${cookie.load('tokenid')}`,
+            type: "get",
+            headers: COMMON_HEADERS,
+            successMethod: function(json){
+                if(!json.loginFlag){
+                    Tool.history.push('/');
+                }
+            }
+        });
+    }
+} 
+
+/**
+ * (毫秒转化 2016-10-18 17:02:09)
+ * 
+ * @method formatSeconds
  */
 Tool.formatSeconds = function(seconds){
     let date=new Date(seconds);

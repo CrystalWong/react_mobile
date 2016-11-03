@@ -9,7 +9,8 @@ import {Tool, merged} from '../Tool';
 import URLS from '../constants/urls';
 import {COMMON_HEADERS} from '../constants/headers';
 import {shoppingCartCount} from '../Action/ShoppingCart';
-import {Toast,Confirm} from '../Component/common/Tip';
+import {address} from '../Action/Address';
+import {Toast,Confirm,AjaxTip} from '../Component/common/Tip';
 import {ONLINE} from '../constants/common';
 
 /**
@@ -22,7 +23,9 @@ class ShoppingCart extends Component {
 	constructor(props) {
         
         super(props);
+        Tool.loginChecked(this);
         console.log(this.props);
+        this.props.saveAddressInfo({id:""});
         this.state = {
             title: "购物车()",
             list: [],
@@ -45,13 +48,17 @@ class ShoppingCart extends Component {
                     alert("确定");
                 },
                 display: "none"
-            }
+            },
+            ajaxDisplay: "block",
+            maskDisplay: "block"
         };
 
         let headers = COMMON_HEADERS();
         let self = this;
         this.count = 0;
+        this.selectItem = 0;
         let params = cookie.load('tokenid')?("&tokenId="+cookie.load('tokenid')):(cookie.load('jycart_uKey')?"&uKey="+cookie.load('jycart_uKey'):'');
+        
         Tool.fetch(this,{
             url: `${URLS.QUERYCART}?source=2${params}`,
             type: "get",
@@ -74,6 +81,7 @@ class ShoppingCart extends Component {
 
             	if(json.totalItemCount > 999){json.totalItemCount = "999+";}
                 // json.cartItems = [];
+                console.log(json.cartItems);
                 self.setState({ 
                 	list: json.cartItems,
                 	title: "购物车("+ json.totalGoodsCount +")",
@@ -81,6 +89,24 @@ class ShoppingCart extends Component {
                 	allNum: self.allNum,
                     nolist: json.cartItems.length==0?"block":"none"
                 });
+
+                let selectAll = 0;
+                // for(let i of json.cartItems){
+                json.cartItems.forEach(function(i){
+                    if(i.state==1&&i.status==1&&i.salesState==2){
+                        selectAll++;
+                        if(i.select){
+                            self.selectItem++;
+                        }
+                    }
+                });    
+
+                // }
+                if(self.selectItem>0 && self.selectItem == selectAll){
+                    self.refs.selectAll.className = "no-select-all selectall";
+                }else{
+                    self.refs.selectAll.className = "no-select-all";
+                }  
             }
         });
 
@@ -105,7 +131,7 @@ class ShoppingCart extends Component {
     //给子组件回调 数量加减
     shoppingCartCount(data){ 
         if(data.more){
-            self.setState({ tipContent: "已达库存上限",display: 'toasts' });
+            this.setState({ tipContent: data.message,display: 'toasts' });return;
         }
         let list = this.state.list,
             self = this,
@@ -160,7 +186,7 @@ class ShoppingCart extends Component {
 
 
         if(selectAll.className.match("selectall")){
-            Tool.fetch(this.props.parent,{
+            Tool.fetch(this,{
                 url: `${URLS.CONCELITEM}${isLogin}/${uKey}?selectAll=1`,
                 type: "put",
                 headers: COMMON_HEADERS,
@@ -168,6 +194,7 @@ class ShoppingCart extends Component {
                     if(json.flag == true){
                         selectAll.className = "no-select-all";
                         selectControl = false;
+                        self.selectItem = 0;
                         result();
                     }
                 }
@@ -181,6 +208,7 @@ class ShoppingCart extends Component {
                     if(json.flag == true){
                         selectAll.className = "no-select-all selectall";
                         selectControl = true;
+                        self.selectItem = list.length;
                         result();
                     }
                 }
@@ -192,6 +220,7 @@ class ShoppingCart extends Component {
                 if(item.state==1&&item.status==1&&item.salesState==2){
                     item.select = selectControl;
                     if(selectControl){
+
                         self.allMoney += item.count*item.sellPrice;
                         self.allNum += item.count;
                     }
@@ -204,30 +233,46 @@ class ShoppingCart extends Component {
 
     statement(e){ //结算
         e.stopPropagation(); 
-        // e.preventDefault();
+        e.preventDefault();
+        if(this.selectItem <= 0){
+            this.setState({tipContent: '请选择商品',display: 'toasts',});
+            return;
+        } 
+        Tool.history.push("/orderclosed");
     }
 
+    componentDidUpdate(){
+        if(this.selectItem>0 && this.selectItem == this.state.list.length){
+            this.refs.selectAll.className = "no-select-all selectall";
+        }else{
+            this.refs.selectAll.className = "no-select-all";
+        }
+    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //       return this.state.ajaxDisplay !== nextState.ajaxDisplay;
+    // }
     render() {
         return (
-            <div>
+            <div style={{height: '100%'}}>
                 <Header title={this.state.title} leftIcon="fanhui" />
                 <div className="shoppingc-art">
                 	<ul>
                 	    {
                             this.state.list.map((item,index) =>
-					            <ShoppingItem key={item.skuId} index={index} callback={this.shoppingCartCount.bind(this)} callback2={this.selectStatement.bind(this)} {...item} />
+					            <ShoppingItem key={index} index={index} callback={this.shoppingCartCount.bind(this)} callback2={this.selectStatement.bind(this)} {...item} obj={this}/>
 					        )
                         }
                 	</ul>
                 	<footer onClick={this.selectAll.bind(this)}>
                 		<span className="no-select-all" ref="selectAll">全选</span>
-                		<div className="fr">合计:<span style={{color: "#cc0000",marginRight: ".2rem"}}>￥{this.state.allMoney}</span><Link to="/orderclosed"><b className="statement" onClick={this.statement.bind(this)}>结算(<span>{this.state.allNum}</span>)</b></Link></div>
+                		<div className="fr">合计:<span style={{color: "#cc0000",marginRight: ".2rem"}}>￥{this.state.allMoney}</span><a href="javascript:;"><b className="statement" onClick={this.statement.bind(this)}>结算(<span>{this.state.allNum}</span>)</b></a></div>
                 	</footer>
                 </div>
                 <NoList display={this.state.nolist} recommentList={this.state.recommentList} />
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
                 <Confirm  {...this.state.confirm}/>
-                <div className="mask" style={{display: this.state.confirm.display}}></div>
+                <AjaxTip display={this.state.ajaxDisplay} />
+                <div className="mask" style={{display: this.state.maskDisplay}}></div>
             </div>
         );
     }
@@ -241,7 +286,7 @@ var NoList = React.createClass({
     return (
         <div style={{ display: this.props.display }} className="no-list">
             <div style={{ background: "#fff",padding: ".8rem 0 1.2rem" }}>
-                <img src="src/images/shopping/empty_shopping.png" />
+                <img src={require("../images/shopping/empty_shopping.png")} />
                 <p>购物车里还什么都没有<br/>赶快去逛逛吧~ <br/></p>
                 <a href="http://m.jyall.com"><button>去看看</button></a>
             </div>
@@ -270,4 +315,18 @@ var NoList = React.createClass({
   }
 });
 
-export default ShoppingCart;  
+// export default ShoppingCart;  
+
+function mapStateToProps(state,ownProps) {
+  return {
+    address: state.address
+  };
+}
+function mapDispatchToProps(dispatch) {  
+  return {
+    saveAddressInfo: (user) => {
+        dispatch(address(user));
+    }
+  };
+}
+export default connect(mapStateToProps,mapDispatchToProps)(ShoppingCart);

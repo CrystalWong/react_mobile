@@ -53,7 +53,6 @@ class Login extends Component {
             Tool.fetch(this,{
                 url: `${URLS.LOGIN}?userName=${userName}&passWord=${passWord}&source=${source}&version=14&code=${code.value}&uuid=${this.random}`,
                 type: "post",
-                body: "",
                 headers: headers,
                 successMethod: function(json){
                     self.setState({ button: '登录' });
@@ -62,6 +61,10 @@ class Login extends Component {
                     //json
                         var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"m.jyall.com":"") }
                         self.props.loginAction(json.responseBody);
+                        cookie.remove('tokenid');
+                        cookie.remove('userId');
+                        cookie.remove('name');
+                        cookie.remove('photo');
                         cookie.save('tokenid', json.responseBody.tokenid, cookieObj);
                         cookie.save('name', json.responseBody.name, cookieObj);
                         cookie.save('userId', json.responseBody.userId, cookieObj);

@@ -1,9 +1,11 @@
 import React,{Component,PropTypes} from 'react';
 import Cookie from 'react-cookie';
+import {Link } from 'react-router';
 import {COMMON_HEADERS} from '../constants/headers';
 import URLS from '../constants/urls.js';
 import {Tool, merged} from '../Tool';
 import '../Style/center';
+import {Header} from '../Component/common/index';
 
 class Center extends Component {
 	constructor(props){
@@ -52,6 +54,7 @@ class Center extends Component {
 	render(){
 		return(
 			<div>
+			    <Header title="个人中心" leftIcon="fanhui" />
 				<header className="center-header">
 					<a href="#" className="ch-setting">设置</a>
 					<div className="ch-avatar"><img src={this.state.photo} /></div>
@@ -61,15 +64,14 @@ class Center extends Component {
 				</header>
 				<ul className="center-menu">
 					{/*<li><a href="#" className="cm-message">消息<i></i></a></li>*/}
-					<li><a href="/shoppingcart" className="cm-cart">购物车<em>{this.state.totalItemCount}</em></a></li>
+					<li><Link to="/shoppingcart" className="cm-cart">购物车<em>{this.state.totalItemCount}</em></Link></li>
 				</ul>
 				<ul className="center-menu">
-					<li><a href="#" className="cm-sell">我要卖房</a></li>
-					<li><a href="#" className="cm-buy">我要买房</a></li>
-					<li><a href="#" className="cm-entrust">我委托的房源</a></li>
+					<li><Link to="/appointment" className="cm-yue">我的预约单</Link></li>
+					<li><Link to="/myorder" className="cm-order">我的订单</Link></li>
 				</ul>
 				<ul className="center-menu">
-					<li><a href="/address" className="cm-address">管理收货地址</a></li>
+					<li><Link to="/address" className="cm-address">管理收货地址</Link></li>
 				</ul>
 			</div>
 		)

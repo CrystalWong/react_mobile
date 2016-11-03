@@ -18,6 +18,7 @@ var server = new WebpackDevServer(webpack(config), {
     headers: { 'Access-Control-Allow-Origin': '*' },
     proxy:{
         '**/v1/**': {
+            // target: 'http://106.39.13.149',
             target: 'http://10.10.32.81',
             secure: false
         }

@@ -8,6 +8,7 @@ import {Toast,Confirm} from '../Component/common/Tip';
 import {COMMON_HEADERS_POST} from '../constants/headers';
 import cookie from 'react-cookie';
 import {OrderClosedList} from '../Component/orderClosedList';
+import {OrderClosedItemSunCancel} from '../Component/orderClosedItemSunCancel';
 /**
  * 模块入口
  * 
@@ -16,72 +17,100 @@ import {OrderClosedList} from '../Component/orderClosedList';
  */
 class OrderClosed extends Component {
 	    constructor(props) {
-        super(props);
-        console.log(2222222222222222222222222222);
-        console.log(props.address);
-        this.getQueryString = (name) => {
-		        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-		        let r = window.location.search.substr(1).match(reg);
-		        if (r != null) return decodeURIComponent(r[2]);
-		        return "";
-		};
-        let choseAddress;
-        props.address.consigneeName==undefined?choseAddress={consigneeName:""}:choseAddress=props.address;
-        this.state = {
-            choseAddress:choseAddress,
-        	setBillData:{
-        		fptype:this.getQueryString("fptype")||"",
-				fptype1:this.getQueryString("fptype1")||"",
-				fptt:this.getQueryString("fptt")||""
-        	},
-            ajdata:{
-            	 address:{consigneeName:""},
-            	 totalShipFee:"",
-            	 goodsTotalFee:"",
-            	 orderTotalFee:"",
-            	 storeVOList: [],
-                 errorList: []
-            },
-            isShow:{
-            	adOn:'block',
-            	adOff:'none'
-            },
-            confirm: {
-            	title: "是否确认拨打此电话？",
-            	content: "刘德华 13409090909", 
-            	leftText: "取消",
-            	leftMethod: function(){
-            		alert("取消");
+            super(props);
+            Tool.loginChecked(this);
+            console.log('本地调试...');
+            console.log(props.address);
+            this.getQueryString = (name) => {
+    		        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    		        let r = window.location.href.split("?")[1]?window.location.href.split("?")[1].match(reg):null;
+    		        if (r != null) return decodeURIComponent(r[2]);
+    		        return "";
+    		};
+            let choseAddress;
+            props.address.consigneeName==undefined?choseAddress={consigneeName:""}:choseAddress=props.address;
+            this.state = {
+                tipContent: '',
+                display: '',
+                choseAddress:choseAddress,
+            	setBillData:{
+            		fptype:this.getQueryString("fptype")||"",
+    				fptype1:this.getQueryString("fptype1")||"",
+    				fptt:this.getQueryString("fptt")||""
             	},
-            	rightText: "确定",
-            	rightMethod: function(){
-            		alert("确定");
-            	},
-            	display: "none"
-            }
-        };
-			let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),self=this;
-            Tool.fetch(this,{
+                ajdata:{
+                	 address:{consigneeName:""},
+                	 totalShipFee:"",
+                	 goodsTotalFee:"",
+                	 orderTotalFee:"",
+                	 storeVOList: [],
+                     errorGoodsList: []
+                },
+                isShow:{
+                	adOn:'block',
+                	adOff:'none'
+                },
+                confirm: {
+                	title: "是否确认拨打此电话？",
+                	content: "刘德华 13409090909", 
+                	leftText: "取消",
+                	leftMethod: function(){
+                		alert("取消");
+                	},
+                	rightText: "确定",
+                	rightMethod: function(){
+                		alert("确定");
+                	},
+                	display: "none"
+                }
+            };
+    		let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),
+                self=this,
+                data = {},
+                params = "";
+            if(this.getQueryString('cartParamJson')){
+                // cartParamJson = "cartParamJson="+this.getQueryString('cartParamJson');
+                params = this.getQueryString('cartParamJson');
+            }else{
+                params = JSON.stringify({"cartFlag":"1"});
+            }    
+
+            data = {
                 url: `${URLS.OrderClosed}`,
                 type: "post",
-                body:JSON.stringify({"cartFlag":"1"}),
                 headers: headers,
-                successMethod: function(json){
-                    self.setState({ajdata:json});
-                    if(json.address==null||json.address==undefined||json.address==""){
-                    	self.state.isShow.adOn="block";
-                    	self.state.isShow.adOff="none";
+                body: params,
+                tokenid: cookie.load('tokenid'),
+                successMethod: function(json,status){
+                    if(status == 200){
+                        self.setState({ajdata:json});
+                        if(json.address==null||json.address==undefined||json.address==""){
+                            self.state.isShow.adOn="none";
+                            self.state.isShow.adOff="block";
+                        }
+                    }else{
+                        self.setState({ tipContent: json.message,display: 'toasts' });
                     }
                 }
-            });
+            }
+            // if(!this.getQueryString('cartParamJson'))data.body = JSON.stringify({"cartFlag":"1"});
+
+            
+            Tool.fetch(this,data);
             this.submitOrder = () => {
             	let goodsListVO=[];
-            	for(let v of this.state.ajdata.storeVOList){
-					for(let b of v.goodsVOList){
-						goodsListVO.push(b);
-					}
-				}
-				console.log(this.state);
+
+                this.state.ajdata.storeVOList.forEach(function(item){
+                    item.goodsVOList.forEach(function(it){
+                        goodsListVO.push(it);
+                    });
+                });
+
+    //         	for(let v of self.state.ajdata.storeVOList){
+    //                 for(let b of v.goodsVOList){
+    //                     goodsListVO.push(b);
+    //                 }
+				// }
             	let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),self=this,
             	paramData={
 				    "addressVO": {
@@ -99,43 +128,39 @@ class OrderClosed extends Component {
 	                type: "post",
 	                body:JSON.stringify(paramData),
 	                headers: headers,
-	                successMethod: function(json){
+	                successMethod: function(json,status){
                         if(json.errorList==undefined){
-                        // self.setState({
-                        //     confirm: {
-                        //         title: "是否确认拨打此电话？",
-                        //         content: "<img src='http://image1.jyall.com/v1/tfs/T1QyWTBjWg1RXrhCrK.jpg'>",
-                        //         leftText: "取消",
-                        //         leftMethod: function() {
-                        //            self.setState({confirm:{display: "none"}});
-                        //         },
-                        //         rightText: "确定",
-                        //         rightMethod: function() {
-                        //             alert("确定");
-                        //         },
-                        //         display: "block"
-                        //     }
-                        // });
-                            Tool.fetch(this,{//获取支付地址
-                                url: `${URLS.TOPAY}${json.id}`,
-                                type: "post",
-                                headers: headers,
-                                successMethod: function(json){
-                                    
+                                if(status == 200){
+                                     Tool.fetch(this,{//获取支付地址
+                                        url: `${URLS.TOPAY}${json.id}?source=WAP`,
+                                        type: "post",
+                                        headers: headers,
+                                        successMethod: function(json){
+                                            console.log(json);
+                                            location.href=json.wapPayUrl;
+                                        }
+                                    });
                                 }
-                            });
-                            
                             // 
                         }else{
-                            if(json.errorType=="1"){
-                                alert("部分库存不足");
-                            }else if(json.errorType=="2"){
-                                alert("商品不再配送区域");
-                            }else if(json.errorType=="3"){
-                                alert("商品库存不足");
-                            }
-                            // location.href="";
-                            //跳支付
+                            // if(json.errorType=="1"){
+                            //     alert("部分库存不足");
+                            // }else if(json.errorType=="2"){
+                            //     alert("商品不再配送区域");
+                            // }else if(json.errorType=="3"){
+                            //     alert("商品库存不足");
+                            // }
+                            self.setState({
+                                confirm: {
+                                    title: "",
+                                    content: "以下商品库存不足或已下架，无法继续购买",
+                                    leftText: "我知道了",
+                                    leftMethod: function() {
+                                        Tool.history.goBack();
+                                    },
+                                    display: "block"
+                                }
+                            });
                         }
 	                }
 	            });
@@ -165,6 +190,14 @@ class OrderClosed extends Component {
             //   return "快住手！！别点下去！！";
             // };
         }
+    // componentDidUpdate(){
+    //     alert(this.refs.h3.innerText)
+    // }    
+    toastDisplay(state){
+        this.setState({
+          display: state
+        });
+    }
     render() {
         return (
             <div>
@@ -179,14 +212,14 @@ class OrderClosed extends Component {
             	
                 <div className="orderClose">
                 	<div style={{display: this.state.isShow.adOff}} className="address" onClick={this.choseAddress.bind(this)}>
-						<img src="src/images/orderclosed/add@2x.png" alt="添加"/> 新增收货地址
+						<img src={require('../images/orderclosed/add@2x.png')} alt="添加"/> 新增收货地址
 	                </div>
 	                <div className="address1" style={{display: this.state.isShow.adOn}} onClick={this.choseAddress.bind(this)}>
-	                	<img src="src/images/orderclosed/address@2x.png"/>
+	                	<img src={require("../images/orderclosed/address@2x.png")}/>
 	                	<div className="adinfo">
 	                		<h3>{this.state.choseAddress.consigneeName?this.state.choseAddress.consigneeName:this.state.ajdata.address.consigneeName}&nbsp;
                             {this.state.choseAddress.consigneeMobile?this.state.choseAddress.consigneeMobile:this.state.ajdata.address.consigneeMobile}</h3>
-	                		<span>地址：</span><span>{this.state.choseAddress.locationInfo?this.state.choseAddress.locationInfo:this.state.ajdata.address.detailInfo}</span>
+                            <span>地址：</span><span>{this.state.choseAddress.locationInfo?this.state.choseAddress.locationInfo+this.state.choseAddress.detailInfo:(this.state.ajdata.address.detailInfo?(this.state.ajdata.address.locationInfo+this.state.ajdata.address.detailInfo):"请选择地址")}</span>
 	                	</div>
 	                </div>
 				    <OrderClosedList {...this.state.ajdata}/>
@@ -196,7 +229,7 @@ class OrderClosed extends Component {
 					</dl>
 					<dl className="line fp">
 						<dt>发票</dt>
-						<dd><a href="/setbill"><span>不开发票</span><img src="src/images/orderclosed/fp@2x.png"/></a></dd>
+						<dd><a href="/setbill"><span>不开发票</span><img src={require("../images/orderclosed/fp@2x.png")}/></a></dd>
 
 					</dl>
 					<div className="jinediv">
@@ -209,24 +242,19 @@ class OrderClosed extends Component {
 							<dd><span>¥{this.state.ajdata.totalShipFee}</span></dd>
 						</dl>
 					</div>
-                    <a className="tanm">
-                            <dl className="clearfix">
-                                    <dt>
-                                        <img src="http://image1.jyall.com/v1/tfs/T1QyWTBjWg1RXrhCrK.jpg"/>
-                                        <span>已失效</span>
-                                    </dt>
-                                    <dd>
-                                        <p>失效商品<br/><span>规格</span></p>
-                                        <p className="price">¥ 价格<br/><span>x6</span></p>
-                                    </dd>
-                                    <p className="sxp">对不起,宝贝已经卖光了</p>
-                            </dl>
+                    <a className="tanm" style={{display: this.state.ajdata.errorGoodsList.length>=1?'block':'none'}}>
+                                {
+                                    this.state.ajdata.errorGoodsList.map((item,index)=>
+                                        <OrderClosedItemSunCancel key={index} {...item}/>
+                                    )
+                                }
                     </a>
                 </div>
             	<div className="bootm">
 					<a className="heji">合计:<span>¥{this.state.ajdata.orderTotalFee}</span></a>
 					<a className="subbtn" onClick={this.submitOrder.bind(this)}>提交订单</a>
 				</div>
+                <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
 				<Confirm  {...this.state.confirm}/>
                 <div className="mask" style={{display: this.state.confirm.display}}></div>
 		

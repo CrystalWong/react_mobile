@@ -1,5 +1,5 @@
 import {ONLINE} from '../constants/common';
-const domain = ONLINE?'http://m.jyall.com':'http://localhost:3000';
+const domain = ONLINE?'http://m.jyall.com':'http://192.168.51.79:3000';
 
 /**
  * URL常量.
@@ -9,11 +9,14 @@ export default {
 	//登录
 	LOGIN: `${domain}/user-api/v1/authcenter/app/userLogin`,
 	LOGINRANDOMIMAGE: `${domain}/user-api/v1/authcenter/app/randomImage`,
+	//检测token
+	TOKENCHECKED: `${domain}/user-api/v1/authcenter/app/token/`,
 	//注册
 	Vcode: `${domain}/user-api/v1/authcenter/app/vcode/`,
 	Register: `${domain}/user-api/v1/authcenter/app/addUser`,
 	//找回密码
 	FINDPWDBYMOBILE: `${domain}/user-api/v1/authcenter/app/resetPswByMobile/`,//{mobile}/{password}
+	CHECKMOBILE: `${domain}/user-api/v1/authcenter/app/checkRegistByMobile/`,
 	//购物车列表
 	QUERYCART: `${domain}/jygoods-api/v1/jycart/queryCart`,
 	//购物车物品数量加1
@@ -24,6 +27,8 @@ export default {
 	SELECTITEM: `${domain}/jygoods-api/v1/jycart/selectItem/`,
 	//取消选择购物项
 	CONCELITEM: `${domain}/jygoods-api/v1/jycart/cancelItem/`,
+	//删除购物车
+	REMOVEITEM: `${domain}/jygoods-api/v1/jycart/removeItem/`,	
 	//收货地址
 	Address : `${domain}/user-manage/v1/address`,
 	//家园豆
@@ -48,7 +53,7 @@ export default {
 	COUNTRY: `${domain}/common-city/v1/country/queryCountrysByCityId/`,
 	XZ: `${domain}/common-city/v1/xz/getXzsByCountyId/`,
 	//个人订单查询
-	myOrder: `${domain}/jyorder-center/v1/order/app/queryOrderList`,
+	myOrder: `${domain}/jyorder-center/v1/order/app/queryOrderList`,	
 	//预约
 	YUYUE: `${domain}/jyall-workflowV2/v1/order/yuyue/stateless`,
 	YUYUECODE: `${domain}/jyall-workflowV2/v1/order/yuyue/sendIdentifyCode/`,

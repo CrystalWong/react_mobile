@@ -1,5 +1,6 @@
 import React,{Component,PropTypes} from 'react';
 import { connect } from 'react-redux';
+import {Link } from 'react-router';
 import Cookie from 'react-cookie';
 import URLS from '../constants/urls.js';
 import {Header} from '../Component/common/index';
@@ -31,10 +32,15 @@ class Address extends Component {
 		this.getAddress = () => {
 			let _this = this;
 			Tool.fetch(this,{
-                url: URLS.Address + "/user/" + this.state.userId,
+                url: URLS.Address + "/user/" + this.state.userId+"?_t="+Cookie.load('tokenid'),
                 type: "get",
+
                 successMethod: function(json){
                 	console.log(json);
+                	if(json.code == 400001012){
+                		// alert(23);
+                		return;
+                	}
                 	_this.setState({
                 		addressMsg : json,
                 		nolist : json.length  > 0 ? 'none' : 'block'
@@ -82,7 +88,7 @@ class Address extends Component {
             	rightText: "确定",
             	rightMethod: ()=>{
             		Tool.fetch(this,{
-			            url: URLS.Address + '/' + id,
+			            url: URLS.Address + '/' + id+'?_t='+Cookie.load('tokenid'),
 			            type : "delete",
 			            successMethod: function(json){
 			            	console.log('删除成功');
@@ -126,7 +132,7 @@ class Address extends Component {
 					}
 				</ul>
 				<Nolist display={this.state.nolist} />
-				<a href="/address-add" className="add-address-btn">+ 新增收货地址</a>
+				<Link to="/address-add" className="add-address-btn">+ 新增收货地址</Link>
 				<Confirm  {...this.state.confirm}/>
 	            <div className="mask" style={{display: this.state.confirm.display}}></div>
 			</div>

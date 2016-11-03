@@ -89,7 +89,6 @@
 
 .orderClose .tanm dl dd {
 	margin-left: 10px;
-	overflow: hidden;
 	position: relative;
 	margin-left: 2rem;
 	text-overflow: ellipsis

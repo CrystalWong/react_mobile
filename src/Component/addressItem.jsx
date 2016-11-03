@@ -48,12 +48,12 @@ export class AddressItem extends Component{
 	}
 
 	render(){
-		let {consigneeName,consigneeMobile,detailInfo,type} = this.props.item;
+		let {consigneeName,consigneeMobile,detailInfo,locationInfo,type} = this.props.item;
 		return(
 			<li onClick={this.setAddressInfo.bind(this)}>
 				<div className="address-msg">
 					<h6><span>{consigneeName}</span><span>{consigneeMobile}</span>{type==1 ? <em>默认</em> : ''}</h6>
-					<p>{detailInfo}</p>
+					<p>{locationInfo+detailInfo}</p>
 				</div>
 				<div className="address-operation">
 					<span className={type==1? 'current on' : 'current'} onClick={this.addressDefault.bind(this)}>设为默认</span>

@@ -30,7 +30,8 @@ class Yue extends Component {
         xzId: "",
         xz: "",
         codeText: "获取验证码",
-        background: "#f60"
+        background: "#f60",
+        title: "预约"
       };
     }
 
@@ -40,10 +41,7 @@ class Yue extends Component {
           name = this.refs.name.value,
           phone = this.refs.phone.value,
           code = this.refs.code.value,
-          self = this,
-          showClassId = "",
-          magicGoodsId = "",
-          nameParams = "";
+          self = this;
         if(!address){
           this.setState({tipContent : '请选择服务区域',display : 'toasts' });return;
         }
@@ -60,19 +58,6 @@ class Yue extends Component {
           this.setState({tipContent : '请输入验证码',display : 'toasts' });return;
         }
 
-        var search = location.search.split("?")[1];
-        search = search?search.split("&"):[];
-        for(var item of search){
-            if(item.split("=")[0] == "showClassId"){
-              showClassId = item.split("=")[1];
-              if(showClassId.split("_").length > 1){
-                  showClassId = showClassId.split("_")[1];
-                  magicGoodsId = showClassId.split("_")[2];
-              }
-            } else if(item.split("=")[0] == "name"){
-              nameParams = decodeURIComponent(item.split("=")[1]);
-            }
-        }
 
         var data = {
             userName: "",
@@ -85,12 +70,12 @@ class Yue extends Component {
             identifyCode: code,
             contactUserName: name,
             contactUserPhone: phone,
-            groupId: showClassId?showClassId:"94",
-            groupName: nameParams,
+            groupId: this.magicGoodsId,
+            groupName: this.nameParams,
             groupSpec: "",
             // groupBizType: "",
-            skuId: magicGoodsId,
-            skuName: nameParams,
+            skuId: this.showClassId?this.showClassId:"94",
+            skuName: this.nameParams,
             skuSpec: "",
             identifyType: this.identifyType,
             source: "app",
@@ -175,10 +160,28 @@ class Yue extends Component {
               });
     }
 
+    componentDidMount(){
+      var search = location.href.split("?")[1];
+      search = search?search.split("&"):[];
+      console.log(search);
+      for(var item of search){
+          if(item.split("=")[0] == "showClassId"){
+            this.showClassId = item.split("=")[1];
+            if(this.showClassId.split("_").length > 1){
+                this.magicGoodsId = this.showClassId.split("_")[1];
+                this.showClassId = this.showClassId.split("_")[0];
+            }
+          } else if(item.split("=")[0] == "name"){
+            this.nameParams = decodeURIComponent(item.split("=")[1]);
+            this.setState({title: this.nameParams});
+          }
+      }
+    }
+
     render() {
         return (
             <div className="yue">
-                <Header title="预约" leftIcon="fanhui" />
+                <Header title={this.state.title} leftIcon="fanhui" />
                 <section>
                   <div className="main">
                     <div className="addren">

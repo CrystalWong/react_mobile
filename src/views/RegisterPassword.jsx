@@ -43,9 +43,9 @@ class RegisterPassword extends Component {
                         console.log(json);
                         if(status == 200){
                             self.setState({ tipContent: '重置密码成功！',display: 'toasts' });
-                            setTimeout(function(){
-                                Tool.history.push('/');
-                            },1500);
+                            // setTimeout(function(){
+                            //     Tool.history.push('/');
+                            // },1500);
                         }else{
                             self.setState({ tipContent: json.message,display: 'toasts' });
                         }
@@ -61,9 +61,9 @@ class RegisterPassword extends Component {
                         console.log(json);
                         if(status == 200){
                             self.setState({ tipContent: '注册成功！',display: 'toasts' });
-                            setTimeout(function(){
-                                Tool.history.push('/');
-                            },1500);
+                            // setTimeout(function(){
+                            //     Tool.history.push('/');
+                            // },1500);
                         }else{
                             self.setState({ tipContent: json.message,display: 'toasts' });
                         }
