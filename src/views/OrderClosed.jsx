@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
+import {Link } from 'react-router';
 import '../Style/orderclosed';
 import {Tool, merged} from '../Tool';
 import {Header} from '../Component/common/index';
@@ -19,7 +20,7 @@ class OrderClosed extends Component {
 	    constructor(props) {
             super(props);
             Tool.loginChecked(this);
-            console.log('本地调试...');
+            console.log('代理到本地11...');
             console.log(props.address);
             this.getQueryString = (name) => {
     		        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -229,7 +230,7 @@ class OrderClosed extends Component {
 					</dl>
 					<dl className="line fp">
 						<dt>发票</dt>
-						<dd><a href="/setbill"><span>不开发票</span><img src={require("../images/orderclosed/fp@2x.png")}/></a></dd>
+						<dd><Link to="/setbill"><span>不开发票</span><img src={require("../images/orderclosed/fp@2x.png")}/></Link></dd>
 
 					</dl>
 					<div className="jinediv">
