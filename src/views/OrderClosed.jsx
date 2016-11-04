@@ -20,7 +20,7 @@ class OrderClosed extends Component {
 	    constructor(props) {
             super(props);
             Tool.loginChecked(this);
-            console.log('代理到本地11...');
+            console.log('代理到本地12...');
             console.log(props.address);
             this.getQueryString = (name) => {
     		        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -29,7 +29,10 @@ class OrderClosed extends Component {
     		        return "";
     		};
             let choseAddress;
-            props.address.consigneeName==undefined?choseAddress={consigneeName:""}:choseAddress=props.address;
+            console.log('----------------------------------');
+            console.log(props.address.consigneeName==undefined);
+            props.address.consigneeName==null||props.address.consigneeName==undefined?choseAddress={consigneeName:""}:choseAddress=props.address;
+            console.log(choseAddress);
             this.state = {
                 tipContent: '',
                 display: '',
@@ -73,7 +76,7 @@ class OrderClosed extends Component {
                 // cartParamJson = "cartParamJson="+this.getQueryString('cartParamJson');
                 params = this.getQueryString('cartParamJson');
             }else{
-                params = JSON.stringify({"cartFlag":"1"});
+                params = JSON.stringify({"cartFlag":"1","addressId":props.address.id});
             }    
 
             data = {
@@ -84,11 +87,12 @@ class OrderClosed extends Component {
                 tokenid: cookie.load('tokenid'),
                 successMethod: function(json,status){
                     if(status == 200){
-                        self.setState({ajdata:json});
-                        if(json.address==null||json.address==undefined||json.address==""){
+                        if(json.address==null){
                             self.state.isShow.adOn="none";
                             self.state.isShow.adOff="block";
+                            json.address=self.state.ajdata.address;
                         }
+                        self.setState({ajdata:json});
                     }else{
                         self.setState({ tipContent: json.message,display: 'toasts' });
                     }
@@ -99,6 +103,11 @@ class OrderClosed extends Component {
             
             Tool.fetch(this,data);
             this.submitOrder = () => {
+                console.log('提交订单..');
+                if(props.address.id==undefined||this.state.ajdata.address.id==undefined){
+                    alert('没地址,调试..');
+                    return;
+                }
             	let goodsListVO=[];
 
                 this.state.ajdata.storeVOList.forEach(function(item){
@@ -120,8 +129,9 @@ class OrderClosed extends Component {
 				    "couponList": [],//优惠券列表
 				    "goodsListVO": goodsListVO,
 				    "invoiceVO": {
-				        "invoiceType": this.state.setBillData.fptype||0,
-				        "invoiceCompanyName": this.state.setBillData.fptt
+				        "invoiceClass":this.state.setBillData.fptype1||'',
+                        "invoiceType":this.state.setBillData.fptype||0,
+                        "invoiceHead":this.state.setBillData.fptt,
 				    }
 				};
 	            Tool.fetch(this,{
@@ -200,6 +210,8 @@ class OrderClosed extends Component {
         });
     }
     render() {
+        console.log('------------------------------render.....');
+        console.log(this.state);
         return (
             <div>
                 <header className="common-header">
@@ -210,7 +222,6 @@ class OrderClosed extends Component {
                     </div>
                     <h2 className="title">订单结算</h2>
                 </header>
-            	
                 <div className="orderClose">
                 	<div style={{display: this.state.isShow.adOff}} className="address" onClick={this.choseAddress.bind(this)}>
 						<img src={require('../images/orderclosed/add@2x.png')} alt="添加"/> 新增收货地址
@@ -218,9 +229,9 @@ class OrderClosed extends Component {
 	                <div className="address1" style={{display: this.state.isShow.adOn}} onClick={this.choseAddress.bind(this)}>
 	                	<img src={require("../images/orderclosed/address@2x.png")}/>
 	                	<div className="adinfo">
-	                		<h3>{this.state.choseAddress.consigneeName?this.state.choseAddress.consigneeName:this.state.ajdata.address.consigneeName}&nbsp;
-                            {this.state.choseAddress.consigneeMobile?this.state.choseAddress.consigneeMobile:this.state.ajdata.address.consigneeMobile}</h3>
-                            <span>地址：</span><span>{this.state.choseAddress.locationInfo?this.state.choseAddress.locationInfo+this.state.choseAddress.detailInfo:(this.state.ajdata.address.detailInfo?(this.state.ajdata.address.locationInfo+this.state.ajdata.address.detailInfo):"请选择地址")}</span>
+	                		<h3>{this.state.choseAddress.consigneeName!=undefined&&this.state.ajdata.address!=null?this.state.choseAddress.consigneeName:this.state.ajdata.address.consigneeName}&nbsp;
+                            {this.state.choseAddress.consigneeMobile!=undefined&&this.state.ajdata.address!=null?this.state.choseAddress.consigneeMobile:this.state.ajdata.address.consigneeMobile}</h3>
+                            <span>地址：</span><span>{this.state.choseAddress.locationInfo!=undefined&&this.state.ajdata.address!=null?this.state.choseAddress.locationInfo+this.state.choseAddress.detailInfo:(this.state.ajdata.address.detailInfo?(this.state.ajdata.address.locationInfo+this.state.ajdata.address.detailInfo):"请选择地址")}</span>
 	                	</div>
 	                </div>
 				    <OrderClosedList {...this.state.ajdata}/>

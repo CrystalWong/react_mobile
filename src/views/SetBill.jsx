@@ -75,7 +75,7 @@ class SetBill extends Component {
 		}
 		this.getVal = (e) => {
 			//如果是单位发票,抬头不为空
-			if(this.state.fptype=="comp"&&this.refs.fptt.value.trim()==""){
+			if(this.state.fptype1=="2"&&this.refs.fptt.value.trim()==""){
 				this.setState({tipContent:"抬头不为空",display:"block"});
 			}else{
 				this.setState({tipContent:"",display:"none"});
@@ -109,8 +109,8 @@ class SetBill extends Component {
 			              		发票抬头
 			              	</h3>
 			              	<div className="typediv1">
-			              		<a><span data-info="per" className={this.state.addressType ? 'checked' : 'unchecked'} onClick={this.perchange}></span><span>个人</span></a>
-			               		<a><span data-info="comp" className={!this.state.addressType ? 'checked' : 'unchecked'} onClick={this.perchange}></span><span>单位</span></a>
+			              		<a><span data-info="1" className={this.state.addressType ? 'checked' : 'unchecked'} onClick={this.perchange}></span><span>个人</span></a>
+			               		<a><span data-info="2" className={!this.state.addressType ? 'checked' : 'unchecked'} onClick={this.perchange}></span><span>单位</span></a>
 			               		<p style={{display: this.state.isShowSm}}><input placeholder="单位名称" type="text" ref="fptt" /></p>
 			              	</div>
 		               </div>
