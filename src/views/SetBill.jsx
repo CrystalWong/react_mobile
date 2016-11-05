@@ -49,9 +49,12 @@ class SetBill extends Component {
 		this.getFptype = (e) => {
 			console.log(e.target.innerHTML)
 			e.target.setAttribute("class","active");
-			for(let sib of siblings(e.target)){
-				sib.setAttribute("class","");
-			}
+			// for(let sib of siblings(e.target)){
+			// 	sib.setAttribute("class","");
+			// }
+			siblings(e.target).forEach(function(item){
+				item.setAttribute("class","");
+			});
 			this.setState({fptype:e.target.getAttribute("data-info")});
 			this.state.fptype=e.target.getAttribute("data-info");
 			if(this.state.fptype){
