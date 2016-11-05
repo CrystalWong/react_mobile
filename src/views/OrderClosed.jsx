@@ -75,7 +75,10 @@ class OrderClosed extends Component {
             data = {},
             params = "";
         if (this.getQueryString('cartParamJson')) {
-            params = this.getQueryString('cartParamJson');
+            params = JSON.parse(this.getQueryString('cartParamJson'));
+            params.addressId=props.address.id;
+            params = JSON.stringify(params);
+            console.log(params);
         } else {
             params = JSON.stringify({
                 "cartFlag": "1",
@@ -142,38 +145,65 @@ class OrderClosed extends Component {
                 headers: headers,
                 successMethod: function(json, status) {
                     if (json.errorList == undefined) {
-                        alert(status);
+                        alert('提交订单状态码'+status);
+                        alert(`${URLS.TOPAY}${json.id}?source=WAP`);
                         if (status == 200) {
                             Tool.fetch(this, { //获取支付地址
                                 url: `${URLS.TOPAY}${json.id}?source=WAP`,
                                 type: "post",
                                 headers: headers,
                                 successMethod: function(json) {
-                                    alert(json.wapPayUrl);
+                                    alert('获取到的支付地址URL'+json.wapPayUrl);
                                     location.href = json.wapPayUrl;
                                 }
                             });
                         }
                         // 
                     } else {
-                        // if(json.errorType=="1"){
-                        //     alert("部分库存不足");
-                        // }else if(json.errorType=="2"){
-                        //     alert("商品不再配送区域");
-                        // }else if(json.errorType=="3"){
-                        //     alert("商品库存不足");
-                        // }
-                        self.setState({
-                            confirm: {
-                                title: "",
-                                content: "以下商品库存不足或已下架，无法继续购买",
-                                leftText: "我知道了",
-                                leftMethod: function() {
-                                    Tool.history.goBack();
-                                },
-                                display: "block"
-                            }
+                        let imgStr='';
+                        json.errorList.forEach(function(item){
+                            imgStr+='<img src="'+item.goodsMainPhoto+'">';
                         });
+                        if(json.errorType=="1"){
+                            //alert("部分库存不足");
+                            self.setState({
+                                confirm: {
+                                    title: "",
+                                    content: "以下商品库存不足或已下架，无法继续购买"+imgStr,
+                                    leftText: "我知道了",
+                                    leftMethod: function() {
+                                        Tool.history.goBack();
+                                    },
+                                    display: "block"
+                                }
+                            });
+                        }else if(json.errorType=="2"){
+                            //alert("商品不再配送区域");
+                            self.setState({
+                                confirm: {
+                                    title: "",
+                                    content: "商品不在配送区域"+imgStr,
+                                    leftText: "我知道了",
+                                    leftMethod: function() {
+                                        Tool.history.goBack();
+                                    },
+                                    display: "block"
+                                }
+                            });
+                        }else if(json.errorType=="3"){
+                            //alert("商品库存不足");
+                            self.setState({
+                                confirm: {
+                                    title: "",
+                                    content: "以下商品库存不足或已下架，无法继续购买"+imgStr,
+                                    leftText: "我知道了",
+                                    leftMethod: function() {
+                                        Tool.history.goBack();
+                                    },
+                                    display: "block"
+                                }
+                            });
+                        }
                     }
                 }
             });
