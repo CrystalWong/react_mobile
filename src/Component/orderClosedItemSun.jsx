@@ -7,8 +7,6 @@ import React, {Component, PropTypes} from 'react';
 export class OrderClosedListItemSun extends Component {
     render() {
         //let {address,couponUserList,goodsTotalFee,orderTotalFee,storeVOList,totalShipFee} = this.props;
-        console.log('订单结二孙子页面...');
-        console.log(this.props);
         let {goodsName,goodsMainPhoto,goodsPrice,storePrice,count,spec,goodSpec}=this.props;
         console.log(spec);console.log(goodSpec);
         return (

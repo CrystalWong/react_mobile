@@ -17,170 +17,169 @@ import {OrderClosedItemSunCancel} from '../Component/orderClosedItemSunCancel';
  * @extends {Component}
  */
 class OrderClosed extends Component {
-	    constructor(props) {
-            super(props);
-            Tool.loginChecked(this);
-            console.log('代理到本地12...');
-            console.log(props.address);
-            this.getQueryString = (name) => {
-    		        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-    		        let r = window.location.href.split("?")[1]?window.location.href.split("?")[1].match(reg):null;
-    		        if (r != null) return decodeURIComponent(r[2]);
-    		        return "";
-    		};
-            let choseAddress;
-            console.log('----------------------------------');
-            console.log(props.address.consigneeName==undefined);
-            props.address.consigneeName==null||props.address.consigneeName==undefined?choseAddress={consigneeName:""}:choseAddress=props.address;
-            console.log(choseAddress);
-            this.state = {
-                tipContent: '',
-                display: '',
-                choseAddress:choseAddress,
-            	setBillData:{
-            		fptype:this.getQueryString("fptype")||"",
-    				fptype1:this.getQueryString("fptype1")||"",
-    				fptt:this.getQueryString("fptt")||""
-            	},
-                ajdata:{
-                	 address:{consigneeName:""},
-                	 totalShipFee:"",
-                	 goodsTotalFee:"",
-                	 orderTotalFee:"",
-                	 storeVOList: [],
-                     errorGoodsList: []
+    constructor(props) {
+        super(props);
+        Tool.loginChecked(this);
+        console.log('代理到本地12...');
+        console.log(props.address);
+        this.getQueryString = (name) => {
+            let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            let r = window.location.href.split("?")[1] ? window.location.href.split("?")[1].match(reg) : null;
+            if (r != null) return decodeURIComponent(r[2]);
+            return "";
+        };
+        let choseAddress;
+        props.address.consigneeName == null || props.address.consigneeName == undefined ? choseAddress = {
+            consigneeName: ""
+        } : choseAddress = props.address;
+        console.log(choseAddress);
+        this.state = {
+            tipContent: '',
+            display: '',
+            choseAddress: choseAddress,
+            setBillData: {
+                fptype: this.getQueryString("fptype") || 0,
+                fptype1: this.getQueryString("fptype1") || "",
+                fptt: this.getQueryString("fptt") || ""
+            },
+            ajdata: {
+                address: {
+                    consigneeName: ""
                 },
-                isShow:{
-                	adOn:'block',
-                	adOff:'none'
+                totalShipFee: "",
+                goodsTotalFee: "",
+                orderTotalFee: "",
+                storeVOList: [],
+                errorGoodsList: []
+            },
+            isShow: {
+                adOn: 'block',
+                adOff: 'none'
+            },
+            confirm: {
+                title: "是否确认拨打此电话？",
+                content: "刘德华 13409090909",
+                leftText: "取消",
+                leftMethod: function() {
+                    alert("取消");
                 },
-                confirm: {
-                	title: "是否确认拨打此电话？",
-                	content: "刘德华 13409090909", 
-                	leftText: "取消",
-                	leftMethod: function(){
-                		alert("取消");
-                	},
-                	rightText: "确定",
-                	rightMethod: function(){
-                		alert("确定");
-                	},
-                	display: "none"
-                }
-            };
-    		let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),
-                self=this,
-                data = {},
-                params = "";
-            if(this.getQueryString('cartParamJson')){
-                // cartParamJson = "cartParamJson="+this.getQueryString('cartParamJson');
-                params = this.getQueryString('cartParamJson');
-            }else{
-                params = JSON.stringify({"cartFlag":"1","addressId":props.address.id});
-            }    
+                rightText: "确定",
+                rightMethod: function() {
+                    alert("确定");
+                },
+                display: "none"
+            }
+        };
+        let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),
+            self = this,
+            data = {},
+            params = "";
+        if (this.getQueryString('cartParamJson')) {
+            params = this.getQueryString('cartParamJson');
+        } else {
+            params = JSON.stringify({
+                "cartFlag": "1",
+                "addressId": props.address.id
+            });
+        }
 
-            data = {
-                url: `${URLS.OrderClosed}`,
-                type: "post",
-                headers: headers,
-                body: params,
-                tokenid: cookie.load('tokenid'),
-                successMethod: function(json,status){
-                    if(status == 200){
-                        if(json.address==null){
-                            self.state.isShow.adOn="none";
-                            self.state.isShow.adOff="block";
-                            json.address=self.state.ajdata.address;
-                        }
-                        self.setState({ajdata:json});
-                    }else{
-                        self.setState({ tipContent: json.message,display: 'toasts' });
+        data = {
+            url: `${URLS.OrderClosed}`,
+            type: "post",
+            headers: headers,
+            body: params,
+            tokenid: cookie.load('tokenid'),
+            successMethod: function(json, status) {
+                if (status == 200) {
+                    if (json.address == null) {
+                        self.state.isShow.adOn = "none";
+                        self.state.isShow.adOff = "block";
+                        json.address = self.state.ajdata.address;
                     }
+                    self.setState({
+                        ajdata: json
+                    });
+                } else {
+                    self.setState({
+                        tipContent: json.message,
+                        display: 'toasts'
+                    });
                 }
             }
-            // if(!this.getQueryString('cartParamJson'))data.body = JSON.stringify({"cartFlag":"1"});
+        }
+        Tool.fetch(this, data);
+        this.submitOrder = () => {
+            console.log('提交订单..');
+            if (props.address.id == undefined || this.state.ajdata.address.id == undefined) {
+                alert('没地址,调试..');
+                return;
+            }
+            let goodsListVO = [];
 
-            
-            Tool.fetch(this,data);
-            this.submitOrder = () => {
-                console.log('提交订单..');
-                if(props.address.id==undefined||this.state.ajdata.address.id==undefined){
-                    alert('没地址,调试..');
-                    return;
-                }
-            	let goodsListVO=[];
-
-                this.state.ajdata.storeVOList.forEach(function(item){
-                    item.goodsVOList.forEach(function(it){
-                        goodsListVO.push(it);
-                    });
+            this.state.ajdata.storeVOList.forEach(function(item) {
+                item.goodsVOList.forEach(function(it) {
+                    goodsListVO.push(it);
                 });
-
-    //         	for(let v of self.state.ajdata.storeVOList){
-    //                 for(let b of v.goodsVOList){
-    //                     goodsListVO.push(b);
-    //                 }
-				// }
-            	let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),self=this,
-            	paramData={
-				    "addressVO": {
-				        "addressId": props.address.id||this.state.ajdata.address.id
-				    },
-				    "couponList": [],//优惠券列表
-				    "goodsListVO": goodsListVO,
-				    "invoiceVO": {
-				        "invoiceClass":this.state.setBillData.fptype1||'',
-                        "invoiceType":this.state.setBillData.fptype||0,
-                        "invoiceHead":this.state.setBillData.fptt,
-				    }
-				};
-	            Tool.fetch(this,{
-	                url: `${URLS.SubmitOrder}`,
-	                type: "post",
-	                body:JSON.stringify(paramData),
-	                headers: headers,
-	                successMethod: function(json,status){
-                        if(json.errorList==undefined){
-                                if(status == 200){
-                                     Tool.fetch(this,{//获取支付地址
-                                        url: `${URLS.TOPAY}${json.id}?source=WAP`,
-                                        type: "post",
-                                        headers: headers,
-                                        successMethod: function(json){
-                                            console.log(json);
-                                            location.href=json.wapPayUrl;
-                                        }
-                                    });
-                                }
-                            // 
-                        }else{
-                            // if(json.errorType=="1"){
-                            //     alert("部分库存不足");
-                            // }else if(json.errorType=="2"){
-                            //     alert("商品不再配送区域");
-                            // }else if(json.errorType=="3"){
-                            //     alert("商品库存不足");
-                            // }
-                            self.setState({
-                                confirm: {
-                                    title: "",
-                                    content: "以下商品库存不足或已下架，无法继续购买",
-                                    leftText: "我知道了",
-                                    leftMethod: function() {
-                                        Tool.history.goBack();
-                                    },
-                                    display: "block"
+            });
+            let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),
+                self = this,
+                paramData = {
+                    "addressVO": {
+                        "addressId": props.address.id || this.state.ajdata.address.id
+                    },
+                    "couponList": [], //优惠券列表
+                    "goodsListVO": goodsListVO,
+                    "invoiceVO": {
+                        "invoiceClass": this.state.setBillData.fptype1,
+                        "invoiceType": this.state.setBillData.fptype,
+                        "invoiceHead": this.state.setBillData.fptt,
+                    }
+                };
+            Tool.fetch(this, {
+                url: `${URLS.SubmitOrder}`,
+                type: "post",
+                body: JSON.stringify(paramData),
+                headers: headers,
+                successMethod: function(json, status) {
+                    if (json.errorList == undefined) {
+                        if (status == 200) {
+                            Tool.fetch(this, { //获取支付地址
+                                url: `${URLS.TOPAY}${json.id}?source=WAP`,
+                                type: "post",
+                                headers: headers,
+                                successMethod: function(json) {
+                                    location.href = json.wapPayUrl;
                                 }
                             });
                         }
-	                }
-	            });
-            }
-            this.choseAddress=()=>{
-            	// location.href="/address";
-                Tool.history.push("/address");
-            }
-            this.goBack=()=>{
+                        // 
+                    } else {
+                        // if(json.errorType=="1"){
+                        //     alert("部分库存不足");
+                        // }else if(json.errorType=="2"){
+                        //     alert("商品不再配送区域");
+                        // }else if(json.errorType=="3"){
+                        //     alert("商品库存不足");
+                        // }
+                        self.setState({
+                            confirm: {
+                                title: "",
+                                content: "以下商品库存不足或已下架，无法继续购买",
+                                leftText: "我知道了",
+                                leftMethod: function() {
+                                    Tool.history.goBack();
+                                },
+                                display: "block"
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        this.choseAddress = () => {
+            Tool.history.push("/address");
+        }
+        this.goBack = () => {
             self.setState({
                 confirm: {
                     title: "",
@@ -191,27 +190,29 @@ class OrderClosed extends Component {
                     },
                     rightText: "我再想想",
                     rightMethod: function() {
-                        self.setState({confirm:{display:"none"}});
+                        self.setState({
+                            confirm: {
+                                display: "none"
+                            }
+                        });
                     },
                     display: "block"
                 }
             });
-            }
-            // window.onbeforeunload=function(){
-            //   return "快住手！！别点下去！！";
-            // };
         }
-    // componentDidUpdate(){
-    //     alert(this.refs.h3.innerText)
-    // }    
-    toastDisplay(state){
+    }
+    toastDisplay(state) {
         this.setState({
-          display: state
+            display: state
         });
     }
     render() {
         console.log('------------------------------render.....');
-        console.log(this.state);
+        let fpInfoShow={
+            '0':'不开发票',
+            '1':'个人发票',
+            '2':'单位发票'
+        }
         return (
             <div>
                 <header className="common-header">
@@ -229,7 +230,7 @@ class OrderClosed extends Component {
 	                <div className="address1" style={{display: this.state.isShow.adOn}} onClick={this.choseAddress.bind(this)}>
 	                	<img src={require("../images/orderclosed/address@2x.png")}/>
 	                	<div className="adinfo">
-	                		<h3>{this.state.choseAddress.consigneeName!=undefined&&this.state.ajdata.address!=null?this.state.choseAddress.consigneeName:this.state.ajdata.address.consigneeName}&nbsp;
+	                		<h3>{this.state.choseAddress.consigneeName!=''&&this.state.ajdata.address!=null?this.state.choseAddress.consigneeName:this.state.ajdata.address.consigneeName}&nbsp;
                             {this.state.choseAddress.consigneeMobile!=undefined&&this.state.ajdata.address!=null?this.state.choseAddress.consigneeMobile:this.state.ajdata.address.consigneeMobile}</h3>
                             <span>地址：</span><span>{this.state.choseAddress.locationInfo!=undefined&&this.state.ajdata.address!=null?this.state.choseAddress.locationInfo+this.state.choseAddress.detailInfo:(this.state.ajdata.address.detailInfo?(this.state.ajdata.address.locationInfo+this.state.ajdata.address.detailInfo):"请选择地址")}</span>
 	                	</div>
@@ -241,7 +242,7 @@ class OrderClosed extends Component {
 					</dl>
 					<dl className="line fp">
 						<dt>发票</dt>
-						<dd><Link to="/setbill"><span>不开发票</span><img src={require("../images/orderclosed/fp@2x.png")}/></Link></dd>
+						<dd><Link to="/setbill"><span>{fpInfoShow[this.state.setBillData.fptype]}</span><img src={require("../images/orderclosed/fp@2x.png")}/></Link></dd>
 
 					</dl>
 					<div className="jinediv">

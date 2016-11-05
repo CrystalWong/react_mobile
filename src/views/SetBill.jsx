@@ -66,7 +66,7 @@ class SetBill extends Component {
 			this.setState({addressType:Boolean(!this.state.addressType)});
 			//this.setState({fptype:e.target.getAttribute("data-info")});
 			this.state.fptype1=e.target.getAttribute("data-info");
-			if(e.target.getAttribute("data-info")=="comp"){
+			if(e.target.getAttribute("data-info")=="2"){
 				this.setState({isShowSm:"block"});
 			}else{
 				this.setState({isShowSm:"none"});
@@ -99,9 +99,9 @@ class SetBill extends Component {
 			              		发票类型
 			              	</h3>
 			              	<div  className="typediv" onClick={this.getFptype.bind(this)}>
-			              		<a data-info="" className={this.state.initClass.has}>不需要</a>
-			               		<a data-info="0">电子发票</a>
-			               		<a data-info="1">纸质发票</a>
+			              		<a data-info="0" className={this.state.initClass.has}>不需要</a>
+			               		<a data-info="1">电子发票</a>
+			               		<a data-info="2">纸质发票</a>
 			              	</div>
 		               </div>
 		               <div className="fptype1" style={{display: this.state.isShowBg}}>
