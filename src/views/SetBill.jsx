@@ -14,6 +14,12 @@ import {Tool} from '../Tool';
 class SetBill extends Component {
 	constructor(props){
 		super(props);
+		this.getQueryString = (name) => {
+            let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            let r = window.location.href.split("?")[1] ? window.location.href.split("?")[1].match(reg) : null;
+            if (r != null) return decodeURIComponent(r[2]);
+            return "";
+        };
 		this.state = {
 			addressType:true,
 			fptype:"",
@@ -57,7 +63,7 @@ class SetBill extends Component {
 			});
 			this.setState({fptype:e.target.getAttribute("data-info")});
 			this.state.fptype=e.target.getAttribute("data-info");
-			if(this.state.fptype){
+			if(this.state.fptype!='0'){
 				this.setState({isShowBg:"block"});
 			}else{
 				this.setState({isShowBg:"none"});
@@ -83,7 +89,8 @@ class SetBill extends Component {
 			}else{
 				this.setState({tipContent:"",display:"none"});
 				this.setState({fptt:this.refs.fptt.value.trim()});
-				Tool.history.push("/orderclosed?fptype="+this.state.fptype+"&fptype1="+this.state.fptype1+"&fptt="+encodeURIComponent(this.refs.fptt.value.trim()));
+				let urlParam="/orderclosed?fptype="+this.state.fptype+"&fptype1="+this.state.fptype1+"&fptt="+encodeURIComponent(this.refs.fptt.value.trim())+"&cartParamJson="+this.getQueryString('cartParamJson');
+				Tool.history.push(urlParam);
 				//location.href="/orderclosed?fptype="+this.state.fptype+"&fptype1="+this.state.fptype1+"&fptt="+encodeURIComponent(this.refs.fptt.value.trim())
 			}
 			console.log(this.state);

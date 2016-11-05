@@ -39,7 +39,7 @@ class OrderClosed extends Component {
             choseAddress: choseAddress,
             setBillData: {
                 fptype: this.getQueryString("fptype") || 0,
-                fptype1: this.getQueryString("fptype1") || "",
+                fptype1: this.getQueryString("fptype1") || 0,
                 fptt: this.getQueryString("fptt") || ""
             },
             ajdata: {
@@ -142,12 +142,14 @@ class OrderClosed extends Component {
                 headers: headers,
                 successMethod: function(json, status) {
                     if (json.errorList == undefined) {
+                        alert(status);
                         if (status == 200) {
                             Tool.fetch(this, { //获取支付地址
                                 url: `${URLS.TOPAY}${json.id}?source=WAP`,
                                 type: "post",
                                 headers: headers,
                                 successMethod: function(json) {
+                                    alert(json.wapPayUrl);
                                     location.href = json.wapPayUrl;
                                 }
                             });
@@ -212,7 +214,7 @@ class OrderClosed extends Component {
             '0':'不开发票',
             '1':'个人发票',
             '2':'单位发票'
-        }
+        },linkBill='/setbill?cartParamJson='+this.getQueryString('cartParamJson');
         return (
             <div>
                 <header className="common-header">
@@ -242,7 +244,7 @@ class OrderClosed extends Component {
 					</dl>
 					<dl className="line fp">
 						<dt>发票</dt>
-						<dd><Link to="/setbill"><span>{fpInfoShow[this.state.setBillData.fptype]}</span><img src={require("../images/orderclosed/fp@2x.png")}/></Link></dd>
+						<dd><Link to={linkBill}><span>{fpInfoShow[this.state.setBillData.fptype1]}</span><img src={require("../images/orderclosed/fp@2x.png")}/></Link></dd>
 
 					</dl>
 					<div className="jinediv">
