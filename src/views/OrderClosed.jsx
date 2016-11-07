@@ -5,7 +5,7 @@ import '../Style/orderclosed';
 import {Tool, merged} from '../Tool';
 import {Header} from '../Component/common/index';
 import URLS from '../constants/urls';
-import {Toast,Confirm} from '../Component/common/Tip';
+import {Toast,Confirm,AjaxTip} from '../Component/common/Tip';
 import {COMMON_HEADERS_POST} from '../constants/headers';
 import cookie from 'react-cookie';
 import {OrderClosedList} from '../Component/orderClosedList';
@@ -68,7 +68,9 @@ class OrderClosed extends Component {
                     alert("确定");
                 },
                 display: "none"
-            }
+            },
+            ajaxDisplay: "block",
+            maskDisplay: "block"
         };
         let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),
             self = this,
@@ -114,7 +116,7 @@ class OrderClosed extends Component {
         this.submitOrder = () => {
             console.log('提交订单..');
             if (props.address.id == undefined || this.state.ajdata.address.id == undefined) {
-                alert('没地址,调试..');
+                // alert('没地址,调试..');
                 return;
             }
             let goodsListVO = [];
@@ -138,6 +140,7 @@ class OrderClosed extends Component {
                         "invoiceHead": this.state.setBillData.fptt,
                     }
                 };
+            this.setState({ajaxDisplay: "block",maskDisplay: "block"});    
             Tool.fetch(this, {
                 url: `${URLS.SubmitOrder}`,
                 type: "post",
@@ -145,15 +148,13 @@ class OrderClosed extends Component {
                 headers: headers,
                 successMethod: function(json, status) {
                     if (json.errorList == undefined) {
-                        alert('提交订单状态码'+status);
-                        alert(`${URLS.TOPAY}${json.id}?source=WAP`);
                         if (status == 200) {
-                            Tool.fetch(this, { //获取支付地址
+                            self.setState({ajaxDisplay: "block",maskDisplay: "block"});   
+                            Tool.fetch(self, { //获取支付地址
                                 url: `${URLS.TOPAY}${json.id}?source=WAP`,
                                 type: "post",
                                 headers: headers,
                                 successMethod: function(json) {
-                                    alert('获取到的支付地址URL'+json.wapPayUrl);
                                     location.href = json.wapPayUrl;
                                 }
                             });
@@ -165,7 +166,6 @@ class OrderClosed extends Component {
                             imgStr+='<img src="'+item.goodsMainPhoto+'">';
                         });
                         if(json.errorType=="1"){
-                            //alert("部分库存不足");
                             self.setState({
                                 confirm: {
                                     title: "",
@@ -301,7 +301,8 @@ class OrderClosed extends Component {
 				</div>
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
 				<Confirm  {...this.state.confirm}/>
-                <div className="mask" style={{display: this.state.confirm.display}}></div>
+                <AjaxTip display={this.state.ajaxDisplay} />
+                <div className="mask" style={{display: this.state.maskDisplay}}></div>
 		
             </div>
         );
