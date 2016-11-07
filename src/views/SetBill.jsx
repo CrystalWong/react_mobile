@@ -14,6 +14,12 @@ import {Tool} from '../Tool';
 class SetBill extends Component {
 	constructor(props){
 		super(props);
+		this.getQueryString = (name) => {
+            let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            let r = window.location.href.split("?")[1] ? window.location.href.split("?")[1].match(reg) : null;
+            if (r != null) return decodeURIComponent(r[2]);
+            return "";
+        };
 		this.state = {
 			addressType:true,
 			fptype:"",
@@ -49,12 +55,15 @@ class SetBill extends Component {
 		this.getFptype = (e) => {
 			console.log(e.target.innerHTML)
 			e.target.setAttribute("class","active");
-			for(let sib of siblings(e.target)){
-				sib.setAttribute("class","");
-			}
+			// for(let sib of siblings(e.target)){
+			// 	sib.setAttribute("class","");
+			// }
+			siblings(e.target).forEach(function(item){
+				item.setAttribute("class","");
+			});
 			this.setState({fptype:e.target.getAttribute("data-info")});
 			this.state.fptype=e.target.getAttribute("data-info");
-			if(this.state.fptype){
+			if(this.state.fptype!='0'){
 				this.setState({isShowBg:"block"});
 			}else{
 				this.setState({isShowBg:"none"});
@@ -66,7 +75,7 @@ class SetBill extends Component {
 			this.setState({addressType:Boolean(!this.state.addressType)});
 			//this.setState({fptype:e.target.getAttribute("data-info")});
 			this.state.fptype1=e.target.getAttribute("data-info");
-			if(e.target.getAttribute("data-info")=="comp"){
+			if(e.target.getAttribute("data-info")=="2"){
 				this.setState({isShowSm:"block"});
 			}else{
 				this.setState({isShowSm:"none"});
@@ -75,12 +84,13 @@ class SetBill extends Component {
 		}
 		this.getVal = (e) => {
 			//如果是单位发票,抬头不为空
-			if(this.state.fptype=="comp"&&this.refs.fptt.value.trim()==""){
+			if(this.state.fptype1=="2"&&this.refs.fptt.value.trim()==""){
 				this.setState({tipContent:"抬头不为空",display:"block"});
 			}else{
 				this.setState({tipContent:"",display:"none"});
 				this.setState({fptt:this.refs.fptt.value.trim()});
-				Tool.history.push("/orderclosed?fptype="+this.state.fptype+"&fptype1="+this.state.fptype1+"&fptt="+encodeURIComponent(this.refs.fptt.value.trim()));
+				let urlParam="/orderclosed?fptype="+this.state.fptype+"&fptype1="+this.state.fptype1+"&fptt="+encodeURIComponent(this.refs.fptt.value.trim())+"&cartParamJson="+this.getQueryString('cartParamJson');
+				Tool.history.push(urlParam);
 				//location.href="/orderclosed?fptype="+this.state.fptype+"&fptype1="+this.state.fptype1+"&fptt="+encodeURIComponent(this.refs.fptt.value.trim())
 			}
 			console.log(this.state);
@@ -99,9 +109,9 @@ class SetBill extends Component {
 			              		发票类型
 			              	</h3>
 			              	<div  className="typediv" onClick={this.getFptype.bind(this)}>
-			              		<a data-info="" className={this.state.initClass.has}>不需要</a>
-			               		<a data-info="0">电子发票</a>
-			               		<a data-info="1">纸质发票</a>
+			              		<a data-info="0" className={this.state.initClass.has}>不需要</a>
+			               		<a data-info="1">电子发票</a>
+			               		<a data-info="2">纸质发票</a>
 			              	</div>
 		               </div>
 		               <div className="fptype1" style={{display: this.state.isShowBg}}>
@@ -109,8 +119,8 @@ class SetBill extends Component {
 			              		发票抬头
 			              	</h3>
 			              	<div className="typediv1">
-			              		<a><span data-info="per" className={this.state.addressType ? 'checked' : 'unchecked'} onClick={this.perchange}></span><span>个人</span></a>
-			               		<a><span data-info="comp" className={!this.state.addressType ? 'checked' : 'unchecked'} onClick={this.perchange}></span><span>单位</span></a>
+			              		<a><span data-info="1" className={this.state.addressType ? 'checked' : 'unchecked'} onClick={this.perchange}></span><span>个人</span></a>
+			               		<a><span data-info="2" className={!this.state.addressType ? 'checked' : 'unchecked'} onClick={this.perchange}></span><span>单位</span></a>
 			               		<p style={{display: this.state.isShowSm}}><input placeholder="单位名称" type="text" ref="fptt" /></p>
 			              	</div>
 		               </div>

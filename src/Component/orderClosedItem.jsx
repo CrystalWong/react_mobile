@@ -8,8 +8,6 @@ import {OrderClosedListItemSun} from '../Component/orderClosedItemSun';
 export class OrderClosedListItem extends Component {
     render() {
         //let {address,couponUserList,goodsTotalFee,orderTotalFee,storeVOList,totalShipFee} = this.props;
-        console.log('订单结算孙子页面...');
-        console.log(this.props.goodsVOList);
         let {goodsVOList,payType,storeId}=this.props;
         return (
                             <a className="tanm">
