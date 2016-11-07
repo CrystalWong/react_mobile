@@ -72,9 +72,9 @@ const RouteConfig = (
             <Route path="address" component={Address} />
             <Route path="address-add" component={AddressAdd} />
             <Route path="myorder" component={MyOrder} />
-            <Route path="orderdetail" component={OrderDetail} />
+            <Route path="orderdetail*" component={OrderDetail} />
             <Route path="appointment" component={Appointment} />
-            <Route path="expressinfo" component={ExpressInfo} />
+            <Route path="expressinfo*" component={ExpressInfo} />
         </Route>
     </Router>
 );

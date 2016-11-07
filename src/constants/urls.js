@@ -1,5 +1,5 @@
 import {ONLINE} from '../constants/common';
-const domain = ONLINE?'http://m.jyall.com':'http://192.168.51.79:3000';
+const domain = ONLINE?'http://m.jyall.com':'http://localhost:3000';
 
 /**
  * URL常量.
@@ -62,5 +62,7 @@ export default {
 	//物流详情
 	EXPRESSINFO: `${domain}/jyorder-center/v1/order/app/expressInfo/`,
 	//跳转到支付
-	TOPAY: `${domain}/jyorder-center/v1/order/app/pay/`
+	TOPAY: `${domain}/jyorder-center/v1/order/app/pay/`,
+	//删除订单
+	DelOrder:`${domain}/jyorder-center/v1/order/app/deleteOrderById/`
 };

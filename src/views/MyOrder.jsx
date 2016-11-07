@@ -1,4 +1,9 @@
 import React, {Component, PropTypes} from 'react';
+//路由跳转
+import {Link } from 'react-router';
+
+import {order} from '../Action/Order';
+
 //iscroll
 import ReactIScroll from 'react-iscroll';
 import iScroll from 'iscroll';
@@ -12,6 +17,7 @@ import {Header} from '../Component/common/index';
 //Tool工具引入
 import {Tool, merged} from '../Tool';
 import {Toast} from '../Component/common/Tip';
+
 //样式
 import '../Style/myorder';
 
@@ -26,7 +32,7 @@ class MyOrder extends Component {
         super(props);
         this.state = {
             pageNo : 1,
-            pageSize : 3,
+            pageSize : 10,
             more:'上拉加载更多',
             nextPage: false, //下一页控制器
             scrollNoData: false, //分页没有数据
@@ -38,12 +44,13 @@ class MyOrder extends Component {
             industry: "",
             statusPar:""
         };
-        //this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":this.state.statusPar,"pageNo":this.state.pageNo,"pageSize":this.state.pageSize});
+        document.cookie="userId=HYS009738";
+        this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":this.state.statusPar,"pageNo":this.state.pageNo,"pageSize":this.state.pageSize});
 
     }
 
     fetch(data){
-        let headers = COMMON_HEADERS_POST();/*cookie.load('userId')*/      
+        let headers = COMMON_HEADERS_POST();    
         let _this = this;
         console.log(URLS.myOrder);
         Tool.fetch(this,{
@@ -52,6 +59,7 @@ class MyOrder extends Component {
             body:JSON.stringify(data),
             headers: headers,
             successMethod: function(json){
+              console.log('------------'+json.data.length);
                 if(json.data.length>0&&json.data.length==_this.state.pageSize){
                        _this.state.scrollNoData = false;
                        _this.state.more="上拉加载更多";
@@ -65,13 +73,17 @@ class MyOrder extends Component {
                        _this.state.more="";
                        _this.setState({
                             list : _this.state.list.concat(json.data),
+                            
                             nolist : json.data.length > 0 ? 'none' : 'block'
                        });
                   }else{
                        _this.state.more="";
                        _this.state.scrollNoData = true;
+                       _this.setState({
+                          nolist : 'block'
+                       });
                   }
-                //_this.setState({list:json.data.data});
+                //_this.setState({list:json.data});_this.state.list.concat()
             }
         });
     };
@@ -82,9 +94,8 @@ class MyOrder extends Component {
     //切换业态分类
     subScreen(id){
         this.setState({ industry: id});
+        this.refs.OrderCon.innerHTML = "";
         this.fetch({"userId":cookie.load('userId'),"industry":id,"status":this.state.statusPar});
-            console.log('this.state.statusPar==============='+this.state.statusPar);
-
     };
     //切换订单状态
     orderStatusFun(e){
@@ -94,10 +105,16 @@ class MyOrder extends Component {
             }
             e.target.className = "active"; 
             this.setState({ statusPar: e.target.id });
+            this.refs.OrderCon.innerHTML = "";
             this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":e.target.id});
-            console.log('this.state.industry==============='+this.state.industry);
        }
-    }/*
+    };
+    toastDisplay(state){
+        this.setState({
+          display: state
+        });
+     }
+    /*
     componentDidUpdate(){
         console.log('this.state.statusPar==============='+this.state.statusPar);
     }*/
@@ -128,22 +145,26 @@ class MyOrder extends Component {
                this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":this.state.statusPar,"pageNo":this.state.pageNo,"pageSize":this.state.pageSize});
               // }});
           }
-     }
-
-
+    }
+    
+    
      //渲染完成之后再执行
      //componentDidMount(){
-     componentWillMount(){
+     /*componentWillMount(){
           this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":this.state.statusPar,"pageNo":this.state.pageNo,"pageSize":this.state.pageSize});
-     }
+     }*/
     render() {
         this.props = {
             options: {
-                mouseWheel: true,
-                scrollbars: true,
-                interactiveScrollbars: true,
-                shrinkScrollbars: 'scale',
-                fadeScrollbars: true
+                mouseWheel: true,//是否监听鼠标滚轮事件
+                scrollbars: true,//是否显示默认滚动条
+                //解决 iscroll onClick 失效
+                preventDefault:false,
+                preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|A)$/ },
+                click:true,
+                interactiveScrollbars: true,//用户是否可以拖动滚动条
+                shrinkScrollbars: 'clip',//滚动超出滚动边界时，是否收缩滚动条 clip’：裁剪超出的滚动条 scale’:按比例的收缩滚动条（占用CPU资源）false:不收缩
+                fadeScrollbars: true //是否渐隐滚动条，关掉可以加速
             }
         } 
         return (
@@ -151,15 +172,15 @@ class MyOrder extends Component {
                 <Header title="全部订单" leftIcon="fanhui" hadeScreen="true" callback={this.subScreen.bind(this)} callbackParent={this.markDisplay.bind(this)} />
                 <div className="mo-nav">
                     <ul className="clearfix" onClick={this.orderStatusFun.bind(this)} ref="orderStatus">
-                        <li id="1" className="active">全部</li>
+                        <li id="0" className="active">全部</li>
                         <li id="10">待付款</li>
                         <li id="20">待发货</li>
                         <li id="30">待收货</li>
                     </ul>
                 </div>
-                <div style={{height: window.innerHeight - 120}}>
+                <div style={{height: window.innerHeight - 95}}>
                     <ReactIScroll iScroll={iScroll} options={this.props.options} onScrollEnd={this.onScrollEnd.bind(this)}>
-                    <div>
+                    <div ref="OrderCon">
                         {
                             this.state.list.map((item,index) => <OrderList key={index} {...item} />)
                         }
@@ -167,6 +188,8 @@ class MyOrder extends Component {
                     </div>
                     </ReactIScroll>
                 </div>
+                <NoList display={this.state.nolist} />
+                <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} />
                 <div className="mask" style={{display:this.state.displayMark?"none":"block"}}></div>
             </div>
 
@@ -175,8 +198,32 @@ class MyOrder extends Component {
 }
 
 var OrderList = React.createClass({
-     render: function() {
-          let {productList,orderIndustryName,actualCost,freight,orderStatus,osText,osDispaly} = this.props;
+    /*删除订单*/
+    delOrder:function(id,e){
+        let headers = COMMON_HEADERS_POST();    
+        let _this = this;
+        let dId = id.id;
+        let thisNode=document.getElementById(dId);
+        e.preventDefault();
+        Tool.fetch(this,{
+            url: `${URLS.DelOrder}`+dId,
+            type: "post",
+            headers: headers,
+            successMethod: function(json){
+                //if(json.flag == true){
+                console.log("thisNode===="+thisNode);
+                thisNode.parentNode.removeChild(thisNode);
+                    
+                //}                
+            }
+        })
+    },
+    //查看物流
+    logistics:function(orderId){
+        this.props.saveOrderId({orderId: ""});
+    },
+    render: function() {
+          let {productList,orderIndustryName,actualCost,freight,orderStatus,osText,osDispaly,id} = this.props;
           switch(orderStatus){
             case 10:
             osText = "未付款";
@@ -203,9 +250,8 @@ var OrderList = React.createClass({
             osDispaly = "block";
             break;
           }
-          
           return (
-                <div className="mo-main">
+                <div className="mo-main" id={id}>
                     <div className="mom-head">
                         <div className="fl">
                             <i className="mh-ico mh-icoJd"></i><span className="">{orderIndustryName}</span>
@@ -219,7 +265,7 @@ var OrderList = React.createClass({
                         productList.map((item,index) => {
                             return(
                                 <li className="" key={index}>
-                                    <a href="">
+                                    <Link to={"/OrderDetail?orderId="+id}>
                                         <div className="ml-col1">
                                             <img src={item.goodsMainPhoto} />
                                         </div>
@@ -231,7 +277,7 @@ var OrderList = React.createClass({
                                             <div className="ml-price">￥{item.storePrice}</div>
                                             <div className="ml-num">X{item.count}</div>
                                         </div>
-                                    </a>
+                                    </Link>
                                 </li> 
                             )
                         })
@@ -239,16 +285,39 @@ var OrderList = React.createClass({
                     </ul>
                     <div className="mm-total">共{productList.length}件商品 合计：{actualCost}(含运费￥{freight})</div>
                     <div className="mm-total clearfix" style={{display:osDispaly}}>
-                        <a href="javascript:;" className="mm-but but-org" style={{display:orderStatus == 10 ?"block":"none"}}>付款</a>
-                        <a href="javascript:;" className="mm-but but-def" style={{display:orderStatus == 10 ?"block":"none"}}>取消订单</a>
-                        <a href="javascript:;" className="mm-but but-org" style={{display:orderStatus == 40 ?"block":"none"}}>再次购买</a>
-                        <a href="javascript:;" className="mm-but but-def" style={{display:orderStatus == 70 ?"block":"none"}}>删除订单</a>
-                        <a href="javascript:;" className="mm-but but-org" style={{display:orderStatus == 30 ?"block":"none"}}>确认收货</a>
-                        <a href="javascript:;" className="mm-but but-def" style={{display:orderStatus == 30 ?"block":"none"}}>查看物流</a>
-                        
+                        <span className="mm-but but-org" style={{display:orderStatus == 10 ?"block":"none"}}>付款</span>
+                        <span className="mm-but but-def" style={{display:orderStatus == 10 ?"block":"none"}}>取消订单</span>
+                        <span className="mm-but but-org" style={{display:orderStatus == 40 ?"block":"none"}}>再次购买</span>
+                        <span className="mm-but but-def" onClick={this.delOrder.bind(null,{id})} style={{display:orderStatus == 70 ?"block":"none"}}>删除订单</span>
+                        <span className="mm-but but-org" style={{display:orderStatus == 30 ?"block":"none"}}>确认收货</span>
+                        <span className="mm-but but-def" onClick={this.logistics.bind(null,{id})} style={{display:orderStatus == 30 ?"block":"none"}}>查看物流</span>
                     </div>
                 </div>
         );
      }
 });
-export default MyOrder;
+var NoList = React.createClass({
+  render: function() {
+    return (
+        <div style={{ display: this.props.display }} className="no-list">
+            <img src="src/images/appointment/icon-appoint.png" />
+            <p>订单还是空的，去逛逛吧~ <br/></p>
+            <a href="http://m.jyall.com"><button>继续逛逛</button></a>
+        </div>
+    );
+  }
+});
+// export default MyOrder;
+
+function mapStateToProps(state,ownProps) {
+  return {
+    order: state.order
+  };
+}
+function mapDispatchToProps(dispatch) {  
+  return {
+    saveOrderId: (action) => dispatch(order(action))
+  };
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(MyOrder);
