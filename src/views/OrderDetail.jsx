@@ -24,6 +24,7 @@ class OrderDetail extends Component {
                 if (r != null) return decodeURIComponent(r[2]);
                 return "";
         };
+        var urlId=this.getQueryString('orderId');
         this.state = {
             ajdata:{
                 productList:[],
@@ -71,7 +72,7 @@ class OrderDetail extends Component {
         }
             let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),self=this;
             Tool.fetch(this,{
-                url: `${URLS.OrderDetail}/82B355CCFEBD49408EC432DDD40690F6`,
+                url: `${URLS.OrderDetail}/`+urlId,
                 type: "get",
                 body:"",
                 headers: headers,
