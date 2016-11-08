@@ -22,15 +22,17 @@ Tool.fetch = function(obj,data){
         status = 0;
         if(data.body){d.body = data.body;}
         fetch(data.url,d).then(response => {
-            console.log(response.error);
             if(response.status >= 500){
                 obj.setState({ tipContent: '网络连接失败，请检查您的网络',display: 'toasts' });
             }
             status = response.status;
+            console.log(response.ok);
             return response.json();
         }).then(json => {
-          obj.setState&&obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
-          data.successMethod(json,status);
+            obj.setState&&obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
+            data.successMethod(json,status);
+        },function(e){
+            data.successMethod("",status);
         });
     }else {
         try {

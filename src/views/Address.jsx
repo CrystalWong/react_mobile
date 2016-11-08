@@ -36,9 +36,10 @@ class Address extends Component {
                 type: "get",
 
                 successMethod: function(json){
-                	console.log(json);
+                	if(!json){
+                		json = [];
+                	}
                 	if(json.code == 400001012){
-                		// alert(23);
                 		return;
                 	}
                 	_this.setState({
@@ -126,7 +127,7 @@ class Address extends Component {
 				<Header title="管理收货地址" leftIcon="fanhui" />
 				<ul className="address-list">
 					{
-						this.state.addressMsg.map((item,index) => 
+						this.state.addressMsg.length>0&&this.state.addressMsg.map((item,index) => 
 							<AddressItemConnect key={index} item = {item} flag={this.state.flag} callbackDefault={this.onChildDefault.bind(this)}  callbackDel={this.callbackDel.bind(this)} goBack={this.goBack.bind(this)}/>
 						)
 					}

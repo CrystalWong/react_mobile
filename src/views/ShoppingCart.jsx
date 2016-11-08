@@ -79,7 +79,7 @@ class ShoppingCart extends Component {
                     }
             	})
 
-            	if(json.totalItemCount > 999){json.totalItemCount = "999+";}
+            	if(json.totalGoodsCount > 999){json.totalGoodsCount = "999+";}
                 // json.cartItems = [];
                 console.log(json.cartItems);
                 self.setState({ 
