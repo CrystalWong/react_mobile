@@ -125,9 +125,9 @@ class Login extends Component {
                 <div className="signin">
                     <div className="center">
                         <div className="text">
-                            <input ref="phone" type="number" placeholder="请输入手机号" />
+                            <input ref="phone" type="number" className="phone" placeholder="请输入手机号" />
                             <input ref="password" type="password" placeholder="请输入密码" onPaste={this.passwordPaste.bind(this)} onInput={this.passwordInput.bind(this)} />
-                            <input ref="code" type="num" placeholder="请输入验证码" style={{borderTop:'1px solid #e6e6e6',display: 'none'}} />
+                            <input ref="code" type="number" className="code" placeholder="请输入验证码" style={{borderTop:'1px solid #e6e6e6',display: 'none'}} />
                             <span ref="img" style={{display: 'none'}}><img href="" /></span>
                         </div>
                         <button className="btn" onClick={this.signin.bind(this)}>{this.state.button}</button>

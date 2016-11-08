@@ -152,9 +152,9 @@ class Register extends Component {
             this.setState({ protocolDisplay: 'none'});
         }
     }
-    shouldComponentUpdate(nextProps, nextState) {
-          return this.state.protocolDisplay === nextState.protocolDisplay;
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //       return this.state.protocolDisplay === nextState.protocolDisplay;
+    // }
     componentWillUnmount(){
         clearInterval(this.inte);
     }
@@ -165,8 +165,8 @@ class Register extends Component {
                 <div className="signin">
                     <div className="center">
                         <div className="text">
-                            <input ref="phone" type="text" placeholder="请输入手机号" />
-                            <input ref="num" type="num" placeholder="请输入验证码" />
+                            <input ref="phone" type="text" placeholder="请输入手机号" className="phone" />
+                            <input ref="num" type="num" placeholder="请输入验证码" className="code" />
                             <span onClick={this.getRandomCode.bind(this)} ref="codeText">{this.state.codeText}</span>
                         </div>
                         <div className="protocol" style={{display: this.state.protocolDisplay}}><span onClick={this.readProtocol.bind(this)} className={this.state.protocolClass}></span>我已经阅读并同意遵守<Link to="/registerpro" style={{color: '#45b3fc'}}>《金色家园用户服务协议》</Link></div>
