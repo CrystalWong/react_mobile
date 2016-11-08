@@ -25,6 +25,7 @@ class OrderDetail extends Component {
                 return "";
         };
         var urlId=this.getQueryString('orderId');
+        console.log(urlId);
         this.state = {
             ajdata:{
                 productList:[],
@@ -111,9 +112,9 @@ class OrderDetail extends Component {
             //删除订单
             this.deleateOrder=()=>{
                 Tool.fetch(this,{
-                    url: `${URLS.DeleateOrder}`,
+                    url: `${URLS.DeleateOrder}`+this.state.ajdata.id,
                     type: "post",
-                    body:JSON.stringify({"id":this.state.ajdata.id}),
+                    body:{},//JSON.stringify({"id":this.state.ajdata.id}),
                     headers: headers,
                     successMethod: function(json){
                         console.log(json);
