@@ -1,5 +1,5 @@
 import {ONLINE} from '../constants/common';
-const domain = ONLINE?'http://m.jyall.com':'http://192.168.51.79:3000';
+const domain = ONLINE?'http://m.jyall.com':'http://localhost:3000';
 
 /**
  * URL常量.
@@ -40,11 +40,11 @@ export default {
 	//订单详情
 	OrderDetail:`${domain}/jyorder-center/v1/order/app/queryOrderById`,
 	//订单详情-删除订单-post
-	DeleateOrder:`${domain}/v1/order/app/deleteOrderById/`,
+	DeleateOrder:`${domain}/jyorder-center/v1/order/app/deleteOrderById/`,
 	//订单详情-确认收货-post
-	ConfirmGetDoods:`${domain}/v1/order/app/batchReceipt/`,
+	ConfirmGetDoods:`${domain}/jyorder-center/v1/order/app/batchReceipt/`,
 	//订单详情-取消订单-post
-	CancelOrder:`${domain}/v1/order/app/cancleOrderById/`,
+	CancelOrder:`${domain}/jyorder-center/v1/order/app/cancleOrderById/`,
 	//预约单
 	APPOINTMENTLIST:`${domain}/jyall-workflowV2/v1/orderquery/pageorder/user`,
 	//四级地址  http://10.10.32.46/swagger/index.html#!
