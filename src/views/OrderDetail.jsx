@@ -25,6 +25,7 @@ class OrderDetail extends Component {
                 return "";
         };
         var urlId=this.getQueryString('orderId');
+        console.log(urlId);
         this.state = {
             ajdata:{
                 productList:[],
