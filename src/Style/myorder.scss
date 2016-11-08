@@ -2,9 +2,15 @@
 $orColor: #f60;
 $deColor: #333;
 $deSize: .28rem;
-.route-div{
 
-}
+.my-order{
+	.common-header{
+		z-index: 999;
+	}
+	.no-list{
+		margin-top: -1.5rem;
+	}
+} 
 .mo-nav{
 	border-bottom: 1px solid #D3D3D3;
 	background: #fff;
@@ -33,9 +39,6 @@ $deSize: .28rem;
 			}
 		}
 	}
-}
-.mo-main{
-	height:256px;
 }
 .mom-head{
 	background: #fff;
