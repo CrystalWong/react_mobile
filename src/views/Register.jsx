@@ -106,6 +106,7 @@ class Register extends Component {
                                     self.setState({ tipContent: json.message,display: 'toasts' });
                                     return;
                                 }
+                                self.setState({ tipContent: '验证码已发送',display: 'toasts' });
                                 let n = 60;
                                     self.inte = setInterval(function(){
                                         self.setState({codeText: `重新发送（${n}s）`});
@@ -131,6 +132,7 @@ class Register extends Component {
                         self.setState({ tipContent: json.message,display: 'toasts' });
                         return;
                     }
+                    self.setState({ tipContent: '验证码已发送',display: 'toasts' });
                     let n = 60;
                         self.inte = setInterval(function(){
                             self.setState({codeText: `重新发送（${n}s）`});
