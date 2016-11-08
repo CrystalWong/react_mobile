@@ -116,8 +116,10 @@ class OrderDetail extends Component {
                     type: "post",
                     body:{},//JSON.stringify({"id":this.state.ajdata.id}),
                     headers: headers,
-                    successMethod: function(json){
-                        console.log(json);
+                    successMethod: function(json,status){
+                        if(status==200){
+                            location.reload();
+                        }
                     }
                 });
             }
