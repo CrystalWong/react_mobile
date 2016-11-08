@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 //路由跳转
 import {Link } from 'react-router';
 import { connect } from 'react-redux';
-import {order} from '../Action/Order';
+
 
 //iscroll
 import ReactIScroll from 'react-iscroll';
@@ -16,8 +16,8 @@ import {COMMON_HEADERS_POST} from '../constants/headers';
 import {Header} from '../Component/common/index';
 //Tool工具引入
 import {Tool, merged} from '../Tool';
-import {Toast} from '../Component/common/Tip';
-
+import {Toast,Confirm} from '../Component/common/Tip';
+import {order} from '../Action/Order';
 //样式
 import '../Style/myorder';
 
@@ -30,6 +30,7 @@ import '../Style/myorder';
 class MyOrder extends Component {
     constructor(props) {
         super(props);
+        console.log(props);
         Tool.loginChecked(this);
         this.state = {
             pageNo : 1,
@@ -40,12 +41,32 @@ class MyOrder extends Component {
             y:'',
             displayMark: true,
             display: '',
-            nolist : 'none',
+            nolist : 'block',
             list: [],
             industry: "",
-            statusPar:""
+            statusPar:"",
+            confirm: {
+              title: "",
+              content: "", 
+              leftText: "取消",
+              leftMethod: null,
+              rightText: "确定",
+              rightMethod: null,
+              display: "none"
+            },
+            options: {
+                mouseWheel: true,//是否监听鼠标滚轮事件
+                scrollbars: true,//是否显示默认滚动条
+                //解决 iscroll onClick 失效
+                preventDefault:false,
+                preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|A)$/ },
+                click:true,
+                interactiveScrollbars: true,//用户是否可以拖动滚动条
+                shrinkScrollbars: 'clip',//滚动超出滚动边界时，是否收缩滚动条 clip’：裁剪超出的滚动条 scale’:按比例的收缩滚动条（占用CPU资源）false:不收缩
+                fadeScrollbars: true //是否渐隐滚动条，关掉可以加速
+            }
         };
-        document.cookie="userId=HYS009738";
+        document.cookie="userId=HYS203177";
         this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":this.state.statusPar,"pageNo":this.state.pageNo,"pageSize":this.state.pageSize});
 
     }
@@ -77,12 +98,14 @@ class MyOrder extends Component {
                             
                             nolist : json.data.length > 0 ? 'none' : 'block'
                        });
+                  }else if(json.data.length == 0){
+                      _this.setState({
+                          nolist : 'block'
+                       });
                   }else{
                        _this.state.more="";
                        _this.state.scrollNoData = true;
-                       _this.setState({
-                          nolist : 'block'
-                       });
+                       
                   }
                 //_this.setState({list:json.data});_this.state.list.concat()
             }
@@ -100,6 +123,7 @@ class MyOrder extends Component {
     };
     //切换订单状态
     orderStatusFun(e){
+        console.log("查看wu"+this.props);
         if(e.target.tagName == "LI"){
             for(var i = 0; i < this.refs.orderStatus.childNodes.length;i++){
                 this.refs.orderStatus.childNodes[i].className = " ";
@@ -124,50 +148,59 @@ class MyOrder extends Component {
           if(this.state.scrollNoData){return;}
 
           if((iScrollInstance.maxScrollY < 0 && Math.abs(iScrollInstance.startY) - Math.abs(iScrollInstance.maxScrollY) > 20) || (iScrollInstance.maxScrollY > 0 && iScrollInstance.directionY == 1 && iScrollInstance.distY > 20)){
-              //if(this.state.noPage)return;
               this.state.more = "正在加载";
-              this.setState({
-               display: this.state
-             });
               this.state.nextPage = true;
           }else {
               this.state.more="上拉加载更多";
               this.state.nextPage = false;
           }
-          this.setState({
-               display: this.state
-             });
           if(this.state.nextPage){
               this.state.pageNo = this.state.pageNo;
-              
-              // this.state.collection.fetch({url: this.state.currentListUrl,data: this.state.currentUrlCondition,reset: true,success:function(){
-               // this.state.more = "松开刷新";
                this.state.pageNo++;
                this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":this.state.statusPar,"pageNo":this.state.pageNo,"pageSize":this.state.pageSize});
-              // }});
           }
     }
     
-    
+    // 删除订单
+    callbackDel(dId){
+      let _this = this,thisNode=document.getElementById(dId),headers = COMMON_HEADERS_POST();
+      _this.setState({
+        confirm : {
+          title: "确认删除此订单吗",
+          content: "",
+                leftText: "取消",
+                leftMethod: ()=>{
+                  _this.setState({confirm : {display : 'none'}});
+                },
+                rightText: "确定",
+                rightMethod: ()=>{
+                  Tool.fetch(this,{
+                    url: `${URLS.DelOrder}`+dId,
+                    type: "post",
+                    headers: headers,
+                    successMethod: function(json){
+                      console.log('删除成功');
+                      thisNode.parentNode.removeChild(thisNode);
+                      _this.state.confirm.leftMethod();
+                    }
+                });
+                },
+                display: "block"
+        }
+      })
+    }
+    //查看物流
+    callbackLog(oId){
+      console.log(oId);
+      this.props.saveOrderId({orderId: oId.orderId});
+      Tool.history.push("/expressinfo");
+    }
      //渲染完成之后再执行
      //componentDidMount(){
      /*componentWillMount(){
           this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":this.state.statusPar,"pageNo":this.state.pageNo,"pageSize":this.state.pageSize});
      }*/
     render() {
-        this.props = {
-            options: {
-                mouseWheel: true,//是否监听鼠标滚轮事件
-                scrollbars: true,//是否显示默认滚动条
-                //解决 iscroll onClick 失效
-                preventDefault:false,
-                preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|A)$/ },
-                click:true,
-                interactiveScrollbars: true,//用户是否可以拖动滚动条
-                shrinkScrollbars: 'clip',//滚动超出滚动边界时，是否收缩滚动条 clip’：裁剪超出的滚动条 scale’:按比例的收缩滚动条（占用CPU资源）false:不收缩
-                fadeScrollbars: true //是否渐隐滚动条，关掉可以加速
-            }
-        } 
         return (
             <div className="my-order">
                 <Header title="全部订单" leftIcon="fanhui" hadeScreen="true" callback={this.subScreen.bind(this)} callbackParent={this.markDisplay.bind(this)} />
@@ -180,10 +213,10 @@ class MyOrder extends Component {
                     </ul>
                 </div>
                 <div style={{height: window.innerHeight - 95}}>
-                    <ReactIScroll iScroll={iScroll} options={this.props.options} onScrollEnd={this.onScrollEnd.bind(this)}>
+                    <ReactIScroll iScroll={iScroll} options={this.state.options} onScrollEnd={this.onScrollEnd.bind(this)}>
                     <div ref="OrderCon">
                         {
-                            this.state.list.map((item,index) => <OrderList key={index} {...item} />)
+                            this.state.list.map((item,index) => <OrderList key={index} {...item} callbackDel={this.callbackDel.bind(this)} callbackLog={this.callbackLog.bind(this)}/>)
                         }
                         <div id="pullUp" className="pull-up" display={this.state.display}><span id="pull_up_label">{this.state.more}</span></div>
                     </div>
@@ -192,6 +225,8 @@ class MyOrder extends Component {
                 <NoList display={this.state.nolist} />
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} />
                 <div className="mask" style={{display:this.state.displayMark?"none":"block"}}></div>
+                <Confirm  {...this.state.confirm}/>
+                <div className="mask" style={{display: this.state.confirm.display}}></div>
             </div>
 
         );
@@ -201,30 +236,18 @@ class MyOrder extends Component {
 var OrderList = React.createClass({
     /*删除订单*/
     delOrder:function(id,e){
-        let headers = COMMON_HEADERS_POST();    
-        let _this = this;
-        let dId = id.id;
-        let thisNode=document.getElementById(dId);
+        e.stopPropagation(); 
         e.preventDefault();
-        Tool.fetch(this,{
-            url: `${URLS.DelOrder}`+dId,
-            type: "post",
-            headers: headers,
-            successMethod: function(json){
-                //if(json.flag == true){
-                console.log("thisNode===="+thisNode);
-                thisNode.parentNode.removeChild(thisNode);
-                    
-                //}                
-            }
-        })
+        let dId = id.id;
+        this.props.callbackDel(dId);
     },
     //查看物流
     logistics:function(orderId){
-        this.props.saveOrderId({orderId: ""});
+        this.props.callbackLog(orderId);
     },
+
     render: function() {
-          let {productList,orderIndustryName,actualCost,freight,orderStatus,osText,osDispaly,id} = this.props;
+          let {productList,orderIndustryName,actualCost,freight,orderStatus,osText,osDispaly,id,orderId} = this.props;
           switch(orderStatus){
             case 10:
             osText = "未付款";
@@ -291,7 +314,7 @@ var OrderList = React.createClass({
                         <span className="mm-but but-org" style={{display:orderStatus == 40 ?"block":"none"}}>再次购买</span>
                         <span className="mm-but but-def" onClick={this.delOrder.bind(null,{id})} style={{display:orderStatus == 70 ?"block":"none"}}>删除订单</span>
                         <span className="mm-but but-org" style={{display:orderStatus == 30 ?"block":"none"}}>确认收货</span>
-                        <span className="mm-but but-def" onClick={this.logistics.bind(null,{id})} style={{display:orderStatus == 30 ?"block":"none"}}>查看物流</span>
+                        <span className="mm-but but-def" onClick={this.logistics.bind(null,{orderId})} style={{display:orderStatus == 30 ?"block":"none"}}>查看物流</span>
                     </div>
                 </div>
         );
@@ -315,6 +338,7 @@ function mapStateToProps(state,ownProps) {
     order: state.order
   };
 }
+//物流详情传参
 function mapDispatchToProps(dispatch) {  
   return {
     saveOrderId: (action) => dispatch(order(action))

@@ -14,9 +14,11 @@ import {address} from '../Action/Address';
 class Address extends Component {
 	constructor(props){
 		super(props);
+		Tool.loginChecked(this);
 		this.state = {
 			userId : Cookie.load('userId'),
 			display : '',
+			tipContent: '',
 			nolist : 'none',
 			addressMsg : [],
 			confirm: {
@@ -107,19 +109,24 @@ class Address extends Component {
 		this.context.router.goBack();
 	}
 
+	addAddress(){
+        this.props.saveAddressInfo({id: ""});
+        Tool.history.push("/address-add");
+	}
+
 	render(){
-		function mapStateToProps(state,ownProps) {
-		  return {
-		    address: state.address
-		  };
-		}
-		function mapDispatchToProps(dispatch) {  
-		  return {
-		    saveAddressInfo: (user) => {
-		    	dispatch(address(user));
-		    }
-		  };
-		}
+		// function mapStateToProps(state,ownProps) {
+		//   return {
+		//     address: state.address
+		//   };
+		// }
+		// function mapDispatchToProps(dispatch) {  
+		//   return {
+		//     saveAddressInfo: (user) => {
+		//     	dispatch(address(user));
+		//     }
+		//   };
+		// }
 
 		let AddressItemConnect = connect(mapStateToProps,mapDispatchToProps)(AddressItem);
 		return(
@@ -133,7 +140,7 @@ class Address extends Component {
 					}
 				</ul>
 				<Nolist display={this.state.nolist} />
-				<Link to="/address-add" className="add-address-btn">+ 新增收货地址</Link>
+				<a href="javascript:;" className="add-address-btn" onClick={this.addAddress.bind(this)}>+ 新增收货地址</a>
 				<Confirm  {...this.state.confirm}/>
 	            <div className="mask" style={{display: this.state.confirm.display}}></div>
 			</div>
@@ -155,4 +162,20 @@ var Nolist = React.createClass({
 Address.contextTypes = {
     router: React.PropTypes.object.isRequired
 }
-export default Address;
+
+let mapStateToProps = function(state,ownProps){
+  return {
+    address: state.address
+  };		
+}
+
+let mapDispatchToProps = function(dispatch){
+  return {
+    saveAddressInfo: (user) => {
+    	dispatch(address(user));
+    }
+  };		
+}
+
+// export default Address;
+export default connect(mapStateToProps,mapDispatchToProps)(Address);

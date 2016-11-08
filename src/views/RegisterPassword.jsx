@@ -28,9 +28,10 @@ class RegisterPassword extends Component {
         this.setPassword = () => {
             let password = this.refs.password.value,
                 self = this;
-            if (!password){
-                this.setState({ tipContent: '密码不能为空',display: 'toasts' });return;
-            }
+            if(Tool.trim(password).length < 6 || Tool.trim(password).length > 26 || !/[0-9|a-z|A-Z]/.test(password)){
+                this.setState({ tipContent: '请输入6-26位数字或字母（区分大小写）！',display: 'toasts' });
+                return;
+            }            
 
             let headers = COMMON_HEADERS('sign', SIGN);
             // headers = COMMON_HEADERS('deviceid', "M");
