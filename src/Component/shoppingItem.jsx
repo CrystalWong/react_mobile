@@ -35,10 +35,12 @@ export class ShoppingItem extends Component {
                 headers: COMMON_HEADERS,
                 successMethod: function(json){
                     console.log(json);
-                    if(json.flag == true){
+                    if(json.data.select == true){
                         self.refs.icon.src = require('../images/shopping/select.png');
                         self.props.obj.selectItem++;
                         self.props.callback2(true,self.props.index);
+                    }else if(json.flag == false){
+                        self.props.obj.setState({ tipContent: json.msg,display: 'toasts' });
                     }
                 }
             });

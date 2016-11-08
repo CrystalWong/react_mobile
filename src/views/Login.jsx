@@ -34,8 +34,8 @@ class Login extends Component {
                 source = "app",
                 self = this;
             //this.props.signinSuccess({a:1,b:2});   //action > state
-            if (!userName){
-                this.setState({ tipContent: '号码不能为空',display: 'toasts' });
+            if (!/^[1][3-9][0-9]{9,9}$/.test(userName)){
+                this.setState({ tipContent: '请输入正确的手机号码',display: 'toasts' });
                 return;
             }
             if(!passWord){

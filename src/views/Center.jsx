@@ -10,6 +10,7 @@ import {Header} from '../Component/common/index';
 class Center extends Component {
 	constructor(props){
 		super(props);
+		// Tool.loginChecked(this);
 		this.state = {
 			userId : Cookie.load('userId'),
 			nickname : Cookie.load('name'),
@@ -38,13 +39,13 @@ class Center extends Component {
 	//是否登录
 	noLogin(){
 		//检测是否登录，否跳转至登录页
-		if(!this.state.userId){
-			window.location.href = '/'
-		}
+		// if(!this.state.userId){
+		// 	window.location.href = '/'
+		// }
 	}
 
 	componentWillMount(){
-		this.noLogin();
+		// this.noLogin();
 	}
 
 	componentDidMount() {
