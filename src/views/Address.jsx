@@ -82,7 +82,7 @@ class Address extends Component {
 		let {id} = child.props.item,_this = this;
 		this.setState({
 			confirm : {
-				title: "确定删除本地址吗",
+				title: "确定删除本地址吗？",
 				content: "",
             	leftText: "取消",
             	leftMethod: ()=>{
