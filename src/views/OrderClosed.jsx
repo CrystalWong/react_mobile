@@ -226,11 +226,13 @@ class OrderClosed extends Component {
                         self.setState({
                             confirm: {
                                 display: "none"
-                            }
+                            },
+                            maskDisplay:"none"
                         });
                     },
-                    maskDisplay: "block"
-                }
+                    display: "block"
+                },
+                maskDisplay:"block"
             });
         }
     }
@@ -241,7 +243,7 @@ class OrderClosed extends Component {
     }
     render() {
         console.log('------------------------------render.....');
-        console.log(this.state.ajaxDisplay);
+        console.log(this.state.maskDisplay);
         let fpInfoShow={
             '0':'不开发票',
             '1':'个人发票',
