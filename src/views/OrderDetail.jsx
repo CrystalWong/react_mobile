@@ -40,7 +40,8 @@ class OrderDetail extends Component {
                     
                 },
                 invoice:{
-
+                    invoiceCompanyName:'',
+                    invoiceType:''
                 }
             },
             show0:"none",
@@ -79,7 +80,9 @@ class OrderDetail extends Component {
                 headers: headers,
                 successMethod: function(json){
                     self.setState({ajdata:json});
-                    self.getkaipType(json.invoice.invoiceType);
+                    if(json.invoice!=null){
+                        self.getkaipType(json.invoice.invoiceType);
+                    }
                 }
             });
             this.choseAddress=()=>{
@@ -116,51 +119,63 @@ class OrderDetail extends Component {
                     type: "post",
                     body:{},//JSON.stringify({"id":this.state.ajdata.id}),
                     headers: headers,
-                    successMethod: function(json){
-                        console.log(json);
+                    successMethod: function(json,status){
+                        if(status==200){
+                            location.reload();
+                        }
                     }
                 });
             }
-        }
         //查看物流详情
-        toExpressinfo(){
-            this.props.saveOrderId({orderId: this.state.ajdata.orderId});
-            Tool.history.push("/expressinfo");
+        this.toExpressinfo=()=> {
+                this.props.saveOrderId({
+                    orderId: this.state.ajdata.orderId
+                });
+                Tool.history.push("/expressinfo");
 
         }
         //再次购买
-        goShopping(){
+        this.goShopping=()=> {
+            
             let isLogin = 0,
                 uKey = cookie.load('tokenid'),
                 productList = this.state.ajdata.productList,
-                groupSkuId = productList[0].groupId+"_"+JSON.parse(productList[0].enjoyedPromotionDesc).skuId,
-                count=1,
-                self = this;
-            this.more = true;    
-            if(uKey)isLogin = 1;
-            if(self.state.num >= this.props.stock){
-                self.props.callback({more: true});
+                groupSkuId = (productList[0].groupId==null?'':productList[0].groupId) + "_" + productList[0].goodsId,
+                count = 1,self=this;
+                console.log(productList[0]);
+            this.more = true;
+            if (uKey) isLogin = 1;
+            if (this.state.num >= this.props.stock) {
+                this.props.callback({
+                    more: true
+                });
                 return;
             }
-            Tool.fetch(this,{
+            Tool.fetch(this, {
                 url: `${URLS.ADDITEM}${isLogin}/${uKey}/${groupSkuId}/${count}`,
                 type: "post",
                 headers: COMMON_HEADERS_POST,
-                successMethod: function(json){
-                    if(json.flag == true){
+                successMethod: function(json,status) {
+
+                    if (json.flag == true) {
                         Tool.history.push("/shoppingcart");
-                    }else{
-                        self.setState({ tipContent: json.message,display: 'toasts' });
+                    } else {
+                        console.log(json.message);
+                        self.setState({
+                            tipContent: json.message,
+                            display: 'toasts'
+                        });
                     }
                 }
             });
         }
 
-    toastDisplay(state){
-        this.setState({
-          display: state
-        });
-    }
+        this.toastDisplay=(state)=> {
+            this.setState({
+                display: state
+            });
+        }
+        }
     render() {
         console.log(this.state.ajdata);
         console.log("-------------------------------");
@@ -193,7 +208,7 @@ class OrderDetail extends Component {
                             <dd>纸质发票</dd>
                         </dl>
                         <dl className="line jine" style={{color: '#D4D1D1'}}>
-                            <dt className="fpname">{this.state.ajdata.invoice.invoiceCompanyName}</dt>
+                            <dt className="fpname">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceCompanyName:''}</dt>
                             <dd className="fptype">个人</dd>
                         </dl>
                 </div>
@@ -203,7 +218,7 @@ class OrderDetail extends Component {
                             <dd><a href="/" className="elefp">查看电子发票</a></dd>
                         </dl>
                         <dl className="line jine" style={{color: '#D4D1D1'}}>
-                            <dt className="fpname">{this.state.ajdata.invoice.invoiceCompanyName}</dt>
+                            <dt className="fpname">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceCompanyName:''}</dt>
                             <dd className="fptype">单位</dd>
                         </dl>
                 </div>
@@ -235,7 +250,7 @@ class OrderDetail extends Component {
                     <a className="subbtn" onClick={this.confirmGetDoods.bind(this)}>确认收货</a>
                     <a style={{display:"none"}} className="subbtn1" onClick={this.toExpressinfo.bind(this)}>查看物流</a>
                 </div>
-                <div className="bootm" style={{display: this.state.ajdata.orderStatus==40?"block":"none"}}>
+                <div className="bootm" style={{display: this.state.ajdata.orderStatus==40&&this.state.ajdata.productList[0].groupId!=null?"block":"none"}}>
                     <a className="subbtn" href="javascript:;" onClick={this.goShopping.bind(this)}>再次购买</a>
                 </div>
                 <div className="bootm" style={{display: this.state.ajdata.orderStatus==70?"block":"none"}}>
