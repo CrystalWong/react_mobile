@@ -187,7 +187,7 @@
 	vertical-align: middle;
 }
 .orderClose .fp .fpttshow{
-	width: 2rem;
+	max-width: 2rem;
     overflow: hidden;
     display: inline-block;
     height: .35rem;

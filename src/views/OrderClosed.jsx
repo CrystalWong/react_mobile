@@ -298,7 +298,7 @@ class OrderClosed extends Component {
 					</dl>
 					<dl className="line fp">
 						<dt>发票</dt>
-						<dd><Link to={linkBill}><span>{fpInfoShow[this.state.setBillData.fptype1]}:<em className="fpttshow">{this.state.setBillData.fptt}</em></span><img src={require("../images/orderclosed/fp@2x.png")}/></Link></dd>
+						<dd><Link to={linkBill}><span>{this.state.setBillData.fptype=='0'?'不开发票':fpInfoShow[this.state.setBillData.fptype1]}<em className="fpttshow">{this.state.setBillData.fptt}</em></span><img src={require("../images/orderclosed/fp@2x.png")}/></Link></dd>
 
 					</dl>
 					<div className="jinediv">
