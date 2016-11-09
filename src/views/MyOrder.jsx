@@ -35,7 +35,7 @@ class MyOrder extends Component {
         this.state = {
             pageNo : 1,
             pageSize : 10,
-            more:'上拉加载更多',
+            more:'',
             nextPage: false, //下一页控制器
             scrollNoData: false, //分页没有数据
             y:'',
@@ -66,7 +66,7 @@ class MyOrder extends Component {
                 fadeScrollbars: true //是否渐隐滚动条，关掉可以加速
             }
         };
-        document.cookie="userId=HYS203177";
+        document.cookie="userId=HYS000705";
         this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":this.state.statusPar,"pageNo":this.state.pageNo,"pageSize":this.state.pageSize});
 
     }
@@ -74,7 +74,6 @@ class MyOrder extends Component {
     fetch(data){
         let headers = COMMON_HEADERS_POST();    
         let _this = this;
-        console.log(URLS.myOrder);
         Tool.fetch(this,{
             url: `${URLS.myOrder}`,
             type: "post",
@@ -82,7 +81,7 @@ class MyOrder extends Component {
             headers: headers,
             successMethod: function(json){
               console.log('------------'+json.data.length);
-                if(json.data.length>0&&json.data.length==_this.state.pageSize){
+                if(json.totalCount >_this.state.pageNo){
                        _this.state.scrollNoData = false;
                        _this.state.more="上拉加载更多";
                        _this.setState({
@@ -90,7 +89,7 @@ class MyOrder extends Component {
                             nolist : json.data.length > 0 ? 'none' : 'block'
                        });
 
-                  }else if(json.data.length>0&&json.data.length<_this.state.pageSize){
+                  }else if(json.totalCount ==_this.state.pageNo){
                        _this.state.scrollNoData = true;
                        _this.state.more="";
                        _this.setState({
@@ -98,14 +97,12 @@ class MyOrder extends Component {
                             
                             nolist : json.data.length > 0 ? 'none' : 'block'
                        });
-                  }else if(json.data.length == 0){
-                      _this.setState({
-                          nolist : 'block'
-                       });
-                  }else{
-                       _this.state.more="";
-                       _this.state.scrollNoData = true;
-                       
+                  }else if(json.totalCount == 0){
+                    _this.state.scrollNoData = true;
+                    _this.state.more="";
+                    _this.setState({
+                        nolist : 'block'
+                     });
                   }
                 //_this.setState({list:json.data});_this.state.list.concat()
             }
@@ -144,16 +141,25 @@ class MyOrder extends Component {
     }*/
     onScrollEnd(iScrollInstance){
 
-          if(this.state.scrollNoData){return;}
+          if(this.state.scrollNoData){
+            return;
+            console.log("1111scrollNoData====="+this.state.scrollNoData);
+          }
 
           if((iScrollInstance.maxScrollY < 0 && Math.abs(iScrollInstance.startY) - Math.abs(iScrollInstance.maxScrollY) > 20) || (iScrollInstance.maxScrollY > 0 && iScrollInstance.directionY == 1 && iScrollInstance.distY > 20)){
               this.state.more = "正在加载";
               this.state.nextPage = true;
+            console.log("2222scrollNoData====="+this.state.scrollNoData);
+
           }else {
               this.state.more="上拉加载更多";
               this.state.nextPage = false;
+            console.log("33333scrollNoData====="+this.state.scrollNoData);
+
           }
           if(this.state.nextPage){
+            console.log("4444scrollNoData====="+this.state.scrollNoData);
+
               this.state.pageNo = this.state.pageNo;
                this.state.pageNo++;
                this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":this.state.statusPar,"pageNo":this.state.pageNo,"pageSize":this.state.pageSize});
@@ -278,14 +284,8 @@ var OrderList = React.createClass({
             uKey = cookie.load('tokenid'),
             groupSkuId = (productList.productList[0].groupId==null?'':productList.productList[0].groupId) + "_" + productList.productList[0].goodsId,
             count = 1,self=this;
-        this.more = true;
         if (uKey) isLogin = 1;
-        if (this.state.num >= this.props.stock) {
-            this.props.callback({
-                more: true
-            });
-            return;
-        }
+        
         Tool.fetch(this, {
             url: `${URLS.ADDITEM}${isLogin}/${uKey}/${groupSkuId}/${count}`,
             type: "post",
