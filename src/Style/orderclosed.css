@@ -4,7 +4,6 @@
 .orderClose {
 	font-size: .28rem;
 	padding-bottom: 1.58rem;
-	padding-top: 1.08rem;
 }
 .orderClose .address {
 	width: 100%;
@@ -187,6 +186,15 @@
 .orderClose .fp span {
 	vertical-align: middle;
 }
+.orderClose .fp .fpttshow{
+	width: 2rem;
+    overflow: hidden;
+    display: inline-block;
+    height: .35rem;
+    font-style: normal;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
 .orderClose .jinediv .jine {
 	margin: 0;
@@ -200,6 +208,7 @@
 	margin-top: .25rem;
 }
 .bootm {
+	z-index: 10;
 	border: 1px solid #d3d3d3;
 	position: fixed;
 	bottom: 0;
