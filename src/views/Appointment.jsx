@@ -36,8 +36,14 @@ class Appointment extends Component {
                y:'',
                display: '',
                nolist : 'none',
-               dataList : []
-
+               dataList : [],
+               options: {
+                    mouseWheel: true,
+                    scrollbars: true,
+                    interactiveScrollbars: true,
+                    shrinkScrollbars: 'scale',
+                    fadeScrollbars: true
+              }
           }
           this.getAppointmentList = () => {
                
@@ -149,21 +155,12 @@ class Appointment extends Component {
      }
 
      render() {
-         this.props = {
-              options: {
-                    mouseWheel: true,
-                    scrollbars: true,
-                    interactiveScrollbars: true,
-                    shrinkScrollbars: 'scale',
-                    fadeScrollbars: true
-              }
-          } 
         return (
             <div className="appointment">
                 <Header title="预约单" leftIcon="fanhui" />
                 <div className="listbox">
                      <ReactIScroll iScroll={iScroll}
-                              options={this.props.options}
+                              options={this.state.options}
                                onRefresh={this.onRefresh.bind(this)}
                            onScrollStart={this.onScrollStart.bind(this)}
                            onScrollEnd={this.onScrollEnd.bind(this)}>

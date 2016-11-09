@@ -23,7 +23,7 @@ Tool.fetch = function(obj,data){
         if(data.body){d.body = data.body;}
         fetch(data.url,d).then(response => {
             if(response.status >= 500){
-                obj.setState({ tipContent: '网络连接失败，请检查您的网络',display: 'toasts' });
+                obj.setState({ tipContent: '网络繁忙，请稍后再试',display: 'toasts' });
             }
             status = response.status;
             console.log(response.ok);
@@ -48,11 +48,15 @@ Tool.fetch = function(obj,data){
                 if (xmlhttp.readyState==4)
                 {
                     if(xmlhttp.status >= 500){
-                        obj.setState({ tipContent: '网络连接失败，请检查您的网络',display: 'toasts' });
+                        obj.setState({ tipContent: '网络繁忙，请稍后再试',display: 'toasts' });
                     }    
                     obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
                     status = xmlhttp.status;
-                    data.successMethod(eval("("+ xmlhttp.responseText +")"),status);
+                    if(!xmlhttp.responseText){
+                        data.successMethod(xmlhttp.responseText,status);
+                    }else{
+                        data.successMethod(eval("("+ xmlhttp.responseText +")"),status);
+                    }
                 }
             }
             xmlhttp.open(data.type,data.url,data.sync?false:true);
@@ -156,6 +160,10 @@ Tool.rem = function(){
 
 //获取路由方式
 Tool.history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHistory;
+
+Tool.trim = function(str){  //删除左右两端的空格
+    return str.replace(/(^\s*)|(\s*$)/g, "");
+}
 
 
 /**
