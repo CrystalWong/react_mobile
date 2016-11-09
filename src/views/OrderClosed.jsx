@@ -57,8 +57,8 @@ class OrderClosed extends Component {
                 adOff: 'none'
             },
             confirm: {
-                title: "是否确认拨打此电话？",
-                content: "刘德华 13409090909",
+                title: "",
+                content: "",
                 leftText: "取消",
                 leftMethod: function() {
                     alert("取消");
@@ -173,10 +173,17 @@ class OrderClosed extends Component {
                                     content: "以下商品库存不足或已下架，无法继续购买"+imgStr,
                                     leftText: "我知道了",
                                     leftMethod: function() {
+                                        self.setState({
+                                            confirm: {
+                                                display: "none"
+                                            },
+                                            maskDisplay:"none"
+                                        });
                                         Tool.history.goBack();
                                     },
                                     display: "block"
-                                }
+                                },
+                                maskDisplay:"block"
                             });
                         }else if(json.errorType=="2"){
                             //alert("商品不再配送区域");
@@ -186,10 +193,16 @@ class OrderClosed extends Component {
                                     content: "商品不在配送区域"+imgStr,
                                     leftText: "我知道了",
                                     leftMethod: function() {
-                                        Tool.history.goBack();
+                                        self.setState({
+                                            confirm: {
+                                                display: "none"
+                                            },
+                                            maskDisplay:"none"
+                                        });
                                     },
                                     display: "block"
-                                }
+                                },
+                                maskDisplay:"block"
                             });
                         }else if(json.errorType=="3"){
                             //alert("商品库存不足");
@@ -199,10 +212,17 @@ class OrderClosed extends Component {
                                     content: "以下商品库存不足或已下架，无法继续购买"+imgStr,
                                     leftText: "我知道了",
                                     leftMethod: function() {
+                                        self.setState({
+                                            confirm: {
+                                                display: "none"
+                                            },
+                                            maskDisplay:"none"
+                                        });
                                         Tool.history.goBack();
                                     },
                                     display: "block"
-                                }
+                                },
+                                maskDisplay:"block"
                             });
                         }
                     }
