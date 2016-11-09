@@ -16,7 +16,7 @@ export class OrderClosedListItem extends Component {
                                         <OrderClosedListItemSun key={index} {...item}/>
                                     )
                                 }
-                                <div className="liu"><label>留言:</label><input type="text"/></div>
+                                <div className="liu"><label>留言:</label><input type="text" maxLength="200"/></div>
                                 
                             </a>
         );
