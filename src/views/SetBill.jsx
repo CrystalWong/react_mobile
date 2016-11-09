@@ -121,7 +121,7 @@ class SetBill extends Component {
 			              	<div className="typediv1">
 			              		<a><span data-info="1" className={this.state.addressType ? 'checked' : 'unchecked'} onClick={this.perchange}></span><span>个人</span></a>
 			               		<a><span data-info="2" className={!this.state.addressType ? 'checked' : 'unchecked'} onClick={this.perchange}></span><span>单位</span></a>
-			               		<p style={{display: this.state.isShowSm}}><input placeholder="单位名称" type="text" ref="fptt" /></p>
+			               		<p style={{display: this.state.isShowSm}}><input placeholder="单位名称" type="text" ref="fptt" maxLength="50"/></p>
 			              	</div>
 		               </div>
 		               <div className="bootm">

@@ -57,8 +57,8 @@ class OrderClosed extends Component {
                 adOff: 'none'
             },
             confirm: {
-                title: "是否确认拨打此电话？",
-                content: "刘德华 13409090909",
+                title: "",
+                content: "",
                 leftText: "取消",
                 leftMethod: function() {
                     alert("取消");
@@ -87,7 +87,7 @@ class OrderClosed extends Component {
                 "addressId": props.address.id
             });
         }
-
+        //this.setState({ajaxDisplay: "block",maskDisplay: "block"});
         data = {
             url: `${URLS.OrderClosed}`,
             type: "post",
@@ -96,6 +96,7 @@ class OrderClosed extends Component {
             tokenid: cookie.load('tokenid'),
             successMethod: function(json, status) {
                 if (status == 200) {
+                    //self.setState({ajaxDisplay: "none",maskDisplay: "none"});
                     if (json.address == null) {
                         self.state.isShow.adOn = "none";
                         self.state.isShow.adOff = "block";
@@ -140,7 +141,7 @@ class OrderClosed extends Component {
                         "invoiceHead": this.state.setBillData.fptt,
                     }
                 };
-            this.setState({ajaxDisplay: "block",maskDisplay: "block"});    
+            this.setState({ajaxDisplay: "block",maskDisplay: "block"});
             Tool.fetch(this, {
                 url: `${URLS.SubmitOrder}`,
                 type: "post",
@@ -172,10 +173,17 @@ class OrderClosed extends Component {
                                     content: "以下商品库存不足或已下架，无法继续购买"+imgStr,
                                     leftText: "我知道了",
                                     leftMethod: function() {
+                                        self.setState({
+                                            confirm: {
+                                                display: "none"
+                                            },
+                                            maskDisplay:"none"
+                                        });
                                         Tool.history.goBack();
                                     },
                                     display: "block"
-                                }
+                                },
+                                maskDisplay:"block"
                             });
                         }else if(json.errorType=="2"){
                             //alert("商品不再配送区域");
@@ -185,10 +193,16 @@ class OrderClosed extends Component {
                                     content: "商品不在配送区域"+imgStr,
                                     leftText: "我知道了",
                                     leftMethod: function() {
-                                        Tool.history.goBack();
+                                        self.setState({
+                                            confirm: {
+                                                display: "none"
+                                            },
+                                            maskDisplay:"none"
+                                        });
                                     },
                                     display: "block"
-                                }
+                                },
+                                maskDisplay:"block"
                             });
                         }else if(json.errorType=="3"){
                             //alert("商品库存不足");
@@ -198,10 +212,17 @@ class OrderClosed extends Component {
                                     content: "以下商品库存不足或已下架，无法继续购买"+imgStr,
                                     leftText: "我知道了",
                                     leftMethod: function() {
+                                        self.setState({
+                                            confirm: {
+                                                display: "none"
+                                            },
+                                            maskDisplay:"none"
+                                        });
                                         Tool.history.goBack();
                                     },
                                     display: "block"
-                                }
+                                },
+                                maskDisplay:"block"
                             });
                         }
                     }
@@ -225,11 +246,13 @@ class OrderClosed extends Component {
                         self.setState({
                             confirm: {
                                 display: "none"
-                            }
+                            },
+                            maskDisplay:"none"
                         });
                     },
                     display: "block"
-                }
+                },
+                maskDisplay:"block"
             });
         }
     }
@@ -240,6 +263,7 @@ class OrderClosed extends Component {
     }
     render() {
         console.log('------------------------------render.....');
+        console.log(this.state.maskDisplay);
         let fpInfoShow={
             '0':'不开发票',
             '1':'个人发票',
@@ -274,7 +298,7 @@ class OrderClosed extends Component {
 					</dl>
 					<dl className="line fp">
 						<dt>发票</dt>
-						<dd><Link to={linkBill}><span>{fpInfoShow[this.state.setBillData.fptype1]}</span><img src={require("../images/orderclosed/fp@2x.png")}/></Link></dd>
+						<dd><Link to={linkBill}><span>{fpInfoShow[this.state.setBillData.fptype1]}:<em className="fpttshow">{this.state.setBillData.fptt}</em></span><img src={require("../images/orderclosed/fp@2x.png")}/></Link></dd>
 
 					</dl>
 					<div className="jinediv">
@@ -287,7 +311,7 @@ class OrderClosed extends Component {
 							<dd><span>¥{this.state.ajdata.totalShipFee}</span></dd>
 						</dl>
 					</div>
-                    <a className="tanm" style={{display: this.state.ajdata.errorGoodsList.length>=1?'block':'none'}}>
+                    <a className="tanm" style={{display: this.state.ajdata.errorGoodsList.length>=1?'inline-block':'none'}}>
                                 {
                                     this.state.ajdata.errorGoodsList.map((item,index)=>
                                         <OrderClosedItemSunCancel key={index} {...item}/>

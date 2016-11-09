@@ -91,19 +91,21 @@ class OrderDetail extends Component {
             //取消订单
             this.cancelOrder=()=>{
                 Tool.fetch(this,{
-                    url: `${URLS.CancelOrder}`,
+                    url: `${URLS.CancelOrder}`+urlId,
                     type: "post",
                     body:JSON.stringify({"id":this.state.ajdata.id}),
                     headers: headers,
-                    successMethod: function(json){
-                        console.log(json);
+                    successMethod: function(json,status){
+                        if(status==200){
+                            location.reload();
+                        }
                     }
                 });
             }
             //确认收货
             this.confirmGetDoods=()=>{
                 Tool.fetch(this,{
-                    url: `${URLS.ConfirmGetDoods}`,
+                    url: `${URLS.ConfirmGetDoods}`+urlId,
                     type: "post",
                     body:JSON.stringify({"id":this.state.ajdata.id}),
                     headers: headers,
@@ -114,17 +116,35 @@ class OrderDetail extends Component {
             }
             //删除订单
             this.deleateOrder=()=>{
-                Tool.fetch(this,{
-                    url: `${URLS.DeleateOrder}`+this.state.ajdata.id,
-                    type: "post",
-                    body:{},//JSON.stringify({"id":this.state.ajdata.id}),
-                    headers: headers,
-                    successMethod: function(json,status){
-                        if(status==200){
-                            location.reload();
-                        }
-                    }
-                });
+                self.setState({
+                confirm: {
+                    title: "",
+                    content: "确定删除此订单?",
+                    leftText: "确定",
+                    leftMethod: function() {
+                        Tool.fetch(this,{
+                            url: `${URLS.DeleateOrder}`+urlId,
+                            type: "post",
+                            body:{},//JSON.stringify({"id":this.state.ajdata.id}),
+                            headers: headers,
+                            successMethod: function(json,status){
+                                if(status==200){
+                                    location.reload();
+                                }
+                            }
+                        });
+                    },
+                    rightText: "取消",
+                    rightMethod: function() {
+                        self.setState({
+                            confirm: {
+                                display: "none"
+                            }
+                        });
+                    },
+                    display: "block"
+                }
+            });
             }
         //查看物流详情
         this.toExpressinfo=()=> {
