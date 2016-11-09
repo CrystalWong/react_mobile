@@ -123,7 +123,6 @@ class MyOrder extends Component {
     };
     //切换订单状态
     orderStatusFun(e){
-        console.log("查看wu"+this.props);
         if(e.target.tagName == "LI"){
             for(var i = 0; i < this.refs.orderStatus.childNodes.length;i++){
                 this.refs.orderStatus.childNodes[i].className = " ";
@@ -166,7 +165,7 @@ class MyOrder extends Component {
       let _this = this,thisNode=document.getElementById(dId),headers = COMMON_HEADERS_POST();
       _this.setState({
         confirm : {
-          title: "确认删除此订单吗",
+          title: "确认删除此订单吗?",
           content: "",
                 leftText: "取消",
                 leftMethod: ()=>{
@@ -175,7 +174,7 @@ class MyOrder extends Component {
                 rightText: "确定",
                 rightMethod: ()=>{
                   Tool.fetch(this,{
-                    url: `${URLS.DelOrder}`+dId,
+                    url: `${URLS.DeleateOrder}`+dId,
                     type: "post",
                     headers: headers,
                     successMethod: function(json){
@@ -188,7 +187,8 @@ class MyOrder extends Component {
                 display: "block"
         }
       })
-    }
+    } 
+
     //查看物流
     callbackLog(oId){
       console.log(oId);
@@ -245,7 +245,65 @@ var OrderList = React.createClass({
     logistics:function(orderId){
         this.props.callbackLog(orderId);
     },
+    //确认收货
+    receipt:function(id){
+      let dId = id.id,headers = COMMON_HEADERS_POST();
+      Tool.fetch(this,{
+          url: `${URLS.ConfirmGetDoods}`+dId,
+          type: "post",
+          headers: headers,
+          successMethod: function(json){
+              console.log("dId===="+dId);
+              location.reload();    
+          }
+      })
+    },
+    //取消订单
+    cancelOrder:function(id){
+      let dId = id.id,headers = COMMON_HEADERS_POST();
+      Tool.fetch(this,{
+          url: `${URLS.CancelOrder}`+dId,
+          type: "post",
+          headers: headers,
+          successMethod: function(json){
+              console.log("dId===="+dId);
+              //location.reload();    
+          }
+      })
+    },
+    //再次购买
+    goShopping:function(productList){
 
+        let isLogin = 0,
+            uKey = cookie.load('tokenid'),
+            groupSkuId = (productList.productList[0].groupId==null?'':productList.productList[0].groupId) + "_" + productList.productList[0].goodsId,
+            count = 1,self=this;
+        this.more = true;
+        if (uKey) isLogin = 1;
+        if (this.state.num >= this.props.stock) {
+            this.props.callback({
+                more: true
+            });
+            return;
+        }
+        Tool.fetch(this, {
+            url: `${URLS.ADDITEM}${isLogin}/${uKey}/${groupSkuId}/${count}`,
+            type: "post",
+            headers: COMMON_HEADERS_POST,
+            successMethod: function(json,status) {
+
+                if (json.flag == true) {
+                    Tool.history.push("/shoppingcart");
+                } else {
+                    console.log(json.message);
+                    self.setState({
+                        tipContent: json.message,
+                        display: 'toasts'
+                    });
+                }
+            }
+        });
+    },
     render: function() {
           let {productList,orderIndustryName,actualCost,freight,orderStatus,osText,osDispaly,id,orderId} = this.props;
           switch(orderStatus){
@@ -263,7 +321,7 @@ var OrderList = React.createClass({
             break;
             case 40:
             osText = "交易成功";
-            osDispaly = "none";
+            osDispaly = "block";
             break;
             case 14:
             osText = "分期付款中";
@@ -310,10 +368,10 @@ var OrderList = React.createClass({
                     <div className="mm-total">共{productList.length}件商品 合计：{actualCost}(含运费￥{freight})</div>
                     <div className="mm-total clearfix" style={{display:osDispaly}}>
                         <span className="mm-but but-org" style={{display:orderStatus == 10 ?"block":"none"}}>付款</span>
-                        <span className="mm-but but-def" style={{display:orderStatus == 10 ?"block":"none"}}>取消订单</span>
-                        <span className="mm-but but-org" style={{display:orderStatus == 40 ?"block":"none"}}>再次购买</span>
+                        <span className="mm-but but-def" onClick={this.cancelOrder.bind(null,{id})} style={{display:orderStatus == 10 ?"block":"none"}}>取消订单</span>
+                        <span className="mm-but but-org" onClick={this.goShopping.bind(null,{productList})} style={{display:orderStatus == 40 ?"block":"none"}}>再次购买</span>
                         <span className="mm-but but-def" onClick={this.delOrder.bind(null,{id})} style={{display:orderStatus == 70 ?"block":"none"}}>删除订单</span>
-                        <span className="mm-but but-org" style={{display:orderStatus == 30 ?"block":"none"}}>确认收货</span>
+                        <span className="mm-but but-org" onClick={this.receipt.bind(null,{id})} style={{display:orderStatus == 30 ?"block":"none"}}>确认收货</span>
                         <span className="mm-but but-def" onClick={this.logistics.bind(null,{orderId})} style={{display:orderStatus == 30 ?"block":"none"}}>查看物流</span>
                     </div>
                 </div>
