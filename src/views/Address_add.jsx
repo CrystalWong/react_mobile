@@ -23,7 +23,8 @@ class AddressAdd extends Component {
             countryId: "",
             country:"",
             xzId: "",
-            xz:""
+            xz:"",
+            title: "新增收货地址"
 		};
 
 		this.saveAddress = () => {
@@ -51,14 +52,22 @@ class AddressAdd extends Component {
 				this.setState({tipContent : '详细地址不能为空',display : 'toasts' });return;
 			}
 			let headers = COMMON_HEADERS_POST('Accept','application/json');
+    		let tipText = "添加地址成功",
+    			fetchType = "post",
+    			addressId = "";
+    		if(self.props.address.from && self.props.address.from == "edit"){
+    			tipText = '编辑地址成功';
+    			fetchType = "put";
+    			addressId = self.props.address.id;
+    		}			
 			Tool.fetch(this,{
                 url: `${URLS.Address}/?_t=${cookie.load('tokenid')}`,//提交地址
-                type: "post",
-                headers: headers,
-                body: '{"provinceId" : '+this.state.provinceId+',"cityId" : '+this.state.cityId+',"countyId" : '+this.state.countryId+',"townId" : '+this.state.xzId+',"areaId" : null,"detailInfo" : "'+ address +'","consigneeTelephone" : '+(contact?contact:null)+',"consigneeMobile" : '+(phone?phone:null)+',"consigneeName" : "'+ name +'","zip" : null,"memberId" : "'+cookie.load("userId")+'","memberUsername" : "'+cookie.load("name")+'","type" : '+ (current?1:2) +',"status" : null,"locationInfo" : null}',
+                type: fetchType,
+                headers: headers,//'+ (addressId?("\"id\":\""+addressId+"\","):"")+'
+                body: '{"provinceId" : "'+this.state.provinceId+'","cityId" : "'+this.state.cityId+'","countyId" : "'+this.state.countryId+'","townId" : "'+this.state.xzId+'","areaId" : "","detailInfo" : "'+ address +'","consigneeTelephone" : '+(contact?'"'+contact+'"':null)+',"consigneeMobile" : '+(phone?'"'+phone+'"':null)+',"consigneeName" : "'+ name +'","zip" : null,"memberId" : "'+cookie.load("userId")+'","memberUsername" : "'+cookie.load("name")+'","type" : '+ (current?1:2) +',"status" : null,"locationInfo" : null,"createTime":"'+ new Date().getTime() +'"'+ (addressId?(",\"id\":\""+addressId+"\""):"")+'}',
                 successMethod: function(json,status){
                 	if(status == 200){
-                		self.setState({ tipContent: '添加地址成功',display: 'toasts' });
+                		self.setState({ tipContent: tipText,display: 'toasts' });
                 		setTimeout(function(){
                 			Tool.history.goBack();
                 		},1500);
@@ -99,12 +108,14 @@ class AddressAdd extends Component {
     		this.refs.contact.value = addressItem.consigneeMobile;
     		this.refs.name.value = addressItem.consigneeName;
     		this.refs.current.checked = (addressItem.type1 == 1)?true:false;
+    		this.refs.address.value = addressItem.detailInfo;
 	    	this.setState({
 	            provinceId: addressItem.provinceId,
 	            province: addressItem.locationInfo,
 	            cityId: addressItem.cityId,
-	            countryId: addressItem.countryId,
-	            xzId: addressItem.townId
+	            countryId: addressItem.countyId,
+	            xzId: addressItem.townId,
+	            title: '编辑收货地址'
 	    	});
     	}
     }
@@ -112,7 +123,7 @@ class AddressAdd extends Component {
 	render(){
 		return(
 			<div>
-				<Header title="新增收货地址" leftIcon="fanhui" />
+				<Header title={this.state.title} leftIcon="fanhui" />
 				<ul className="address-form">
 					<li><label>收货人：</label><blockquote><input type="text" ref="name" /></blockquote></li>
 					<li><label>联系方式：</label><blockquote><input type="text" ref="contact"/></blockquote></li>
