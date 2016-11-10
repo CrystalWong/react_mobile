@@ -35,7 +35,7 @@ class Appointment extends Component {
                scrollNoData: false, //分页没有数据
                y:'',
                display: '',
-               nolist : 'none',
+               nolist : 'block',
                dataList : [],
                options: {
                     mouseWheel: true,
