@@ -205,11 +205,14 @@ class ShoppingCart extends Component {
                 type: "put",
                 headers: COMMON_HEADERS,
                 successMethod: function(json){
-                    if(json.flag == true){
+                    if(json.data.select == true){
                         selectAll.className = "no-select-all selectall";
                         selectControl = true;
                         self.selectItem = list.length;
                         result();
+                    }
+                    if(json.flag == false){
+                        self.setState({tipContent: json.msg,display: 'toasts',});
                     }
                 }
             });

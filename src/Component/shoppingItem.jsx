@@ -113,7 +113,7 @@ export class ShoppingItem extends Component {
 
     componentDidMount(){
         this.refs.li.addEventListener('touchstart',this.touch.bind(this), false);  
-        // this.refs.li.addEventListener('touchmove',this.touch.bind(this), false);  
+        this.refs.li.addEventListener('touchmove',this.touch.bind(this), false);  
         this.refs.li.addEventListener('touchend',this.touch.bind(this), false);  
     }
     render() {

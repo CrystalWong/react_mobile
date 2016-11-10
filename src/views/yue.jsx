@@ -33,6 +33,7 @@ class Yue extends Component {
         background: "#f60",
         title: "预约"
       };
+      this.clickControl = true;
     }
 
     goYue(){
@@ -130,6 +131,8 @@ class Yue extends Component {
     }
 
     getCode(){//获取验证码
+        if(!this.clickControl){return;}
+
         let headers = COMMON_HEADERS_POST('Accept','application/json'),
           phone = this.refs.phone.value
           self = this;
@@ -137,7 +140,7 @@ class Yue extends Component {
         if (!/^[1][3-9][0-9]{9,9}$/.test(phone)){
           this.setState({tipContent : '请输入正确手机号码',display : 'toasts' });return;
         }
-
+        this.clickControl = false;
         Tool.fetch(this,{
                   url: `${URLS.YUYUECODE}${phone}`,//提交地址
                   type: "get",
@@ -151,10 +154,13 @@ class Yue extends Component {
                         if(count == 0){
                             clearInterval(self.inte);
                             self.setState({codeText: '获取验证码',background: "#f60"});
+                            self.clickControl = true;
                         }else{
                             self.setState({codeText: '获取验证码('+count+')',background: "#ccc"});
                         }
                       },1000);
+                    }else{
+                      self.clickControl = true;
                     }
                   }
               });
