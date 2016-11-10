@@ -8,7 +8,7 @@ import {Tool, merged} from '../Tool';
 import URLS from '../constants/urls';
 import {OrderClosedListItemSun} from '../Component/orderClosedItemSun';
 import {order} from '../Action/Order';
-import {Toast} from '../Component/common/Tip';
+import {Toast,Confirm,AjaxTip} from '../Component/common/Tip';
 /**
  * 模块入口
  * 
@@ -48,7 +48,22 @@ class OrderDetail extends Component {
             show1:"none",
             show2:"none",
             tipContent: '',
-            display: ''
+            display: '',
+            confirm: {
+                title: "",
+                content: "",
+                leftText: "取消",
+                leftMethod: function() {
+                    alert("取消");
+                },
+                rightText: "确定",
+                rightMethod: function() {
+                    alert("确定");
+                },
+                display: "none"
+            },
+            ajaxDisplay: "block",
+            maskDisplay: "block"
         };
         //枚举类 开票类型
         this.getkaipType=(val)=>{
@@ -139,11 +154,13 @@ class OrderDetail extends Component {
                         self.setState({
                             confirm: {
                                 display: "none"
-                            }
+                            },
+                            maskDisplay: "none"
                         });
                     },
                     display: "block"
-                }
+                },
+                maskDisplay: "block"
             });
             }
         //查看物流详情
@@ -209,7 +226,7 @@ class OrderDetail extends Component {
                 </div>
                 <div className="address1">
                     <div className="adinfo">
-                    <p>{this.state.ajdata.userAddress.trueName}&nbsp;{this.state.ajdata.userAddress.mobile}<span>默认</span></p>
+                    <p>{this.state.ajdata.userAddress.trueName}&nbsp;{this.state.ajdata.userAddress.mobile}<span style={{display: this.state.ajdata.userAddress==1?"block":"none"}}>默认</span></p>
                         <span>地址：</span><span>{this.state.ajdata.userAddress.locationInfo}</span>
                     </div>
                 </div>
@@ -277,6 +294,8 @@ class OrderDetail extends Component {
                     <a className="subbtn1" onClick={this.deleateOrder.bind(this)}>删除订单</a>
                 </div>
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
+                <Confirm  {...this.state.confirm}/>
+                <div className="mask" style={{display: this.state.maskDisplay}}></div>
             </div>
         );
     }
