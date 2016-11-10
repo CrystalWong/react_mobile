@@ -19,10 +19,10 @@ class OrderDetail extends Component {
     constructor(props) {
         super(props);
         this.getQueryString = (name) => {
-                let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-                let r = window.location.search.substr(1).match(reg);
-                if (r != null) return decodeURIComponent(r[2]);
-                return "";
+            let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            let r = window.location.href.split("?")[1] ? window.location.href.split("?")[1].match(reg) : null;
+            if (r != null) return decodeURIComponent(r[2]);
+            return "";
         };
         var urlId=this.getQueryString('orderId');
         console.log(urlId);
