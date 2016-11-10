@@ -6,6 +6,7 @@ import URLS from '../constants/urls.js';
 import {Tool, merged} from '../Tool';
 import '../Style/center';
 import {Header} from '../Component/common/index';
+import {ONLINE} from '../constants/common';
 
 class Center extends Component {
 	constructor(props){
@@ -60,15 +61,16 @@ class Center extends Component {
 	//退出
 	signOut(){
 		let _this = this;
+		var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"m.jyall.com":"") }
 		Tool.fetch(this,{
             url: URLS.LOGINOUT + Cookie.load('tokenid'),
             type: "get",
             successMethod: function(json){
             	if(json){
-                    cookie.remove('userId', { path: '/',domain:'m.jyall.com'});     
-                    cookie.remove('tokenid', { path: '/',domain:'m.jyall.com'}); 
-                    cookie.remove('name', { path: '/',domain:'m.jyall.com'}); 
-                    cookie.remove('photo', { path: '/',domain:'m.jyall.com'});      		
+                    Cookie.remove('userId', cookieObj);     
+                    Cookie.remove('tokenid', cookieObj); 
+                    Cookie.remove('name', cookieObj); 
+                    Cookie.remove('photo', cookieObj);      		
 	                _this.setState({
 	                	login: false,
 	                	photo: require("../images/center/weidenglu.png")
