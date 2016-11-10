@@ -65,10 +65,10 @@ class Center extends Component {
             type: "get",
             successMethod: function(json){
             	if(json){
-	                Cookie.remove('tokenid');
-                    Cookie.remove('userId');
-                    Cookie.remove('name');
-                    Cookie.remove('photo');            		
+                    cookie.remove('userId', { path: '/',domain:'m.jyall.com'});     
+                    cookie.remove('tokenid', { path: '/',domain:'m.jyall.com'}); 
+                    cookie.remove('name', { path: '/',domain:'m.jyall.com'}); 
+                    cookie.remove('photo', { path: '/',domain:'m.jyall.com'});      		
 	                _this.setState({
 	                	login: false,
 	                	photo: require("../images/center/weidenglu.png")
@@ -91,7 +91,7 @@ class Center extends Component {
 			<div className="center-body">
 			    <Header title="个人中心" leftIcon="fanhui" />
 				<header className="center-header">
-					<div className="ch-avatar"><img src={this.state.photo} /></div>
+					<div className="ch-avatar"><img src={this.state.photo?this.state.photo:require("../images/center/weidenglu.png")} /></div>
 					<p className="ch-nickname" style={{display: this.state.login?"block":"none"}}>{this.state.nickname}</p>
 					<p className="ch-quantity" style={{display: this.state.login?"block":"none"}}>家园豆：（{this.state.bean}）</p>
 					<p className="login-button" style={{display: this.state.login?"none":"block"}}><Link to="/">点击登录</Link></p>
