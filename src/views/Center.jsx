@@ -65,14 +65,14 @@ class Center extends Component {
             type: "get",
             successMethod: function(json){
             	if(json){
+	                Cookie.remove('tokenid');
+                    Cookie.remove('userId');
+                    Cookie.remove('name');
+                    Cookie.remove('photo');            		
 	                _this.setState({
 	                	login: false,
 	                	photo: require("../images/center/weidenglu.png")
 	                });
-	                Cookie.remove('tokenid');
-                    Cookie.remove('userId');
-                    Cookie.remove('name');
-                    Cookie.remove('photo');
             	}
             }
         });		
