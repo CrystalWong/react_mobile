@@ -9,6 +9,8 @@ export default {
 	//登录
 	LOGIN: `${domain}/user-api/v1/authcenter/app/userLogin`,
 	LOGINRANDOMIMAGE: `${domain}/user-api/v1/authcenter/app/randomImage`,
+	//退出
+	LOGINOUT: `${domain}/user-api/v1/authcenter/app/loginOut/`,
 	//检测token
 	TOKENCHECKED: `${domain}/user-api/v1/authcenter/app/token/`,
 	//注册
