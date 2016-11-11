@@ -244,6 +244,36 @@ class ShoppingCart extends Component {
         Tool.history.push("/orderclosed");
     }
 
+    deleteItem(data){
+        let self = this;
+        this.setState({
+            confirm : {
+                title: "确定删除此商品吗？",
+                content: "",
+                leftText: "取消",
+                leftMethod: ()=>{
+                    self.setState({maskDisplay: 'none',confirm : {display : 'none'}});
+                },
+                rightText: "确定",
+                rightMethod: ()=>{
+                    Tool.fetch(self,{
+                        url: `${URLS.REMOVEITEM}${data.isLogin}/${data.uKey}/${data.groupSkuId}?source=2`,
+                        type: "delete",
+                        headers: COMMON_HEADERS,
+                        successMethod: function(json,status){
+                            if(json.flag == true){
+                                self.setState({maskDisplay: 'none',confirm : {display : 'none'}});
+                                location.reload();
+                            }
+                        }
+                    }); 
+                },
+                display: "block"
+            },
+            maskDisplay: "block"
+        }); 
+    }
+
     componentDidUpdate(){
         if(this.selectItem>0 && this.selectItem == this.state.list.length){
             this.refs.selectAll.className = "no-select-all selectall";
