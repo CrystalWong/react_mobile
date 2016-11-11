@@ -43,6 +43,9 @@ class OrderClosed extends Component {
                 fptt: this.getQueryString("fptt") || ""
             },
             ajdata: {
+                getLiu: function(e) {
+                    console.log('留言参数拼装..');
+                },
                 address: {
                     consigneeName: ""
                 },
@@ -114,6 +117,8 @@ class OrderClosed extends Component {
             }
         }
         Tool.fetch(this, data);
+        //留言参数
+        let liuList=[];
         this.submitOrder = () => {
             console.log('提交订单..');
             if (props.address.id == undefined || this.state.ajdata.address.id == undefined) {
@@ -123,9 +128,13 @@ class OrderClosed extends Component {
             let goodsListVO = [];
 
             this.state.ajdata.storeVOList.forEach(function(item) {
+                let liuObj={};
+                liuObj.supplier_payment=item.storeId+"_"+item.payType;
+                liuObj.liuYan='';
                 item.goodsVOList.forEach(function(it) {
                     goodsListVO.push(it);
                 });
+                liuList.push(liuObj);
             });
             let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),
                 self = this,
@@ -141,6 +150,7 @@ class OrderClosed extends Component {
                         "invoiceHead": this.state.setBillData.fptt,
                     }
                 };
+                console.log(paramData);
             this.setState({ajaxDisplay: "block",maskDisplay: "block"});
             Tool.fetch(this, {
                 url: `${URLS.SubmitOrder}`,
@@ -232,6 +242,12 @@ class OrderClosed extends Component {
         this.choseAddress = () => {
             Tool.history.push("/address");
         }
+        this.getLiu = (e) => {
+            console.log('获取留言参数');
+            console.log(liuList);
+            console.log(e);
+            console.log(e.target.getAttribute('class'));
+        }
         this.goBack = () => {
             self.setState({
                 confirm: {
@@ -268,7 +284,12 @@ class OrderClosed extends Component {
             '0':'不开发票',
             '1':'个人发票',
             '2':'单位发票'
-        },linkBill='/setbill?cartParamJson='+this.getQueryString('cartParamJson');
+        },fpInfoTypeShow={
+            '0':'',
+            '1':'电子',
+            '2':'纸质'
+        },
+        linkBill='/setbill?cartParamJson='+this.getQueryString('cartParamJson');
         return (
             <div>
                 <header className="common-header">
@@ -291,14 +312,14 @@ class OrderClosed extends Component {
                             <span>地址：</span><span>{this.state.choseAddress.locationInfo!=undefined&&this.state.ajdata.address!=null?this.state.choseAddress.locationInfo+this.state.choseAddress.detailInfo:(this.state.ajdata.address.detailInfo?(this.state.ajdata.address.locationInfo+this.state.ajdata.address.detailInfo):"请选择地址")}</span>
 	                	</div>
 	                </div>
-				    <OrderClosedList {...this.state.ajdata}/>
+				    <OrderClosedList {...this.state.ajdata} getLiu={this.getLiu.bind(this)}/>
 					<dl className="line">
 						<dt>配送方式</dt>
 						<dd>快递</dd>
 					</dl>
 					<dl className="line fp">
 						<dt>发票</dt>
-						<dd><Link to={linkBill}><span>{this.state.setBillData.fptype=='0'?'不开发票':fpInfoShow[this.state.setBillData.fptype1]}<em className="fpttshow">{this.state.setBillData.fptt}</em></span><img src={require("../images/orderclosed/fp@2x.png")}/></Link></dd>
+						<dd><Link to={linkBill}><span>{fpInfoTypeShow[this.state.setBillData.fptype]}{this.state.setBillData.fptype=='0'?'不开发票':fpInfoShow[this.state.setBillData.fptype1]}<em className="fpttshow">{this.state.setBillData.fptt}</em></span><img src={require("../images/orderclosed/fp@2x.png")}/></Link></dd>
 
 					</dl>
 					<div className="jinediv">

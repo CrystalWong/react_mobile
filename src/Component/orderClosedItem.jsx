@@ -6,9 +6,16 @@ import {OrderClosedListItemSun} from '../Component/orderClosedItemSun';
  * @extends {Component}
  */
 export class OrderClosedListItem extends Component {
+    constructor(props) {
+        super(props);
+        this.getLiu = (e) => {
+            this.props.callbackGetLiu(e);
+        }
+    }
     render() {
         //let {address,couponUserList,goodsTotalFee,orderTotalFee,storeVOList,totalShipFee} = this.props;
-        let {goodsVOList,payType,storeId}=this.props;
+        let {goodsVOList,payType,storeId,getLiu}=this.props;
+        console.log(getLiu);
         return (
                             <a className="tanm">
                                 {
@@ -16,8 +23,9 @@ export class OrderClosedListItem extends Component {
                                         <OrderClosedListItemSun key={index} {...item}/>
                                     )
                                 }
-                                <div className="liu"><label>留言:</label><input type="text" maxLength="200"/></div>
-                                
+                                <div className="liu"><label>留言:</label>
+                                    <input className={storeId+"_"+payType} value="" type="text" maxLength="200" autoComplete="on" onChange={this.getLiu.bind(this)}/>
+                                </div>
                             </a>
         );
     }

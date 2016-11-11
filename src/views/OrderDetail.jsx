@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import {Header} from '../Component/common/index';
+import {Link } from 'react-router';
 import '../Style/orderdetail.css';
 import {COMMON_HEADERS_POST} from '../constants/headers';
 import cookie from 'react-cookie';
@@ -105,17 +106,37 @@ class OrderDetail extends Component {
             }
             //取消订单
             this.cancelOrder=()=>{
-                Tool.fetch(this,{
-                    url: `${URLS.CancelOrder}`+urlId,
-                    type: "post",
-                    body:JSON.stringify({"id":this.state.ajdata.id}),
-                    headers: headers,
-                    successMethod: function(json,status){
-                        if(status==200){
-                            location.reload();
-                        }
-                    }
-                });
+                self.setState({
+                confirm: {
+                    title: "",
+                    content: "确定取消此订单?",
+                    leftText: "确定",
+                    leftMethod: function() {
+                        Tool.fetch(this,{
+                            url: `${URLS.CancelOrder}`+urlId,
+                            type: "post",
+                            body:JSON.stringify({"id":this.state.ajdata.id}),
+                            headers: headers,
+                            successMethod: function(json,status){
+                                if(status==200){
+                                    location.reload();
+                                }
+                            }
+                        });
+                    },
+                    rightText: "取消",
+                    rightMethod: function() {
+                        self.setState({
+                            confirm: {
+                                display: "none"
+                            },
+                            maskDisplay: "none"
+                        });
+                    },
+                    display: "block"
+                },
+                maskDisplay: "block"
+            });
             }
             //确认收货
             this.confirmGetDoods=()=>{
@@ -245,18 +266,18 @@ class OrderDetail extends Component {
                             <dd>纸质发票</dd>
                         </dl>
                         <dl className="line jine" style={{color: '#D4D1D1'}}>
-                            <dt className="fpname">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceCompanyName:''}</dt>
+                            <dt className="fpname">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceHead:''}</dt>
                             <dd className="fptype">个人</dd>
                         </dl>
                 </div>
                 <div className="jinediv" style={{display: this.state.show2}}>
                         <dl className="line jine">
                             <dt>发票信息</dt>
-                            <dd><a href="/" className="elefp">查看电子发票</a></dd>
+                            <dd><Link to="/" className="elefp">查看电子发票</Link></dd>
                         </dl>
                         <dl className="line jine" style={{color: '#D4D1D1'}}>
-                            <dt className="fpname">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceCompanyName:''}</dt>
-                            <dd className="fptype">单位</dd>
+                            <dt className="fpname"></dt>
+                            <dd className="fptype">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceHead:''}</dd>
                         </dl>
                 </div>
                 <div className="jinediv">
