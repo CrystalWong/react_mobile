@@ -11,7 +11,7 @@ import iScroll from 'iscroll';
 import cookie from 'react-cookie';
 //urls
 import URLS from '../constants/urls';
-import {COMMON_HEADERS_POST} from '../constants/headers';
+import {COMMON_HEADERS_POST,COMMON_HEADERS} from '../constants/headers';
 //header公用头部引入
 import {Header} from '../Component/common/index';
 //Tool工具引入
@@ -67,7 +67,7 @@ class MyOrder extends Component {
                 fadeScrollbars: true //是否渐隐滚动条，关掉可以加速
             }
         };
-        document.cookie="userId=HYS000705";
+       // document.cookie="userId=HYS0000010335";
         this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":this.state.statusPar,"pageNo":this.state.pageNo,"pageSize":this.state.pageSize});
 
     }
@@ -146,7 +146,6 @@ class MyOrder extends Component {
           }else{
               if((iScrollInstance.maxScrollY < 0 && Math.abs(iScrollInstance.startY) - Math.abs(iScrollInstance.maxScrollY) > 10) || (iScrollInstance.maxScrollY > 0 && iScrollInstance.directionY == 1 && iScrollInstance.distY > 10)){
                   this.setState({
-
                       more: "正在加载",
                       nextPage:true
                   });
@@ -279,7 +278,7 @@ var OrderList = React.createClass({
           headers: headers,
           successMethod: function(json){
               console.log("dId===="+dId);
-              //location.reload();    
+              location.reload();    
           }
       })
     },
@@ -312,7 +311,23 @@ var OrderList = React.createClass({
     },
     //付款
     payment:function(id){
-       
+      let dId = id.id;
+       Tool.fetch(this, {
+            url: `${URLS.CORRELATION}`+dId,
+            type: "get",
+            headers: COMMON_HEADERS(),
+            successMethod: function(str,status) {
+                console.log("payment====="+str.payCode);
+                 Tool.fetch(self, { //获取支付地址
+                      url: `${URLS.TOPAY}${str.payCode}?source=WAP`,
+                      type: "post",
+                      headers: COMMON_HEADERS_POST(),
+                      successMethod: function(json) {
+                          location.href = json.wapPayUrl;
+                      }
+                  });
+            }
+        });
     },
     render: function() {
           let {productList,orderIndustryName,actualCost,freight,orderStatus,osText,osDispaly,id,orderId} = this.props;
