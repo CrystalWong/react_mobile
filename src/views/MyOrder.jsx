@@ -409,7 +409,7 @@ var NoList = React.createClass({
         <div style={{ display: this.props.display }} className="no-list">
             <img src="src/images/appointment/icon-appoint.png" />
             <p>订单还是空的，去逛逛吧~ <br/></p>
-            <a href="http://m.jyall.com"><button>继续逛逛</button></a>
+            <a href="http://m.jyall.com"><button>去逛逛</button></a>
         </div>
     );
   }
