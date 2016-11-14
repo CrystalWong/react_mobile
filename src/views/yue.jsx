@@ -6,6 +6,7 @@ import {COMMON_HEADERS_POST} from '../constants/headers';
 import '../Style/yue';
 import {Tool, merged} from '../Tool';
 import URLS from '../constants/urls';
+import {ONLINE} from '../constants/common';
 
 
 /**
@@ -87,6 +88,7 @@ class Yue extends Component {
         };
               
         let headers = COMMON_HEADERS_POST();
+        let domain = ONLINE?"http://m.jyall.com":"http://n.m.jyall.com";
         Tool.fetch(this,{
                   url: `${URLS.YUYUE}`,//提交地址
                   type: "post",
@@ -96,11 +98,19 @@ class Yue extends Component {
                     let tip = "";
                     console.log(json);
                     if(status == 200){
+                      //{"businessPeople":{"butler":{"jobName":"金管家专员","empId":"ca72ceeeeb8ebec24ec672e62218bd8b","mobile":"15001001001","ssn":"220102198601014233","telSuffix":"890011","jobId":"4659be2af8601f6ce9f31db389439ecf","number":"90011","newMobile":"15001001001","serviceTel":"400-810-0022-890011","empName":"李豹金管家","leavestatus":"0","departments":"龙王常务委员会, 华北大区, 金管家分配测试-西城","telPrefix":"400-810-0022"},"hisButlers":[{"$ref":"$.businessPeople.butler"}]}}
                         tip = "预约成功";
+                        self.setState({tipContent : '预约成功',display : 'toasts' });
+                        setTimeout(function(){
+                          location.href = domain+"/app/scues-fals.html?name="+self.nameParams+"&stewardname="+json.businessPeople.butler.empName+"&stewardnum="+json.businessPeople.butler.mobile;
+                        },1500);
                     }else {
                         tip = json.message;
+                        self.setState({tipContent : tip?tip:'预约失败',display : 'toasts' });
+                        setTimeout(function(){
+                          location.href = domain+"/app/fals.html?name="+self.nameParams;
+                        },1500);
                     }
-                    self.setState({tipContent : (tip?tip:"提交失败"),display : 'toasts' });
                   }
               });
     }
