@@ -117,8 +117,6 @@ class OrderClosed extends Component {
             }
         }
         Tool.fetch(this, data);
-        //留言参数
-        let liuList=[];
         this.submitOrder = () => {
             console.log('提交订单..');
             if (props.address.id == undefined || this.state.ajdata.address.id == undefined) {
@@ -128,13 +126,9 @@ class OrderClosed extends Component {
             let goodsListVO = [];
 
             this.state.ajdata.storeVOList.forEach(function(item) {
-                let liuObj={};
-                liuObj.supplier_payment=item.storeId+"_"+item.payType;
-                liuObj.liuYan='';
                 item.goodsVOList.forEach(function(it) {
                     goodsListVO.push(it);
                 });
-                liuList.push(liuObj);
             });
             let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),
                 self = this,
@@ -148,7 +142,8 @@ class OrderClosed extends Component {
                         "invoiceClass": this.state.setBillData.fptype1,
                         "invoiceType": this.state.setBillData.fptype,
                         "invoiceHead": this.state.setBillData.fptt,
-                    }
+                    },
+                    remarkList:liuList
                 };
                 console.log(paramData);
             this.setState({ajaxDisplay: "block",maskDisplay: "block"});
@@ -242,11 +237,26 @@ class OrderClosed extends Component {
         this.choseAddress = () => {
             Tool.history.push("/address");
         }
+        //留言参数
+        let liuObj={},liuList=[];
         this.getLiu = (e) => {
-            console.log('获取留言参数');
+            var value=e.target.getAttribute('value');
+            var supplier_payment=e.target.getAttribute('class');
+            console.log(liuList.length);
+            if(liuList.length>0){
+                for(var i=0;i<liuList.length;i++){
+                    console.log(liuList[i].supplier_payment!=supplier_payment);
+                    if(liuList[i].supplier_payment!=supplier_payment){
+                        liuList.push({'supplier_payment':supplier_payment,'remark':value});
+                    }else{
+                        liuList[i].remark=value;
+                    }
+                }
+            }else{
+                liuList.push({'supplier_payment':supplier_payment,'remark':value});
+            }
+            history.state.remark='test';
             console.log(liuList);
-            console.log(e);
-            console.log(e.target.getAttribute('class'));
         }
         this.goBack = () => {
             self.setState({
@@ -277,6 +287,9 @@ class OrderClosed extends Component {
             display: state
         });
     }
+    window.addEventListener("beforeunload", function (e) {
+            alert('卸载该页面..');
+    });
     render() {
         console.log('------------------------------render.....');
         console.log(this.state.maskDisplay);

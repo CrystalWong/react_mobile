@@ -9,6 +9,7 @@ export class OrderClosedListItem extends Component {
     constructor(props) {
         super(props);
         this.getLiu = (e) => {
+            e.target.setAttribute('value',this.refs.liuyan.value)
             this.props.callbackGetLiu(e);
         }
     }
@@ -24,7 +25,7 @@ export class OrderClosedListItem extends Component {
                                     )
                                 }
                                 <div className="liu"><label>留言:</label>
-                                    <input className={storeId+"_"+payType} value="" type="text" maxLength="200" autoComplete="on" onChange={this.getLiu.bind(this)}/>
+                                    <input className={storeId+"_"+payType}  type="text" maxLength="200" ref="liuyan" onBlur={this.getLiu.bind(this)}/>
                                 </div>
                             </a>
         );
