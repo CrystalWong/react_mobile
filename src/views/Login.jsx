@@ -61,10 +61,10 @@ class Login extends Component {
                     //json
                         var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"m.jyall.com":"") }
                         self.props.loginAction(json.responseBody);
-                        cookie.remove('tokenid');
-                        cookie.remove('userId');
-                        cookie.remove('name');
-                        cookie.remove('photo');
+                        cookie.remove('tokenid',cookieObj);
+                        cookie.remove('userId',cookieObj);
+                        cookie.remove('name',cookieObj);
+                        cookie.remove('photo',cookieObj);
                         cookie.save('tokenid', json.responseBody.tokenid, cookieObj);
                         cookie.save('name', json.responseBody.name, cookieObj);
                         cookie.save('userId', json.responseBody.userId, cookieObj);

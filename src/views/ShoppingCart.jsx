@@ -205,11 +205,14 @@ class ShoppingCart extends Component {
                 type: "put",
                 headers: COMMON_HEADERS,
                 successMethod: function(json){
-                    if(json.flag == true){
+                    if(json.data.select == true){
                         selectAll.className = "no-select-all selectall";
                         selectControl = true;
                         self.selectItem = list.length;
                         result();
+                    }
+                    if(json.flag == false){
+                        self.setState({tipContent: json.msg,display: 'toasts',});
                     }
                 }
             });
@@ -239,6 +242,36 @@ class ShoppingCart extends Component {
             return;
         } 
         Tool.history.push("/orderclosed");
+    }
+
+    deleteItem(data){
+        let self = this;
+        this.setState({
+            confirm : {
+                title: "确定删除此商品吗？",
+                content: "",
+                leftText: "取消",
+                leftMethod: ()=>{
+                    self.setState({maskDisplay: 'none',confirm : {display : 'none'}});
+                },
+                rightText: "确定",
+                rightMethod: ()=>{
+                    Tool.fetch(self,{
+                        url: `${URLS.REMOVEITEM}${data.isLogin}/${data.uKey}/${data.groupSkuId}?source=2`,
+                        type: "delete",
+                        headers: COMMON_HEADERS,
+                        successMethod: function(json,status){
+                            if(json.flag == true){
+                                self.setState({maskDisplay: 'none',confirm : {display : 'none'}});
+                                location.reload();
+                            }
+                        }
+                    }); 
+                },
+                display: "block"
+            },
+            maskDisplay: "block"
+        }); 
     }
 
     componentDidUpdate(){

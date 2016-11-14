@@ -1,5 +1,5 @@
 import {ONLINE} from '../constants/common';
-const domain = ONLINE?'http://m.jyall.com':'http://localhost:3000';
+const domain = ONLINE?'http://m.jyall.com':'http://192.168.51.79:3000';
 
 /**
  * URL常量.
@@ -9,6 +9,8 @@ export default {
 	//登录
 	LOGIN: `${domain}/user-api/v1/authcenter/app/userLogin`,
 	LOGINRANDOMIMAGE: `${domain}/user-api/v1/authcenter/app/randomImage`,
+	//退出
+	LOGINOUT: `${domain}/user-api/v1/authcenter/app/loginOut/`,
 	//检测token
 	TOKENCHECKED: `${domain}/user-api/v1/authcenter/app/token/`,
 	//注册

@@ -118,6 +118,11 @@ class AddressAdd extends Component {
 	            title: '编辑收货地址'
 	    	});
     	}
+        this.refs.name.addEventListener("input",function(e){
+            if(this.value.length > 16){
+                this.value = this.value.substring(0,16);
+            }
+        },false);
     }
 
 	render(){

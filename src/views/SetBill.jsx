@@ -22,8 +22,8 @@ class SetBill extends Component {
         };
 		this.state = {
 			addressType:true,
-			fptype:"",
-			fptype1:"",
+			fptype:"0",
+			fptype1:"1",
 			initClass:{
 				has:"active",
 				noHas:""
