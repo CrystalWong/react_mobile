@@ -74,6 +74,7 @@ export class ShoppingItem extends Component {
                 this.sx = event.touches[0].clientX;  
                 break;  
             case "touchend":  
+                // alert(event.type);
                 this.ex = event.changedTouches[0].clientX;  
                 console.log(this.refs);
                 console.log(this.sx);
@@ -84,6 +85,15 @@ export class ShoppingItem extends Component {
                     this.refs.del.className = "delete";
                 }
                 break;  
+            case "touchcancel":  
+                // alert(event.type);
+                this.ex = event.changedTouches[0].clientX;  
+                if(this.sx - this.ex > 20){
+                    this.refs.del.className = "delete delete-out";
+                }else if(this.sx - this.ex < -20){
+                    this.refs.del.className = "delete";
+                }
+                break;                
             case "touchmove":  
                 event.preventDefault();  
                 // x = event.touches[0].clientX;  
@@ -99,22 +109,24 @@ export class ShoppingItem extends Component {
             groupSkuId = this.props.groupId+"_"+this.props.skuId,
             self = this;      
         if(cookie.load('tokenid') != "undefined")isLogin = 1;   
-        Tool.fetch(this.props.obj,{
-            url: `${URLS.REMOVEITEM}${isLogin}/${uKey}/${groupSkuId}?source=2`,
-            type: "delete",
-            headers: COMMON_HEADERS,
-            successMethod: function(json,status){
-                if(json.flag == true){
-                    location.reload();
-                }
-            }
-        });              
+        this.props.obj.deleteItem({isLogin:isLogin,uKey:uKey,groupSkuId:groupSkuId});
+        // Tool.fetch(this.props.obj,{
+        //     url: `${URLS.REMOVEITEM}${isLogin}/${uKey}/${groupSkuId}?source=2`,
+        //     type: "delete",
+        //     headers: COMMON_HEADERS,
+        //     successMethod: function(json,status){
+        //         if(json.flag == true){
+        //             location.reload();
+        //         }
+        //     }
+        // });              
     }
 
     componentDidMount(){
         this.refs.li.addEventListener('touchstart',this.touch.bind(this), false);  
-        // this.refs.li.addEventListener('touchmove',this.touch.bind(this), false);  
+        this.refs.li.addEventListener('touchmove',this.touch.bind(this), false);  
         this.refs.li.addEventListener('touchend',this.touch.bind(this), false);  
+        this.refs.li.addEventListener('touchcancel',this.touch.bind(this), false);
     }
     render() {
         console.log(this.props);

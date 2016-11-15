@@ -24,7 +24,8 @@ class Login extends Component {
         this.state = {
             button: '登录',
             tipContent: '',
-            display: ''
+            display: '',
+            hiddenImg: require('../images/login/password_hidden.png')
         };
 
         this.signin = () => {
@@ -61,10 +62,10 @@ class Login extends Component {
                     //json
                         var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"m.jyall.com":"") }
                         self.props.loginAction(json.responseBody);
-                        cookie.remove('tokenid');
-                        cookie.remove('userId');
-                        cookie.remove('name');
-                        cookie.remove('photo');
+                        cookie.remove('tokenid',cookieObj);
+                        cookie.remove('userId',cookieObj);
+                        cookie.remove('name',cookieObj);
+                        cookie.remove('photo',cookieObj);
                         cookie.save('tokenid', json.responseBody.tokenid, cookieObj);
                         cookie.save('name', json.responseBody.name, cookieObj);
                         cookie.save('userId', json.responseBody.userId, cookieObj);
@@ -114,6 +115,16 @@ class Login extends Component {
         Tool.history.push('/register');
     }
 
+    passwordHidden(e){
+         if(this.refs.password.type == "password"){
+              this.setState({hiddenImg: require('../images/login/password_visility.png')});  
+              this.refs.password.type = "text";
+         }else{
+              this.setState({hiddenImg: require('../images/login/password_hidden.png')}); 
+              this.refs.password.type = "password";
+         }
+    }
+
     componentDidMount(){
         this.props.findPwdByMobile("");
     }
@@ -128,7 +139,7 @@ class Login extends Component {
                             <input ref="phone" type="number" className="phone" placeholder="请输入手机号" />
                             <input ref="password" type="password" placeholder="请输入密码" onPaste={this.passwordPaste.bind(this)} onInput={this.passwordInput.bind(this)} />
                             <input ref="code" type="number" className="code" placeholder="请输入验证码" style={{borderTop:'1px solid #e6e6e6',display: 'none'}} />
-                            <span ref="img" style={{display: 'none'}}><img href="" /></span>
+                            <span style={{display: 'block',height: '.36rem'}} onClick={this.passwordHidden.bind(this)}><img ref="img" src={this.state.hiddenImg} /></span>
                         </div>
                         <button className="btn" onClick={this.signin.bind(this)}>{this.state.button}</button>
                         <div style={{marginTop: '10px'}}><Link to="/register" style={{color: '#666'}}><span className="fl">注册</span></Link><span className="fr" style={{color: '#666'}} onClick={this.findPdByPhone.bind(this)}>找回密码</span></div>
