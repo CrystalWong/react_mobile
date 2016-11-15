@@ -71,6 +71,8 @@ class OrderClosed extends Component {
             },
             ajaxDisplay: "block",
             maskDisplay: "block"
+            // ,
+            // { tipContent: '网络繁忙，请稍后再试',display: 'toasts' }
         };
         let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),
             self = this,
@@ -149,6 +151,10 @@ class OrderClosed extends Component {
                 body: JSON.stringify(paramData),
                 headers: headers,
                 successMethod: function(json, status) {
+                    // if(status>=500){
+                    //     console.log(json);
+                    //     return;
+                    // }
                     if (json.errorList == undefined) {
                         if (status == 200) {
                             self.setState({ajaxDisplay: "block",maskDisplay: "block"});   
@@ -161,7 +167,6 @@ class OrderClosed extends Component {
                                 }
                             });
                         }
-                        // 
                     } else {
                         let imgStr='';
                         json.errorList.forEach(function(item){

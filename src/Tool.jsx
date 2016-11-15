@@ -22,15 +22,15 @@ Tool.fetch = function(obj,data){
         status = 0;
         if(data.body){d.body = data.body;}
         fetch(data.url,d).then(response => {
-            if(response.status >= 500){
-                obj.setState({ tipContent: '网络繁忙，请稍后再试',display: 'toasts' });
-            }
             status = response.status;
             console.log(response.ok);
             return response.json();
         }).then(json => {
             obj.setState&&obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
             data.successMethod(json,status);
+            if(status >= 500){
+                obj.setState({ tipContent: json.message?json.message:'网络繁忙，请稍后再试',display: 'toasts' });
+            }
         },function(e){
             data.successMethod("",status);
         });
@@ -47,15 +47,16 @@ Tool.fetch = function(obj,data){
             {
                 if (xmlhttp.readyState==4)
                 {
+                    let json=eval("("+ xmlhttp.responseText +")");
                     if(xmlhttp.status >= 500){
-                        obj.setState({ tipContent: '网络繁忙，请稍后再试',display: 'toasts' });
-                    }    
+                        obj.setState({ tipContent: json.message?json.message:'网络繁忙，请稍后再试',display: 'toasts' });
+                    }
                     obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
                     status = xmlhttp.status;
                     if(!xmlhttp.responseText){
                         data.successMethod(xmlhttp.responseText,status);
                     }else{
-                        data.successMethod(eval("("+ xmlhttp.responseText +")"),status);
+                        data.successMethod(json,status);
                     }
                 }
             }

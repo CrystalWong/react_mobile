@@ -199,6 +199,7 @@
             left: 10%;
             border-radius: .1rem;
             z-index: 800;
+            display: none;
     }
     .order-detail li:first-child{
             color: black;
