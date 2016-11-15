@@ -53,11 +53,9 @@ class SetBill extends Component {
 		    return a
 		}
 		this.getFptype = (e) => {
+			//是否开发票,发票大类
 			console.log(e.target.innerHTML)
 			e.target.setAttribute("class","active");
-			// for(let sib of siblings(e.target)){
-			// 	sib.setAttribute("class","");
-			// }
 			siblings(e.target).forEach(function(item){
 				item.setAttribute("class","");
 			});
@@ -71,9 +69,8 @@ class SetBill extends Component {
 			console.log(this.state)
 		}
 		this.perchange = (e) => {
-			//this.state.addressType=Boolean(!this.state.addressType);
+			//单位还是个人发票
 			this.setState({addressType:Boolean(!this.state.addressType)});
-			//this.setState({fptype:e.target.getAttribute("data-info")});
 			this.state.fptype1=e.target.getAttribute("data-info");
 			if(e.target.getAttribute("data-info")=="2"){
 				this.setState({isShowSm:"block"});
