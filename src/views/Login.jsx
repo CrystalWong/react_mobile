@@ -72,9 +72,10 @@ class Login extends Component {
                         cookie.save('photo', json.responseBody.photo, cookieObj);
                         setTimeout(function(){
                             alert(document.referrer);
+                            alert(document.referrer == "http://m.jyall.com");
                             if(document.referrer == "http://m.jyall.com"){
                                 alert(23);
-                                location.href = "http://m.jyall.com/";
+                                location.href = document.referrer;
                             }else{
                                 self.context.router.goBack();
                             }
