@@ -21,7 +21,6 @@ class OrderClosed extends Component {
         super(props);
         Tool.loginChecked(this);
         console.log('代理到本地12...');
-        console.log(props.address);
         this.getQueryString = (name) => {
             let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
             let r = window.location.href.split("?")[1] ? window.location.href.split("?")[1].match(reg) : null;
@@ -32,7 +31,6 @@ class OrderClosed extends Component {
         props.address.consigneeName == null || props.address.consigneeName == undefined ? choseAddress = {
             consigneeName: ""
         } : choseAddress = props.address;
-        console.log(choseAddress);
         this.state = {
             tipContent: '',
             display: '',
@@ -44,7 +42,6 @@ class OrderClosed extends Component {
             },
             ajdata: {
                 getLiu: function(e) {
-                    console.log('留言参数拼装..');
                 },
                 address: {
                     consigneeName: ""
@@ -237,26 +234,51 @@ class OrderClosed extends Component {
         this.choseAddress = () => {
             Tool.history.push("/address");
         }
+
+        function hasliu(a,b){
+            var arry=[];
+            var flag=true;
+            a.forEach(function(item){
+                if(item.supplier_payment==b){
+                    flag=false;
+                }
+            });
+            return flag;
+        }
+
         //留言参数
-        let liuObj={},liuList=[];
+        let liuObj={},liuList=[],sessionLiuList=[];
         this.getLiu = (e) => {
+            console.log('获取留言参数');
             var value=e.target.getAttribute('value');
             var supplier_payment=e.target.getAttribute('class');
-            console.log(liuList.length);
+            //var sessionLiu=supplier_payment+'/'+value;
+            //sessionLiuList.push(sessionLiu);
+            console.log(sessionLiuList);
             if(liuList.length>0){
                 for(var i=0;i<liuList.length;i++){
-                    console.log(liuList[i].supplier_payment!=supplier_payment);
-                    if(liuList[i].supplier_payment!=supplier_payment){
-                        liuList.push({'supplier_payment':supplier_payment,'remark':value});
-                    }else{
+                    //修改留言
+                    if(liuList[i].supplier_payment==supplier_payment){
                         liuList[i].remark=value;
+                        sessionLiuList.forEach(function(item,index){
+                            if(item.split('/')[0]==supplier_payment){
+                                sessionLiuList.splice(index,1,supplier_payment+'/'+value);
+                            }
+                        });
+                    }else{
+                        if(hasliu(liuList,supplier_payment)){
+                            liuList.push({'supplier_payment':supplier_payment,'remark':value});
+                            sessionLiuList.push(supplier_payment+'/'+value);
+                        }
                     }
                 }
+            //第一条留言输入
             }else{
                 liuList.push({'supplier_payment':supplier_payment,'remark':value});
+                sessionLiuList.push(supplier_payment+'/'+value);
             }
-            history.state.remark='test';
             console.log(liuList);
+            sessionStorage.setItem('sessionLiuList',sessionLiuList.join(','));
         }
         this.goBack = () => {
             self.setState({
@@ -281,18 +303,23 @@ class OrderClosed extends Component {
                 maskDisplay:"block"
             });
         }
+        window.onbeforeunload=function (){
+            //return "您确定退出吗？";
+            sessionStorage.removeItem("sessionLiuList");
+        }
+        
+        // setTimeout(function(){
+        //     backfill();
+        // },5000);
+
     }
     toastDisplay(state) {
         this.setState({
             display: state
         });
     }
-    window.addEventListener("beforeunload", function (e) {
-            alert('卸载该页面..');
-    });
     render() {
-        console.log('------------------------------render.....');
-        console.log(this.state.maskDisplay);
+
         let fpInfoShow={
             '0':'不开发票',
             '1':'个人发票',
@@ -364,6 +391,42 @@ class OrderClosed extends Component {
 		
             </div>
         );
+    }
+    componentDidMount(){
+        console.log('componentDidMount');
+        //根据id或者样式获取元素
+        function $(strExpr) {
+            var idExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
+            var classExpr = /^(?:\s*(<[\w\W]+>)[^>]*|.([\w-]*))$/;
+            if (idExpr.test(strExpr)) {
+                var idMatch = idExpr.exec(strExpr);
+                return document.getElementById(idMatch[2]);
+            } else if (classExpr.test(strExpr)) {
+                var classMatch = classExpr.exec(strExpr);
+                var allElement = document.getElementsByTagName("*");
+                var ClassMatch = [];
+                for (var i = 0, l = allElement.length; i < l; i++) {
+                    if (allElement[i].className.match(new RegExp("(\\s|^)" + classMatch[2] + "(\\s|$)"))) {
+                        ClassMatch.push(allElement[i]);
+                    }
+                }
+                return ClassMatch;
+            }
+        }
+        function backfill(){
+            console.log(sessionStorage.getItem('sessionLiuList'));
+            if(sessionStorage.getItem('sessionLiuList')!=null){
+                var liuList=sessionStorage.getItem('sessionLiuList').split(',');
+                liuList.forEach(function(item){
+                    var liuClass=item.split('/')[0];
+                    var liuRemark=item.split('/')[1];
+                    $('.'+liuClass)[0].value=liuRemark;
+                });
+            }
+        }
+        setTimeout(function(){
+            backfill();
+        },5000);
     }
 }
 
