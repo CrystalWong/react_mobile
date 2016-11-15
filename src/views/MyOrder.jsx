@@ -11,7 +11,7 @@ import iScroll from 'iscroll';
 import cookie from 'react-cookie';
 //urls
 import URLS from '../constants/urls';
-import {COMMON_HEADERS_POST} from '../constants/headers';
+import {COMMON_HEADERS_POST,COMMON_HEADERS} from '../constants/headers';
 //header公用头部引入
 import {Header} from '../Component/common/index';
 //Tool工具引入
@@ -41,7 +41,7 @@ class MyOrder extends Component {
             y:'',
             displayMark: true,
             display: '',
-            nolist : 'block',
+            nolist : 'none',
             list: [],
             industry: "",
             statusPar:"",
@@ -56,6 +56,7 @@ class MyOrder extends Component {
             },
             options: {
                 mouseWheel: true,//是否监听鼠标滚轮事件
+                probeType: 3,
                 scrollbars: true,//是否显示默认滚动条
                 //解决 iscroll onClick 失效
                 preventDefault:false,
@@ -66,7 +67,7 @@ class MyOrder extends Component {
                 fadeScrollbars: true //是否渐隐滚动条，关掉可以加速
             }
         };
-        document.cookie="userId=HYS000705";
+       // document.cookie="userId=HYS0000010335";
         this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":this.state.statusPar,"pageNo":this.state.pageNo,"pageSize":this.state.pageSize});
 
     }
@@ -80,27 +81,25 @@ class MyOrder extends Component {
             body:JSON.stringify(data),
             headers: headers,
             successMethod: function(json){
-              console.log('------------'+json.data.length);
-                if(json.totalCount >_this.state.pageNo){
-                       _this.state.scrollNoData = false;
-                       _this.state.more="上拉加载更多";
+                if(json.totalPage >_this.state.pageNo){
                        _this.setState({
+                            scrollNoData: false,
+                            more : "上拉加载更多",
                             list : _this.state.list.concat(json.data),
-                            nolist : json.data.length > 0 ? 'none' : 'block'
+                            nolist : 'none'
                        });
 
-                  }else if(json.totalCount ==_this.state.pageNo){
-                       _this.state.scrollNoData = true;
-                       _this.state.more="";
+                  }else if(json.totalPage ==_this.state.pageNo){
                        _this.setState({
+                            scrollNoData: true,
+                            more : "",
                             list : _this.state.list.concat(json.data),
-                            
-                            nolist : json.data.length > 0 ? 'none' : 'block'
+                            nolist : 'none' 
                        });
-                  }else if(json.totalCount == 0){
-                    _this.state.scrollNoData = true;
-                    _this.state.more="";
+                  }else if(json.totalPage == 0){
                     _this.setState({
+                        scrollNoData: true,
+                        more : "",
                         nolist : 'block'
                      });
                   }
@@ -135,35 +134,41 @@ class MyOrder extends Component {
           display: state
         });
      }
-    /*
+    
     componentDidUpdate(){
-        console.log('this.state.statusPar==============='+this.state.statusPar);
-    }*/
+        console.log('this.state.more==============='+this.state.more);
+        console.log('this.state.scrollNoData==============='+this.state.scrollNoData);
+        console.log('this.state.pageNo==============='+this.state.pageNo);
+    }
     onScrollEnd(iScrollInstance){
-
           if(this.state.scrollNoData){
             return;
-            console.log("1111scrollNoData====="+this.state.scrollNoData);
+          }else{
+              if((iScrollInstance.maxScrollY < 0 && Math.abs(iScrollInstance.startY) - Math.abs(iScrollInstance.maxScrollY) > 10) || (iScrollInstance.maxScrollY > 0 && iScrollInstance.directionY == 1 && iScrollInstance.distY > 10)){
+                  this.setState({
+                      more: "正在加载",
+                      nextPage:true
+                  });
+                console.log("2222scrollNoData====="+this.state.scrollNoData);
+
+              }else {
+                  this.setState({
+                      more: "上拉加载更多",
+                      nextPage:false
+                  });
+                console.log("33333scrollNoData====="+this.state.scrollNoData);
+
+              }
+              if(this.state.nextPage){
+                console.log("4444scrollNoData====="+this.state.scrollNoData);
+
+                  this.state.pageNo = this.state.pageNo;
+                   this.state.pageNo++;
+                   this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":this.state.statusPar,"pageNo":this.state.pageNo,"pageSize":this.state.pageSize});
+              }
           }
 
-          if((iScrollInstance.maxScrollY < 0 && Math.abs(iScrollInstance.startY) - Math.abs(iScrollInstance.maxScrollY) > 20) || (iScrollInstance.maxScrollY > 0 && iScrollInstance.directionY == 1 && iScrollInstance.distY > 20)){
-              this.state.more = "正在加载";
-              this.state.nextPage = true;
-            console.log("2222scrollNoData====="+this.state.scrollNoData);
-
-          }else {
-              this.state.more="上拉加载更多";
-              this.state.nextPage = false;
-            console.log("33333scrollNoData====="+this.state.scrollNoData);
-
-          }
-          if(this.state.nextPage){
-            console.log("4444scrollNoData====="+this.state.scrollNoData);
-
-              this.state.pageNo = this.state.pageNo;
-               this.state.pageNo++;
-               this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":this.state.statusPar,"pageNo":this.state.pageNo,"pageSize":this.state.pageSize});
-          }
+          
     }
     
     // 删除订单
@@ -273,7 +278,7 @@ var OrderList = React.createClass({
           headers: headers,
           successMethod: function(json){
               console.log("dId===="+dId);
-              //location.reload();    
+              location.reload();    
           }
       })
     },
@@ -301,6 +306,26 @@ var OrderList = React.createClass({
                         display: 'toasts'
                     });
                 }
+            }
+        });
+    },
+    //付款
+    payment:function(id){
+      let dId = id.id;
+       Tool.fetch(this, {
+            url: `${URLS.CORRELATION}`+dId,
+            type: "get",
+            headers: COMMON_HEADERS(),
+            successMethod: function(str,status) {
+                console.log("payment====="+str.payCode);
+                 Tool.fetch(self, { //获取支付地址
+                      url: `${URLS.TOPAY}${str.payCode}?source=WAP`,
+                      type: "post",
+                      headers: COMMON_HEADERS_POST(),
+                      successMethod: function(json) {
+                          location.href = json.wapPayUrl;
+                      }
+                  });
             }
         });
     },
@@ -367,7 +392,7 @@ var OrderList = React.createClass({
                     </ul>
                     <div className="mm-total">共{productList.length}件商品 合计：{actualCost}(含运费￥{freight})</div>
                     <div className="mm-total clearfix" style={{display:osDispaly}}>
-                        <span className="mm-but but-org" style={{display:orderStatus == 10 ?"block":"none"}}>付款</span>
+                        <span className="mm-but but-org" onClick={this.payment.bind(null,{id})} style={{display:orderStatus == 10 ?"block":"none"}}>付款</span>
                         <span className="mm-but but-def" onClick={this.cancelOrder.bind(null,{id})} style={{display:orderStatus == 10 ?"block":"none"}}>取消订单</span>
                         <span className="mm-but but-org" onClick={this.goShopping.bind(null,{productList})} style={{display:orderStatus == 40 ?"block":"none"}}>再次购买</span>
                         <span className="mm-but but-def" onClick={this.delOrder.bind(null,{id})} style={{display:orderStatus == 70 ?"block":"none"}}>删除订单</span>
@@ -384,7 +409,7 @@ var NoList = React.createClass({
         <div style={{ display: this.props.display }} className="no-list">
             <img src="src/images/appointment/icon-appoint.png" />
             <p>订单还是空的，去逛逛吧~ <br/></p>
-            <a href="http://m.jyall.com"><button>继续逛逛</button></a>
+            <a href="http://m.jyall.com"><button>去逛逛</button></a>
         </div>
     );
   }

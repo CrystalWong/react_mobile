@@ -64,5 +64,7 @@ export default {
 	//物流详情
 	EXPRESSINFO: `${domain}/jyorder-center/v1/order/app/expressInfo/`,
 	//跳转到支付
-	TOPAY: `${domain}/jyorder-center/v1/order/app/pay/`
+	TOPAY: `${domain}/jyorder-center/v1/order/app/pay/`,
+	//付款
+	CORRELATION:`${domain}/jyorder-center/v1/order/app/correlation/`
 };
