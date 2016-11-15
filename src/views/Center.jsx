@@ -25,7 +25,7 @@ class Center extends Component {
 			let _this = this;
 			if(!this.state.userId)return;
 			Tool.fetch(this,{
-                url: URLS.bean + "?" + this.state.userId,
+                url: URLS.bean + "?memberId=" + this.state.userId,
                 type: "get",
                 successMethod: function(json){
                     _this.setState({

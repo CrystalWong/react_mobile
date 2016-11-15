@@ -88,7 +88,7 @@ class Yue extends Component {
         };
               
         let headers = COMMON_HEADERS_POST();
-        let domain = ONLINE?"http://m.jyall.com":"http://n.m.jyall.com";
+        let domain = ONLINE?"http://n.m.jyall.com":"http://n.m.jyall.com";
         Tool.fetch(this,{
                   url: `${URLS.YUYUE}`,//提交地址
                   type: "post",
