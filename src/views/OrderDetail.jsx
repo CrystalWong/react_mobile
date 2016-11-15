@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import {Header} from '../Component/common/index';
+import {Link } from 'react-router';
 import '../Style/orderdetail.css';
 import {COMMON_HEADERS_POST} from '../constants/headers';
 import cookie from 'react-cookie';
@@ -8,7 +9,7 @@ import {Tool, merged} from '../Tool';
 import URLS from '../constants/urls';
 import {OrderClosedListItemSun} from '../Component/orderClosedItemSun';
 import {order} from '../Action/Order';
-import {Toast} from '../Component/common/Tip';
+import {Toast,Confirm,AjaxTip} from '../Component/common/Tip';
 /**
  * 模块入口
  * 
@@ -48,7 +49,23 @@ class OrderDetail extends Component {
             show1:"none",
             show2:"none",
             tipContent: '',
-            display: ''
+            display: '',
+            confirm: {
+                title: "",
+                content: "",
+                leftText: "取消",
+                leftMethod: function() {
+                    alert("取消");
+                },
+                rightText: "确定",
+                rightMethod: function() {
+                    alert("确定");
+                },
+                display: "none"
+            },
+            ajaxDisplay: "block",
+            maskDisplay: "block",
+            cancelDisplay:"none"
         };
         //枚举类 开票类型
         this.getkaipType=(val)=>{
@@ -90,17 +107,13 @@ class OrderDetail extends Component {
             }
             //取消订单
             this.cancelOrder=()=>{
-                Tool.fetch(this,{
-                    url: `${URLS.CancelOrder}`+urlId,
-                    type: "post",
-                    body:JSON.stringify({"id":this.state.ajdata.id}),
-                    headers: headers,
-                    successMethod: function(json,status){
-                        if(status==200){
-                            location.reload();
-                        }
-                    }
+                self.setState({
+                    cancelDisplay:"block",
+                    maskDisplay: "block"
                 });
+            }
+            this.cancelConfirm=(e)=>{
+                
             }
             //确认收货
             this.confirmGetDoods=()=>{
@@ -139,11 +152,13 @@ class OrderDetail extends Component {
                         self.setState({
                             confirm: {
                                 display: "none"
-                            }
+                            },
+                            maskDisplay: "none"
                         });
                     },
                     display: "block"
-                }
+                },
+                maskDisplay: "block"
             });
             }
         //查看物流详情
@@ -209,7 +224,7 @@ class OrderDetail extends Component {
                 </div>
                 <div className="address1">
                     <div className="adinfo">
-                    <p>{this.state.ajdata.userAddress.trueName}&nbsp;{this.state.ajdata.userAddress.mobile}<span>默认</span></p>
+                    <p>{this.state.ajdata.userAddress.trueName}&nbsp;{this.state.ajdata.userAddress.mobile}<span style={{display: this.state.ajdata.userAddress==1?"block":"none"}}>默认</span></p>
                         <span>地址：</span><span>{this.state.ajdata.userAddress.locationInfo}</span>
                     </div>
                 </div>
@@ -228,18 +243,18 @@ class OrderDetail extends Component {
                             <dd>纸质发票</dd>
                         </dl>
                         <dl className="line jine" style={{color: '#D4D1D1'}}>
-                            <dt className="fpname">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceCompanyName:''}</dt>
+                            <dt className="fpname">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceHead:''}</dt>
                             <dd className="fptype">个人</dd>
                         </dl>
                 </div>
                 <div className="jinediv" style={{display: this.state.show2}}>
                         <dl className="line jine">
                             <dt>发票信息</dt>
-                            <dd><a href="/" className="elefp">查看电子发票</a></dd>
+                            <dd><Link to={this.state.ajdata.invoice.invoicePathAndName} className="elefp">查看电子发票</Link></dd>
                         </dl>
                         <dl className="line jine" style={{color: '#D4D1D1'}}>
-                            <dt className="fpname">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceCompanyName:''}</dt>
-                            <dd className="fptype">单位</dd>
+                            <dt className="fpname"></dt>
+                            <dd className="fptype">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceHead:''}</dd>
                         </dl>
                 </div>
                 <div className="jinediv">
@@ -277,6 +292,14 @@ class OrderDetail extends Component {
                     <a className="subbtn1" onClick={this.deleateOrder.bind(this)}>删除订单</a>
                 </div>
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
+                <Confirm  {...this.state.confirm}/>
+                <div className="mask" style={{display: this.state.maskDisplay}}></div>
+                <ul style={{display: this.state.maskDisplay}}>
+                    <li>请选择取消订单的原因</li>
+                    <li onClick={this.cancelConfirm.bind(this)} reason="">改买其他商品</li>
+                    <li onClick={this.cancelConfirm.bind(this)} reason="">从其他商家购买</li>
+                    <li onClick={this.cancelConfirm.bind(this)} reason="">其他原因</li>
+                </ul>
             </div>
         );
     }

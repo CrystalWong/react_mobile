@@ -43,6 +43,9 @@ class OrderClosed extends Component {
                 fptt: this.getQueryString("fptt") || ""
             },
             ajdata: {
+                getLiu: function(e) {
+                    console.log('留言参数拼装..');
+                },
                 address: {
                     consigneeName: ""
                 },
@@ -139,7 +142,8 @@ class OrderClosed extends Component {
                         "invoiceClass": this.state.setBillData.fptype1,
                         "invoiceType": this.state.setBillData.fptype,
                         "invoiceHead": this.state.setBillData.fptt,
-                    }
+                    },
+                    remarkList:liuList
                 };
             this.setState({ajaxDisplay: "block",maskDisplay: "block"});           
             Tool.fetch(this, {
@@ -235,6 +239,27 @@ class OrderClosed extends Component {
         this.choseAddress = () => {
             Tool.history.push("/address");
         }
+        //留言参数
+        let liuObj={},liuList=[];
+        this.getLiu = (e) => {
+            var value=e.target.getAttribute('value');
+            var supplier_payment=e.target.getAttribute('class');
+            console.log(liuList.length);
+            if(liuList.length>0){
+                for(var i=0;i<liuList.length;i++){
+                    console.log(liuList[i].supplier_payment!=supplier_payment);
+                    if(liuList[i].supplier_payment!=supplier_payment){
+                        liuList.push({'supplier_payment':supplier_payment,'remark':value});
+                    }else{
+                        liuList[i].remark=value;
+                    }
+                }
+            }else{
+                liuList.push({'supplier_payment':supplier_payment,'remark':value});
+            }
+            history.state.remark='test';
+            console.log(liuList);
+        }
         this.goBack = () => {
             self.setState({
                 confirm: {
@@ -264,6 +289,9 @@ class OrderClosed extends Component {
             display: state
         });
     }
+    window.addEventListener("beforeunload", function (e) {
+            alert('卸载该页面..');
+    });
     render() {
         console.log('------------------------------render.....');
         console.log(this.state.maskDisplay);
@@ -271,7 +299,12 @@ class OrderClosed extends Component {
             '0':'不开发票',
             '1':'个人发票',
             '2':'单位发票'
-        },linkBill='/setbill?cartParamJson='+this.getQueryString('cartParamJson');
+        },fpInfoTypeShow={
+            '0':'',
+            '1':'电子',
+            '2':'纸质'
+        },
+        linkBill='/setbill?cartParamJson='+this.getQueryString('cartParamJson');
         return (
             <div>
                 <header className="common-header">
@@ -294,14 +327,14 @@ class OrderClosed extends Component {
                             <span>地址：</span><span>{this.state.choseAddress.locationInfo!=undefined&&this.state.ajdata.address!=null?this.state.choseAddress.locationInfo+this.state.choseAddress.detailInfo:(this.state.ajdata.address.detailInfo?(this.state.ajdata.address.locationInfo+this.state.ajdata.address.detailInfo):"请选择地址")}</span>
 	                	</div>
 	                </div>
-				    <OrderClosedList {...this.state.ajdata}/>
+				    <OrderClosedList {...this.state.ajdata} getLiu={this.getLiu.bind(this)}/>
 					<dl className="line">
 						<dt>配送方式</dt>
 						<dd>快递</dd>
 					</dl>
 					<dl className="line fp">
 						<dt>发票</dt>
-						<dd><Link to={linkBill}><span>{this.state.setBillData.fptype=='0'?'不开发票':fpInfoShow[this.state.setBillData.fptype1]}<em className="fpttshow">{this.state.setBillData.fptt}</em></span><img src={require("../images/orderclosed/fp@2x.png")}/></Link></dd>
+						<dd><Link to={linkBill}><span>{fpInfoTypeShow[this.state.setBillData.fptype]}{this.state.setBillData.fptype=='0'?'不开发票':fpInfoShow[this.state.setBillData.fptype1]}<em className="fpttshow">{this.state.setBillData.fptt}</em></span><img src={require("../images/orderclosed/fp@2x.png")}/></Link></dd>
 
 					</dl>
 					<div className="jinediv">
