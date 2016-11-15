@@ -38,9 +38,13 @@ class AddressAdd extends Component {
 			if(!name){
 				this.setState({tipContent : '收货人不能为空',display : 'toasts' });return;
 			}
+            alert(contact);
 			if(!contact){
 				this.setState({tipContent : '联系方式不能为空',display : 'toasts' });return;
 			}
+            if(!/^0[1-9]{2,3}-?\d{7,8}$/.test(contact) && !/^[1][3-9][0-9]{9,9}$/.test(contact)){
+                this.setState({tipContent : '联系方式输入有误',display : 'toasts' });return;
+            }
 			if (/^[1][3-9][0-9]{9,9}$/.test(contact)){
 				phone = this.refs.contact.value;
 				contact = "";
@@ -118,6 +122,11 @@ class AddressAdd extends Component {
 	            title: '编辑收货地址'
 	    	});
     	}
+        this.refs.name.addEventListener("input",function(e){
+            if(this.value.length > 16){
+                this.value = this.value.substring(0,16);
+            }
+        },false);
     }
 
 	render(){

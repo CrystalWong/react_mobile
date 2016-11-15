@@ -64,7 +64,7 @@ Tool.fetch = function(obj,data){
             xmlhttp.setRequestHeader("sign", "BAD3426489851754C1C14A46A22ABF82");  
             xmlhttp.setRequestHeader("deviceid", "M");
             xmlhttp.setRequestHeader("tokenid", cookie.load('tokenid'));
-            if(data.type == "post"){
+            if(data.type == "post" || data.type == "put"){
                 xmlhttp.send(data.body?data.body:"");
             }else{
                 xmlhttp.send();

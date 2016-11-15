@@ -142,8 +142,7 @@ class OrderClosed extends Component {
                     },
                     remarkList:liuList
                 };
-                console.log(paramData);
-            this.setState({ajaxDisplay: "block",maskDisplay: "block"});
+            this.setState({ajaxDisplay: "block",maskDisplay: "block"});           
             Tool.fetch(this, {
                 url: `${URLS.SubmitOrder}`,
                 type: "post",
@@ -171,9 +170,10 @@ class OrderClosed extends Component {
                         if(json.errorType=="1"){
                             self.setState({
                                 confirm: {
-                                    title: "",
-                                    content: "以下商品库存不足或已下架，无法继续购买"+imgStr,
+                                    title: "以下商品库存不足或已下架，无法继续购买",
+                                    content: imgStr,
                                     leftText: "我知道了",
+                                    rightText: "",
                                     leftMethod: function() {
                                         self.setState({
                                             confirm: {
@@ -191,9 +191,10 @@ class OrderClosed extends Component {
                             //alert("商品不再配送区域");
                             self.setState({
                                 confirm: {
-                                    title: "",
-                                    content: "商品不在配送区域"+imgStr,
+                                    title: "商品不在配送区域",
+                                    content: imgStr,
                                     leftText: "我知道了",
+                                    rightText: "",
                                     leftMethod: function() {
                                         self.setState({
                                             confirm: {
@@ -210,9 +211,10 @@ class OrderClosed extends Component {
                             //alert("商品库存不足");
                             self.setState({
                                 confirm: {
-                                    title: "",
-                                    content: "以下商品库存不足或已下架，无法继续购买"+imgStr,
+                                    title: "以下商品库存不足或已下架，无法继续购买",
+                                    content: imgStr,
                                     leftText: "我知道了",
+                                    rightText: "",
                                     leftMethod: function() {
                                         self.setState({
                                             confirm: {

@@ -25,7 +25,7 @@ import {Toast} from '../Component/common/Tip';
 class Appointment extends Component {
      constructor(props){
           super(props);
-
+          Tool.loginChecked(this);
           this.state = {
                // userId : Cookie.load('userId'),
                pageNo : 1,
