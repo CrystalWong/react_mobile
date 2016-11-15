@@ -289,9 +289,9 @@ class OrderClosed extends Component {
             display: state
         });
     }
-    window.addEventListener("beforeunload", function (e) {
-            alert('卸载该页面..');
-    });
+    // window.addEventListener("beforeunload", function (e) {
+    //         alert('卸载该页面..');
+    // });
     render() {
         console.log('------------------------------render.....');
         console.log(this.state.maskDisplay);
