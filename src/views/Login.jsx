@@ -60,6 +60,7 @@ class Login extends Component {
                     //{"responseBody":{"password":"70ed0011afee14509cf8a9cb4fd932f591b355b7a2c3d4527c3d6e3a","tokenid":"a3dd0adcZf19bcadcZ1574fbcc15dZb4ab","roleId":"1","sex":"0","name":"HYS15810341mq","photo":"http://image1.jyall.com/v1/tfs/T1Nqh_B4bT1R4cSCrK","userId":"HYS000705"},"responseHeader":{"errorCode":0,"message":"success"}}
                     if(json.responseHeader){//登录成功
                     //json
+                        alert(json.responseBody.userId);
                         var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"m.jyall.com":"") }
                         self.props.loginAction(json.responseBody);
                         cookie.remove('tokenid',cookieObj);

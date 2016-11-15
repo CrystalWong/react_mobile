@@ -15,6 +15,7 @@ class Address extends Component {
 	constructor(props){
 		super(props);
 		Tool.loginChecked(this);
+		alert(Cookie.load('userId'));
 		this.state = {
 			userId : Cookie.load('userId'),
 			display : '',
