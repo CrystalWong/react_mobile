@@ -433,7 +433,7 @@ class OrderClosed extends Component {
         }
         setTimeout(function(){
             backfill();
-        },5000);
+        },2000);
     }
 }
 
