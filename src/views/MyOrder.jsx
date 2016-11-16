@@ -56,15 +56,15 @@ class MyOrder extends Component {
             },
             options: {
                 mouseWheel: true,//是否监听鼠标滚轮事件
-                probeType: 3,
                 scrollbars: true,//是否显示默认滚动条
                 //解决 iscroll onClick 失效
                 preventDefault:false,
                 preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|A)$/ },
                 click:true,
                 interactiveScrollbars: true,//用户是否可以拖动滚动条
-                shrinkScrollbars: 'clip',//滚动超出滚动边界时，是否收缩滚动条 clip’：裁剪超出的滚动条 scale’:按比例的收缩滚动条（占用CPU资源）false:不收缩
-                fadeScrollbars: true //是否渐隐滚动条，关掉可以加速
+                shrinkScrollbars: 'scale',//滚动超出滚动边界时，是否收缩滚动条 clip’：裁剪超出的滚动条 scale’:按比例的收缩滚动条（占用CPU资源）false:不收缩
+                fadeScrollbars: true, //是否渐隐滚动条，关掉可以加速
+                useWheel: true
             }
         };
        // document.cookie="userId=HYS0000010335";
