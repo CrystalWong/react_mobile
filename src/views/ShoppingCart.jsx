@@ -284,7 +284,7 @@ class ShoppingCart extends Component {
         }else{
             this.refs.selectAll.className = "no-select-all";
         }
-    }
+    }  
     // shouldComponentUpdate(nextProps, nextState) {
     //       return this.state.ajaxDisplay !== nextState.ajaxDisplay;
     // }
@@ -329,7 +329,7 @@ var NoList = React.createClass({
             </div>
             <div className="like-floor">
                 <h3><span>为您推荐</span></h3>
-                <ul className="lf-list">
+                <ul className="lf-list" ref = "ulList">
                     {
                         this.props.recommentList.map((item,index) =>(
                             <li key={index}>

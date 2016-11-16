@@ -7,7 +7,8 @@ export function COMMON_HEADERS(key, value) {
 		"content-type": "application/json",
 		"sign": "BAD3426489851754C1C14A46A22ABF82",
 		"deviceid": "M",
-		"tokenid": cookie.load('tokenid')
+		"tokenid": cookie.load('tokenid'),
+		"APPkey": "b40538ab5bef1ffd18605efda7f820d9"
 	};
 
 	key && (result[key] = value);
@@ -23,7 +24,8 @@ export function COMMON_HEADERS_POST(key, value){
 		"content-type": "application/json",
 		"sign": "BAD3426489851754C1C14A46A22ABF82",
 		"deviceid": "M",
-		"tokenid": cookie.load('tokenid')
+		"tokenid": cookie.load('tokenid'),
+		"APPkey": "b40538ab5bef1ffd18605efda7f820d9"
 	};
 
 	key && (result[key] = value);

@@ -13,7 +13,9 @@ export class ShoppingItem extends Component {
     constructor(props) {
         super(props);
         this.sx = 0;
+        this.sy = 0;
         this.ex = 0;
+        this.ey = 0;
     }
 
     select(){
@@ -72,11 +74,11 @@ export class ShoppingItem extends Component {
         switch(event.type){  
             case "touchstart":  
                 this.sx = event.touches[0].clientX;  
+                this.sy = event.touches[0].clientY;
                 break;  
             case "touchend":  
                 // alert(event.type);
                 this.ex = event.changedTouches[0].clientX;  
-                console.log(this.refs);
                 console.log(this.sx);
                 console.log(this.ex);
                 if(this.sx - this.ex > 20){
@@ -96,7 +98,11 @@ export class ShoppingItem extends Component {
                 break;                
             case "touchmove":  
                 event.preventDefault();  
-                // x = event.touches[0].clientX;  
+                this.ey = event.touches[0].clientY;
+                console.log(this.ey-this.sy);
+                // console.log(this.outScroll);
+                this.outScroll.scrollTop = this.outScroll.scrollTop - (this.ey-this.sy);
+                this.sy = this.ey;
                 break;  
         }          
     }
@@ -123,6 +129,7 @@ export class ShoppingItem extends Component {
     }
 
     componentDidMount(){
+        this.outScroll = document.getElementsByClassName("shoppingc-art")[0];
         this.refs.li.addEventListener('touchstart',this.touch.bind(this), false);  
         this.refs.li.addEventListener('touchmove',this.touch.bind(this), false);  
         this.refs.li.addEventListener('touchend',this.touch.bind(this), false);  
