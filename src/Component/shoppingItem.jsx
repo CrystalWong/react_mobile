@@ -90,9 +90,9 @@ export class ShoppingItem extends Component {
             case "touchcancel":  
                 // alert(event.type);
                 this.ex = event.changedTouches[0].clientX;  
-                if(this.sx - this.ex > 20){
+                if(this.sx - this.ex > 40){
                     this.refs.del.className = "delete delete-out";
-                }else if(this.sx - this.ex < -20){
+                }else if(this.sx - this.ex < -40){
                     this.refs.del.className = "delete";
                 }
                 break;                
@@ -158,7 +158,7 @@ export class ShoppingItem extends Component {
             <li ref="li">
     			<span style={{ width: width2 }}>
     			    <img src={icon} className="fl" ref = "icon" style={{ width: width }} onClick={this.select.bind(this)} />
-    			    <img src={mainImg?mainImg:""} className="fl" onClick={this.toDeail.bind(this)} />
+    			    <img src={mainImg?mainImg:require("../images/common/default_icon.png")} className="fl" onClick={this.toDeail.bind(this)} />
     			</span>
     			<div className = "shopping-content" onClick={this.toDeail.bind(this)}>
     				<p className="item-title">{skuName}</p>
