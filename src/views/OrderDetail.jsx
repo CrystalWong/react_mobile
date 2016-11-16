@@ -250,7 +250,7 @@ class OrderDetail extends Component {
                 <div className="jinediv" style={{display: this.state.show2}}>
                         <dl className="line jine">
                             <dt>发票信息</dt>
-                            <dd><Link to={this.state.ajdata.invoice.invoicePathAndName} className="elefp">查看电子发票</Link></dd>
+                            <dd><Link to={this.state.ajdata.invoice.invoicePathAndName} className="elefp">下载电子发票</Link></dd>
                         </dl>
                         <dl className="line jine" style={{color: '#D4D1D1'}}>
                             <dt className="fpname">发票抬头</dt>
