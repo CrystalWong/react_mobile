@@ -177,21 +177,22 @@ class Yue extends Component {
     }
 
     componentDidMount(){
-      var search = location.href.split("?")[1];
+      var search = location.href.split("?")[1],
+          self = this;
       search = search?search.split("&"):[];
-      console.log(search);
-      for(var item of search){
+      // alert(search);
+      search.forEach(function(item){
           if(item.split("=")[0] == "showClassId"){
-            this.showClassId = item.split("=")[1];
-            if(this.showClassId.split("_").length > 1){
-                this.magicGoodsId = this.showClassId.split("_")[1];
-                this.showClassId = this.showClassId.split("_")[0];
+            self.showClassId = item.split("=")[1];
+            if(self.showClassId.split("_").length > 1){
+                self.magicGoodsId = self.showClassId.split("_")[1];
+                self.showClassId = self.showClassId.split("_")[0];
             }
           } else if(item.split("=")[0] == "name"){
-            this.nameParams = decodeURIComponent(item.split("=")[1]);
-            this.setState({title: this.nameParams});
+            self.nameParams = decodeURIComponent(item.split("=")[1]);
+            self.setState({title: self.nameParams});
           }
-      }
+      });
     }
 
     render() {

@@ -52,9 +52,9 @@ Tool.fetch = function(obj,data){
                 {
                     let json=eval("("+ xmlhttp.responseText +")");
                     if(xmlhttp.status >= 500){
-                        if(json.code == -1){
-                            json.message = '网络繁忙，请稍后再试';
-                        }
+                        // if(json.code == -1){
+                        //     json.message = '网络繁忙，请稍后再试';
+                        // }
                         obj.setState({ tipContent: json.message?json.message:'网络繁忙，请稍后再试',display: 'toasts' });
                     }
                     obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
