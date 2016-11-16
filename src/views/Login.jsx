@@ -70,7 +70,13 @@ class Login extends Component {
                         cookie.save('name', json.responseBody.name, cookieObj);
                         cookie.save('userId', json.responseBody.userId, cookieObj);
                         cookie.save('photo', json.responseBody.photo, cookieObj);
-                        self.context.router.goBack();
+                        setTimeout(function(){
+                            if(document.referrer == ""){
+                                location.href = "http://m.jyall.com/";
+                            }else{
+                                self.context.router.goBack();
+                            }
+                        },500);
                     }else{
                        if(json.code == 400001039){
 

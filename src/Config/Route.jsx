@@ -32,36 +32,20 @@ class Roots extends Component {
         );
     }
 }
-var history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHistory;
 
-// const rootRoute = {
-//   childRoutes: [ {
-//     path: '/',
-//     component: Roots,
-//     // childRoutes: [
-//     //   { path: 'register', component: Register },
-//     //   { path: 'appointment', component: Appointment }
-//     // ]
-//     getChildRoutes(location, cb) {
-//         require.ensure([], (require) => {
-//           cb(null, [
-//               { path: 'register', component: Register },
-//               { path: 'appointment', component: Appointment }
-//           ]);
-//         });
-//     }    
-//   } ]
-// }
-
-// const RouteConfig = (
-//     <Router history={history} routes={rootRoute}></Router>
+// const App = (props) => (
+//   <div className="viewport">
+//     {props.children}
+//   </div>
 // );
+
+var history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHistory;
 
 const RouteConfig = (
     <Router history={history}>
         <Route path="/" component={Roots}>
             <IndexRoute component={Login} />
-            <Route path="register" component={Register} />
+            <Route path="register" component={require('react-router!../views/Register')} />
             <Route path="registerpd" component={RegisterPassword} />
             <Route path="registerpro" component={RegisterPro} />
             <Route path="yue*" component={Yue} />
@@ -81,43 +65,54 @@ const RouteConfig = (
 
 
 
-function errorLoading(err) {
-  console.error('Dynamic page loading failed', err);
-}
 
-function loadRoute(cb) {
-  return (module) => cb(null, module.default);
-}
-
-// export default {
-//   component: Roots,
+//动态测试
+// let rootRoute = {
+//   component: App,
 //   childRoutes: [
+//     // {
+//     //   path: '/',
+//     //   getIndexRoute(partialNextState, callback) {
+//     //     require.ensure([], function (require) {
+//     //       callback(null, {
+//     //         component: require('../views/Login'),
+//     //       })
+//     //     })
+//     //   }
+//     // },
 //     {
 //       path: '/',
 //       getComponent(location, cb) {
-//         System.import('../views/Login')
-//           .then(loadRoute(cb))
-//           .catch(errorLoading);
+//         // require('../views/Login');
+//         require.ensure([], function (require) {
+//           cb(null, require('../views/Login'))
+//         })        
 //       }
 //     },
-    // {
-    //   path: 'register',
-    //   getComponent(location, cb) {
-    //     System.import(Register)
-    //       .then(loadRoute(cb))
-    //       .catch(errorLoading);
-    //   }
-    // },
 //     {
-//       path: 'registerpro',
+//       path: 'register',
 //       getComponent(location, cb) {
-//         System.import('../views/RegisterPro')
-//           .then(loadRoute(cb))
-//           .catch(errorLoading);
+//         // require('../views/Register');
+//         require.ensure([], function (require) {
+//           cb(null, require('../views/Register'))
+//         })         
+//       }
+//     },
+//     {
+//       path: 'center',
+//       getComponent(location, cb) {
+//         // require('../views/Center');
+//         require.ensure([], function (require) {
+//           cb(null, require('../views/Center'))
+//         })          
 //       }
 //     },
 //   ]
 // };
+
+// const RouteConfig = (
+//   <Router history={history} routes={rootRoute} />
+// );
 
 Tool.rem();
 export default RouteConfig;
