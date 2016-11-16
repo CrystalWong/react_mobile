@@ -244,7 +244,7 @@ class OrderDetail extends Component {
                         </dl>
                         <dl className="line jine" style={{color: '#D4D1D1'}}>
                             <dt className="fpname">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceHead:''}</dt>
-                            <dd className="fptype">个人</dd>
+                            <dd className="fptype"></dd>
                         </dl>
                 </div>
                 <div className="jinediv" style={{display: this.state.show2}}>
@@ -294,7 +294,7 @@ class OrderDetail extends Component {
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
                 <Confirm  {...this.state.confirm}/>
                 <div className="mask" style={{display: this.state.maskDisplay}}></div>
-                <ul style={{display: this.state.maskDisplay}}>
+                <ul style={{display: this.state.cancelDisplay}}>
                     <li>请选择取消订单的原因</li>
                     <li onClick={this.cancelConfirm.bind(this)} className="">改买其他商品</li>
                     <li onClick={this.cancelConfirm.bind(this)} className="">从其他商家购买</li>

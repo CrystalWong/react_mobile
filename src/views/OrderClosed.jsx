@@ -177,7 +177,7 @@ class OrderClosed extends Component {
                                 confirm: {
                                     title: "以下商品库存不足或已下架，无法继续购买",
                                     content: imgStr,
-                                    leftText: "我知道了",
+                                    leftText: "知道了",
                                     rightText: "",
                                     leftMethod: function() {
                                         self.setState({
@@ -198,7 +198,7 @@ class OrderClosed extends Component {
                                 confirm: {
                                     title: "商品不在配送区域",
                                     content: imgStr,
-                                    leftText: "我知道了",
+                                    leftText: "知道了",
                                     rightText: "",
                                     leftMethod: function() {
                                         self.setState({
@@ -218,7 +218,7 @@ class OrderClosed extends Component {
                                 confirm: {
                                     title: "以下商品库存不足或已下架，无法继续购买",
                                     content: imgStr,
-                                    leftText: "我知道了",
+                                    leftText: "知道了",
                                     rightText: "",
                                     leftMethod: function() {
                                         self.setState({
@@ -254,7 +254,7 @@ class OrderClosed extends Component {
         }
 
         //留言参数
-        let liuObj={},liuList=[],sessionLiuList=[];
+        let liuList=[],sessionLiuList=[];
         this.getLiu = (e) => {
             console.log('获取留言参数');
             var value=e.target.getAttribute('value');
