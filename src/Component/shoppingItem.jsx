@@ -81,9 +81,9 @@ export class ShoppingItem extends Component {
                 this.ex = event.changedTouches[0].clientX;  
                 console.log(this.sx);
                 console.log(this.ex);
-                if(this.sx - this.ex > 20){
+                if(this.sx - this.ex > 40){
                     this.refs.del.className = "delete delete-out";
-                }else if(this.sx - this.ex < -20){
+                }else if(this.sx - this.ex < -40){
                     this.refs.del.className = "delete";
                 }
                 break;  
