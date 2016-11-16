@@ -173,6 +173,10 @@ class ShoppingCart extends Component {
     }
 
     selectAll(){//全选
+        if(this.selectItem <= 0){
+            this.setState({tipContent: '没有有效商品！',display: 'toasts',});
+            return;
+        }
         let list = this.state.list,
             selectAll = this.refs.selectAll,
             selectControl = false,
