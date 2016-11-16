@@ -259,8 +259,6 @@ class OrderClosed extends Component {
             console.log('获取留言参数');
             var value=e.target.getAttribute('value');
             var supplier_payment=e.target.getAttribute('class');
-            //var sessionLiu=supplier_payment+'/'+value;
-            //sessionLiuList.push(sessionLiu);
             console.log(sessionLiuList);
             if(liuList.length>0){
                 for(var i=0;i<liuList.length;i++){

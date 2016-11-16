@@ -243,8 +243,8 @@ class OrderDetail extends Component {
                             <dd>纸质发票</dd>
                         </dl>
                         <dl className="line jine" style={{color: '#D4D1D1'}}>
-                            <dt className="fpname">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceHead:''}</dt>
-                            <dd className="fptype"></dd>
+                            <dt className="fpname">发票抬头</dt>
+                            <dd className="fptype">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceHead:''}</dd>
                         </dl>
                 </div>
                 <div className="jinediv" style={{display: this.state.show2}}>
@@ -253,7 +253,7 @@ class OrderDetail extends Component {
                             <dd><Link to={this.state.ajdata.invoice.invoicePathAndName} className="elefp">查看电子发票</Link></dd>
                         </dl>
                         <dl className="line jine" style={{color: '#D4D1D1'}}>
-                            <dt className="fpname"></dt>
+                            <dt className="fpname">发票抬头</dt>
                             <dd className="fptype">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceHead:''}</dd>
                         </dl>
                 </div>
