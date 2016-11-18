@@ -33,6 +33,7 @@ class MyOrder extends Component {
         console.log(props);
         Tool.loginChecked(this);
         this.state = {
+            tipContent: '',
             pageNo : 1,
             pageSize : 10,
             more:'',
@@ -55,16 +56,16 @@ class MyOrder extends Component {
               display: "none"
             },
             options: {
+                
                 mouseWheel: true,//是否监听鼠标滚轮事件
                 scrollbars: true,//是否显示默认滚动条
                 //解决 iscroll onClick 失效
-                preventDefault:false,
-                preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|A)$/ },
+               /* preventDefault:false,
+                preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|A)$/ },*/
                 click:true,
                 interactiveScrollbars: true,//用户是否可以拖动滚动条
                 shrinkScrollbars: 'scale',//滚动超出滚动边界时，是否收缩滚动条 clip’：裁剪超出的滚动条 scale’:按比例的收缩滚动条（占用CPU资源）false:不收缩
-                fadeScrollbars: true, //是否渐隐滚动条，关掉可以加速
-                useWheel: true
+                fadeScrollbars: true //是否渐隐滚动条，关掉可以加速
             }
         };
        // document.cookie="userId=HYS0000010335";
@@ -199,7 +200,67 @@ class MyOrder extends Component {
         }
       })
     } 
+    //再次购买
+    callbackShop(productList){
 
+        let isLogin = 0,
+            uKey = cookie.load('tokenid'),
+            groupSkuId = (productList.productList[0].groupId==null?'':productList.productList[0].groupId) + "_" + productList.productList[0].goodsId,
+            count = 1,self=this;
+        if (uKey) isLogin = 1;
+        
+        Tool.fetch(this, {
+            url: `${URLS.ADDITEM}${isLogin}/${uKey}/${groupSkuId}/${count}`,
+            type: "post",
+            headers: COMMON_HEADERS_POST,
+            successMethod: function(json,status) {
+              if(status == 200){
+                if (json.flag == true) {
+                    Tool.history.push("/shoppingcart");
+                } else {
+                    console.log(json.message);
+                    self.setState({
+                        tipContent: json.message,
+                        display: 'toasts'
+                    });
+                }
+              }else if(status == 400){
+                console.log(self);
+                console.log(json.message);
+                  self.setState({
+                      tipContent: json.message,
+                      display: 'toasts'
+                  });
+              }
+            }
+        });
+    }
+    //付款
+    callbackPay(dId){
+        Tool.fetch(this, {
+            url: `${URLS.CORRELATION}`+dId,
+            type: "get",
+            headers: COMMON_HEADERS(),
+            successMethod: function(str,status) {
+                console.log("payment====="+str.payCode);
+                 Tool.fetch(self, { //获取支付地址
+                      url: `${URLS.TOPAY}${str.payCode}?source=WAP`,
+                      type: "post",
+                      headers: COMMON_HEADERS_POST(),
+                      successMethod: function(json,status) {
+                        if(status == 200){
+                            location.href = json.wapPayUrl;
+                        }else{
+                            self.setState({
+                                tipContent: json.message,
+                                display: 'toasts'
+                            });
+                        }
+                      }
+                  });
+            }
+        });
+    }
     //查看物流
     callbackLog(oId){
       console.log(oId);
@@ -227,7 +288,7 @@ class MyOrder extends Component {
                     <ReactIScroll iScroll={iScroll} options={this.state.options} onScrollEnd={this.onScrollEnd.bind(this)}>
                     <div ref="OrderCon">
                         {
-                            this.state.list.map((item,index) => <OrderList key={index} {...item} callbackDel={this.callbackDel.bind(this)} callbackLog={this.callbackLog.bind(this)}/>)
+                            this.state.list.map((item,index) => <OrderList key={index} {...item} callbackDel={this.callbackDel.bind(this)} callbackLog={this.callbackLog.bind(this)} callbackShop={this.callbackShop.bind(this)} callbackPay={this.callbackPay.bind(this)}/>)
                         }
                         <div id="pullUp" className="pull-up" display={this.state.display}><span id="pull_up_label">{this.state.more}</span></div>
                     </div>
@@ -283,36 +344,19 @@ var OrderList = React.createClass({
       })
     },
     //再次购买
-    goShopping:function(productList){
-
-        let isLogin = 0,
-            uKey = cookie.load('tokenid'),
-            groupSkuId = (productList.productList[0].groupId==null?'':productList.productList[0].groupId) + "_" + productList.productList[0].goodsId,
-            count = 1,self=this;
-        if (uKey) isLogin = 1;
-        
-        Tool.fetch(this, {
-            url: `${URLS.ADDITEM}${isLogin}/${uKey}/${groupSkuId}/${count}`,
-            type: "post",
-            headers: COMMON_HEADERS_POST,
-            successMethod: function(json,status) {
-
-                if (json.flag == true) {
-                    Tool.history.push("/shoppingcart");
-                } else {
-                    console.log(json.message);
-                    self.setState({
-                        tipContent: json.message,
-                        display: 'toasts'
-                    });
-                }
-            }
-        });
+    goShopping:function(productList,e){
+        e.stopPropagation(); 
+        e.preventDefault();
+        this.props.callbackShop(productList);
     },
     //付款
-    payment:function(id){
-      let dId = id.id;
-       Tool.fetch(this, {
+    payment:function(id,e){
+        e.stopPropagation(); 
+        e.preventDefault();
+        let dId = id.id;
+        this.props.callbackPay(dId);
+        
+      /*  Tool.fetch(this, {
             url: `${URLS.CORRELATION}`+dId,
             type: "get",
             headers: COMMON_HEADERS(),
@@ -322,12 +366,16 @@ var OrderList = React.createClass({
                       url: `${URLS.TOPAY}${str.payCode}?source=WAP`,
                       type: "post",
                       headers: COMMON_HEADERS_POST(),
-                      successMethod: function(json) {
-                          location.href = json.wapPayUrl;
+                      successMethod: function(json,status) {
+                        if(status == 200){
+                            location.href = json.wapPayUrl;
+                        }else if(status == 500){
+
+                        }
                       }
                   });
             }
-        });
+        });*/
     },
     render: function() {
           let {productList,orderIndustryName,actualCost,freight,orderStatus,osText,osDispaly,id,orderId} = this.props;
