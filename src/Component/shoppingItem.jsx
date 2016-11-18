@@ -13,7 +13,9 @@ export class ShoppingItem extends Component {
     constructor(props) {
         super(props);
         this.sx = 0;
+        this.sy = 0;
         this.ex = 0;
+        this.ey = 0;
     }
 
     select(){
@@ -72,31 +74,35 @@ export class ShoppingItem extends Component {
         switch(event.type){  
             case "touchstart":  
                 this.sx = event.touches[0].clientX;  
+                this.sy = event.touches[0].clientY;
                 break;  
             case "touchend":  
                 // alert(event.type);
                 this.ex = event.changedTouches[0].clientX;  
-                console.log(this.refs);
                 console.log(this.sx);
                 console.log(this.ex);
-                if(this.sx - this.ex > 20){
+                if(this.sx - this.ex > 40){
                     this.refs.del.className = "delete delete-out";
-                }else if(this.sx - this.ex < -20){
+                }else if(this.sx - this.ex < -40){
                     this.refs.del.className = "delete";
                 }
                 break;  
             case "touchcancel":  
                 // alert(event.type);
                 this.ex = event.changedTouches[0].clientX;  
-                if(this.sx - this.ex > 20){
+                if(this.sx - this.ex > 40){
                     this.refs.del.className = "delete delete-out";
-                }else if(this.sx - this.ex < -20){
+                }else if(this.sx - this.ex < -40){
                     this.refs.del.className = "delete";
                 }
                 break;                
             case "touchmove":  
                 event.preventDefault();  
-                // x = event.touches[0].clientX;  
+                this.ey = event.touches[0].clientY;
+                console.log(this.ey-this.sy);
+                // console.log(this.outScroll);
+                this.outScroll.scrollTop = this.outScroll.scrollTop - (this.ey-this.sy);
+                this.sy = this.ey;
                 break;  
         }          
     }
@@ -123,6 +129,7 @@ export class ShoppingItem extends Component {
     }
 
     componentDidMount(){
+        this.outScroll = document.getElementsByClassName("shoppingc-art")[0];
         this.refs.li.addEventListener('touchstart',this.touch.bind(this), false);  
         this.refs.li.addEventListener('touchmove',this.touch.bind(this), false);  
         this.refs.li.addEventListener('touchend',this.touch.bind(this), false);  
@@ -151,7 +158,7 @@ export class ShoppingItem extends Component {
             <li ref="li">
     			<span style={{ width: width2 }}>
     			    <img src={icon} className="fl" ref = "icon" style={{ width: width }} onClick={this.select.bind(this)} />
-    			    <img src={mainImg?mainImg:""} className="fl" onClick={this.toDeail.bind(this)} />
+    			    <img src={mainImg?mainImg:require("../images/common/default_icon.png")} className="fl" onClick={this.toDeail.bind(this)} />
     			</span>
     			<div className = "shopping-content" onClick={this.toDeail.bind(this)}>
     				<p className="item-title">{skuName}</p>

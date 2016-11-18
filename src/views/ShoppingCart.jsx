@@ -65,7 +65,7 @@ class ShoppingCart extends Component {
             body: "",
             headers: headers,
             successMethod: function(json){
-                if(json.uKey){//未登录
+                if(json.uKey){//未登录 游客
                     var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"jyall.com":"") }
                     cookie.save('jycart_uKey', json.uKey, cookieObj);
                     self.setState({uKey: json.uKey});
@@ -81,7 +81,20 @@ class ShoppingCart extends Component {
 
             	if(json.totalGoodsCount > 999){json.totalGoodsCount = "999+";}
                 // json.cartItems = [];
-                console.log(json.cartItems);
+                // console.log(json.cartItems);
+                if(json.cartItems.length == 0){
+                    // self.setState({ajaxDisplay: "block",maskDisplay: "block"});
+                    Tool.fetch(self,{
+                        url: `${URLS.RECOMMENDGOODS}1?userId=${cookie.load("userId")}&num=4`,
+                        type: "get",
+                        headers: COMMON_HEADERS,
+                        successMethod: function(json,status){
+                            if(status == 200){
+                                self.setState({recommentList:json});
+                            }
+                        }
+                    });
+                }
                 self.setState({ 
                 	list: json.cartItems,
                 	title: "购物车("+ json.totalGoodsCount +")",
@@ -107,17 +120,6 @@ class ShoppingCart extends Component {
                 }else{
                     self.refs.selectAll.className = "no-select-all";
                 }  
-            }
-        });
-
-        Tool.fetch(this,{
-            url: `${URLS.RECOMMENDGOODS}1?userId=${cookie.load("userId")}&num=4`,
-            type: "get",
-            headers: COMMON_HEADERS,
-            successMethod: function(json,status){
-                if(status == 200){
-                    self.setState({recommentList:json});
-                }
             }
         });
     }
@@ -284,7 +286,7 @@ class ShoppingCart extends Component {
         }else{
             this.refs.selectAll.className = "no-select-all";
         }
-    }
+    }  
     // shouldComponentUpdate(nextProps, nextState) {
     //       return this.state.ajaxDisplay !== nextState.ajaxDisplay;
     // }
@@ -329,7 +331,7 @@ var NoList = React.createClass({
             </div>
             <div className="like-floor">
                 <h3><span>为您推荐</span></h3>
-                <ul className="lf-list">
+                <ul className="lf-list" ref = "ulList">
                     {
                         this.props.recommentList.map((item,index) =>(
                             <li key={index}>

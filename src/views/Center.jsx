@@ -17,6 +17,7 @@ class Center extends Component {
 			nickname : Cookie.load('name'),
 			couponTotal : 0,
 			photo : require("../images/center/weidenglu.png"),
+			allBean: 0,
 			bean : 0,
 			login: true
 		};
@@ -29,7 +30,8 @@ class Center extends Component {
                 type: "get",
                 successMethod: function(json){
                     _this.setState({
-                    	bean : json.beanTotal,
+                    	allBean: json.beanAllTotal/100,
+                    	bean : json.beanTotal/100,
                     	totalItemCount : json.totalItemCount,
                     	couponTotal : json.couponTotal,
                     	photo : Cookie.load('photo')
@@ -95,7 +97,7 @@ class Center extends Component {
 				<header className="center-header">
 					<div className="ch-avatar"><img src={this.state.photo?this.state.photo:require("../images/center/weidenglu.png")} /></div>
 					<p className="ch-nickname" style={{display: this.state.login?"block":"none"}}>{this.state.nickname}</p>
-					<p className="ch-quantity" style={{display: this.state.login?"block":"none"}}>家园豆：（{this.state.bean}）</p>
+					<p className="ch-quantity" style={{display: this.state.login?"block":"none"}}>家园豆：{this.state.allBean} （可用：{this.state.bean}）</p>
 					<p className="login-button" style={{display: this.state.login?"none":"block"}}><Link to="/">点击登录</Link></p>
 				</header>
 				<ul className="center-menu">

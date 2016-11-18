@@ -68,9 +68,11 @@ Tool.fetch = function(obj,data){
             }
             xmlhttp.open(data.type,data.url,data.sync?false:true);
             xmlhttp.setRequestHeader("content-type","application/json");
-            xmlhttp.setRequestHeader("sign", "BAD3426489851754C1C14A46A22ABF82");  
+            xmlhttp.setRequestHeader("sign", "50970DC4C28118A4F76411505B277B7D");  
             xmlhttp.setRequestHeader("deviceid", "M");
             xmlhttp.setRequestHeader("tokenid", cookie.load('tokenid'));
+            xmlhttp.setRequestHeader("APPkey", "b40538ab5bef1ffd18605efda7f820d9");
+            
             if(data.type == "post" || data.type == "put"){
                 xmlhttp.send(data.body?data.body:"");
             }else{

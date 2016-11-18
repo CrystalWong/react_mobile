@@ -52,7 +52,7 @@ class Login extends Component {
             // let headers = COMMON_HEADERS_POST('content-type', 'application/json');
             let headers = COMMON_HEADERS_POST();
             Tool.fetch(this,{
-                url: `${URLS.LOGIN}?userName=${userName}&passWord=${passWord}&source=${source}&version=14&code=${code.value}&uuid=${this.random}`,
+                url: `${URLS.LOGIN}?userName=${userName}&passWord=${passWord}&source=${source}&code=${code.value}&uuid=${this.random}`,
                 type: "post",
                 headers: headers,
                 successMethod: function(json){
@@ -72,7 +72,7 @@ class Login extends Component {
                         cookie.save('photo', json.responseBody.photo, cookieObj);
                         setTimeout(function(){
                             if(document.referrer == ""){
-                                location.href = "http://m.jyall.com/";
+                                location.href = "/";
                             }else{
                                 self.context.router.goBack();
                             }
@@ -145,7 +145,8 @@ class Login extends Component {
                             <input ref="phone" type="number" className="phone" placeholder="请输入手机号" />
                             <input ref="password" type="password" placeholder="请输入密码" onPaste={this.passwordPaste.bind(this)} onInput={this.passwordInput.bind(this)} />
                             <input ref="code" type="number" className="code" placeholder="请输入验证码" style={{borderTop:'1px solid #e6e6e6',display: 'none'}} />
-                            <span style={{display: 'block',height: '.36rem'}} onClick={this.passwordHidden.bind(this)}><img ref="img" src={this.state.hiddenImg} /></span>
+                            <span style={{display: 'block',height: '.36rem',top: '1.16rem'}} onClick={this.passwordHidden.bind(this)}><img src={this.state.hiddenImg} /></span>
+                            <span style={{display: 'none',height: '.36rem',top: '2.1rem'}} ref="img"><img src="" /></span>
                         </div>
                         <button className="btn" onClick={this.signin.bind(this)}>{this.state.button}</button>
                         <div style={{marginTop: '10px'}}><Link to="/register" style={{color: '#666'}}><span className="fl">注册</span></Link><span className="fr" style={{color: '#666'}} onClick={this.findPdByPhone.bind(this)}>找回密码</span></div>
