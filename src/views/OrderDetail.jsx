@@ -113,7 +113,24 @@ class OrderDetail extends Component {
                 });
             }
             this.cancelConfirm=(e)=>{
-                
+                let reason=e.target.getAttribute('class');
+                if(reason!=''){
+                    Tool.fetch(this,{
+                        url: `${URLS.CancelOrder}`+urlId+"?closeReason="+reason,
+                        type: "post",
+                        body:JSON.stringify({"id":this.state.ajdata.id,"closeReason":reason}),
+                        headers: headers,
+                        successMethod: function(json,status){
+                            if(status==200){
+                                self.setState({
+                                    cancelDisplay:"none",
+                                    maskDisplay: "none"
+                                });
+                                location.reload();
+                            }
+                        }
+                    });
+                }
             }
             //确认收货
             this.confirmGetDoods=()=>{
