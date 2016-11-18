@@ -296,9 +296,9 @@ class OrderDetail extends Component {
                 <div className="mask" style={{display: this.state.maskDisplay}}></div>
                 <ul style={{display: this.state.cancelDisplay}}>
                     <li>请选择取消订单的原因</li>
-                    <li onClick={this.cancelConfirm.bind(this)} className="">改买其他商品</li>
-                    <li onClick={this.cancelConfirm.bind(this)} className="">从其他商家购买</li>
-                    <li onClick={this.cancelConfirm.bind(this)} className="">其他原因</li>
+                    <li onClick={this.cancelConfirm.bind(this)} className="6">改买其他商品</li>
+                    <li onClick={this.cancelConfirm.bind(this)} className="7">从其他商家购买</li>
+                    <li onClick={this.cancelConfirm.bind(this)} className="5">其他原因</li>
                 </ul>
             </div>
         );
