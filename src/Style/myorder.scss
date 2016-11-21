@@ -174,3 +174,27 @@ $deSize: .28rem;
 	    background-color: #fff;
 	}
 }
+
+.order-cancel{
+    list-style: none;
+    position: absolute;
+    background: #fff;
+    top: 31%;
+    font-size: .28rem;
+    width: 80%;
+    left: 10%;
+    border-radius: .1rem;
+    z-index: 800;
+    display: none;
+    li:first-child{
+        color: black;
+        border-top: none;
+    }
+    li{
+        list-style-type: none;
+        text-align: center;
+        padding: .2rem 0rem .3rem 0rem;
+        border-top: solid 1px #F3F2F2;
+        color: grey;
+    }
+}
