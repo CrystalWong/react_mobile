@@ -1,6 +1,6 @@
 @charset "utf-8";
 body{
-	background:url(../images/common/back-logo.png) no-repeat #eee center bottom;font-size:.28rem;background-size:52% auto;
+	background: #eee;font-size:.28rem;background-size:52% auto;
 }
 .appwrap{
 	height: 100%;
@@ -113,7 +113,7 @@ body{
 			border: 1px solid #e6e6e6;
 			span{
 			    position: absolute;
-			    bottom: .22rem;
+			    // bottom: .22rem;
 			    right: .26rem;
 			    padding-left: .2rem;
 			    height: .5rem;

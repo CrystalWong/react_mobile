@@ -5,9 +5,11 @@ import cookie from 'react-cookie';
 export function COMMON_HEADERS(key, value) {
 	let result = {
 		"content-type": "application/json",
-		"sign": "BAD3426489851754C1C14A46A22ABF82",
+		"sign": "50970DC4C28118A4F76411505B277B7D",
 		"deviceid": "M",
-		"tokenid": cookie.load('tokenid')
+		"tokenid": cookie.load('tokenid'),
+		"APPkey": "b40538ab5bef1ffd18605efda7f820d9",
+		"version": "2.0.0"
 	};
 
 	key && (result[key] = value);
@@ -21,9 +23,11 @@ export function COMMON_HEADERS_POST(key, value){
 	let result = {
 		// "content-type": "application/x-www-form-urlencoded"  //post默认
 		"content-type": "application/json",
-		"sign": "BAD3426489851754C1C14A46A22ABF82",
+		"sign": "50970DC4C28118A4F76411505B277B7D",
 		"deviceid": "M",
-		"tokenid": cookie.load('tokenid')
+		"tokenid": cookie.load('tokenid'),
+		"APPkey": "b40538ab5bef1ffd18605efda7f820d9",
+		"version": "2.0.0"
 	};
 
 	key && (result[key] = value);
