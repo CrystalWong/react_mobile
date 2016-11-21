@@ -193,15 +193,21 @@ class Appointment extends Component {
 var OrderList = React.createClass({
      render: function() {
           let {lastUpdateTime,variableMap} = this.props,
-               tellNum = variableMap.businessPeople.butler.mobile;
+               tellNum = variableMap.businessPeople.butler.mobile,
+               infoAddress= '';
           tellNum = tellNum.replace(/(\d+)-(\d+)-(\d+)-(\d+)/, "$1$2$3,$4");
+          if(variableMap.addressInfo){
+            let addressOne = variableMap.addressInfo.community?variableMap.addressInfo.community:"",
+                addressTwo = variableMap.addressInfo.doorNum?variableMap.addressInfo.doorNum:"";
+            infoAddress = addressOne + addressTwo;
+          }
           return (
                <div className="appointmentlist">
                     <h3>{variableMap.goodsInfo.goodsGroup.goodsGroupName}</h3>
                     <p>
                          预约时间：{lastUpdateTime} <br/>
-                         地址：{variableMap.addressInfo.community} <br/>
-                         备注：{variableMap.appointmentParam.remark}
+                         地址：{infoAddress} <br/>
+                         备注：{variableMap.appointmentParam.remark?variableMap.appointmentParam.remark:""}
                     </p>
                     <h3 className="generoname">您的专属管家：{variableMap.businessPeople.butler.empName}<a href={`tel:`+tellNum}><button>联系他</button></a></h3>
                 </div>
