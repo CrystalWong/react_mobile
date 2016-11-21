@@ -7,9 +7,6 @@ $deSize: .28rem;
 	.common-header{
 		z-index: 999;
 	}
-	.no-list{
-		margin-top: -1.5rem;
-	}
 } 
 .mo-nav{
 	border-bottom: 1px solid #D3D3D3;
@@ -155,5 +152,25 @@ $deSize: .28rem;
 	.mm-but.but-org{
 		color: #f60;
 		border-color: #f60;
+	}
+}
+.no-list {
+    position: absolute;
+    top: 50%;
+    margin-top: -2rem;
+    width: 100%;
+    text-align: center;
+    p {
+	    margin-bottom: .2rem;
+	    font-size: .28rem;
+	    color: #666;
+	    line-height: .37rem;
+	}
+	a button {
+	    width: 1.6rem;
+	    height: .6rem;
+	    border-radius: .05rem;
+	    border: 1px solid #bbb;
+	    background-color: #fff;
 	}
 }
