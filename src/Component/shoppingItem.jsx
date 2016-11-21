@@ -57,7 +57,7 @@ export class ShoppingItem extends Component {
                 type: "put",
                 headers: COMMON_HEADERS,
                 successMethod: function(json){
-                    if(json.data.select == true){
+                    if(json.flag == true){
                         self.refs.icon.src = require('../images/shopping/no_select.png');
                         self.props.obj.selectItem--;
                         self.props.callback2(false,self.props.index);
@@ -65,6 +65,9 @@ export class ShoppingItem extends Component {
                             self.props.obj.noStock = false;
                         }                                             
                     }
+                    if(json.flag == false){
+                        self.props.obj.setState({ tipContent: json.msg,display: 'toasts' });
+                    }                    
                 }
             });
         }
@@ -162,7 +165,7 @@ export class ShoppingItem extends Component {
     			<span style={{ width: width2 }}>
     			    <img src={icon} className="fl" ref = "icon" style={{ width: width }} onClick={this.select.bind(this)} />
     			    <img src={mainImg?mainImg:require("../images/common/default_icon.png")} className="fl" onClick={this.toDeail.bind(this)} />
-                    {this.noStock?(<i className='no-stock'>库存不足</i>):""}
+                    {this.noStock?(<i className='no-stock'>库存不足（{stock}）</i>):""}
     			</span>
     			<div className = "shopping-content" onClick={this.toDeail.bind(this)}>
     				<p className="item-title">{skuName}</p>

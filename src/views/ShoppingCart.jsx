@@ -23,7 +23,7 @@ class ShoppingCart extends Component {
 	constructor(props) {
         
         super(props);
-        Tool.loginChecked(this);
+        // Tool.loginChecked(this);
         console.log(this.props);
         this.props.saveAddressInfo({id:""});
         this.state = {
@@ -216,7 +216,7 @@ class ShoppingCart extends Component {
                     if(json.data.select == true){
                         selectAll.className = "no-select-all selectall";
                         selectControl = true;
-                        self.selectItem = list.length;
+                        self.selectItem = self.validCount;
                         result();
                     }
                     if(json.flag == false){
