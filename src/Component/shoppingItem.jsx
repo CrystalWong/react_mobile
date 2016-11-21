@@ -29,7 +29,7 @@ export class ShoppingItem extends Component {
             suitIds = "",
             self = this; 
         if(cookie.load('tokenid') != "undefined")isLogin = 1;
-
+        this.props.obj.setState({ajaxDisplay: "block",maskDisplay: "block"});
         if(this.itemSelect == "no_select"){
             // self.props.obj.noStock = false;
             Tool.fetch(this.props.obj,{
