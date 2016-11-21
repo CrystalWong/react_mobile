@@ -60,6 +60,7 @@ export class AddReduce extends Component {
             self.props.callback({more: true,message: '已达库存上限'});
             return;
         }
+        this.props.parent.setState({ajaxDisplay: "block",maskDisplay: "block"});
         Tool.fetch(this.props.parent,{
             url: `${URLS.ADDITEM}${isLogin}/${uKey}/${groupSkuId}/${count}`,
             type: "post",
