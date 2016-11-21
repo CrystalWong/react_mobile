@@ -11,7 +11,10 @@ import {ONLINE} from '../constants/common';
 class Center extends Component {
 	constructor(props){
 		super(props);
-		// Tool.loginChecked(this);
+		let self = this;
+		Tool.loginChecked(this,function(){
+			self.onOut = true;
+		});
 		this.state = {
 			userId : Cookie.load('userId'),
 			nickname : Cookie.load('name'),
@@ -82,6 +85,26 @@ class Center extends Component {
         });		
 	}
 
+	checkOut(link){
+		if(this.onOut){
+            Tool.history.push("/");
+		}else{
+            Tool.history.push(link);
+		}		
+	}
+
+	appointment(){
+		this.checkOut("/appointment");
+	}
+
+	myorder(){
+		this.checkOut("/myorder");
+	}
+
+	address(){
+		this.checkOut("/address");
+	}
+
 	componentWillMount(){
 		this.noLogin();
 	}
@@ -105,11 +128,11 @@ class Center extends Component {
 					<li><Link to="/shoppingcart" className="cm-cart">购物车<em>{this.state.totalItemCount}</em></Link></li>
 				</ul>
 				<ul className="center-menu">
-					<li><Link to="/appointment" className="cm-yue">我的预约单</Link></li>
-					<li><Link to="/myorder" className="cm-order">我的订单</Link></li>
+					<li><a href="javascript:;" onClick={this.appointment.bind(this)} className="cm-yue">我的预约单</a></li>
+					<li><a href="javascript:;" onClick={this.myorder.bind(this)} className="cm-order">我的订单</a></li>
 				</ul>
 				<ul className="center-menu">
-					<li><Link to="/address" className="cm-address">管理收货地址</Link></li>
+					<li><a href="javascript:;" onClick={this.address.bind(this)} className="cm-address">管理收货地址</a></li>
 				</ul>
 				<p className="signin center-out" style={{display: this.state.login?"block":"none"}} ><button className="btn" onClick={this.signOut.bind(this)}>退出</button></p>
 			</div>

@@ -124,8 +124,9 @@ Tool.fetch = function(obj,data){
  * 
  * @method formatSeconds
  */
-Tool.loginChecked = function(obj){
+Tool.loginChecked = function(obj,method){
     if(!cookie.load('tokenid')){
+        if(method){method();return;}
         Tool.history.push('/');
     }else{
         Tool.fetch(obj,{
@@ -134,6 +135,7 @@ Tool.loginChecked = function(obj){
             headers: COMMON_HEADERS,
             successMethod: function(json){
                 if(!json.loginFlag){
+                    if(method){method();return;}
                     Tool.history.push('/');
                 }
             }
