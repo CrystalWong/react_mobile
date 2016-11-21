@@ -57,7 +57,7 @@ export class ShoppingItem extends Component {
                 type: "put",
                 headers: COMMON_HEADERS,
                 successMethod: function(json){
-                    if(json.data.select == true){
+                    if(json.flag == true){
                         self.refs.icon.src = require('../images/shopping/no_select.png');
                         self.props.obj.selectItem--;
                         self.props.callback2(false,self.props.index);
@@ -65,6 +65,9 @@ export class ShoppingItem extends Component {
                             self.props.obj.noStock = false;
                         }                                             
                     }
+                    if(json.flag == false){
+                        self.props.obj.setState({ tipContent: json.msg,display: 'toasts' });
+                    }                    
                 }
             });
         }

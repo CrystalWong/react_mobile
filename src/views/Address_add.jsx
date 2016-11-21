@@ -2,7 +2,7 @@ import React,{Component,PropTypes} from 'react';
 import { connect } from 'react-redux';
 import cookie from 'react-cookie';
 import {Header,AddressSelect} from '../Component/common/index';
-import {Toast} from '../Component/common/Tip';
+import {Toast,AjaxTip} from '../Component/common/Tip';
 import {Tool, merged} from '../Tool';
 import '../Style/address';
 import URLS from '../constants/urls';
@@ -24,7 +24,9 @@ class AddressAdd extends Component {
             country:"",
             xzId: "",
             xz:"",
-            title: "新增收货地址"
+            title: "新增收货地址",
+            ajaxDisplay: "none",
+            maskDisplay: "none"            
 		};
 
 		this.saveAddress = () => {
@@ -64,6 +66,7 @@ class AddressAdd extends Component {
     			fetchType = "put";
     			addressId = self.props.address.id;
     		}			
+            self.setState({ajaxDisplay: "block",maskDisplay: "block"});
 			Tool.fetch(this,{
                 url: `${URLS.Address}/?_t=${cookie.load('tokenid')}`,//提交地址
                 type: fetchType,
@@ -86,16 +89,17 @@ class AddressAdd extends Component {
     toastDisplay(state){this.setState({display: state}); }
 
     addressSelect(){
-    	this.setState({addressSelectStyle: "0"});
+    	this.setState({addressSelectStyle: "0",maskDisplay: "block"});
     }
 
     closeAddress(){
-    	this.setState({addressSelectStyle: "100%"});
+    	this.setState({addressSelectStyle: "100%",maskDisplay: "none"});
     }
 
     addressResult(data){//获取四级地址结果
     	this.setState({
     		addressSelectStyle: "100%",
+            maskDisplay: "none",
             provinceId: data.provinceId,
             province: data.province,
             cityId: data.cityId,
@@ -143,8 +147,9 @@ class AddressAdd extends Component {
 				<a href="javascript:void(0)" className="add-address-btn" onClick={this.saveAddress.bind(this)}>保存</a>
 				<Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} />
 				<AddressSelect _style={this.state.addressSelectStyle} close = {this.closeAddress.bind(this)} addressResult={this.addressResult.bind(this)} />
-				<div className="mask" style={{display: this.state.addressSelectStyle=="0"?"block":"none"}}></div>
-			</div>
+                <AjaxTip display={this.state.ajaxDisplay} />
+                <div className="mask" style={{display: this.state.maskDisplay}}></div>			
+            </div>
 		)
 	}
 }
