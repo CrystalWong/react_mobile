@@ -192,7 +192,7 @@ class ShoppingCart extends Component {
             uKey = cookie.load('tokenid');
         if(cookie.load('tokenid'))isLogin = 1;
 
-
+        self.setState({ajaxDisplay: "block",maskDisplay: "block"});
         if(selectAll.className.match("selectall")){
             Tool.fetch(this,{
                 url: `${URLS.CONCELITEM}${isLogin}/${uKey}?selectAll=1`,

@@ -72,6 +72,7 @@ Tool.fetch = function(obj,data){
             xmlhttp.setRequestHeader("deviceid", "M");
             xmlhttp.setRequestHeader("tokenid", cookie.load('tokenid'));
             xmlhttp.setRequestHeader("APPkey", "b40538ab5bef1ffd18605efda7f820d9");
+            xmlhttp.setRequestHeader("version", "2.0.0");
             
             if(data.type == "post" || data.type == "put"){
                 xmlhttp.send(data.body?data.body:"");
