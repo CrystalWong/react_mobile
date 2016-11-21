@@ -23,7 +23,7 @@ class ShoppingCart extends Component {
 	constructor(props) {
         
         super(props);
-        Tool.loginChecked(this);
+        // Tool.loginChecked(this);
         console.log(this.props);
         this.props.saveAddressInfo({id:""});
         this.state = {

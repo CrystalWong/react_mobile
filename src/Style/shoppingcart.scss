@@ -80,13 +80,15 @@
     .no-stock{
 	    position: absolute;
 	    display: inline-block;
-	    left: .8rem;
-	    bottom: 0rem;
-	    width: 1.8rem;
+	    padding: .1rem 0;
+	    left: .85rem;
+	    bottom: 0;
+	    width: 1.7rem;
 	    font-style: normal;
 	    background: rgba(0,0,0,.8);
 	    color: #fff;
 	    text-align: center;
+	    font-size: 12px;
     }
 
 }

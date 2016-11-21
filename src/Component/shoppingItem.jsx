@@ -165,7 +165,7 @@ export class ShoppingItem extends Component {
     			<span style={{ width: width2 }}>
     			    <img src={icon} className="fl" ref = "icon" style={{ width: width }} onClick={this.select.bind(this)} />
     			    <img src={mainImg?mainImg:require("../images/common/default_icon.png")} className="fl" onClick={this.toDeail.bind(this)} />
-                    {this.noStock?(<i className='no-stock'>库存不足</i>):""}
+                    {this.noStock?(<i className='no-stock'>库存不足（{stock}）</i>):""}
     			</span>
     			<div className = "shopping-content" onClick={this.toDeail.bind(this)}>
     				<p className="item-title">{skuName}</p>
