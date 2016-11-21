@@ -113,7 +113,24 @@ class OrderDetail extends Component {
                 });
             }
             this.cancelConfirm=(e)=>{
-                
+                let reason=e.target.getAttribute('class');
+                if(reason!=''){
+                    Tool.fetch(this,{
+                        url: `${URLS.CancelOrder}`+urlId+"?closeReason="+reason,
+                        type: "post",
+                        body:JSON.stringify({"id":this.state.ajdata.id,"closeReason":reason}),
+                        headers: headers,
+                        successMethod: function(json,status){
+                            if(status==200){
+                                self.setState({
+                                    cancelDisplay:"none",
+                                    maskDisplay: "none"
+                                });
+                                location.reload();
+                            }
+                        }
+                    });
+                }
             }
             //确认收货
             this.confirmGetDoods=()=>{
@@ -225,7 +242,7 @@ class OrderDetail extends Component {
                 <div className="address1">
                     <div className="adinfo">
                     <p>{this.state.ajdata.userAddress.trueName}&nbsp;{this.state.ajdata.userAddress.mobile}<span style={{display: this.state.ajdata.userAddress==1?"block":"none"}}>默认</span></p>
-                        <span>地址：</span><span>{this.state.ajdata.userAddress.locationInfo}</span>
+                        <span>地址：</span><span>{this.state.ajdata.userAddress.locationInfo}{this.state.ajdata.userAddress.detailInfo}</span>
                     </div>
                 </div>
                 <div className="orderClose">
@@ -243,17 +260,17 @@ class OrderDetail extends Component {
                             <dd>纸质发票</dd>
                         </dl>
                         <dl className="line jine" style={{color: '#D4D1D1'}}>
-                            <dt className="fpname">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceHead:''}</dt>
-                            <dd className="fptype">个人</dd>
+                            <dt className="fpname">发票抬头</dt>
+                            <dd className="fptype">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceHead:''}</dd>
                         </dl>
                 </div>
                 <div className="jinediv" style={{display: this.state.show2}}>
                         <dl className="line jine">
                             <dt>发票信息</dt>
-                            <dd><Link to={this.state.ajdata.invoice.invoicePathAndName} className="elefp">查看电子发票</Link></dd>
+                            <dd><Link to={this.state.ajdata.invoice.invoicePathAndName} className="elefp">下载电子发票</Link></dd>
                         </dl>
                         <dl className="line jine" style={{color: '#D4D1D1'}}>
-                            <dt className="fpname"></dt>
+                            <dt className="fpname">发票抬头</dt>
                             <dd className="fptype">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceHead:''}</dd>
                         </dl>
                 </div>
@@ -294,11 +311,11 @@ class OrderDetail extends Component {
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
                 <Confirm  {...this.state.confirm}/>
                 <div className="mask" style={{display: this.state.maskDisplay}}></div>
-                <ul style={{display: this.state.maskDisplay}}>
+                <ul style={{display: this.state.cancelDisplay}}>
                     <li>请选择取消订单的原因</li>
-                    <li onClick={this.cancelConfirm.bind(this)} className="">改买其他商品</li>
-                    <li onClick={this.cancelConfirm.bind(this)} className="">从其他商家购买</li>
-                    <li onClick={this.cancelConfirm.bind(this)} className="">其他原因</li>
+                    <li onClick={this.cancelConfirm.bind(this)} className="6">改买其他商品</li>
+                    <li onClick={this.cancelConfirm.bind(this)} className="7">从其他商家购买</li>
+                    <li onClick={this.cancelConfirm.bind(this)} className="5">其他原因</li>
                 </ul>
             </div>
         );

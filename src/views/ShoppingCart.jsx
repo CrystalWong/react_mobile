@@ -56,7 +56,8 @@ class ShoppingCart extends Component {
         let headers = COMMON_HEADERS();
         let self = this;
         this.count = 0;
-        this.selectItem = 0;
+        this.selectItem = 0;//选中的个数
+        this.validCount = 0;//可以选择的个数
         let params = cookie.load('tokenid')?("&tokenId="+cookie.load('tokenid')):(cookie.load('jycart_uKey')?"&uKey="+cookie.load('jycart_uKey'):'');
         
         Tool.fetch(this,{
@@ -79,9 +80,9 @@ class ShoppingCart extends Component {
                     }
             	})
 
-            	if(json.totalGoodsCount > 999){json.totalGoodsCount = "999+";}
+            	// if(json.totalGoodsCount > 999){json.totalGoodsCount = "999+";}
+                self.totalCount = json.totalGoodsCount;
                 // json.cartItems = [];
-                // console.log(json.cartItems);
                 if(json.cartItems.length == 0){
                     // self.setState({ajaxDisplay: "block",maskDisplay: "block"});
                     Tool.fetch(self,{
@@ -97,7 +98,7 @@ class ShoppingCart extends Component {
                 }
                 self.setState({ 
                 	list: json.cartItems,
-                	title: "购物车("+ json.totalGoodsCount +")",
+                	title: "购物车("+ (self.totalCount>999?'999+':self.totalCount) +")",
                 	allMoney: self.allMoney,
                 	allNum: self.allNum,
                     nolist: json.cartItems.length==0?"block":"none"
@@ -106,11 +107,12 @@ class ShoppingCart extends Component {
                 let selectAll = 0;
                 // for(let i of json.cartItems){
                 json.cartItems.forEach(function(i){
-                    if(i.state==1&&i.status==1&&i.salesState==2){
+                    if(i.state==1&&i.status==1&&i.salesState==2&&i.stock>0){
                         selectAll++;
                         if(i.select){
                             self.selectItem++;
                         }
+                        self.validCount++;
                     }
                 });    
 
@@ -152,7 +154,7 @@ class ShoppingCart extends Component {
 
         this.setState({
             list: list,
-            title: "购物车("+ allItem +")",
+            title: "购物车("+ (allItem>999?'999+':allItem) +")",
             allMoney: self.allMoney,
             allNum: self.allNum
         });
@@ -175,8 +177,8 @@ class ShoppingCart extends Component {
     }
 
     selectAll(){//全选
-        if(this.selectItem <= 0){
-            this.setState({tipContent: '没有有效商品！',display: 'toasts',});
+        if(this.validCount <= 0){
+            this.setState({tipContent: '没有有效商品！',display: 'toasts'});
             return;
         }
         let list = this.state.list,
@@ -247,6 +249,10 @@ class ShoppingCart extends Component {
             this.setState({tipContent: '请选择商品',display: 'toasts',});
             return;
         } 
+        if(this.noStock){
+            this.setState({tipContent: '库存不足',display: 'toasts',});
+            return;            
+        }
         Tool.history.push("/orderclosed");
     }
 
@@ -281,7 +287,7 @@ class ShoppingCart extends Component {
     }
 
     componentDidUpdate(){
-        if(this.selectItem>0 && this.selectItem == this.state.list.length){
+        if(this.selectItem>0 && this.selectItem == this.validCount){
             this.refs.selectAll.className = "no-select-all selectall";
         }else{
             this.refs.selectAll.className = "no-select-all";

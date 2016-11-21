@@ -107,8 +107,8 @@ class SetBill extends Component {
 			              	</h3>
 			              	<div  className="typediv" onClick={this.getFptype.bind(this)}>
 			              		<a data-info="0" className={this.state.initClass.has}>不需要</a>
-			               		<a data-info="1">电子发票</a>
-			               		<a data-info="2">纸质发票</a>
+			               		<a data-info="2">电子发票</a>
+			               		<a data-info="1">纸质发票</a>
 			              	</div>
 		               </div>
 		               <div className="fptype1" style={{display: this.state.isShowBg}}>
