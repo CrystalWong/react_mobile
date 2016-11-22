@@ -89,7 +89,7 @@ class OrderClosed extends Component {
                 "addressId": props.address.id
             });
         }
-        //this.setState({ajaxDisplay: "block",maskDisplay: "block"});
+        this.setState({ajaxDisplay: "block",maskDisplay: "block"});
         data = {
             url: `${URLS.OrderClosed}`,
             type: "post",
