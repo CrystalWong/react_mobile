@@ -29,9 +29,10 @@ Tool.fetch = function(obj,data){
             obj.setState&&obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
             data.successMethod(json,status);
             if(status >= 500){
-                if(json.code == -1){
-                    json.message = '网络繁忙，请稍后再试';
-                }
+                alert(status);
+                // if(json.code == -1){
+                //     json.message = '网络繁忙，请稍后再试';
+                // }
                 obj.setState({ tipContent: json.message?json.message:'网络繁忙，请稍后再试',display: 'toasts' });
             }
         },function(e){
@@ -120,9 +121,9 @@ Tool.fetch = function(obj,data){
 }
 
 /**
- * (毫秒转化 2016-10-18 17:02:09)
+ * 检测登录
  * 
- * @method formatSeconds
+ * @method loginChecked
  */
 Tool.loginChecked = function(obj,method){
     if(!cookie.load('tokenid')){
