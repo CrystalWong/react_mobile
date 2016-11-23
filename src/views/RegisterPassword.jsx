@@ -78,6 +78,7 @@ class RegisterPassword extends Component {
         if(this.props.login.pwd == "findpwd"){
             this.setState({ title: '找回密码'});
             this.setState({ subTitle: '请重新设置密码'});
+            this.refs.password.type = "text";
         }
     }
     render() {

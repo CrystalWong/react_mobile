@@ -51,11 +51,13 @@ class Address extends Component {
                 }
             });
 		}
-	}
 
-	componentWillMount(){
 		this.getAddress();
 	}
+
+	// componentWillMount(){
+	// 	this.getAddress();
+	// }
 
 	onChildDefault(child){
 		let {memberId , id} = child.props.item,_this = this;

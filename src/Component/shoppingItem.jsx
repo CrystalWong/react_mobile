@@ -13,7 +13,9 @@ export class ShoppingItem extends Component {
     constructor(props) {
         super(props);
         this.sx = 0;
+        this.sy = 0;
         this.ex = 0;
+        this.ey = 0;
     }
 
     select(){
@@ -29,6 +31,7 @@ export class ShoppingItem extends Component {
         if(cookie.load('tokenid') != "undefined")isLogin = 1;
 
         if(this.itemSelect == "no_select"){
+            // self.props.obj.noStock = false;
             Tool.fetch(this.props.obj,{
                 url: `${URLS.SELECTITEM}${isLogin}/${uKey}?groupSkuIds=${groupSkuId}&selectAll=0&source=2`,
                 type: "put",
@@ -39,7 +42,11 @@ export class ShoppingItem extends Component {
                         self.refs.icon.src = require('../images/shopping/select.png');
                         self.props.obj.selectItem++;
                         self.props.callback2(true,self.props.index);
-                    }else if(json.flag == false){
+                        if(self.noStock){
+                            self.props.obj.noStock = true;
+                        }
+                    }
+                    if(json.flag == false){
                         self.props.obj.setState({ tipContent: json.msg,display: 'toasts' });
                     }
                 }
@@ -50,10 +57,13 @@ export class ShoppingItem extends Component {
                 type: "put",
                 headers: COMMON_HEADERS,
                 successMethod: function(json){
-                    if(json.flag == true){
+                    if(json.data.select == true){
                         self.refs.icon.src = require('../images/shopping/no_select.png');
                         self.props.obj.selectItem--;
                         self.props.callback2(false,self.props.index);
+                        if(self.noStock){
+                            self.props.obj.noStock = false;
+                        }                                             
                     }
                 }
             });
@@ -72,31 +82,35 @@ export class ShoppingItem extends Component {
         switch(event.type){  
             case "touchstart":  
                 this.sx = event.touches[0].clientX;  
+                this.sy = event.touches[0].clientY;
                 break;  
             case "touchend":  
                 // alert(event.type);
                 this.ex = event.changedTouches[0].clientX;  
-                console.log(this.refs);
                 console.log(this.sx);
                 console.log(this.ex);
-                if(this.sx - this.ex > 20){
+                if(this.sx - this.ex > 40){
                     this.refs.del.className = "delete delete-out";
-                }else if(this.sx - this.ex < -20){
+                }else if(this.sx - this.ex < -40){
                     this.refs.del.className = "delete";
                 }
                 break;  
             case "touchcancel":  
                 // alert(event.type);
                 this.ex = event.changedTouches[0].clientX;  
-                if(this.sx - this.ex > 20){
+                if(this.sx - this.ex > 40){
                     this.refs.del.className = "delete delete-out";
-                }else if(this.sx - this.ex < -20){
+                }else if(this.sx - this.ex < -40){
                     this.refs.del.className = "delete";
                 }
                 break;                
             case "touchmove":  
                 event.preventDefault();  
-                // x = event.touches[0].clientX;  
+                this.ey = event.touches[0].clientY;
+                console.log(this.ey-this.sy);
+                console.log(this.outScroll.scrollTop);
+                this.outScroll.scrollTop = -(this.ey-this.sy);
+                // this.sy = this.ey;
                 break;  
         }          
     }
@@ -109,20 +123,11 @@ export class ShoppingItem extends Component {
             groupSkuId = this.props.groupId+"_"+this.props.skuId,
             self = this;      
         if(cookie.load('tokenid') != "undefined")isLogin = 1;   
-        this.props.obj.deleteItem({isLogin:isLogin,uKey:uKey,groupSkuId:groupSkuId});
-        // Tool.fetch(this.props.obj,{
-        //     url: `${URLS.REMOVEITEM}${isLogin}/${uKey}/${groupSkuId}?source=2`,
-        //     type: "delete",
-        //     headers: COMMON_HEADERS,
-        //     successMethod: function(json,status){
-        //         if(json.flag == true){
-        //             location.reload();
-        //         }
-        //     }
-        // });              
+        this.props.obj.deleteItem({isLogin:isLogin,uKey:uKey,groupSkuId:groupSkuId});             
     }
 
     componentDidMount(){
+        this.outScroll = document.getElementsByClassName("shoppingc-art")[0];
         this.refs.li.addEventListener('touchstart',this.touch.bind(this), false);  
         this.refs.li.addEventListener('touchmove',this.touch.bind(this), false);  
         this.refs.li.addEventListener('touchend',this.touch.bind(this), false);  
@@ -132,8 +137,8 @@ export class ShoppingItem extends Component {
         console.log(this.props);
         let {skuName,mainImg,speczs,sellPrice,state,count,select,status,salesState ,stock } = this.props;
         let icon = (state==1&&status==1&&salesState==2)?(select?require("../images/shopping/select.png"):require("../images/shopping/no_select.png")):require("../images/shopping/invalid.png"),
-            width = state==1?".4rem":".6rem",
-            width2 = state==1?"2.6rem":"2.8rem";
+            width = (state==1&&status==1&&salesState==2&&stock>0)?".4rem":".6rem",
+            width2 = (state==1&&status==1&&salesState==2&&stock>0)?"2.6rem":"2.8rem";
 
         this.itemSelect = "invalid";    
         if(state==1&&status==1&&salesState==2&&select){
@@ -145,13 +150,19 @@ export class ShoppingItem extends Component {
         }
         if(stock==0||salesState==3){//库存为0 或下架
             this.itemSelect = "invalid";
-        }          
+        }      
+
+        this.noStock = false;
+        if(count>stock&&this.itemSelect != "invalid"){
+            this.noStock = true;
+        }   
 
         return (
             <li ref="li">
     			<span style={{ width: width2 }}>
     			    <img src={icon} className="fl" ref = "icon" style={{ width: width }} onClick={this.select.bind(this)} />
-    			    <img src={mainImg?mainImg:""} className="fl" onClick={this.toDeail.bind(this)} />
+    			    <img src={mainImg?mainImg:require("../images/common/default_icon.png")} className="fl" onClick={this.toDeail.bind(this)} />
+                    {this.noStock?(<i className='no-stock'>库存不足</i>):""}
     			</span>
     			<div className = "shopping-content" onClick={this.toDeail.bind(this)}>
     				<p className="item-title">{skuName}</p>

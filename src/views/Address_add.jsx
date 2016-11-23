@@ -38,7 +38,7 @@ class AddressAdd extends Component {
 			if(!name){
 				this.setState({tipContent : '收货人不能为空',display : 'toasts' });return;
 			}
-            alert(contact);
+            // alert(contact);
 			if(!contact){
 				this.setState({tipContent : '联系方式不能为空',display : 'toasts' });return;
 			}
