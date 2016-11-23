@@ -186,6 +186,7 @@
 
 .orderClose .fp span {
 	vertical-align: middle;
+	color: black;
 }
 .orderClose .fp .fpttshow{
 	max-width: 2rem;

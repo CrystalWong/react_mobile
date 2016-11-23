@@ -186,9 +186,28 @@ class OrderDetail extends Component {
                 Tool.history.push("/expressinfo");
 
         }
+        //付款
+        this.payment=()=> {
+                Tool.fetch(this, {
+                    url: `${URLS.CORRELATION}`+this.state.ajdata.id,
+                    type: "get",
+                    headers: COMMON_HEADERS(),
+                    successMethod: function(str,status) {
+                        console.log("payment====="+str.payCode);
+                         Tool.fetch(self, { //获取支付地址
+                              url: `${URLS.TOPAY}${str.payCode}?source=WAP`,
+                              type: "post",
+                              headers: COMMON_HEADERS_POST(),
+                              successMethod: function(json) {
+                                  location.href = json.wapPayUrl;
+                              }
+                          });
+                    }
+                });
+
+        }
         //再次购买
         this.goShopping=()=> {
-            
             let isLogin = 0,
                 uKey = cookie.load('tokenid'),
                 productList = this.state.ajdata.productList,
@@ -267,7 +286,7 @@ class OrderDetail extends Component {
                 <div className="jinediv" style={{display: this.state.show2}}>
                         <dl className="line jine">
                             <dt>发票信息</dt>
-                            <dd><Link to={this.state.ajdata.invoice.invoicePathAndName} className="elefp">下载电子发票</Link></dd>
+                            <dd><Link to={this.state.ajdata.invoice.invoicePathAndName} className="elefp">{this.state.ajdata.invoice.invoicePathAndName==""?"电子发票":"查看电子发票"}</Link></dd>
                         </dl>
                         <dl className="line jine" style={{color: '#D4D1D1'}}>
                             <dt className="fpname">发票抬头</dt>
@@ -295,7 +314,7 @@ class OrderDetail extends Component {
                         </dl>
                 </div>
                 <div className="bootm" style={{display: this.state.ajdata.orderStatus==10?"block":"none"}}>
-                    <a className="subbtn" href="javascript:;">付款</a>
+                    <a className="subbtn" onClick={this.payment.bind(this)}>付款</a>
                     <a className="subbtn1" onClick={this.cancelOrder.bind(this)}>取消订单</a>
                 </div>
                 <div className="bootm" style={{display: this.state.ajdata.orderStatus==30?"block":"none"}}>
