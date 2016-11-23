@@ -29,7 +29,7 @@ Tool.fetch = function(obj,data){
             obj.setState&&obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
             data.successMethod(json,status);
             if(status >= 500){
-                alert(status);
+                // alert(status);
                 // if(json.code == -1){
                 //     json.message = '网络繁忙，请稍后再试';
                 // }
