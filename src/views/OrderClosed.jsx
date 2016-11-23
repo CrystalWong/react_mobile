@@ -311,7 +311,7 @@ class OrderClosed extends Component {
             });
         }
         window.onbeforeunload=function (){
-            //return "您确定退出吗？";
+            alert('触发页面卸载事件...');
             sessionStorage.removeItem("sessionLiuList");
         }
         

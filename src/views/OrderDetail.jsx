@@ -191,20 +191,19 @@ class OrderDetail extends Component {
                 Tool.fetch(this, {
                     url: `${URLS.CORRELATION}`+this.state.ajdata.id,
                     type: "get",
-                    headers: COMMON_HEADERS(),
+                    headers: headers,
                     successMethod: function(str,status) {
                         console.log("payment====="+str.payCode);
                          Tool.fetch(self, { //获取支付地址
                               url: `${URLS.TOPAY}${str.payCode}?source=WAP`,
                               type: "post",
-                              headers: COMMON_HEADERS_POST(),
+                              headers: headers,
                               successMethod: function(json) {
                                   location.href = json.wapPayUrl;
                               }
                           });
                     }
                 });
-
         }
         //再次购买
         this.goShopping=()=> {
