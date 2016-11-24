@@ -30,7 +30,6 @@ import '../Style/myorder';
 class MyOrder extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
         Tool.loginChecked(this);
         this.state = {
             tipContent: '',
@@ -46,6 +45,8 @@ class MyOrder extends Component {
             list: [],
             industry: "",
             statusPar:"",
+            cancelDisplay:"none",
+            orderId:'',
             confirm: {
               title: "",
               content: "", 
@@ -56,12 +57,9 @@ class MyOrder extends Component {
               display: "none"
             },
             options: {
-                
                 mouseWheel: true,//是否监听鼠标滚轮事件
                 scrollbars: true,//是否显示默认滚动条
                 //解决 iscroll onClick 失效
-               /* preventDefault:false,
-                preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|A)$/ },*/
                 click:true,
                 interactiveScrollbars: true,//用户是否可以拖动滚动条
                 shrinkScrollbars: 'scale',//滚动超出滚动边界时，是否收缩滚动条 clip’：裁剪超出的滚动条 scale’:按比例的收缩滚动条（占用CPU资源）false:不收缩
@@ -176,27 +174,27 @@ class MyOrder extends Component {
     callbackDel(dId){
       let _this = this,thisNode=document.getElementById(dId),headers = COMMON_HEADERS_POST();
       _this.setState({
+        display: "block",
         confirm : {
           title: "确认删除此订单吗?",
           content: "",
-                leftText: "取消",
-                leftMethod: ()=>{
-                  _this.setState({confirm : {display : 'none'}});
-                },
-                rightText: "确定",
-                rightMethod: ()=>{
-                  Tool.fetch(this,{
-                    url: `${URLS.DeleateOrder}`+dId,
-                    type: "post",
-                    headers: headers,
-                    successMethod: function(json){
-                      console.log('删除成功');
-                      thisNode.parentNode.removeChild(thisNode);
-                      _this.state.confirm.leftMethod();
-                    }
-                });
-                },
-                display: "block"
+          leftText: "取消",
+          leftMethod: ()=>{
+            _this.setState({confirm : {display : 'none'}});
+          },
+          rightText: "确定",
+          rightMethod: ()=>{
+            Tool.fetch(this,{
+                url: `${URLS.DeleateOrder}`+dId,
+                type: "post",
+                headers: headers,
+                successMethod: function(json){
+                  console.log('删除成功');
+                  thisNode.parentNode.removeChild(thisNode);
+                  _this.state.confirm.leftMethod();
+                }
+            });
+          }
         }
       })
     } 
@@ -237,18 +235,22 @@ class MyOrder extends Component {
     }
     //付款
     callbackPay(dId){
+      let self=this;
         Tool.fetch(this, {
             url: `${URLS.CORRELATION}`+dId,
             type: "get",
             headers: COMMON_HEADERS(),
             successMethod: function(str,status) {
                 console.log("payment====="+str.payCode);
+                //alert("111=="+status+"payCode=="+str.payCode);
                  Tool.fetch(self, { //获取支付地址
                       url: `${URLS.TOPAY}${str.payCode}?source=WAP`,
                       type: "post",
                       headers: COMMON_HEADERS_POST(),
                       successMethod: function(json,status) {
+                       // alert("222==="+status);
                         if(status == 200){
+                          console.log(json.wapPayUrl);
                             location.href = json.wapPayUrl;
                         }else{
                             self.setState({
@@ -267,11 +269,40 @@ class MyOrder extends Component {
       this.props.saveOrderId({orderId: oId.orderId});
       Tool.history.push("/expressinfo");
     }
-     //渲染完成之后再执行
-     //componentDidMount(){
-     /*componentWillMount(){
-          this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":this.state.statusPar,"pageNo":this.state.pageNo,"pageSize":this.state.pageSize});
-     }*/
+    //取消订单
+    callbackCancel(dId){
+      this.setState({
+          cancelDisplay:"block",
+          display: "block",
+          orderId: dId
+      });
+    }
+    //取消订单 选择原因
+    cancelConfirm(e){
+        let reason=e.target.getAttribute('class'),self = this;
+        if(reason!=''){
+            Tool.fetch(this,{
+                url: `${URLS.CancelOrder}`+this.state.orderId+"?closeReason="+reason,
+                type: "post",
+                //body:JSON.stringify({"id":this.state.ajdata.id,"closeReason":reason}),
+                headers: COMMON_HEADERS_POST(),
+                successMethod: function(json,status){
+                    if(status==200){
+                        self.setState({
+                            cancelDisplay:"none",
+                            display: "none"
+                        });
+                        location.reload();
+                    }
+                }
+            });
+        }
+    }
+    //渲染完成之后再执行
+    //componentDidMount(){
+    /*componentWillMount(){
+        this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":this.state.statusPar,"pageNo":this.state.pageNo,"pageSize":this.state.pageSize});
+    }*/
     render() {
         return (
             <div className="my-order">
@@ -288,7 +319,7 @@ class MyOrder extends Component {
                     <ReactIScroll iScroll={iScroll} options={this.state.options} onScrollEnd={this.onScrollEnd.bind(this)}>
                     <div ref="OrderCon">
                         {
-                            this.state.list.map((item,index) => <OrderList key={index} {...item} callbackDel={this.callbackDel.bind(this)} callbackLog={this.callbackLog.bind(this)} callbackShop={this.callbackShop.bind(this)} callbackPay={this.callbackPay.bind(this)}/>)
+                            this.state.list.map((item,index) => <OrderList key={index} {...item} callbackDel={this.callbackDel.bind(this)} callbackLog={this.callbackLog.bind(this)} callbackShop={this.callbackShop.bind(this)} callbackPay={this.callbackPay.bind(this)} callbackCancel={this.callbackCancel.bind(this)}/>)
                         }
                         <div id="pullUp" className="pull-up" display={this.state.display}><span id="pull_up_label">{this.state.more}</span></div>
                     </div>
@@ -298,7 +329,13 @@ class MyOrder extends Component {
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} />
                 <div className="mask" style={{display:this.state.displayMark?"none":"block"}}></div>
                 <Confirm  {...this.state.confirm}/>
-                <div className="mask" style={{display: this.state.confirm.display}}></div>
+                <div className="mask" style={{display: this.state.display}}></div>
+                <ul className="order-cancel" style={{display: this.state.cancelDisplay}}>
+                    <li>请选择取消订单的原因</li>
+                    <li onClick={this.cancelConfirm.bind(this)} className="6">改买其他商品</li>
+                    <li onClick={this.cancelConfirm.bind(this)} className="7">从其他商家购买</li>
+                    <li onClick={this.cancelConfirm.bind(this)} className="5">其他原因</li>
+                </ul>
             </div>
 
         );
@@ -324,24 +361,19 @@ var OrderList = React.createClass({
           url: `${URLS.ConfirmGetDoods}`+dId,
           type: "post",
           headers: headers,
-          successMethod: function(json){
+          successMethod: function(json,status){
               console.log("dId===="+dId);
+              
               location.reload();    
           }
       })
     },
     //取消订单
-    cancelOrder:function(id){
-      let dId = id.id,headers = COMMON_HEADERS_POST();
-      Tool.fetch(this,{
-          url: `${URLS.CancelOrder}`+dId,
-          type: "post",
-          headers: headers,
-          successMethod: function(json){
-              console.log("dId===="+dId);
-              location.reload();    
-          }
-      })
+    cancelOrder:function(id,e){
+      e.stopPropagation(); 
+      e.preventDefault();
+      let dId = id.id;
+      this.props.callbackCancel(dId);
     },
     //再次购买
     goShopping:function(productList,e){
@@ -355,27 +387,6 @@ var OrderList = React.createClass({
         e.preventDefault();
         let dId = id.id;
         this.props.callbackPay(dId);
-        
-      /*  Tool.fetch(this, {
-            url: `${URLS.CORRELATION}`+dId,
-            type: "get",
-            headers: COMMON_HEADERS(),
-            successMethod: function(str,status) {
-                console.log("payment====="+str.payCode);
-                 Tool.fetch(self, { //获取支付地址
-                      url: `${URLS.TOPAY}${str.payCode}?source=WAP`,
-                      type: "post",
-                      headers: COMMON_HEADERS_POST(),
-                      successMethod: function(json,status) {
-                        if(status == 200){
-                            location.href = json.wapPayUrl;
-                        }else if(status == 500){
-
-                        }
-                      }
-                  });
-            }
-        });*/
     },
     render: function() {
           let {productList,orderIndustryName,actualCost,freight,orderStatus,osText,osDispaly,id,orderId} = this.props;
