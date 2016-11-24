@@ -33,8 +33,8 @@ class Center extends Component {
                 type: "get",
                 successMethod: function(json){
                     _this.setState({
-                    	allBean: json.beanAllTotal/100,
-                    	bean : json.beanTotal/100,
+                    	allBean: json.beanAllTotal?json.beanAllTotal/100:0,
+                    	bean : json.beanTotal?json.beanTotal/100:0,
                     	totalItemCount : json.totalItemCount,
                     	couponTotal : json.couponTotal,
                     	photo : Cookie.load('photo')

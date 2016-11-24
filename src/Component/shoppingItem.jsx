@@ -170,7 +170,7 @@ export class ShoppingItem extends Component {
     			</span>
     			<div className = "shopping-content" onClick={this.toDeail.bind(this)}>
     				<p className="item-title">{skuName}</p>
-                    <p>{speczs?speczs.map((item) =>item.specName+":"+item.specValueName+" "):'对不起，宝贝已经卖光了'} {this.itemSelect == "invalid"?(<i style={{fontStyle:'normal'}} className='fr'>{count}</i>):""}</p>
+                    <p>{speczs?speczs.map((item) =>item.specName+":"+item.specValueName+" "):(this.itemSelect == "invalid"?'对不起，宝贝已经卖光了':'')} {this.itemSelect == "invalid"?(<i style={{fontStyle:'normal'}} className='fr'>{count}</i>):""}</p>
     				{this.itemSelect == "invalid"?"":(<p>￥{sellPrice}</p>)}
     			</div>
     			{this.itemSelect == "invalid"?"":(<AddReduce num={count} callback={this.props.callback} index={this.props.index} groupSkuId={this.props.groupId+"_"+this.props.skuId} stock={stock} parent={this.props.obj} />)}

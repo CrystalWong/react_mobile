@@ -29,7 +29,10 @@ class AddressAdd extends Component {
             maskDisplay: "none"            
 		};
 
+        this.ClickControl = false;//点击控制
+
 		this.saveAddress = () => {
+            if(this.ClickControl)return;
 			let name = this.refs.name.value,
 				contact = this.refs.contact.value,
 				phone = "",
@@ -58,6 +61,7 @@ class AddressAdd extends Component {
 				this.setState({tipContent : '详细地址不能为空',display : 'toasts' });return;
 			}
 			let headers = COMMON_HEADERS_POST('Accept','application/json');
+            
     		let tipText = "添加地址成功",
     			fetchType = "post",
     			addressId = "";
@@ -67,6 +71,7 @@ class AddressAdd extends Component {
     			addressId = self.props.address.id;
     		}			
             self.setState({ajaxDisplay: "block",maskDisplay: "block"});
+            self.ClickControl = true;
 			Tool.fetch(this,{
                 url: `${URLS.Address}/?_t=${cookie.load('tokenid')}`,//提交地址
                 type: fetchType,
@@ -78,7 +83,9 @@ class AddressAdd extends Component {
                 		setTimeout(function(){
                 			Tool.history.goBack();
                 		},1500);
-                	}
+                	}else{
+                        self.ClickControl = false;
+                    }
                 }
             });
             
