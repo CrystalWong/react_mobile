@@ -62,7 +62,6 @@
     color: gray;
 }
 .orderClose .tanm dl dt {
-	border: 1px solid #d3d3d3;
 	width: 23%;
 	height: 1.5rem;
 	position: relative;
@@ -70,9 +69,8 @@
 }
 
 .orderClose .tanm dl dt img {
-	width: 2rem;
-    height: 1.9rem;
-	border: solid 1px black;
+	width: 1.6rem;
+    height: 1.5rem;
 }
 .orderClose .tanm dl dt span {
 	position: absolute;
@@ -187,6 +185,7 @@
 .orderClose .fp span {
 	vertical-align: middle;
 	color: black;
+	line-height: .46rem;
 }
 .orderClose .fp .fpttshow{
 	max-width: 2rem;

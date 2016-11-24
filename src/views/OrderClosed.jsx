@@ -32,6 +32,7 @@ class OrderClosed extends Component {
             consigneeName: ""
         } : choseAddress = props.address;
         this.state = {
+            liuList:[],
             tipContent: '',
             display: '',
             choseAddress: choseAddress,
@@ -144,7 +145,7 @@ class OrderClosed extends Component {
                         "invoiceType": this.state.setBillData.fptype,
                         "invoiceHead": this.state.setBillData.fptt,
                     },
-                    remarkList:liuList
+                    remarkList:liuList.length==0?this.state.liuList:liuList
                 };
             this.setState({ajaxDisplay: "block",maskDisplay: "block"});           
             Tool.fetch(this, {
@@ -256,7 +257,7 @@ class OrderClosed extends Component {
         }
 
         //留言参数
-        let liuList=[],sessionLiuList=[];
+        let sessionLiuList=[],liuList=[];
         this.getLiu = (e) => {
             console.log('获取留言参数');
             var value=e.target.getAttribute('value');
@@ -402,6 +403,9 @@ class OrderClosed extends Component {
         );
     }
     componentDidMount(){
+        let self=this;
+        console.log('---------------------');
+        console.log(this);
         console.log('componentDidMount');
         //根据id或者样式获取元素
         function $(strExpr) {
@@ -425,12 +429,17 @@ class OrderClosed extends Component {
         function backfill(){
             console.log(sessionStorage.getItem('sessionLiuList'));
             if(sessionStorage.getItem('sessionLiuList')!=null){
-                var liuList=sessionStorage.getItem('sessionLiuList').split(',');
+                let liuList=sessionStorage.getItem('sessionLiuList').split(','),backLiulist=[];
                 liuList.forEach(function(item){
+                    var obj={};
                     var liuClass=item.split('/')[0];
                     var liuRemark=item.split('/')[1];
+                    obj.supplier_payment=liuClass;
+                    obj.remark=liuRemark;
                     $('.'+liuClass)[0].value=liuRemark;
+                    backLiulist.push(obj);
                 });
+                self.setState({liuList:backLiulist});
             }
         }
         setTimeout(function(){
