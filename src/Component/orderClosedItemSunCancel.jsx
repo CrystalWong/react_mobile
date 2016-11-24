@@ -21,7 +21,7 @@ export class OrderClosedItemSunCancel extends Component {
                                         <p>{goodsName}<br/><span>{spec==undefined?goodSpec:spec}</span></p>
                                         <p className="price">¥ {storePrice}<br/><span>x{count}</span></p>
                                     </dd>
-                                    <p className="sxp">对不起,宝贝已经卖光了</p>
+                                    <p className="sxp">{skuStatusCode==1?'购买的数量超过了库存':'对不起,宝贝已经卖光了'}</p>
                             </dl>
         );
     }
