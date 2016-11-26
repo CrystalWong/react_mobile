@@ -90,6 +90,7 @@ class AddressAdd extends Component {
             });
             
 		}
+        document.body.height = window.screen.height + "px";
 	}
 
 	//toast
