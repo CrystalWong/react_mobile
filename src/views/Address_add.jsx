@@ -96,14 +96,16 @@ class AddressAdd extends Component {
     toastDisplay(state){this.setState({display: state}); }
 
     addressSelect(){
+        let self = this;
         setTimeout(function(){
-            this.setState({addressSelectStyle: "0",maskDisplay: "block"});
+            self.setState({addressSelectStyle: "0",maskDisplay: "block"});
         },500);
     }
 
     closeAddress(){
+        let self = this;
         setTimeout(function(){
-    	    this.setState({addressSelectStyle: "100%",maskDisplay: "none"});
+    	    self.setState({addressSelectStyle: "100%",maskDisplay: "none"});
         },500);
     }
 
