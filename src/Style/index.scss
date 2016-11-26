@@ -15,14 +15,15 @@ body{
 	background: #fefefe;
 	height: .97rem;
 	width: 100%;
-	border-bottom: 1px solid #d3d3d3; 
+	border-bottom: 1px solid #e3e3e3; 
 	z-index: 99;
 	.title{
+		position: relative;
 		font-size: .34rem;
 		line-height: .97rem;
 		text-align: center;
 		color: #333333;
-		position: relative;
+		font-weight: 500;
 		/* 筛选 */
 		.h-screen-warp{
 			position: absolute;
@@ -140,7 +141,7 @@ body{
 		color: #999;
 		background-size: .36rem auto;
 	}
-	input.phone{border-bottom: 1px solid #e6e6e6;background: url(../images/login/phone_icon.png) no-repeat 0 center;background-size: .36rem auto;}
+	input.phone{border-bottom: 1px solid #e6e6e6;border-radius: 0;background: url(../images/login/phone_icon.png) no-repeat 0 center;background-size: .36rem auto;}
 	input.code{background: url(../images/login/code.png) no-repeat 0 center;background-size: .36rem auto;}
 	.btn{
 		margin-top: .3rem;
