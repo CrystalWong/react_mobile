@@ -43,7 +43,6 @@ class AddressAdd extends Component {
 			if(!name){
 				this.setState({tipContent : '收货人不能为空',display : 'toasts' });return;
 			}
-            // alert(contact);
 			if(!contact){
 				this.setState({tipContent : '联系方式不能为空',display : 'toasts' });return;
 			}
@@ -90,15 +89,9 @@ class AddressAdd extends Component {
             });
             
 		}
-        if(document.body.style.height && document.body.style.height.match("px")){
-            // alert(document.body.style.height);
-           
-        }else{
+        if(!(document.body.style.height && document.body.style.height.match("px"))){
              document.body.style.height = document.body.offsetHeight + "px";
-             // document.body.style.overflow = "hidden";
         }
-        alert(document.body.style.height);
-
 	}
 
 	//toast
