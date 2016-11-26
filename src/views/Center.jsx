@@ -134,7 +134,7 @@ class Center extends Component {
 				<ul className="center-menu">
 					<li><a href="javascript:;" onClick={this.address.bind(this)} className="cm-address">管理收货地址</a></li>
 				</ul>
-				<p className="signin center-out" style={{display: this.state.login?"block":"none"}} ><button className="btn" onClick={this.signOut.bind(this)}>退出</button></p>
+				<p className="signin center-out" style={{display: this.state.login?"block":"none",paddingBottom: ".3rem"}} ><button className="btn" onClick={this.signOut.bind(this)}>退出</button></p>
 			</div>
 		)
 	}
