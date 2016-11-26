@@ -15,7 +15,7 @@ class AddressAdd extends Component {
 		this.state = {
 			tipContent: '',
             display: '',
-            addressSelectStyle: "100%",
+            addressSelectStyle: "500%",
             provinceId: "",
             province: "",
             cityId: "",
@@ -104,14 +104,14 @@ class AddressAdd extends Component {
 
     closeAddress(){
         let self = this;
-        setTimeout(function(){
-    	    self.setState({addressSelectStyle: "100%",maskDisplay: "none"});
-        },800);
+        // setTimeout(function(){
+    	    self.setState({addressSelectStyle: "500%",maskDisplay: "none"});
+        // },800);
     }
 
     addressResult(data){//获取四级地址结果
     	this.setState({
-    		addressSelectStyle: "100%",
+    		addressSelectStyle: "500%",
             maskDisplay: "none",
             provinceId: data.provinceId,
             province: data.province,
