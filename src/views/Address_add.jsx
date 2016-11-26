@@ -96,11 +96,15 @@ class AddressAdd extends Component {
     toastDisplay(state){this.setState({display: state}); }
 
     addressSelect(){
-    	this.setState({addressSelectStyle: "0",maskDisplay: "block"});
+        setTimeout(function(){
+            this.setState({addressSelectStyle: "0",maskDisplay: "block"});
+        },500);
     }
 
     closeAddress(){
-    	this.setState({addressSelectStyle: "100%",maskDisplay: "none"});
+        setTimeout(function(){
+    	    this.setState({addressSelectStyle: "100%",maskDisplay: "none"});
+        },500);
     }
 
     addressResult(data){//获取四级地址结果
