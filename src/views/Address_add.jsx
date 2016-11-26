@@ -99,14 +99,14 @@ class AddressAdd extends Component {
         let self = this;
         setTimeout(function(){
             self.setState({addressSelectStyle: "0",maskDisplay: "block"});
-        },500);
+        },800);
     }
 
     closeAddress(){
         let self = this;
         setTimeout(function(){
     	    self.setState({addressSelectStyle: "100%",maskDisplay: "none"});
-        },500);
+        },800);
     }
 
     addressResult(data){//获取四级地址结果
