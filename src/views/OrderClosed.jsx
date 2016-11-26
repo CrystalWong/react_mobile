@@ -339,7 +339,7 @@ class OrderClosed extends Component {
         },
         linkBill='/setbill?cartParamJson='+this.getQueryString('cartParamJson');
         return (
-            <div>
+            <div style={{height: '100%',overflow: 'auto'}}>
                 <header className="common-header">
                     <div className="left-arrow" onClick={this.goBack}>
                         <a>
