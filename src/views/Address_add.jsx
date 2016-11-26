@@ -90,7 +90,15 @@ class AddressAdd extends Component {
             });
             
 		}
-        if(!(document.body.style.height).match("px"))document.body.height = window.screen.height + "px";
+        if(document.body.style.height && document.body.style.height.match("px")){
+            // alert(document.body.style.height);
+           
+        }else{
+             document.body.style.height = document.body.offsetHeight + "px";
+             // document.body.style.overflow = "hidden";
+        }
+        alert(document.body.style.height);
+
 	}
 
 	//toast
@@ -98,9 +106,9 @@ class AddressAdd extends Component {
 
     addressSelect(){
         let self = this;
-        setTimeout(function(){
+        // setTimeout(function(){
             self.setState({addressSelectStyle: "0",maskDisplay: "block"});
-        },800);
+        // },800);
     }
 
     closeAddress(){
