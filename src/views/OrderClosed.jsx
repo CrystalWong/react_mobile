@@ -312,10 +312,8 @@ class OrderClosed extends Component {
             });
         }
         window.onbeforeunload=function (){
-            alert('触发页面卸载事件...');
             sessionStorage.removeItem("sessionLiuList");
         }
-        
         // setTimeout(function(){
         //     backfill();
         // },5000);
