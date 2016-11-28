@@ -19,7 +19,7 @@ import {OrderClosedItemSunCancel} from '../Component/orderClosedItemSunCancel';
 class OrderClosed extends Component {
     constructor(props) {
         super(props);
-        Tool.loginChecked(this);
+        // Tool.loginChecked(this);
         console.log('代理到本地12...');
         this.getQueryString = (name) => {
             let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -90,7 +90,7 @@ class OrderClosed extends Component {
                 "addressId": props.address.id
             });
         }
-        //this.setState({ajaxDisplay: "block",maskDisplay: "block"});
+        this.setState({ajaxDisplay: "block",maskDisplay: "block"});
         data = {
             url: `${URLS.OrderClosed}`,
             type: "post",

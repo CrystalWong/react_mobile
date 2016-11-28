@@ -29,7 +29,7 @@ export class ShoppingItem extends Component {
             suitIds = "",
             self = this; 
         if(cookie.load('tokenid') != "undefined")isLogin = 1;
-
+        this.props.obj.setState({ajaxDisplay: "block",maskDisplay: "block"});
         if(this.itemSelect == "no_select"){
             // self.props.obj.noStock = false;
             Tool.fetch(this.props.obj,{
@@ -57,7 +57,7 @@ export class ShoppingItem extends Component {
                 type: "put",
                 headers: COMMON_HEADERS,
                 successMethod: function(json){
-                    if(json.data.select == true){
+                    if(json.flag == true){
                         self.refs.icon.src = require('../images/shopping/no_select.png');
                         self.props.obj.selectItem--;
                         self.props.callback2(false,self.props.index);
@@ -65,6 +65,9 @@ export class ShoppingItem extends Component {
                             self.props.obj.noStock = false;
                         }                                             
                     }
+                    if(json.flag == false){
+                        self.props.obj.setState({ tipContent: json.msg,display: 'toasts' });
+                    }                    
                 }
             });
         }
@@ -161,16 +164,17 @@ export class ShoppingItem extends Component {
             <li ref="li">
     			<span style={{ width: width2 }}>
     			    <img src={icon} className="fl" ref = "icon" style={{ width: width }} onClick={this.select.bind(this)} />
-    			    <img src={mainImg?mainImg:require("../images/common/default_icon.png")} className="fl" onClick={this.toDeail.bind(this)} />
-                    {this.noStock?(<i className='no-stock'>库存不足</i>):""}
+    			    <div className="main-img"><img src={mainImg?mainImg:require("../images/common/default_icon.png")} style={{width: mainImg?"":"auto"}} className="fl" onClick={this.toDeail.bind(this)} />
+                        {this.noStock?(<i className='no-stock'>库存不足（{stock}）</i>):""}
+                    </div>
     			</span>
     			<div className = "shopping-content" onClick={this.toDeail.bind(this)}>
     				<p className="item-title">{skuName}</p>
-                    <p>{speczs&&speczs.map((item) =>item.specName+":"+item.specValueName+" ")}</p>
-    				<p>￥{sellPrice}</p>
+                    <p>{speczs?speczs.map((item) =>item.specName+":"+item.specValueName+" "):(this.itemSelect == "invalid"?'对不起，宝贝已经卖光了':'')} {this.itemSelect == "invalid"?(<i style={{fontStyle:'normal'}} className='fr'>{count}</i>):""}</p>
+    				{this.itemSelect == "invalid"?"":(<p>￥{sellPrice}</p>)}
     			</div>
-    			<AddReduce num={count} callback={this.props.callback} index={this.props.index} groupSkuId={this.props.groupId+"_"+this.props.skuId} stock={stock} parent={this.props.obj} />
-    		    <div ref="del" className="delete" onClick={this.delete.bind(this)}>删除</div>
+    			{this.itemSelect == "invalid"?"":(<AddReduce num={count} callback={this.props.callback} index={this.props.index} groupSkuId={this.props.groupId+"_"+this.props.skuId} stock={stock} parent={this.props.obj} />)}
+                <div ref="del" className="delete" onClick={this.delete.bind(this)}>删除</div>
             </li>
         );
     }

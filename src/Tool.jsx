@@ -29,9 +29,10 @@ Tool.fetch = function(obj,data){
             obj.setState&&obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
             data.successMethod(json,status);
             if(status >= 500){
-                if(json.code == -1){
-                    json.message = '网络繁忙，请稍后再试';
-                }
+                // alert(status);
+                // if(json.code == -1){
+                //     json.message = '网络繁忙，请稍后再试';
+                // }
                 obj.setState({ tipContent: json.message?json.message:'网络繁忙，请稍后再试',display: 'toasts' });
             }
         },function(e){
@@ -72,6 +73,7 @@ Tool.fetch = function(obj,data){
             xmlhttp.setRequestHeader("deviceid", "M");
             xmlhttp.setRequestHeader("tokenid", cookie.load('tokenid'));
             xmlhttp.setRequestHeader("APPkey", "b40538ab5bef1ffd18605efda7f820d9");
+            xmlhttp.setRequestHeader("version", "2.0.0");
             
             if(data.type == "post" || data.type == "put"){
                 xmlhttp.send(data.body?data.body:"");
@@ -119,12 +121,13 @@ Tool.fetch = function(obj,data){
 }
 
 /**
- * (毫秒转化 2016-10-18 17:02:09)
+ * 检测登录
  * 
- * @method formatSeconds
+ * @method loginChecked
  */
-Tool.loginChecked = function(obj){
+Tool.loginChecked = function(obj,method){
     if(!cookie.load('tokenid')){
+        if(method){method();return;}
         Tool.history.push('/');
     }else{
         Tool.fetch(obj,{
@@ -133,6 +136,7 @@ Tool.loginChecked = function(obj){
             headers: COMMON_HEADERS,
             successMethod: function(json){
                 if(!json.loginFlag){
+                    if(method){method();return;}
                     Tool.history.push('/');
                 }
             }

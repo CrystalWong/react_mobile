@@ -52,7 +52,7 @@ class Login extends Component {
             // let headers = COMMON_HEADERS_POST('content-type', 'application/json');
             let headers = COMMON_HEADERS_POST();
             Tool.fetch(this,{
-                url: `${URLS.LOGIN}?userName=${userName}&passWord=${passWord}&source=${source}&code=${code.value}&uuid=${this.random}`,
+                url: `${URLS.LOGIN}?userName=${userName}&passWord=${passWord}&source=${source}&code=${code.value}&uuid=${this.random}&_r=${new Date().getTime()}`,
                 type: "post",
                 headers: headers,
                 successMethod: function(json){

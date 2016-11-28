@@ -23,7 +23,6 @@ class ShoppingCart extends Component {
 	constructor(props) {
         
         super(props);
-        Tool.loginChecked(this);
         console.log(this.props);
         this.props.saveAddressInfo({id:""});
         this.state = {
@@ -55,6 +54,10 @@ class ShoppingCart extends Component {
 
         let headers = COMMON_HEADERS();
         let self = this;
+        this.onOut = false;
+        Tool.loginChecked(this,function(){
+            self.onOut = true;
+        });        
         this.count = 0;
         this.selectItem = 0;//选中的个数
         this.validCount = 0;//可以选择的个数
@@ -192,7 +195,7 @@ class ShoppingCart extends Component {
             uKey = cookie.load('tokenid');
         if(cookie.load('tokenid'))isLogin = 1;
 
-
+        self.setState({ajaxDisplay: "block",maskDisplay: "block"});
         if(selectAll.className.match("selectall")){
             Tool.fetch(this,{
                 url: `${URLS.CONCELITEM}${isLogin}/${uKey}?selectAll=1`,
@@ -216,7 +219,7 @@ class ShoppingCart extends Component {
                     if(json.data.select == true){
                         selectAll.className = "no-select-all selectall";
                         selectControl = true;
-                        self.selectItem = list.length;
+                        self.selectItem = self.validCount;
                         result();
                     }
                     if(json.flag == false){
@@ -253,7 +256,12 @@ class ShoppingCart extends Component {
             this.setState({tipContent: '库存不足',display: 'toasts',});
             return;            
         }
-        Tool.history.push("/orderclosed");
+        if(this.onOut){
+            Tool.history.push("/");   
+        }else{
+            Tool.history.push("/orderclosed");
+        }
+             
     }
 
     deleteItem(data){
