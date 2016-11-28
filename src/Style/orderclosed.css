@@ -1,9 +1,13 @@
+.appwrap {
+    height: 100%;
+}
 .common-header {
     z-index: 1;
 }
 .orderClose {
 	font-size: .28rem;
-	padding-bottom: 1.58rem;
+	padding-bottom:1.58rem;
+	height: 100%;
 }
 .orderClose .address {
 	width: 100%;
@@ -254,4 +258,5 @@
 }
 .route-div {
 	padding-top: 1.05rem;
+	height: 100%;
 }
