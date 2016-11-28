@@ -337,7 +337,6 @@ class OrderClosed extends Component {
         },
         linkBill='/setbill?cartParamJson='+this.getQueryString('cartParamJson');
         return (
-            <div>
                 <header className="common-header">
                     <div className="left-arrow" onClick={this.goBack}>
                         <a>
@@ -389,15 +388,13 @@ class OrderClosed extends Component {
                     </a>
                 </div>
             	<div className="bootm">
-					<a className="heji">合计:<span>¥{this.state.ajdata.orderTotalFee}</span></a>
+                <a className="heji"><em style="font-size: 22px;">合计:</em><span>¥{this.state.ajdata.orderTotalFee}</span></a>
 					<a className="subbtn" onClick={this.submitOrder.bind(this)}>提交订单</a>
 				</div>
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
 				<Confirm  {...this.state.confirm}/>
                 <AjaxTip display={this.state.ajaxDisplay} />
                 <div className="mask" style={{display: this.state.maskDisplay}}></div>
-		
-            </div>
         );
     }
     componentDidMount(){
