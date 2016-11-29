@@ -259,7 +259,7 @@ class OrderDetail extends Component {
                     <p className="orderstate">{this.orderState[this.state.ajdata.orderStatus]}</p>
                 </div>
                 <div className="address1">
-                    <div className="adinfo">
+                    <div className="adinfo2">
                     <p>{this.state.ajdata.userAddress.trueName}&nbsp;{this.state.ajdata.userAddress.mobile}<span style={{display: this.state.ajdata.userAddress==1?"block":"none"}}>默认</span></p>
                         <span>地址：</span><span>{this.state.ajdata.userAddress.locationInfo}{this.state.ajdata.userAddress.detailInfo}</span>
                     </div>

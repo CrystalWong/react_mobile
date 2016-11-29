@@ -90,7 +90,7 @@ class OrderClosed extends Component {
                 "addressId": props.address.id
             });
         }
-        this.setState({ajaxDisplay: "block",maskDisplay: "block"});
+        //this.setState({ajaxDisplay: "block",maskDisplay: "block"});
         data = {
             url: `${URLS.OrderClosed}`,
             type: "post",
@@ -337,6 +337,7 @@ class OrderClosed extends Component {
         },
         linkBill='/setbill?cartParamJson='+this.getQueryString('cartParamJson');
         return (
+            <div style={{'height':'100%'}}>
                 <header className="common-header">
                     <div className="left-arrow" onClick={this.goBack}>
                         <a>
@@ -350,14 +351,15 @@ class OrderClosed extends Component {
                     	<div style={{display: this.state.isShow.adOff}} className="address" onClick={this.choseAddress.bind(this)}>
     						<img src={require('../images/orderclosed/add@2x.png')} alt="添加"/> 新增收货地址
     	                </div>
-    	                <div className="address1" style={{display: this.state.isShow.adOn}} onClick={this.choseAddress.bind(this)}>
-    	                	<img src={require("../images/orderclosed/address@2x.png")}/>
-    	                	<div className="adinfo">
-    	                		<h3>{this.state.choseAddress.consigneeName!=''&&this.state.ajdata.address!=null?this.state.choseAddress.consigneeName:this.state.ajdata.address.consigneeName}&nbsp;
+
+                        <div className="address1" onClick={this.choseAddress.bind(this)}>
+                            <img src={require("../images/orderclosed/address@2x.png")}/>
+                            <div className="adinfo1">
+                                <h3>{this.state.choseAddress.consigneeName!=''&&this.state.ajdata.address!=null?this.state.choseAddress.consigneeName:this.state.ajdata.address.consigneeName}&nbsp;
                                 {this.state.choseAddress.consigneeMobile!=undefined&&this.state.ajdata.address!=null?this.state.choseAddress.consigneeMobile:this.state.ajdata.address.consigneeMobile}</h3>
                                 <span>地址：</span><span>{this.state.choseAddress.locationInfo!=undefined&&this.state.ajdata.address!=null?this.state.choseAddress.locationInfo+this.state.choseAddress.detailInfo:(this.state.ajdata.address.detailInfo?(this.state.ajdata.address.locationInfo+this.state.ajdata.address.detailInfo):"请选择地址")}</span>
-    	                	</div>
-    	                </div>
+                            </div>
+                        </div>
     				    <OrderClosedList {...this.state.ajdata} getLiu={this.getLiu.bind(this)}/>
     					<dl className="line">
     						<dt>配送方式</dt>
@@ -388,20 +390,19 @@ class OrderClosed extends Component {
                     </a>
                 </div>
             	<div className="bootm">
-                <a className="heji"><em style="font-size: 22px;">合计:</em><span>¥{this.state.ajdata.orderTotalFee}</span></a>
+                <a className="heji"><em style={{'fontSize': '22px'}}></em>合计:<span>¥{this.state.ajdata.orderTotalFee}</span></a>
 					<a className="subbtn" onClick={this.submitOrder.bind(this)}>提交订单</a>
 				</div>
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
 				<Confirm  {...this.state.confirm}/>
                 <AjaxTip display={this.state.ajaxDisplay} />
                 <div className="mask" style={{display: this.state.maskDisplay}}></div>
+		
+            </div>
         );
     }
     componentDidMount(){
         let self=this;
-        console.log('---------------------');
-        console.log(this);
-        console.log('componentDidMount');
         //根据id或者样式获取元素
         function $(strExpr) {
             var idExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;

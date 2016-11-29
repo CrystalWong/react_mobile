@@ -6,8 +6,7 @@
 }
 .orderClose {
 	font-size: .28rem;
-	padding-bottom:1.58rem;
-	height: 100%;
+	padding-bottom:1.4rem;
 }
 .orderClose .address {
 	width: 100%;
@@ -29,15 +28,24 @@
 	vertical-align: middle;
 	margin: .9rem 0 0 .2rem;
 }
-
-.orderClose .address1 .adinfo {
+.orderClose .address1 .adinfo2 {
 	float: right;
 	height: 100%;
 	width: 88%;
 	margin-left: .2rem;
 }
 
-.orderClose .address1 .adinfo h3 {
+.orderClose .address1 .adinfo2 h3 {
+	margin: .5rem 0rem .3rem 0;
+}
+.orderClose .address1 .adinfo1 {
+	float: right;
+	height: 100%;
+	width: 88%;
+	margin-left: .2rem;
+}
+
+.orderClose .address1 .adinfo1 h3 {
 	margin: .5rem 0rem .3rem 0;
 }
 
@@ -107,12 +115,11 @@
 .orderClose .tanm dl dd p .biaoName {
 	text-overflow: ellipsis;
     height: .8rem;
-    width: 3.8rem;
+    width: 2.4rem;
     overflow: hidden;
 }
 .orderClose .tanm dl dd p span {
 	color: grey;
-	width: 4.8rem;
     display: inline-block;
 }
 
