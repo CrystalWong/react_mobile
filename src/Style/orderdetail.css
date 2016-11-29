@@ -42,7 +42,7 @@
     margin: .2rem;
 }
 
-.order-detail .address1 .adinfo {
+.order-detail .address1 .adinfo2 {
     float: right;
     height: 100%;
     width: 100%;
@@ -50,7 +50,7 @@
     background: url(../images/orderdetail/address@2x.png) no-repeat .3rem .8rem;
     background-size: .26rem .32rem;
 }
-.order-detail .address1 .adinfo p {
+.order-detail .address1 .adinfo2 p {
     margin: .35rem 0 .1rem 0;
     color: #343434;
     font-size: .28rem;
