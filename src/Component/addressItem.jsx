@@ -37,7 +37,7 @@ export class AddressItem extends Component{
 
 	setAddressInfo(){//保存每项地址信息
 		this.props.saveAddressInfo(this.props.item);
-        var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"m.jyall.com":"") }
+        var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"jyall.com":"") }
         // cookie.save('addressId', this.props.id, cookieObj);
         // cookie.save('consigneeName', this.props.consigneeName, cookieObj);
 

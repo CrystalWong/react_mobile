@@ -91,7 +91,7 @@ class Center extends Component {
                 },
                 rightText: "确定",
                 rightMethod: ()=>{
-					var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"m.jyall.com":"") }
+					var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"jyall.com":"") }
 					Tool.fetch(this,{
 			            url: URLS.LOGINOUT + Cookie.load('tokenid'),
 			            type: "get",
