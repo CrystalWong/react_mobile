@@ -57,6 +57,7 @@ class Center extends Component {
                 }
             });
 		}
+		document.referrer = "";
 	}
 
 	//是否登录
