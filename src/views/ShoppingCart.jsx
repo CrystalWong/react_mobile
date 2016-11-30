@@ -192,7 +192,7 @@ class ShoppingCart extends Component {
         self.allNum = 0;
 
         let isLogin = 0,
-            uKey = cookie.load('tokenid');
+            uKey = cookie.load('tokenid')?cookie.load('tokenid'):cookie.load('jycart_uKey');
         if(cookie.load('tokenid'))isLogin = 1;
 
         self.setState({ajaxDisplay: "block",maskDisplay: "block"});
