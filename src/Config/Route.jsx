@@ -160,5 +160,5 @@ const RouteConfig = (
   <Router history={history} routes={rootRoute} />
 );
 
-Tool.rem();
+// Tool.rem();
 export default RouteConfig;
