@@ -1,6 +1,9 @@
 .order-detail{
     font-family: '微软雅黑';
     padding-bottom: 1.22rem;
+    height: 100%;
+    position: relative;
+    overflow: auto;
 }
 .order-detail .num {
     height: .88rem;
@@ -114,6 +117,7 @@
     font-size: .28rem;
     padding-bottom: 0rem;
     padding-top: 0rem;
+    height: auto;
 }
 .order-detail .jinediv .jine {
     margin: 0;
