@@ -84,7 +84,7 @@ module.exports = {
     output: {
         publicPath,//编译好的文件，在服务器的路径
         path,//编译到当前目录
-        filename: '[name].js'//编译后的文件名字
+        filename: '[name].[hash:8].js'//编译后的文件名字
     },
     module: {
         loaders: [
