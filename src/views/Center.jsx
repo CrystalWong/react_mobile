@@ -57,7 +57,6 @@ class Center extends Component {
                 }
             });
 		}
-		document.referrer = "";
 	}
 
 	//是否登录
@@ -120,7 +119,7 @@ class Center extends Component {
 
 	checkOut(link){
 		if(this.onOut){
-            Tool.history.push("/");
+            Tool.history.push("/?login=hash");
 		}else{
             Tool.history.push(link);
 		}		
@@ -154,7 +153,7 @@ class Center extends Component {
 					<div className="ch-avatar"><img src={this.state.photo?this.state.photo:require("../images/center/weidenglu.png")} /></div>
 					<p className="ch-nickname" style={{display: this.state.login?"block":"none"}}>{this.state.nickname}</p>
 					<p className="ch-quantity" style={{display: this.state.login?"block":"none"}}>家园豆：{this.state.allBean} （可用：{this.state.bean}）</p>
-					<p className="login-button" style={{display: this.state.login?"none":"block"}}><Link to="/">点击登录</Link></p>
+					<p className="login-button" style={{display: this.state.login?"none":"block"}}><Link to="/?login=hash">点击登录</Link></p>
 				</header>
 				<ul className="center-menu">
 					{/*<p className="ch-quantity">优惠券：（{this.state.couponTotal}）</p> <li><a href="#" className="cm-message">消息<i></i></a></li>*/}

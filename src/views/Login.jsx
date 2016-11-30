@@ -72,6 +72,10 @@ class Login extends Component {
                         cookie.save('photo', json.responseBody.photo, cookieObj);
                         setTimeout(function(){
                             if(document.referrer == "http://m.jyall.com/"){
+                                if(self.loginParams == "hash"){
+                                    self.context.router.goBack();
+                                    return;
+                                }
                                 location.href = "http://m.jyall.com/";
                             }else{
                                 self.context.router.goBack();
@@ -92,6 +96,14 @@ class Login extends Component {
                 }
             });
         }
+        var search = location.href.split("?")[1],
+          self = this;
+        search = search?search.split("&"):[];
+        search.forEach(function(item){
+          if(item.split("=")[0] == "login"){
+            self.loginParams = item.split("=")[1];
+          }
+        });        
     }
 
     toastDisplay(state){
