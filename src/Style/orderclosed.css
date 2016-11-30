@@ -7,6 +7,9 @@
 .orderClose {
 	font-size: .28rem;
 	padding-bottom:1.4rem;
+	height: 100%;
+    position: relative;
+    overflow: auto;
 }
 .orderClose .address {
 	width: 100%;
