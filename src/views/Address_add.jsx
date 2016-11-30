@@ -15,7 +15,7 @@ class AddressAdd extends Component {
 		this.state = {
 			tipContent: '',
             display: '',
-            addressSelectStyle: "100%",
+            addressSelectStyle: "500%",
             provinceId: "",
             province: "",
             cityId: "",
@@ -43,7 +43,6 @@ class AddressAdd extends Component {
 			if(!name){
 				this.setState({tipContent : '收货人不能为空',display : 'toasts' });return;
 			}
-            // alert(contact);
 			if(!contact){
 				this.setState({tipContent : '联系方式不能为空',display : 'toasts' });return;
 			}
@@ -90,22 +89,31 @@ class AddressAdd extends Component {
             });
             
 		}
+        if(!(document.body.style.height && document.body.style.height.match("px"))){
+             document.body.style.height = document.body.offsetHeight + "px";
+        }
 	}
 
 	//toast
     toastDisplay(state){this.setState({display: state}); }
 
     addressSelect(){
-    	this.setState({addressSelectStyle: "0",maskDisplay: "block"});
+        let self = this;
+        // setTimeout(function(){
+            self.setState({addressSelectStyle: "0",maskDisplay: "block"});
+        // },800);
     }
 
     closeAddress(){
-    	this.setState({addressSelectStyle: "100%",maskDisplay: "none"});
+        let self = this;
+        // setTimeout(function(){
+    	    self.setState({addressSelectStyle: "500%",maskDisplay: "none"});
+        // },800);
     }
 
     addressResult(data){//获取四级地址结果
     	this.setState({
-    		addressSelectStyle: "100%",
+    		addressSelectStyle: "500%",
             maskDisplay: "none",
             provinceId: data.provinceId,
             province: data.province,

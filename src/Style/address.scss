@@ -1,11 +1,15 @@
 // 无地址
-body{background-image:none;}
+html{height: 100%;}
+body{background-image:none;height: 100%;}
+.route-div{
+	height: 100%;
+}
 .no-address{
 	position: absolute;top:50%;margin-top:-1.11rem;width:100%;
 	.na-ico{background:url(../images/address/no-address.png) no-repeat;width:1.63rem;height:1.54rem;display: block;background-size:contain;margin:0 auto .1rem auto;}
 	p{text-align:center;font-size:.28rem;color:#666;line-height:.37rem;}
 }
-.add-address-btn{color:#FFF;height:1rem;width:100%;line-height:1rem;background-color:#f60;display: block;text-align:center;font-size:.34rem;position: fixed;bottom:0;}
+.add-address-btn{position: fixed;bottom:0;-webkit-transform: translate3d(0,0,0);transform: translate3d(0,0,0);color:#FFF;height:1rem;width:100%;line-height:1rem;background-color:#f60;display: block;text-align:center;font-size:.34rem;}
 
 //有地址
 .address-list{

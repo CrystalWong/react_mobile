@@ -110,7 +110,7 @@ class ShoppingCart extends Component {
                 let selectAll = 0;
                 // for(let i of json.cartItems){
                 json.cartItems.forEach(function(i){
-                    if(i.state==1&&i.status==1&&i.salesState==2&&i.stock>0){
+                    if(i.state==1&&i.status==1&&i.salesState==2&&i.stock>0&&i.count <= i.stock){
                         selectAll++;
                         if(i.select){
                             self.selectItem++;
@@ -231,7 +231,7 @@ class ShoppingCart extends Component {
 
         let result = function(){
             list.map(item => {
-                if(item.state==1&&item.status==1&&item.salesState==2){
+                if(item.state==1&&item.status==1&&item.salesState==2&&item.stock>0&&item.count <= item.stock){
                     item.select = selectControl;
                     if(selectControl){
 
