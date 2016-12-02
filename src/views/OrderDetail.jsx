@@ -298,17 +298,17 @@ class OrderDetail extends Component {
                 <div className="jinediv">
                         <dl className="line jine">
                             <dt>商品总金额</dt>
-                            <dd><span>¥{this.state.ajdata.totalGoodsCost}</span></dd>
+                            <dd><span>¥{Tool.toDecimal2(this.state.ajdata.totalGoodsCost)}</span></dd>
                         </dl>
                         <dl className="line jine">
                             <dt>运费</dt>
-                            <dd><span>¥{this.state.ajdata.freight}</span></dd>
+                            <dd><span>¥{Tool.toDecimal2(this.state.ajdata.freight)}</span></dd>
                         </dl>
                 </div>
                 <div className="jinediv">
                         <dl className="line jine">
                             <dt></dt>
-                            <dd>实付款:<span>¥{this.state.ajdata.actualCost}</span></dd>
+                            <dd>实付款:<span>¥{Tool.toDecimal2(this.state.ajdata.actualCost)}</span></dd>
                         </dl>
                         <dl className="line jine">
                             <dt></dt>

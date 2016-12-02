@@ -160,7 +160,28 @@ Tool.formatSeconds = function(seconds){
     return numTowDisplay(date.getFullYear())+"-"+numTowDisplay(date.getMonth()+1)+"-"+numTowDisplay(date.getDate())+
     " "+numTowDisplay(date.getHours())+":"+numTowDisplay(date.getMinutes())+":"+numTowDisplay(date.getSeconds());
 }
-
+/**
+ * 保留2位小数，如：2，会在2后面补上00.即2.00
+ * 
+ * @method formatSeconds
+ */
+Tool.toDecimal2 = function(x){
+     var f = parseFloat(x);    
+        if (isNaN(f)) {    
+            return false;    
+        }    
+        var f = Math.round(x*100)/100;    
+        var s = f.toString();    
+        var rs = s.indexOf('.');    
+        if (rs < 0) {    
+            rs = s.length;    
+            s += '.';    
+        }    
+        while (s.length <= rs + 2) {    
+            s += '0';    
+        }    
+    return s; 
+}
 Tool.rem = function(){
     let rem,window_w;
     function resetREM(){
