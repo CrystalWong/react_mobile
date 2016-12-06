@@ -142,9 +142,9 @@ class OrderDetail extends Component {
                     body:JSON.stringify({"id":this.state.ajdata.id}),
                     headers: headers,
                     successMethod: function(json){
-                        console.log(json);
-                    }
+                                            }
                 });
+                location.reload();
             }
             //删除订单
             this.deleateOrder=()=>{

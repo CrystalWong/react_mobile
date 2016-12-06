@@ -357,16 +357,16 @@ var OrderList = React.createClass({
     //确认收货
     receipt:function(id){
       let dId = id.id,headers = COMMON_HEADERS_POST();
+      alert('确认收货');
       Tool.fetch(this,{
           url: `${URLS.ConfirmGetDoods}`+dId,
           type: "post",
           headers: headers,
           successMethod: function(json,status){
-              console.log("dId===="+dId);
-              
-              location.reload();    
+              alert('成功回调!');
           }
       })
+      location.reload();
     },
     //取消订单
     cancelOrder:function(id,e){
