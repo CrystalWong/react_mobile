@@ -33,13 +33,13 @@ class RegisterPassword extends Component {
                 return;
             }            
 
-            // let headers = COMMON_HEADERS();
+            let headers = COMMON_HEADERS();
             // headers = COMMON_HEADERS('deviceid', "M");
             if(this.props.login.pwd == "findpwd"){
                 Tool.fetch(this,{
                     url: URLS.FINDPWDBYMOBILE+this.props.login.phone+"/"+password+"?uuid="+this.props.login.uuid,
                     type: "get",
-                    headers: COMMON_HEADERS,
+                    headers: headers,
                     successMethod: function(json,status){
                         console.log(json);
                         if(status == 200){
@@ -54,7 +54,7 @@ class RegisterPassword extends Component {
                 Tool.fetch(this,{
                     url: URLS.Register+"?uuid="+this.props.login.uuid,
                     type: "post",
-                    headers: COMMON_HEADERS,
+                    headers: headers,
                     body: '{mobile:'+this.props.login.phone+',loginName:"",password:"'+ password +'",source:"app",userType:"1"}',
                     successMethod: function(json,status){
                         console.log(json);
