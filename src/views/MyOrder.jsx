@@ -134,11 +134,7 @@ class MyOrder extends Component {
         });
      }
     
-    componentDidUpdate(){
-        console.log('this.state.more==============='+this.state.more);
-        console.log('this.state.scrollNoData==============='+this.state.scrollNoData);
-        console.log('this.state.pageNo==============='+this.state.pageNo);
-    }
+   
     onScrollEnd(iScrollInstance){
           if(this.state.scrollNoData){
             return;
@@ -176,11 +172,12 @@ class MyOrder extends Component {
       _this.setState({
         display: "block",
         confirm : {
+          display: "block",
           title: "确认删除此订单吗?",
           content: "",
           leftText: "取消",
           leftMethod: ()=>{
-            _this.setState({confirm : {display : 'none'}});
+            _this.setState({display: "none",confirm : {display : 'none'}});
           },
           rightText: "确定",
           rightMethod: ()=>{
@@ -272,7 +269,7 @@ class MyOrder extends Component {
     //取消订单
     callbackCancel(dId){
       this.setState({
-          cancelDisplay:"block",
+          cancelDisplay: "block",
           display: "block",
           orderId: dId
       });
@@ -298,12 +295,37 @@ class MyOrder extends Component {
             });
         }
     }
+    //确认收货
+    callbackReceipt(dId){
+      let self = this,thisNode=document.getElementById(dId),headers = COMMON_HEADERS_POST();
+      Tool.fetch(this,{
+          url: `${URLS.ConfirmGetDoods}`+dId,
+          type: "post",
+          headers: headers,
+          successMethod: function(json,status){
+              console.log("dId===="+dId);
+              self.setState({
+                  tipContent: '已确认收货',
+                  display: 'toasts'
+              });
+              thisNode.parentNode.removeChild(thisNode);
+              //location.reload();    
+          }
+      })
+    }
+    componentDidUpdate(){
+        console.log('this.state.more==============='+this.state.more);
+        console.log('this.state.scrollNoData==============='+this.state.scrollNoData);
+        console.log('this.state.pageNo==============='+this.state.pageNo);
+        console.log('this.state.cancelDisplay==============='+this.state.cancelDisplay);
+    }
     //渲染完成之后再执行
     //componentDidMount(){
     /*componentWillMount(){
         this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":this.state.statusPar,"pageNo":this.state.pageNo,"pageSize":this.state.pageSize});
     }*/
     render() {
+
         return (
             <div className="my-order">
                 <Header title="全部订单" leftIcon="fanhui" hadeScreen="true" callback={this.subScreen.bind(this)} callbackParent={this.markDisplay.bind(this)} />
@@ -319,7 +341,7 @@ class MyOrder extends Component {
                     <ReactIScroll iScroll={iScroll} options={this.state.options} onScrollEnd={this.onScrollEnd.bind(this)}>
                     <div ref="OrderCon">
                         {
-                            this.state.list.map((item,index) => <OrderList key={index} {...item} callbackDel={this.callbackDel.bind(this)} callbackLog={this.callbackLog.bind(this)} callbackShop={this.callbackShop.bind(this)} callbackPay={this.callbackPay.bind(this)} callbackCancel={this.callbackCancel.bind(this)}/>)
+                            this.state.list.map((item,index) => <OrderList key={index} {...item} callbackDel={this.callbackDel.bind(this)} callbackLog={this.callbackLog.bind(this)} callbackShop={this.callbackShop.bind(this)} callbackPay={this.callbackPay.bind(this)} callbackCancel={this.callbackCancel.bind(this)} callbackReceipt={this.callbackReceipt.bind(this)}/>)
                         }
                         <div id="pullUp" className="pull-up" display={this.state.display}><span id="pull_up_label">{this.state.more}</span></div>
                     </div>
@@ -357,13 +379,12 @@ var OrderList = React.createClass({
     //确认收货
     receipt:function(id){
       let dId = id.id,headers = COMMON_HEADERS_POST();
-      alert('确认收货');
       Tool.fetch(this,{
           url: `${URLS.ConfirmGetDoods}`+dId,
           type: "post",
           headers: headers,
           successMethod: function(json,status){
-              alert('成功回调!');
+              // alert('成功回调!');
           }
       })
       location.reload();

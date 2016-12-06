@@ -7,6 +7,7 @@ import {Tool, merged} from '../Tool';
 import '../Style/center';
 import {Header} from '../Component/common/index';
 import {ONLINE} from '../constants/common';
+import {Toast,Confirm,AjaxTip} from '../Component/common/Tip';
 
 class Center extends Component {
 	constructor(props){
@@ -22,7 +23,21 @@ class Center extends Component {
 			photo : require("../images/center/weidenglu.png"),
 			allBean: 0,
 			bean : 0,
-			login: true
+			login: true,
+            confirm: {
+                title: "",
+                content: "确定退出登录？", 
+                leftText: "取消",
+                leftMethod: function(){
+                    alert("取消");
+                },
+                rightText: "确定",
+                rightMethod: function(){
+                    alert("确定");
+                },
+                display: "none"
+            },
+            maskDisplay: "none"			
 		};
 		//获取家园豆、优惠券、购物车数量
 		this.getBean = () => {
@@ -66,28 +81,45 @@ class Center extends Component {
 	//退出
 	signOut(){
 		let _this = this;
-		var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"m.jyall.com":"") }
-		Tool.fetch(this,{
-            url: URLS.LOGINOUT + Cookie.load('tokenid'),
-            type: "get",
-            successMethod: function(json){
-            	if(json){
-                    Cookie.remove('userId', cookieObj);     
-                    Cookie.remove('tokenid', cookieObj); 
-                    Cookie.remove('name', cookieObj); 
-                    Cookie.remove('photo', cookieObj);      		
-	                _this.setState({
-	                	login: false,
-	                	photo: require("../images/center/weidenglu.png")
-	                });
-            	}
-            }
-        });		
+        this.setState({
+            confirm : {
+                title: "",
+                content: "确定退出登录？",
+                leftText: "取消",
+                leftMethod: ()=>{
+                    _this.setState({maskDisplay:"none",confirm:{display:"none"}});
+                },
+                rightText: "确定",
+                rightMethod: ()=>{
+					var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"jyall.com":"") }
+					Tool.fetch(this,{
+			            url: URLS.LOGINOUT + Cookie.load('tokenid'),
+			            type: "get",
+			            successMethod: function(json){
+			            	if(json){
+			                    Cookie.remove('userId', cookieObj);     
+			                    Cookie.remove('tokenid', cookieObj); 
+			                    Cookie.remove('name', cookieObj); 
+			                    Cookie.remove('photo', cookieObj);      		
+				                _this.setState({
+				                	login: false,
+				                	photo: require("../images/center/weidenglu.png")
+				                });
+				                _this.setState({maskDisplay:"none",confirm:{display:"none"}});
+			            	}
+			            }
+			        });
+                },
+                display: "block"
+            },
+            maskDisplay: "block"
+        }); 
+		
 	}
 
 	checkOut(link){
 		if(this.onOut){
-            Tool.history.push("/");
+            Tool.history.push("/?login=hash");
 		}else{
             Tool.history.push(link);
 		}		
@@ -121,7 +153,7 @@ class Center extends Component {
 					<div className="ch-avatar"><img src={this.state.photo?this.state.photo:require("../images/center/weidenglu.png")} /></div>
 					<p className="ch-nickname" style={{display: this.state.login?"block":"none"}}>{this.state.nickname}</p>
 					<p className="ch-quantity" style={{display: this.state.login?"block":"none"}}>家园豆：{this.state.allBean} （可用：{this.state.bean}）</p>
-					<p className="login-button" style={{display: this.state.login?"none":"block"}}><Link to="/">点击登录</Link></p>
+					<p className="login-button" style={{display: this.state.login?"none":"block"}}><Link to="/?login=hash">点击登录</Link></p>
 				</header>
 				<ul className="center-menu">
 					{/*<p className="ch-quantity">优惠券：（{this.state.couponTotal}）</p> <li><a href="#" className="cm-message">消息<i></i></a></li>*/}
@@ -134,7 +166,9 @@ class Center extends Component {
 				<ul className="center-menu">
 					<li><a href="javascript:;" onClick={this.address.bind(this)} className="cm-address">管理收货地址</a></li>
 				</ul>
-				<p className="signin center-out" style={{display: this.state.login?"block":"none"}} ><button className="btn" onClick={this.signOut.bind(this)}>退出</button></p>
+				<p className="signin center-out" style={{display: this.state.login?"block":"none",paddingBottom: ".3rem"}} ><button className="btn" onClick={this.signOut.bind(this)}>退出</button></p>
+			    <Confirm  {...this.state.confirm}/>
+                <div className="mask" style={{display: this.state.maskDisplay}}></div>
 			</div>
 		)
 	}

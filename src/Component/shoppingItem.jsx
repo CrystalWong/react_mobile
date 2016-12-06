@@ -28,7 +28,7 @@ export class ShoppingItem extends Component {
             groupSkuId = this.props.groupId+"_"+this.props.skuId,
             suitIds = "",
             self = this; 
-        if(cookie.load('tokenid') != "undefined")isLogin = 1;
+        if(cookie.load('tokenid'))isLogin = 1;
         this.props.obj.setState({ajaxDisplay: "block",maskDisplay: "block"});
         if(this.itemSelect == "no_select"){
             // self.props.obj.noStock = false;
@@ -112,8 +112,8 @@ export class ShoppingItem extends Component {
                 this.ey = event.touches[0].clientY;
                 console.log(this.ey-this.sy);
                 console.log(this.outScroll.scrollTop);
-                this.outScroll.scrollTop = -(this.ey-this.sy);
-                // this.sy = this.ey;
+                this.outScroll.scrollTop = this.outScroll.scrollTop-(this.ey-this.sy);
+                this.sy = this.ey;
                 break;  
         }          
     }
@@ -144,7 +144,7 @@ export class ShoppingItem extends Component {
             width2 = (state==1&&status==1&&salesState==2&&stock>0)?"2.6rem":"2.8rem";
 
         this.itemSelect = "invalid";    
-        if(state==1&&status==1&&salesState==2&&select){
+        if(state==1&&status==1&&salesState==2&&select&&count<=stock&&stock > 0){
             this.itemSelect = "select";
             // this.props.obj.selectItem++; 
         }else if(state==1&&status==1&&salesState==2&&!select){

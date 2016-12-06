@@ -60,7 +60,7 @@ class Login extends Component {
                     //{"responseBody":{"password":"70ed0011afee14509cf8a9cb4fd932f591b355b7a2c3d4527c3d6e3a","tokenid":"a3dd0adcZf19bcadcZ1574fbcc15dZb4ab","roleId":"1","sex":"0","name":"HYS15810341mq","photo":"http://image1.jyall.com/v1/tfs/T1Nqh_B4bT1R4cSCrK","userId":"HYS000705"},"responseHeader":{"errorCode":0,"message":"success"}}
                     if(json.responseHeader){//登录成功
                     //json
-                        var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"m.jyall.com":"") }
+                        var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"jyall.com":"") }
                         self.props.loginAction(json.responseBody);
                         cookie.remove('tokenid',cookieObj);
                         cookie.remove('userId',cookieObj);
@@ -71,8 +71,12 @@ class Login extends Component {
                         cookie.save('userId', json.responseBody.userId, cookieObj);
                         cookie.save('photo', json.responseBody.photo, cookieObj);
                         setTimeout(function(){
-                            if(document.referrer == ""){
-                                location.href = "/";
+                            if(document.referrer == "http://m.jyall.com/"){
+                                if(self.loginParams == "hash"){
+                                    self.context.router.goBack();
+                                    return;
+                                }
+                                location.href = "http://m.jyall.com/";
                             }else{
                                 self.context.router.goBack();
                             }
@@ -92,6 +96,14 @@ class Login extends Component {
                 }
             });
         }
+        var search = location.href.split("?")[1],
+          self = this;
+        search = search?search.split("&"):[];
+        search.forEach(function(item){
+          if(item.split("=")[0] == "login"){
+            self.loginParams = item.split("=")[1];
+          }
+        });        
     }
 
     toastDisplay(state){

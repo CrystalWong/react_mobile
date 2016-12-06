@@ -33,7 +33,7 @@ class RegisterPassword extends Component {
                 return;
             }            
 
-            let headers = COMMON_HEADERS('sign', SIGN);
+            let headers = COMMON_HEADERS();
             // headers = COMMON_HEADERS('deviceid', "M");
             if(this.props.login.pwd == "findpwd"){
                 Tool.fetch(this,{
