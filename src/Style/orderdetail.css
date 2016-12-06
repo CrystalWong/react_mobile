@@ -153,7 +153,7 @@
 .order-detail .jinediv {
     margin-top: .25rem;
 }
-.order-detail .bootm {
+.bootmdetail {
     border: 1px solid #d3d3d3;
     position: fixed;
     bottom: 0;
@@ -162,7 +162,7 @@
     width: 100%;
     background: #fff;
 }
-.order-detail .bootm a {
+.bootmdetail a {
     text-align: center;
     width: 49%;
     line-height: 1.2rem;
@@ -170,16 +170,16 @@
     display: inline-block;
     float: left;
 }
-.order-detail .bootm .heji {
+.bootmdetail .heji {
     width: 59%;
     text-align: right;
     padding-right: .2rem;
 }
-.order-detail .bootm .heji span {
+.bootmdetail .heji span {
     color: #ce0000;
 }
 
-.order-detail .bootm .subbtn {
+.bootmdetail .subbtn {
     width: 28%;
     background: #f60;
     color: #fff;
@@ -190,7 +190,7 @@
     float: right;
     border-radius: .1rem;
 }
-.order-detail .bootm .subbtn1 {
+.bootmdetail .subbtn1 {
     width: 28%;
     background: #fff;
     color: #f60;
