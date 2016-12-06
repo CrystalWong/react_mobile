@@ -311,7 +311,7 @@ class OrderClosed extends Component {
                 maskDisplay:"block"
             });
         }
-        window.onbeforeunload=function (){
+        window.onunload =function (){
             sessionStorage.removeItem("sessionLiuList");
         }
         // setTimeout(function(){
@@ -373,11 +373,11 @@ class OrderClosed extends Component {
     					<div className="jinediv">
     						<dl className="line jine">
     							<dt>商品总金额</dt>
-    							<dd><span>¥{this.state.ajdata.goodsTotalFee}</span></dd>
+    							<dd><span>¥{Tool.toDecimal2(this.state.ajdata.goodsTotalFee)}</span></dd>
     						</dl>
     						<dl className="line jine">
     							<dt>运费</dt>
-    							<dd><span>¥{this.state.ajdata.totalShipFee}</span></dd>
+    							<dd><span>¥{Tool.toDecimal2(this.state.ajdata.totalShipFee)}</span></dd>
     						</dl>
     					</div>
                     </div>
@@ -390,7 +390,7 @@ class OrderClosed extends Component {
                     </a>
                 </div>
             	<div className="bootm">
-                <a className="heji"><em style={{'fontSize': '22px'}}></em>合计:<span>¥{this.state.ajdata.orderTotalFee}</span></a>
+                <a className="heji"><em style={{'fontSize': '22px'}}></em>合计:<span>¥{Tool.toDecimal2(this.state.ajdata.orderTotalFee)}</span></a>
 					<a className="subbtn" onClick={this.submitOrder.bind(this)}>提交订单</a>
 				</div>
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />

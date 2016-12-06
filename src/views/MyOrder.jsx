@@ -455,7 +455,7 @@ var OrderList = React.createClass({
                                             <p>{item.goodSpec}</p>
                                         </div>
                                         <div className="ml-col3">
-                                            <div className="ml-price">￥{item.storePrice}</div>
+                                            <div className="ml-price">￥{Tool.toDecimal2(item.storePrice)}</div>
                                             <div className="ml-num">X{item.count}</div>
                                         </div>
                                     </Link>
