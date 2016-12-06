@@ -28,9 +28,10 @@ class RegisterPassword extends Component {
         this.setPassword = () => {
             let password = this.refs.password.value,
                 self = this;
-            if (!password){
-                this.setState({ tipContent: '密码不能为空',display: 'toasts' });return;
-            }
+            if(Tool.trim(password).length < 6 || Tool.trim(password).length > 26 || !/[0-9|a-z|A-Z]/.test(password)){
+                this.setState({ tipContent: '请输入6-26位数字或字母（区分大小写）！',display: 'toasts' });
+                return;
+            }            
 
             let headers = COMMON_HEADERS('sign', SIGN);
             // headers = COMMON_HEADERS('deviceid', "M");
@@ -43,9 +44,7 @@ class RegisterPassword extends Component {
                         console.log(json);
                         if(status == 200){
                             self.setState({ tipContent: '重置密码成功！',display: 'toasts' });
-                            // setTimeout(function(){
-                            //     Tool.history.push('/');
-                            // },1500);
+                            Tool.history.go('-2');
                         }else{
                             self.setState({ tipContent: json.message,display: 'toasts' });
                         }
@@ -61,9 +60,7 @@ class RegisterPassword extends Component {
                         console.log(json);
                         if(status == 200){
                             self.setState({ tipContent: '注册成功！',display: 'toasts' });
-                            // setTimeout(function(){
-                            //     Tool.history.push('/');
-                            // },1500);
+                            Tool.history.go('-2');
                         }else{
                             self.setState({ tipContent: json.message,display: 'toasts' });
                         }
@@ -81,6 +78,7 @@ class RegisterPassword extends Component {
         if(this.props.login.pwd == "findpwd"){
             this.setState({ title: '找回密码'});
             this.setState({ subTitle: '请重新设置密码'});
+            this.refs.password.type = "text";
         }
     }
     render() {

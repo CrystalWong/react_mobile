@@ -1,6 +1,9 @@
 .order-detail{
     font-family: '微软雅黑';
     padding-bottom: 1.22rem;
+    height: 100%;
+    position: relative;
+    overflow: auto;
 }
 .order-detail .num {
     height: .88rem;
@@ -42,7 +45,7 @@
     margin: .2rem;
 }
 
-.order-detail .address1 .adinfo {
+.order-detail .address1 .adinfo2 {
     float: right;
     height: 100%;
     width: 100%;
@@ -50,7 +53,7 @@
     background: url(../images/orderdetail/address@2x.png) no-repeat .3rem .8rem;
     background-size: .26rem .32rem;
 }
-.order-detail .address1 .adinfo p {
+.order-detail .address1 .adinfo2 p {
     margin: .35rem 0 .1rem 0;
     color: #343434;
     font-size: .28rem;
@@ -110,23 +113,34 @@
 .order-detail .fp span {
     vertical-align: middle;
 }
-.orderClose {
+.order-detail .orderClose {
     font-size: .28rem;
-    padding-bottom: 1.58rem;
+    padding-bottom: 0rem;
     padding-top: 0rem;
+    height: auto;
 }
 .order-detail .jinediv .jine {
     margin: 0;
 }
 .order-detail .jinediv .jine .fpname{
-    width: 85%;
+    width: 17%;
 }
 .order-detail .jinediv .jine .fptype{
-    width: 10%;
-    text-align: center;
+    width: 83%;
+    text-align: right;
+    padding-right: .2rem;
+    overflow: hidden;
+    display: inline-block;
+    height: .35rem;
+    font-style: normal;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .order-detail .jinediv .jine .elefp{
     color: #f60;
+}
+.order-detail .jinediv .jine .elefp1{
+    color: #000;
 }
 .order-detail .jinediv dl {
     height: .6rem;
@@ -152,7 +166,7 @@
     text-align: center;
     width: 49%;
     line-height: 1.2rem;
-    font-size: 24px;
+    font-size: .28rem;
     display: inline-block;
     float: left;
 }
@@ -189,3 +203,26 @@
     border-radius: .1rem;
     font-size: .28rem;
 }
+   .order-detail ul{
+            list-style: none;
+            position: absolute;
+            background: #fff;
+            top: 31%;
+            font-size: .28rem;
+            width: 80%;
+            left: 10%;
+            border-radius: .1rem;
+            z-index: 800;
+            display: none;
+    }
+    .order-detail li:first-child{
+            color: black;
+            border-top: none;
+    }
+   .order-detail li{
+            list-style-type: none;
+            text-align: center;
+            padding: .2rem 0rem .3rem 0rem;
+            border-top: solid 1px #F3F2F2;
+            color: grey;
+    }

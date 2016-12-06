@@ -16,7 +16,7 @@ export class AddReduce extends Component {
             num: this.props.num,
             color: '#333333'
         };
-        console.log(this.props);
+        // console.log(this.props);
         
     }
 
@@ -30,16 +30,17 @@ export class AddReduce extends Component {
             count=1,
             self = this; 
         if(cookie.load('tokenid'))isLogin = 1;
-
+        this.props.parent.setState({ajaxDisplay: "block",maskDisplay: "block"});
         Tool.fetch(this.props.parent,{
             url: `${URLS.MINUSITEM}${isLogin}/${uKey}/${groupSkuId}/${count}`,
             type: "put",
             headers: COMMON_HEADERS,
             successMethod: function(json){
                 if(json.flag == true){
-                    self.setState({num: --self.state.num});
-                    if(self.state.num == 1){self.setState({color: "#999999"});}
-                    self.props.callback({num: self.state.num,index: self.props.index});
+                    let num = --self.state.num;
+                    self.setState({num: num});
+                    if(num == 1){self.setState({color: "#999999"});}
+                    self.props.callback({num: num,index: self.props.index});
                 }
             }
         });
@@ -56,9 +57,10 @@ export class AddReduce extends Component {
         this.more = true;    
         if(cookie.load('tokenid'))isLogin = 1;
         if(self.state.num >= this.props.stock){
-            self.props.callback({more: true});
+            self.props.callback({more: true,message: '已达库存上限'});
             return;
         }
+        this.props.parent.setState({ajaxDisplay: "block",maskDisplay: "block"});
         Tool.fetch(this.props.parent,{
             url: `${URLS.ADDITEM}${isLogin}/${uKey}/${groupSkuId}/${count}`,
             type: "post",
@@ -68,6 +70,8 @@ export class AddReduce extends Component {
                     self.setState({color: "#333333"});
                     self.setState({num: ++self.state.num});
                     self.props.callback({num: self.state.num,index: self.props.index,more: false});
+                }else{
+                    self.props.callback({more: true,message: json.message});
                 }
             }
         });

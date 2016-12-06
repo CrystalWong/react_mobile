@@ -25,7 +25,7 @@ import {Toast} from '../Component/common/Tip';
 class Appointment extends Component {
      constructor(props){
           super(props);
-
+          Tool.loginChecked(this);
           this.state = {
                // userId : Cookie.load('userId'),
                pageNo : 1,
@@ -35,9 +35,15 @@ class Appointment extends Component {
                scrollNoData: false, //分页没有数据
                y:'',
                display: '',
-               nolist : 'none',
-               dataList : []
-
+               nolist : 'block',
+               dataList : [],
+               options: {
+                    mouseWheel: true,
+                    scrollbars: true,
+                    interactiveScrollbars: true,
+                    shrinkScrollbars: 'scale',
+                    fadeScrollbars: true
+              }
           }
           this.getAppointmentList = () => {
                
@@ -149,21 +155,12 @@ class Appointment extends Component {
      }
 
      render() {
-         this.props = {
-              options: {
-                    mouseWheel: true,
-                    scrollbars: true,
-                    interactiveScrollbars: true,
-                    shrinkScrollbars: 'scale',
-                    fadeScrollbars: true
-              }
-          } 
         return (
             <div className="appointment">
                 <Header title="预约单" leftIcon="fanhui" />
                 <div className="listbox">
                      <ReactIScroll iScroll={iScroll}
-                              options={this.props.options}
+                              options={this.state.options}
                                onRefresh={this.onRefresh.bind(this)}
                            onScrollStart={this.onScrollStart.bind(this)}
                            onScrollEnd={this.onScrollEnd.bind(this)}>
@@ -196,15 +193,20 @@ class Appointment extends Component {
 var OrderList = React.createClass({
      render: function() {
           let {lastUpdateTime,variableMap} = this.props,
-               tellNum = variableMap.businessPeople.butler.mobile;
+               tellNum = variableMap.businessPeople.butler.mobile,
+               infoAddress= '';
           tellNum = tellNum.replace(/(\d+)-(\d+)-(\d+)-(\d+)/, "$1$2$3,$4");
+          if(variableMap.addressInfo){
+            let addressTwo = variableMap.addressInfo.doorNum?variableMap.addressInfo.doorNum:"";
+            infoAddress = addressTwo;
+          }
           return (
                <div className="appointmentlist">
                     <h3>{variableMap.goodsInfo.goodsGroup.goodsGroupName}</h3>
                     <p>
                          预约时间：{lastUpdateTime} <br/>
-                         地址：{variableMap.addressInfo.community} <br/>
-                         备注：{variableMap.appointmentParam.remark}
+                         地址：{infoAddress} <br/>
+                         备注：{variableMap.appointmentParam.remark?variableMap.appointmentParam.remark:""}
                     </p>
                     <h3 className="generoname">您的专属管家：{variableMap.businessPeople.butler.empName}<a href={`tel:`+tellNum}><button>联系他</button></a></h3>
                 </div>
@@ -218,7 +220,7 @@ var NoList = React.createClass({
   render: function() {
     return (
         <div style={{ display: this.props.display }} className="no-list">
-            <img src="src/images/appointment/icon-appoint.png" />
+            <img src={require("../images/appointment/icon-appoint.png")} />
             <p>预约单还是空的，去逛逛吧~ <br/></p>
             <a href="http://m.jyall.com"><button>继续逛逛</button></a>
         </div>

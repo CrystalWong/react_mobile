@@ -9,7 +9,8 @@ import {Tool, merged} from '../Tool';
 import URLS from '../constants/urls';
 import {COMMON_HEADERS} from '../constants/headers';
 import {shoppingCartCount} from '../Action/ShoppingCart';
-import {Toast,Confirm} from '../Component/common/Tip';
+import {address} from '../Action/Address';
+import {Toast,Confirm,AjaxTip} from '../Component/common/Tip';
 import {ONLINE} from '../constants/common';
 
 /**
@@ -23,6 +24,7 @@ class ShoppingCart extends Component {
         
         super(props);
         console.log(this.props);
+        this.props.saveAddressInfo({id:""});
         this.state = {
             title: "购物车()",
             list: [],
@@ -45,21 +47,29 @@ class ShoppingCart extends Component {
                     alert("确定");
                 },
                 display: "none"
-            }
+            },
+            ajaxDisplay: "block",
+            maskDisplay: "block"
         };
 
         let headers = COMMON_HEADERS();
         let self = this;
+        this.onOut = false;
+        Tool.loginChecked(this,function(){
+            self.onOut = true;
+        });        
         this.count = 0;
-        this.selectItem = 0;
+        this.selectItem = 0;//选中的个数
+        this.validCount = 0;//可以选择的个数
         let params = cookie.load('tokenid')?("&tokenId="+cookie.load('tokenid')):(cookie.load('jycart_uKey')?"&uKey="+cookie.load('jycart_uKey'):'');
+        
         Tool.fetch(this,{
             url: `${URLS.QUERYCART}?source=2${params}`,
             type: "get",
             body: "",
             headers: headers,
             successMethod: function(json){
-                if(json.uKey){//未登录
+                if(json.uKey){//未登录 游客
                     var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"jyall.com":"") }
                     cookie.save('jycart_uKey', json.uKey, cookieObj);
                     self.setState({uKey: json.uKey});
@@ -73,27 +83,48 @@ class ShoppingCart extends Component {
                     }
             	})
 
-            	if(json.totalItemCount > 999){json.totalItemCount = "999+";}
+            	// if(json.totalGoodsCount > 999){json.totalGoodsCount = "999+";}
+                self.totalCount = json.totalGoodsCount;
                 // json.cartItems = [];
-                console.log(json.cartItems);
+                if(json.cartItems.length == 0){
+                    // self.setState({ajaxDisplay: "block",maskDisplay: "block"});
+                    Tool.fetch(self,{
+                        url: `${URLS.RECOMMENDGOODS}1?userId=${cookie.load("userId")}&num=4`,
+                        type: "get",
+                        headers: COMMON_HEADERS,
+                        successMethod: function(json,status){
+                            if(status == 200){
+                                self.setState({recommentList:json});
+                            }
+                        }
+                    });
+                }
                 self.setState({ 
                 	list: json.cartItems,
-                	title: "购物车("+ json.totalGoodsCount +")",
+                	title: "购物车("+ (self.totalCount>999?'999+':self.totalCount) +")",
                 	allMoney: self.allMoney,
                 	allNum: self.allNum,
                     nolist: json.cartItems.length==0?"block":"none"
                 });
-            }
-        });
 
-        Tool.fetch(this,{
-            url: `${URLS.RECOMMENDGOODS}1?userId=${cookie.load("userId")}&num=4`,
-            type: "get",
-            headers: COMMON_HEADERS,
-            successMethod: function(json,status){
-                if(status == 200){
-                    self.setState({recommentList:json});
-                }
+                let selectAll = 0;
+                // for(let i of json.cartItems){
+                json.cartItems.forEach(function(i){
+                    if(i.state==1&&i.status==1&&i.salesState==2&&i.stock>0&&i.count <= i.stock){
+                        selectAll++;
+                        if(i.select){
+                            self.selectItem++;
+                        }
+                        self.validCount++;
+                    }
+                });    
+
+                // }
+                if(self.selectItem>0 && self.selectItem == selectAll){
+                    self.refs.selectAll.className = "no-select-all selectall";
+                }else{
+                    self.refs.selectAll.className = "no-select-all";
+                }  
             }
         });
     }
@@ -107,7 +138,7 @@ class ShoppingCart extends Component {
     //给子组件回调 数量加减
     shoppingCartCount(data){ 
         if(data.more){
-            self.setState({ tipContent: "已达库存上限",display: 'toasts' });
+            this.setState({ tipContent: data.message,display: 'toasts' });return;
         }
         let list = this.state.list,
             self = this,
@@ -126,7 +157,7 @@ class ShoppingCart extends Component {
 
         this.setState({
             list: list,
-            title: "购物车("+ allItem +")",
+            title: "购物车("+ (allItem>999?'999+':allItem) +")",
             allMoney: self.allMoney,
             allNum: self.allNum
         });
@@ -149,6 +180,10 @@ class ShoppingCart extends Component {
     }
 
     selectAll(){//全选
+        if(this.validCount <= 0){
+            this.setState({tipContent: '没有有效商品！',display: 'toasts'});
+            return;
+        }
         let list = this.state.list,
             selectAll = this.refs.selectAll,
             selectControl = false,
@@ -157,12 +192,12 @@ class ShoppingCart extends Component {
         self.allNum = 0;
 
         let isLogin = 0,
-            uKey = cookie.load('tokenid');
+            uKey = cookie.load('tokenid')?cookie.load('tokenid'):cookie.load('jycart_uKey');
         if(cookie.load('tokenid'))isLogin = 1;
 
-
+        self.setState({ajaxDisplay: "block",maskDisplay: "block"});
         if(selectAll.className.match("selectall")){
-            Tool.fetch(this.props.parent,{
+            Tool.fetch(this,{
                 url: `${URLS.CONCELITEM}${isLogin}/${uKey}?selectAll=1`,
                 type: "put",
                 headers: COMMON_HEADERS,
@@ -170,6 +205,7 @@ class ShoppingCart extends Component {
                     if(json.flag == true){
                         selectAll.className = "no-select-all";
                         selectControl = false;
+                        self.selectItem = 0;
                         result();
                     }
                 }
@@ -180,10 +216,14 @@ class ShoppingCart extends Component {
                 type: "put",
                 headers: COMMON_HEADERS,
                 successMethod: function(json){
-                    if(json.flag == true){
+                    if(json.data.select == true){
                         selectAll.className = "no-select-all selectall";
                         selectControl = true;
+                        self.selectItem = self.validCount;
                         result();
+                    }
+                    if(json.flag == false){
+                        self.setState({tipContent: json.msg,display: 'toasts',});
                     }
                 }
             });
@@ -191,9 +231,10 @@ class ShoppingCart extends Component {
 
         let result = function(){
             list.map(item => {
-                if(item.state==1&&item.status==1&&item.salesState==2){
+                if(item.state==1&&item.status==1&&item.salesState==2&&item.stock>0&&item.count <= item.stock){
                     item.select = selectControl;
                     if(selectControl){
+
                         self.allMoney += item.count*item.sellPrice;
                         self.allNum += item.count;
                     }
@@ -211,9 +252,58 @@ class ShoppingCart extends Component {
             this.setState({tipContent: '请选择商品',display: 'toasts',});
             return;
         } 
-        Tool.history.push("/orderclosed");
+        if(this.noStock){
+            this.setState({tipContent: '库存不足',display: 'toasts',});
+            return;            
+        }
+        if(this.onOut){
+            Tool.history.push("/");   
+        }else{
+            Tool.history.push("/orderclosed");
+        }
+             
     }
 
+    deleteItem(data){
+        let self = this;
+        this.setState({
+            confirm : {
+                title: "确定删除此商品吗？",
+                content: "",
+                leftText: "取消",
+                leftMethod: ()=>{
+                    self.setState({maskDisplay: 'none',confirm : {display : 'none'}});
+                },
+                rightText: "确定",
+                rightMethod: ()=>{
+                    Tool.fetch(self,{
+                        url: `${URLS.REMOVEITEM}${data.isLogin}/${data.uKey}/${data.groupSkuId}?source=2`,
+                        type: "delete",
+                        headers: COMMON_HEADERS,
+                        successMethod: function(json,status){
+                            if(json.flag == true){
+                                self.setState({maskDisplay: 'none',confirm : {display : 'none'}});
+                                location.reload();
+                            }
+                        }
+                    }); 
+                },
+                display: "block"
+            },
+            maskDisplay: "block"
+        }); 
+    }
+
+    componentDidUpdate(){
+        if(this.selectItem>0 && this.selectItem == this.validCount){
+            this.refs.selectAll.className = "no-select-all selectall";
+        }else{
+            this.refs.selectAll.className = "no-select-all";
+        }
+    }  
+    // shouldComponentUpdate(nextProps, nextState) {
+    //       return this.state.ajaxDisplay !== nextState.ajaxDisplay;
+    // }
     render() {
         return (
             <div style={{height: '100%'}}>
@@ -228,13 +318,14 @@ class ShoppingCart extends Component {
                 	</ul>
                 	<footer onClick={this.selectAll.bind(this)}>
                 		<span className="no-select-all" ref="selectAll">全选</span>
-                		<div className="fr">合计:<span style={{color: "#cc0000",marginRight: ".2rem"}}>￥{this.state.allMoney}</span><a href="javascript:;"><b className="statement" onClick={this.statement.bind(this)}>结算(<span>{this.state.allNum}</span>)</b></a></div>
+                		<div className="fr">合计:<span style={{color: "#cc0000",marginRight: ".2rem"}}>￥{Tool.toDecimal2(this.state.allMoney)}</span><a href="javascript:;"><b className="statement" onClick={this.statement.bind(this)}>结算(<span>{this.state.allNum}</span>)</b></a></div>
                 	</footer>
                 </div>
                 <NoList display={this.state.nolist} recommentList={this.state.recommentList} />
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
                 <Confirm  {...this.state.confirm}/>
-                <div className="mask" style={{display: this.state.confirm.display}}></div>
+                <AjaxTip display={this.state.ajaxDisplay} />
+                <div className="mask" style={{display: this.state.maskDisplay}}></div>
             </div>
         );
     }
@@ -248,13 +339,13 @@ var NoList = React.createClass({
     return (
         <div style={{ display: this.props.display }} className="no-list">
             <div style={{ background: "#fff",padding: ".8rem 0 1.2rem" }}>
-                <img src="src/images/shopping/empty_shopping.png" />
+                <img src={require("../images/shopping/empty_shopping.png")} />
                 <p>购物车里还什么都没有<br/>赶快去逛逛吧~ <br/></p>
                 <a href="http://m.jyall.com"><button>去看看</button></a>
             </div>
             <div className="like-floor">
                 <h3><span>为您推荐</span></h3>
-                <ul className="lf-list">
+                <ul className="lf-list" ref = "ulList">
                     {
                         this.props.recommentList.map((item,index) =>(
                             <li key={index}>
@@ -277,4 +368,18 @@ var NoList = React.createClass({
   }
 });
 
-export default ShoppingCart;  
+// export default ShoppingCart;  
+
+function mapStateToProps(state,ownProps) {
+  return {
+    address: state.address
+  };
+}
+function mapDispatchToProps(dispatch) {  
+  return {
+    saveAddressInfo: (user) => {
+        dispatch(address(user));
+    }
+  };
+}
+export default connect(mapStateToProps,mapDispatchToProps)(ShoppingCart);

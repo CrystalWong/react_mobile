@@ -8,7 +8,6 @@ import cookie from 'react-cookie';
 export class AddressItem extends Component{
 	constructor(props){
 		super(props);
-		console.log(props);
 	}
 
 	//设为默认地址
@@ -38,7 +37,7 @@ export class AddressItem extends Component{
 
 	setAddressInfo(){//保存每项地址信息
 		this.props.saveAddressInfo(this.props.item);
-        var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"m.jyall.com":"") }
+        var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"jyall.com":"") }
         // cookie.save('addressId', this.props.id, cookieObj);
         // cookie.save('consigneeName', this.props.consigneeName, cookieObj);
 
@@ -48,12 +47,12 @@ export class AddressItem extends Component{
 	}
 
 	render(){
-		let {consigneeName,consigneeMobile,detailInfo,type} = this.props.item;
+		let {consigneeName,consigneeMobile,detailInfo,locationInfo,type} = this.props.item;
 		return(
 			<li onClick={this.setAddressInfo.bind(this)}>
 				<div className="address-msg">
 					<h6><span>{consigneeName}</span><span>{consigneeMobile}</span>{type==1 ? <em>默认</em> : ''}</h6>
-					<p>{detailInfo}</p>
+					<p>{locationInfo+detailInfo}</p>
 				</div>
 				<div className="address-operation">
 					<span className={type==1? 'current on' : 'current'} onClick={this.addressDefault.bind(this)}>设为默认</span>

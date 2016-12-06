@@ -1,5 +1,5 @@
 import {ONLINE} from '../constants/common';
-const domain = ONLINE?'http://m.jyall.com':'http://192.168.51.79:3000';
+const domain = ONLINE?'http://m.jyall.com':'http://localhost:3000';
 
 /**
  * URL常量.
@@ -9,11 +9,16 @@ export default {
 	//登录
 	LOGIN: `${domain}/user-api/v1/authcenter/app/userLogin`,
 	LOGINRANDOMIMAGE: `${domain}/user-api/v1/authcenter/app/randomImage`,
+	//退出
+	LOGINOUT: `${domain}/user-api/v1/authcenter/app/loginOut/`,
+	//检测token
+	TOKENCHECKED: `${domain}/user-api/v1/authcenter/app/token/`,
 	//注册
 	Vcode: `${domain}/user-api/v1/authcenter/app/vcode/`,
 	Register: `${domain}/user-api/v1/authcenter/app/addUser`,
 	//找回密码
 	FINDPWDBYMOBILE: `${domain}/user-api/v1/authcenter/app/resetPswByMobile/`,//{mobile}/{password}
+	CHECKMOBILE: `${domain}/user-api/v1/authcenter/app/checkRegistByMobile/`,
 	//购物车列表
 	QUERYCART: `${domain}/jygoods-api/v1/jycart/queryCart`,
 	//购物车物品数量加1
@@ -25,7 +30,7 @@ export default {
 	//取消选择购物项
 	CONCELITEM: `${domain}/jygoods-api/v1/jycart/cancelItem/`,
 	//删除购物车
-	REMOVEITEM: `${domain}/jygoods-api/v1/jycart/removeItem/`,
+	REMOVEITEM: `${domain}/jygoods-api/v1/jycart/removeItem/`,	
 	//收货地址
 	Address : `${domain}/user-manage/v1/address`,
 	//家园豆
@@ -37,11 +42,11 @@ export default {
 	//订单详情
 	OrderDetail:`${domain}/jyorder-center/v1/order/app/queryOrderById`,
 	//订单详情-删除订单-post
-	DeleateOrder:`${domain}/v1/order/app/deleteOrderById/`,
+	DeleateOrder:`${domain}/jyorder-center/v1/order/app/deleteOrderById/`,
 	//订单详情-确认收货-post
-	ConfirmGetDoods:`${domain}/v1/order/app/batchReceipt/`,
+	ConfirmGetDoods:`${domain}/jyorder-center/v1/order/app/batchReceipt/`,
 	//订单详情-取消订单-post
-	CancelOrder:`${domain}/v1/order/app/cancleOrderById/`,
+	CancelOrder:`${domain}/jyorder-center/v1/order/app/cancleOrderById/`,
 	//预约单
 	APPOINTMENTLIST:`${domain}/jyall-workflowV2/v1/orderquery/pageorder/user`,
 	//四级地址  http://10.10.32.46/swagger/index.html#!
@@ -50,7 +55,7 @@ export default {
 	COUNTRY: `${domain}/common-city/v1/country/queryCountrysByCityId/`,
 	XZ: `${domain}/common-city/v1/xz/getXzsByCountyId/`,
 	//个人订单查询
-	myOrder: `${domain}/jyorder-center/v1/order/app/queryOrderList`,
+	myOrder: `${domain}/jyorder-center/v1/order/app/queryOrderList`,	
 	//预约
 	YUYUE: `${domain}/jyall-workflowV2/v1/order/yuyue/stateless`,
 	YUYUECODE: `${domain}/jyall-workflowV2/v1/order/yuyue/sendIdentifyCode/`,
@@ -59,5 +64,7 @@ export default {
 	//物流详情
 	EXPRESSINFO: `${domain}/jyorder-center/v1/order/app/expressInfo/`,
 	//跳转到支付
-	TOPAY: `${domain}/jyorder-center/v1/order/app/pay/`
+	TOPAY: `${domain}/jyorder-center/v1/order/app/pay/`,
+	//付款
+	CORRELATION:`${domain}/jyorder-center/v1/order/app/correlation/`
 };

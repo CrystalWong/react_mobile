@@ -1,7 +1,9 @@
 import merged from 'obj-merged';
 // import * as config from './Config/Config';
 import { Router, Route, IndexRoute, browserHistory,hashHistory, Link } from 'react-router';
-
+import cookie from 'react-cookie';
+import {COMMON_HEADERS} from './constants/headers';
+import URLS from './constants/urls';
 const Tool = {};
 
 
@@ -20,14 +22,21 @@ Tool.fetch = function(obj,data){
         status = 0;
         if(data.body){d.body = data.body;}
         fetch(data.url,d).then(response => {
-            console.log(response.error);
-            if(response.status >= 500){
-                obj.setState({ tipContent: '网络连接失败，请检查您的网络',display: 'toasts' });
-            }
             status = response.status;
+            console.log(response.ok);
             return response.json();
         }).then(json => {
-          data.successMethod(json,status);
+            obj.setState&&obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
+            data.successMethod(json,status);
+            if(status >= 500){
+                // alert(status);
+                // if(json.code == -1){
+                //     json.message = '网络繁忙，请稍后再试';
+                // }
+                obj.setState({ tipContent: json.message?json.message:'网络繁忙，请稍后再试',display: 'toasts' });
+            }
+        },function(e){
+            data.successMethod("",status);
         });
     }else {
         try {
@@ -42,21 +51,35 @@ Tool.fetch = function(obj,data){
             {
                 if (xmlhttp.readyState==4)
                 {
-                    // if(data.endLoading) data.endLoading();//结束加载中
+                    let json=eval("("+ xmlhttp.responseText +")");
+                    if(xmlhttp.status >= 500){
+                        // if(json.code == -1){
+                        //     json.message = '网络繁忙，请稍后再试';
+                        // }
+                        obj.setState({ tipContent: json.message?json.message:'网络繁忙，请稍后再试',display: 'toasts' });
+                    }
+                    obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
                     status = xmlhttp.status;
-                    data.successMethod(eval("("+ xmlhttp.responseText +")"),status);
+                    if(!xmlhttp.responseText){
+                        data.successMethod(xmlhttp.responseText,status);
+                    }else{
+                        data.successMethod(json,status);
+                    }
                 }
             }
             xmlhttp.open(data.type,data.url,data.sync?false:true);
             xmlhttp.setRequestHeader("content-type","application/json");
-            xmlhttp.setRequestHeader("sign", "BAD3426489851754C1C14A46A22ABF82");  
+            xmlhttp.setRequestHeader("sign", "50970DC4C28118A4F76411505B277B7D");  
             xmlhttp.setRequestHeader("deviceid", "M");
-            if(data.tokenid)xmlhttp.setRequestHeader("tokenid", data.tokenid);
-            // if(data.type == "post"){
+            xmlhttp.setRequestHeader("tokenid", cookie.load('tokenid'));
+            xmlhttp.setRequestHeader("APPkey", "b40538ab5bef1ffd18605efda7f820d9");
+            xmlhttp.setRequestHeader("version", "2.0.0");
+            
+            if(data.type == "post" || data.type == "put"){
                 xmlhttp.send(data.body?data.body:"");
-            // }else{
-            //     xmlhttp.send();
-            // }  
+            }else{
+                xmlhttp.send();
+            }  
             
 
             // if(data.type && data.type == "post"){
@@ -96,10 +119,35 @@ Tool.fetch = function(obj,data){
     }
 
 }
+
+/**
+ * 检测登录
+ * 
+ * @method loginChecked
+ */
+Tool.loginChecked = function(obj,method){
+    if(!cookie.load('tokenid')){
+        if(method){method();return;}
+        Tool.history.push('/');
+    }else{
+        Tool.fetch(obj,{
+            url: `${URLS.TOKENCHECKED}${cookie.load('tokenid')}`,
+            type: "get",
+            headers: COMMON_HEADERS,
+            successMethod: function(json){
+                if(!json.loginFlag){
+                    if(method){method();return;}
+                    Tool.history.push('/');
+                }
+            }
+        });
+    }
+} 
+
 /**
  * (毫秒转化 2016-10-18 17:02:09)
  * 
- * @method Fetch
+ * @method formatSeconds
  */
 Tool.formatSeconds = function(seconds){
     let date=new Date(seconds);
@@ -112,7 +160,28 @@ Tool.formatSeconds = function(seconds){
     return numTowDisplay(date.getFullYear())+"-"+numTowDisplay(date.getMonth()+1)+"-"+numTowDisplay(date.getDate())+
     " "+numTowDisplay(date.getHours())+":"+numTowDisplay(date.getMinutes())+":"+numTowDisplay(date.getSeconds());
 }
-
+/**
+ * 保留2位小数，如：2，会在2后面补上00.即2.00
+ * 
+ * @method formatSeconds
+ */
+Tool.toDecimal2 = function(x){
+     var f = parseFloat(x);    
+        if (isNaN(f)) {    
+            return false;    
+        }    
+        var f = Math.round(x*100)/100;    
+        var s = f.toString();    
+        var rs = s.indexOf('.');    
+        if (rs < 0) {    
+            rs = s.length;    
+            s += '.';    
+        }    
+        while (s.length <= rs + 2) {    
+            s += '0';    
+        }    
+    return s; 
+}
 Tool.rem = function(){
     let rem,window_w;
     function resetREM(){
@@ -125,6 +194,10 @@ Tool.rem = function(){
 
 //获取路由方式
 Tool.history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHistory;
+
+Tool.trim = function(str){  //删除左右两端的空格
+    return str.replace(/(^\s*)|(\s*$)/g, "");
+}
 
 
 /**
