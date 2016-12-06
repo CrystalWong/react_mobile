@@ -118,7 +118,8 @@ class OrderClosed extends Component {
         }
         Tool.fetch(this, data);
         this.submitOrder = () => {
-            console.log('提交订单..');
+            //清除记录的数据
+            sessionStorage.removeItem("sessionLiuList");
             if (props.address.id == undefined || this.state.ajdata.address.id == undefined) {
                 // alert('没地址,调试..');
                 return;
@@ -295,6 +296,8 @@ class OrderClosed extends Component {
                     content: "东西这么实惠，真的要离我而去么",
                     leftText: "去意已决",
                     leftMethod: function() {
+                        //清除记录的数据
+                        sessionStorage.removeItem("sessionLiuList");
                         Tool.history.goBack();
                     },
                     rightText: "我再想想",
@@ -311,7 +314,9 @@ class OrderClosed extends Component {
                 maskDisplay:"block"
             });
         }
-        window.onunload =function (){
+        window.onbeforeunload =function (){
+            alert('页面卸载...');
+            //清除记录的数据
             sessionStorage.removeItem("sessionLiuList");
         }
         // setTimeout(function(){
