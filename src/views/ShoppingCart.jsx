@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import cookie from 'react-cookie';
 import { Link } from 'react-router';
-import {Header} from '../Component/common/index';
+import {Header,Downloadapp} from '../Component/common/index';
 import '../Style/shoppingcart';
 import {ShoppingItem} from '../Component/ShoppingItem';
 import {Tool, merged} from '../Tool';
@@ -248,19 +248,20 @@ class ShoppingCart extends Component {
     statement(e){ //结算
         e.stopPropagation(); 
         e.preventDefault();
-        if(this.selectItem <= 0){
-            this.setState({tipContent: '请选择商品',display: 'toasts',});
-            return;
-        } 
-        if(this.noStock){
-            this.setState({tipContent: '库存不足',display: 'toasts',});
-            return;            
-        }
-        if(this.onOut){
-            Tool.history.push("/");   
-        }else{
-            Tool.history.push("/orderclosed");
-        }
+
+        // if(this.selectItem <= 0){
+        //     this.setState({tipContent: '请选择商品',display: 'toasts',});
+        //     return;
+        // } 
+        // if(this.noStock){
+        //     this.setState({tipContent: '库存不足',display: 'toasts',});
+        //     return;            
+        // }
+        // if(this.onOut){
+        //     Tool.history.push("/");   
+        // }else{
+        //     Tool.history.push("/orderclosed");
+        // }
              
     }
 
@@ -304,6 +305,9 @@ class ShoppingCart extends Component {
     // shouldComponentUpdate(nextProps, nextState) {
     //       return this.state.ajaxDisplay !== nextState.ajaxDisplay;
     // }
+    componentDidMount(){
+        Downloadapp(this);//跳转下载
+    }
     render() {
         return (
             <div style={{height: '100%'}}>
@@ -318,7 +322,7 @@ class ShoppingCart extends Component {
                 	</ul>
                 	<footer onClick={this.selectAll.bind(this)}>
                 		<span className="no-select-all" ref="selectAll">全选</span>
-                		<div className="fr">合计:<span style={{color: "#cc0000",marginRight: ".2rem"}}>￥{Tool.toDecimal2(this.state.allMoney)}</span><a href="javascript:;"><b className="statement" onClick={this.statement.bind(this)}>结算(<span>{this.state.allNum}</span>)</b></a></div>
+                		<div className="fr">合计:<span style={{color: "#cc0000",marginRight: ".2rem"}}>￥{Tool.toDecimal2(this.state.allMoney)}</span><a href="javascript:;"><b className="statement j-downAppBtn" onClick={this.statement.bind(this)}>结算(<span>{this.state.allNum}</span>)</b></a></div>
                 	</footer>
                 </div>
                 <NoList display={this.state.nolist} recommentList={this.state.recommentList} />
