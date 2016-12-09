@@ -472,7 +472,7 @@ var OrderList = React.createClass({
                     </ul>
                     <div className="mm-total">共{productList.length}件商品 合计：{actualCost}(含运费￥{freight})</div>
                     <div className="mm-total clearfix" style={{display:osDispaly}}>
-                        <span className="mm-but but-org" onClick={this.payment.bind(null,{id})} style={{display:orderStatus == 10 ?"block":"none"}}>付款</span>
+                        <span className="mm-but but-org" onClick={this.payment.bind(null,{id})} style={{display:orderStatus == 10 ?"none":"none"}}>付款</span>
                         <span className="mm-but but-def" onClick={this.cancelOrder.bind(null,{id})} style={{display:orderStatus == 10 ?"block":"none"}}>取消订单</span>
                         <span className="mm-but but-org" onClick={this.goShopping.bind(null,{productList})} style={{display:orderStatus == 40 ?"block":"none"}}>再次购买</span>
                         <span className="mm-but but-def" onClick={this.delOrder.bind(null,{id})} style={{display:orderStatus == 70 ?"block":"none"}}>删除订单</span>
