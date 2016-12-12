@@ -255,10 +255,11 @@ export const Downloadapp = (obj) => {
         linkApp = "myapp://m.jyall.app/openwith";
     var downDom = document.getElementsByClassName("j-downAppBtn"),
         length = downDom.length;   
-    for(var i = 0;i < length;i++){
-        downDom[i].addEventListener("click",function(e){
-            e.stopPropagation(); 
-            e.preventDefault();            
+
+    document.body.addEventListener("click",function(e){
+        // e.stopPropagation(); 
+        // e.preventDefault();        
+        if(e.target.className == "j-downAppBtn"){
             if (navigator.userAgent.match(/MicroMessenger/i) == 'MicroMessenger'){ return; }
             if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
                 var loadDateTime = new Date(),
@@ -299,9 +300,9 @@ export const Downloadapp = (obj) => {
                     obj.setState({tipContent: 'app android 下载开始，链接地址！！！',display: 'toasts',});
                     window.location = downloadUrl;
                 },2000);
-            }    
-        },false);
-    }     
+            }                 
+        }
+    },false);   
 } 
 
 

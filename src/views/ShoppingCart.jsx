@@ -248,7 +248,24 @@ class ShoppingCart extends Component {
     statement(e){ //结算
         e.stopPropagation(); 
         e.preventDefault();
-
+        var self = this;
+        this.setState({
+            confirm : {
+                title: "",
+                content: "去app端购买有机会享优惠哦~",
+                leftText: "取消",
+                leftMethod: ()=>{
+                    self.setState({maskDisplay: 'none',confirm : {display : 'none'}});
+                },
+                rightText: "确定",
+                rightMethod: ()=>{
+                    self.setState({maskDisplay: 'none',confirm : {display : 'none'}});
+                },
+                rightClass: "j-downAppBtn",
+                display: "block"
+            },
+            maskDisplay: "block"
+        }); 
         // if(this.selectItem <= 0){
         //     this.setState({tipContent: '请选择商品',display: 'toasts',});
         //     return;
@@ -322,7 +339,7 @@ class ShoppingCart extends Component {
                 	</ul>
                 	<footer onClick={this.selectAll.bind(this)}>
                 		<span className="no-select-all" ref="selectAll">全选</span>
-                		<div className="fr">合计:<span style={{color: "#cc0000",marginRight: ".2rem"}}>￥{Tool.toDecimal2(this.state.allMoney)}</span><a href="javascript:;"><b className="statement j-downAppBtn" onClick={this.statement.bind(this)}>结算(<span>{this.state.allNum}</span>)</b></a></div>
+                		<div className="fr">合计:<span style={{color: "#cc0000",marginRight: ".2rem"}}>￥{Tool.toDecimal2(this.state.allMoney)}</span><a href="javascript:;"><b className="statement" onClick={this.statement.bind(this)}>结算(<span>{this.state.allNum}</span>)</b></a></div>
                 	</footer>
                 </div>
                 <NoList display={this.state.nolist} recommentList={this.state.recommentList} />
