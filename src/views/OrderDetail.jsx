@@ -43,7 +43,8 @@ class OrderDetail extends Component {
                 },
                 invoice:{
                     invoiceCompanyName:'',
-                    invoiceType:''
+                    invoiceType:'',
+                    invoicePathAndName:''
                 }
             },
             show0:"none",
@@ -157,7 +158,7 @@ class OrderDetail extends Component {
                         Tool.fetch(this,{
                             url: `${URLS.DeleateOrder}`+urlId,
                             type: "post",
-                            body:{},//JSON.stringify({"id":this.state.ajdata.id}),
+                            body:{},
                             headers: headers,
                             successMethod: function(json,status){
                                 if(status==200){
@@ -249,9 +250,6 @@ class OrderDetail extends Component {
         }
         }
     render() {
-        console.log(this.state.ajdata);
-        console.log("-------------------------------");
-        console.log((this.state.ajdata.periodOrderList)[0]);
         return (
             <div style={{'height':'100%'}}>
                 <Header title="订单详情" leftIcon="fanhui" />
