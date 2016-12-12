@@ -274,8 +274,8 @@ class OrderDetail extends Component {
                     </div>
                     <div className="address1">
                         <div className="adinfo2">
-                        <p style={{'paddingTop': this.state.ajdata.invoice==null?'.4rem':'0rem'}}>{this.state.ajdata.userAddress.trueName}&nbsp;{this.state.ajdata.userAddress.mobile}<span style={{display: this.state.ajdata.userAddress==1?"block":"none"}}>默认</span></p>
-                            <span style={{display: this.state.ajdata.invoice==null?'none':'block'}}>地址：</span><span>{this.state.ajdata.userAddress.locationInfo}{this.state.ajdata.userAddress.detailInfo}</span>
+                        <p style={{'paddingTop': this.state.ajdata.orderIndustry==1?'.4rem':'0rem'}}>{this.state.ajdata.userAddress.trueName}&nbsp;{this.state.ajdata.userAddress.mobile}<span style={{display: this.state.ajdata.userAddress==1?"block":"none"}}>默认</span></p>
+                            <span style={{display: this.state.ajdata.orderIndustry==1?'none':'block'}}>地址：</span><span>{this.state.ajdata.userAddress.locationInfo}{this.state.ajdata.userAddress.detailInfo}</span>
                         </div>
                     </div>
                     <div className="orderClose">
@@ -286,7 +286,7 @@ class OrderDetail extends Component {
                     </div>
                     <dl className="line"><dt>支付方式</dt><dd>{this.state.ajdata.periodOrderList[0].payModeMsg}</dd></dl>
                     <dl className="line"><dt>配送方式</dt><dd>快递</dd></dl>
-                    <div style={{display: this.state.ajdata.invoice==null?'none':'block'}}>
+                    <div style={{display: this.state.ajdata.orderIndustry==1?'none':'block'}}>
                         <dl className="line" style={{display: this.state.show0}}><dt>发票</dt><dd>不开发票</dd></dl>
                         <div className="jinediv" style={{display: this.state.show1}}>
                                     <dl className="line jine">
@@ -317,7 +317,7 @@ class OrderDetail extends Component {
                                 <dt>商品总金额</dt>
                                 <dd><span>¥{Tool.toDecimal2(this.state.ajdata.totalGoodsCost)}</span></dd>
                             </dl>
-                            <dl className="line jine">
+                            <dl className="line jine" style={{display: this.state.ajdata.orderIndustry==1?'none':'block'}}>
                                 <dt>运费</dt>
                                 <dd><span>¥{Tool.toDecimal2(this.state.ajdata.freight)}</span></dd>
                             </dl>
