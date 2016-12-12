@@ -186,11 +186,12 @@ class MyOrder extends Component {
                 type: "post",
                 headers: headers,
                 successMethod: function(json){
-                  console.log('删除成功');
-                  thisNode.parentNode.removeChild(thisNode);
-                  _this.state.confirm.leftMethod();
                 }
             });
+            setTimeout(function(){
+                _this.setState({display: "none",confirm : {display : 'none'}});
+                location.reload();
+           },1000);
           }
         }
       })
@@ -461,7 +462,7 @@ var OrderList = React.createClass({
                                             <p>{item.goodSpec}</p>
                                         </div>
                                         <div className="ml-col3">
-                                            <div className="ml-price">￥{Tool.toDecimal2(item.storePrice)}</div>
+                                            <div className="ml-price">¥{Tool.toDecimal2(item.storePrice)}</div>
                                             <div className="ml-num">X{item.count}</div>
                                         </div>
                                     </Link>
@@ -470,7 +471,7 @@ var OrderList = React.createClass({
                         })
                     }
                     </ul>
-                    <div className="mm-total">共{productList.length}件商品 合计：{actualCost}(含运费￥{freight})</div>
+                    <div className="mm-total">共{productList.length}件商品 合计：¥{Tool.toDecimal2(actualCost)}(含运费¥{freight==''||freight==null?'0.00':Tool.toDecimal2(freight)})</div>
                     <div className="mm-total clearfix" style={{display:osDispaly}}>
                         <span className="mm-but but-org" onClick={this.payment.bind(null,{id})} style={{display:orderStatus == 10 ?"none":"none"}}>付款</span>
                         <span className="mm-but but-def" onClick={this.cancelOrder.bind(null,{id})} style={{display:orderStatus == 10 ?"block":"none"}}>取消订单</span>
