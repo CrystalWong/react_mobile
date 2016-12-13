@@ -155,8 +155,8 @@ class OrderDetail extends Component {
             this.deleateOrder=()=>{
                 self.setState({
                 confirm: {
-                    title: "",
-                    content: "确定删除此订单?",
+                    title: "确定删除此订单?",
+                    content: "订单删除后将无法恢复",
                     leftText: "取消",
                     leftMethod: function() {
                         self.setState({
@@ -275,7 +275,7 @@ class OrderDetail extends Component {
                     <div className="address1">
                         <div className="adinfo2">
                         <p style={{'paddingTop': this.state.ajdata.orderIndustry==1?'.4rem':'0rem'}}>{this.state.ajdata.userAddress.trueName}&nbsp;{this.state.ajdata.userAddress.mobile}<span style={{display: this.state.ajdata.userAddress==1?"block":"none"}}>默认</span></p>
-                            <span style={{display: this.state.ajdata.orderIndustry==1?'none':'block'}}>地址：</span><span>{this.state.ajdata.userAddress.locationInfo}{this.state.ajdata.userAddress.detailInfo}</span>
+                            <span style={{display: this.state.ajdata.orderIndustry==1?'none':'inline-block'}}>地址：</span><span>{this.state.ajdata.userAddress.locationInfo}{this.state.ajdata.userAddress.detailInfo}</span>
                         </div>
                     </div>
                     <div className="orderClose">

@@ -173,8 +173,8 @@ class MyOrder extends Component {
         display: "block",
         confirm : {
           display: "block",
-          title: "确认删除此订单吗?",
-          content: "",
+          title: "确定删除此订单?",
+          content: "订单删除后将无法恢复",
           leftText: "取消",
           leftMethod: ()=>{
             _this.setState({display: "none",confirm : {display : 'none'}});

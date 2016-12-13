@@ -62,14 +62,16 @@
 }
 .confirm header{line-height: 1.4;}
 .confirm header,.confirm .content{
+    font-weight: 900;
     margin: 0 .4rem;
 }
 .confirm .content{
-    margin-top: .24rem;
+    margin-top: .22rem;
     margin-bottom: .48rem;
     overflow-x: auto;
     width: 4.8rem;
-    white-space: nowrap
+    white-space: nowrap;
+    font-size: .30rem;
 }
 .confirm .content img{
     margin: 0 .2rem;
