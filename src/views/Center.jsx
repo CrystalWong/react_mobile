@@ -148,7 +148,7 @@ class Center extends Component {
 	render(){
 		return(
 			<div className="center-body">
-			    <Header title="个人中心" leftIcon="fanhui" />
+			    <Header title="个人中心" leftIcon="fanhui" type="center" />
 				<header className="center-header">
 					<div className="ch-avatar"><img src={this.state.photo?this.state.photo:require("../images/center/weidenglu.png")} /></div>
 					<p className="ch-nickname" style={{display: this.state.login?"block":"none"}}>{this.state.nickname}</p>

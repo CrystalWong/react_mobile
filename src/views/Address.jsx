@@ -132,7 +132,7 @@ class Address extends Component {
 
 		let AddressItemConnect = connect(mapStateToProps,mapDispatchToProps)(AddressItem);
 		return(
-			<div style={{height: '100%',overflow: 'auto'}}>
+			<div style={{height: '100%',overflow: 'hidden'}}>
 				<Header title="管理收货地址" leftIcon="fanhui" />
 				<ul className="address-list">
 					{
