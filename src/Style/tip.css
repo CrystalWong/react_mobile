@@ -69,7 +69,8 @@
     margin-bottom: .48rem;
     overflow-x: auto;
     width: 4.8rem;
-    white-space: nowrap
+    white-space: nowrap;
+    min-width: .32rem;
 }
 .confirm .content img{
     margin: 0 .2rem;
