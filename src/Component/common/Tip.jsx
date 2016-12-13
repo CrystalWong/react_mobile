@@ -35,7 +35,7 @@ export class Confirm extends Component {
         this.refs.content.innerHTML = this.props.content;
     }
     render() {
-        let {title,content,leftText,rightText,display,leftMethod,rightMethod} = this.props;
+        let {title,content,leftText,rightText,display,leftMethod,rightMethod,rightClass=""} = this.props;
         
         return (
             <div className="confirm" ref="confirm" style={{display: display}}>
@@ -43,7 +43,7 @@ export class Confirm extends Component {
                 <div className="content" ref="content"></div>
                 <div className="button">
                     <span onClick={leftMethod}>{leftText}</span>
-                    {rightText?(<span onClick={rightMethod}>{rightText}</span>):""}
+                    {rightText?(<span onClick={rightMethod} className={rightClass} >{rightText}</span>):""}
                 </div>
             </div>
         );

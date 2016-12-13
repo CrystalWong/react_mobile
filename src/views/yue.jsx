@@ -90,7 +90,7 @@ class Yue extends Component {
         };
               
         let headers = COMMON_HEADERS_POST();
-        let domain = ONLINE?"http://n.m.jyall.com":"http://n.m.jyall.com";
+        let domain = ONLINE?"http://m.jyall.com":"http://m.jyall.com";
         this.setState({ajaxDisplay: "block",maskDisplay: "block"});
         Tool.fetch(this,{
                   url: `${URLS.YUYUE}`,//提交地址

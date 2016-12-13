@@ -315,7 +315,7 @@ class OrderClosed extends Component {
             });
         }
         window.onbeforeunload =function (){
-            alert('页面卸载...');
+            // alert('页面卸载...');
             //清除记录的数据
             sessionStorage.removeItem("sessionLiuList");
         }

@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import cookie from 'react-cookie';
 import { Link } from 'react-router';
-import {Header} from '../Component/common/index';
+import {Header,Downloadapp} from '../Component/common/index';
 import '../Style/shoppingcart';
 import {ShoppingItem} from '../Component/ShoppingItem';
 import {Tool, merged} from '../Tool';
@@ -248,19 +248,37 @@ class ShoppingCart extends Component {
     statement(e){ //结算
         e.stopPropagation(); 
         e.preventDefault();
-        if(this.selectItem <= 0){
-            this.setState({tipContent: '请选择商品',display: 'toasts',});
-            return;
-        } 
-        if(this.noStock){
-            this.setState({tipContent: '库存不足',display: 'toasts',});
-            return;            
-        }
-        if(this.onOut){
-            Tool.history.push("/");   
-        }else{
-            Tool.history.push("/orderclosed");
-        }
+        var self = this;
+        this.setState({
+            confirm : {
+                title: "",
+                content: "去app端购买有机会享优惠哦~",
+                leftText: "取消",
+                leftMethod: ()=>{
+                    self.setState({maskDisplay: 'none',confirm : {display : 'none'}});
+                },
+                rightText: "确定",
+                rightMethod: ()=>{
+                    self.setState({maskDisplay: 'none',confirm : {display : 'none'}});
+                },
+                rightClass: "j-downAppBtn",
+                display: "block"
+            },
+            maskDisplay: "block"
+        }); 
+        // if(this.selectItem <= 0){
+        //     this.setState({tipContent: '请选择商品',display: 'toasts',});
+        //     return;
+        // } 
+        // if(this.noStock){
+        //     this.setState({tipContent: '库存不足',display: 'toasts',});
+        //     return;            
+        // }
+        // if(this.onOut){
+        //     Tool.history.push("/");   
+        // }else{
+        //     Tool.history.push("/orderclosed");
+        // }
              
     }
 
@@ -304,6 +322,9 @@ class ShoppingCart extends Component {
     // shouldComponentUpdate(nextProps, nextState) {
     //       return this.state.ajaxDisplay !== nextState.ajaxDisplay;
     // }
+    componentDidMount(){
+        Downloadapp(this);//跳转下载
+    }
     render() {
         return (
             <div style={{height: '100%'}}>
