@@ -243,6 +243,70 @@ export class AddressSelect extends Component {
 }
 
 
+/**
+ * 跳转app
+ * 
+ * @export
+ * @class Downloadapp
+ * @extends {Component}
+ */
+export const Downloadapp = (obj) => {
+    var downloadUrl = "http://m.jyall.com/download.html",
+        linkApp = "myapp://m.jyall.app/openwith";
+    var downDom = document.getElementsByClassName("j-downAppBtn"),
+        length = downDom.length;   
+
+    document.body.addEventListener("click",function(e){
+        // e.stopPropagation(); 
+        // e.preventDefault();        
+        if(e.target.className == "j-downAppBtn"){
+            if (navigator.userAgent.match(/MicroMessenger/i) == 'MicroMessenger'){ return; }
+            if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+                var loadDateTime = new Date(),
+                    aLink = document.createElement("a");
+                aLink.href = downloadUrl;
+                //a.style.display = "none";
+                document.body.appendChild(aLink);
+                var ev = document.createEvent('HTMLEvents');
+                ev.initEvent('click', false, true);
+
+                window.setTimeout(function() {
+                    // tip.toast("未检测到本地应用，<br>现跳转到下载页面！");
+                    obj.setState({tipContent: '未检测到本地应用，<br>现跳转到下载页面！',display: 'toasts',});
+                    var timeOutDateTime = new Date();
+                    if (timeOutDateTime - loadDateTime < 5000) {
+                        aLink.dispatchEvent(ev);
+                        setTimeout(function(){
+                            // tip.toast("app iPhone|iPod|iPad  暂无下载地址链接！！！！");
+                            obj.setState({tipContent: 'app iPhone|iPod|iPad  暂无下载地址链接！！！',display: 'toasts',});
+                        },500);
+                    } else {
+                        window.close();
+                    }
+                }, 2000);
+                window.location = linkApp;
+            } else if (navigator.userAgent.match(/android/i)) {
+                var ifr = null;
+                try {
+                    ifr = document.createElement("iframe");
+                    ifr.setAttribute('src', linkApp);
+                    ifr.setAttribute('style', 'display:none');
+                    document.body.appendChild(ifr);
+                } catch (e) {}
+                setTimeout(function(){
+                    // tip.toast("未检测到本地应用，<br>现跳转到下载页面！");
+                    obj.setState({tipContent: '未检测到本地应用，<br>现跳转到下载页面！',display: 'toasts',});
+                    // tip.toast("app android 下载开始，链接地址！！！！");
+                    obj.setState({tipContent: 'app android 下载开始，链接地址！！！',display: 'toasts',});
+                    window.location = downloadUrl;
+                },2000);
+            }                 
+        }
+    },false);   
+} 
+
+
+
 
 
 
