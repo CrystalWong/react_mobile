@@ -60,9 +60,8 @@
     color: #333;
     background: #fff;
 }
-.confirm header{line-height: 1.4;}
+.confirm header{line-height: 1.4;font-weight: 700;}
 .confirm header,.confirm .content{
-    font-weight: 900;
     margin: 0 .4rem;
 }
 .confirm .content{
@@ -72,7 +71,7 @@
     width: 4.8rem;
     white-space: nowrap;
     font-size: .30rem;
-    min-height: .32rem;
+    min-height: .30rem;
 }
 .confirm .content img{
     margin: 0 .2rem;
