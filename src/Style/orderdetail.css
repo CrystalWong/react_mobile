@@ -2,7 +2,7 @@
     font-family: '微软雅黑';
     padding-bottom: 1.22rem;
     height: 100%;
-    position: relative;
+    /*position: relative;*/
     overflow: auto;
 }
 .order-detail .num {
