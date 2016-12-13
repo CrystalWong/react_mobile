@@ -197,8 +197,9 @@ var OrderList = React.createClass({
                infoAddress= '';
           tellNum = tellNum.replace(/(\d+)-(\d+)-(\d+)-(\d+)/, "$1$2$3,$4");
           if(variableMap.addressInfo){
-            let addressTwo = variableMap.addressInfo.doorNum?variableMap.addressInfo.doorNum:"";
-            infoAddress = addressTwo;
+            let addressOne = variableMap.addressInfo.community?variableMap.addressInfo.community:"",
+                addressTwo = variableMap.addressInfo.doorNum?variableMap.addressInfo.doorNum:"";
+            infoAddress = addressOne + addressTwo;
           }
           return (
                <div className="appointmentlist">
