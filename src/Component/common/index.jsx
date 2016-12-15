@@ -45,13 +45,21 @@ export class Header extends Component {
        }
     }
 
+    goBack(){
+        if(this.props.type == "center"){
+            location.href = "http://m.jyall.com/";
+        }else{
+            this.context.router.goBack();
+        }
+    }
+
     render() {
-        let {title, leftIcon , hadeScreen="",hClass="h-screen"} = this.props;
+        let {title, leftIcon , hadeScreen="",hClass="h-screen",type=""} = this.props;
         let left = null,
             hScreen = null;
         if (leftIcon === 'fanhui') { //返回上一页
             left = (
-                <a onClick={this.context.router.goBack}>
+                <a href = "javascript:;" onClick={this.goBack.bind(this)}>
                     <i></i>
                 </a>
             );

@@ -72,6 +72,7 @@
     width: 4.8rem;
     white-space: nowrap;
     font-size: .30rem;
+    min-height: .32rem;
 }
 .confirm .content img{
     margin: 0 .2rem;
@@ -358,5 +359,5 @@
     top: 0;
     left: 0;
     bottom: 0;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.2);
 }
