@@ -26,7 +26,7 @@ class ShoppingCart extends Component {
         console.log(this.props);
         this.props.saveAddressInfo({id:""});
         this.state = {
-            title: "购物车()",
+            title: "购物车",
             list: [],
             allMoney: 0,
             allNum: 0,
@@ -101,7 +101,7 @@ class ShoppingCart extends Component {
                 }
                 self.setState({ 
                 	list: json.cartItems,
-                	title: "购物车("+ (self.totalCount>999?'999+':self.totalCount) +")",
+                	title: "购物车"+(self.totalCount>0?"("+ (self.totalCount>999?'999+':self.totalCount) +")":""),
                 	allMoney: self.allMoney,
                 	allNum: self.allNum,
                     nolist: json.cartItems.length==0?"block":"none"
@@ -404,3 +404,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 export default connect(mapStateToProps,mapDispatchToProps)(ShoppingCart);
+process.env.NODE_ENV !== 'production'||module.hot.accept();

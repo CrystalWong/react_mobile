@@ -93,18 +93,18 @@ export class ShoppingItem extends Component {
                 console.log(this.sx);
                 console.log(this.ex);
                 if(this.sx - this.ex > 40){
-                    this.refs.del.className = "delete delete-out";
+                    this.refs.del.className = "delete-cli delete-cli-out";
                 }else if(this.sx - this.ex < -40){
-                    this.refs.del.className = "delete";
+                    this.refs.del.className = "delete-cli";
                 }
                 break;  
             case "touchcancel":  
                 // alert(event.type);
                 this.ex = event.changedTouches[0].clientX;  
                 if(this.sx - this.ex > 40){
-                    this.refs.del.className = "delete delete-out";
+                    this.refs.del.className = "delete-cli delete-cli-out";
                 }else if(this.sx - this.ex < -40){
-                    this.refs.del.className = "delete";
+                    this.refs.del.className = "delete-cli";
                 }
                 break;                
             case "touchmove":  
@@ -135,6 +135,10 @@ export class ShoppingItem extends Component {
         this.refs.li.addEventListener('touchmove',this.touch.bind(this), false);  
         this.refs.li.addEventListener('touchend',this.touch.bind(this), false);  
         this.refs.li.addEventListener('touchcancel',this.touch.bind(this), false);
+        this.refs.del.addEventListener('click',function(e){
+            if(e.target.className == "delete"){return;}
+            this.className = "delete-cli";
+        }, false);
     }
     render() {
         console.log(this.props);
@@ -174,7 +178,7 @@ export class ShoppingItem extends Component {
     				{this.itemSelect == "invalid"?"":(<p>¥{Tool.toDecimal2(sellPrice)}</p>)}
     			</div>
     			{this.itemSelect == "invalid"?"":(<AddReduce num={count} callback={this.props.callback} index={this.props.index} groupSkuId={this.props.groupId+"_"+this.props.skuId} stock={stock} parent={this.props.obj} />)}
-                <div ref="del" className="delete" onClick={this.delete.bind(this)}>删除</div>
+                <div className="delete-cli" ref="del"><div className="delete" onClick={this.delete.bind(this)}>删除</div></div>
             </li>
         );
     }
