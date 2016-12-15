@@ -221,7 +221,7 @@ var NoList = React.createClass({
   render: function() {
     return (
         <div style={{ display: this.props.display }} className="no-list">
-            <img src={require("../images/appointment/icon-appoint.png")} />
+            <img src={require("../images/appointment/icon-appoint.png")} style={{width: '1.63rem'}} />
             <p>预约单还是空的，去逛逛吧~ <br/></p>
             <a href="http://m.jyall.com"><button>继续逛逛</button></a>
         </div>
