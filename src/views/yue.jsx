@@ -242,3 +242,4 @@ class Yue extends Component {
 }
 
 export default Yue;
+process.env.NODE_ENV !== 'production'||module.hot.accept();

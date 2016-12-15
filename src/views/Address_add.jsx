@@ -155,7 +155,7 @@ class AddressAdd extends Component {
 				<ul className="address-form">
 					<li><label>收货人：</label><blockquote><input type="text" ref="name" /></blockquote></li>
 					<li><label>联系方式：</label><blockquote><input type="text" ref="contact"/></blockquote></li>
-					<li><label>所在地区：</label><blockquote className="area-box"><input type="text" ref="area" value={`${this.state.province}${this.state.city}${this.state.country}${this.state.xz}`} readOnly="readonly" onClick={this.addressSelect.bind(this)} /></blockquote></li>
+					<li><label>所在地区：</label><blockquote className="area-box"><input type="text" ref="area" value={`${this.state.province}${this.state.city}${this.state.country}${this.state.xz}`} readOnly="readonly" onClick={this.addressSelect.bind(this)} style={{paddingRight: ".38rem"}} /></blockquote></li>
 					<li><label>详细地址：</label><blockquote><input type="text" ref="address" placeholder="街道、楼牌号等"/></blockquote></li>
 					<li><label>设为默认地址<p>注：设为默认后，下单时会使用该地址</p></label><blockquote className="pub_switch_box"><input type="checkbox" id="pub_switch_a1" className="pub_switch" ref="current" /><label htmlFor="pub_switch_a1"></label></blockquote></li>
 				</ul>

@@ -157,7 +157,7 @@ class Login extends Component {
                             <input ref="phone" type="number" className="phone" placeholder="请输入手机号" />
                             <input ref="password" type="password" placeholder="请输入密码" onPaste={this.passwordPaste.bind(this)} onInput={this.passwordInput.bind(this)} />
                             <input ref="code" type="number" className="code" placeholder="请输入验证码" style={{borderTop:'1px solid #e6e6e6',display: 'none'}} />
-                            <span style={{display: 'block',height: '.36rem',top: '1.16rem'}} onClick={this.passwordHidden.bind(this)}><img src={this.state.hiddenImg} /></span>
+                            <span style={{display: 'block',height: '.36rem',top: '1.16rem'}} onClick={this.passwordHidden.bind(this)}><img src={this.state.hiddenImg} style={{height: '70%'}} /></span>
                             <span style={{display: 'none',height: '.36rem',top: '2.1rem'}} ref="img"><img src="" /></span>
                         </div>
                         <button className="btn" onClick={this.signin.bind(this)}>{this.state.button}</button>
