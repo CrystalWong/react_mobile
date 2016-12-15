@@ -167,7 +167,7 @@ export class ShoppingItem extends Component {
         return (
             <li ref="li">
     			<span style={{ width: width2 }}>
-    			    <img src={icon} className="fl" ref = "icon" style={{ width: width }} onClick={this.select.bind(this)} />
+    			    <img src={icon} className="fl" ref = "icon" style={{ width: width }} onClick={this.itemSelect == "invalid"?"":this.select.bind(this)} />
     			    <div className="main-img"><img src={mainImg?mainImg:require("../images/common/default_icon.png")} style={{width: mainImg?"":"auto"}} className="fl" onClick={this.toDeail.bind(this)} />
                         {this.noStock?(<i className='no-stock'>库存不足（{stock}）</i>):""}
                     </div>

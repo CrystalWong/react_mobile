@@ -23,10 +23,9 @@ Tool.fetch = function(obj,data){
         if(data.body){d.body = data.body;}
         fetch(data.url,d).then(response => {
             status = response.status;
-            console.log(response.ok);
+            obj.setState&&obj.setState({ajaxDisplay: "none",maskDisplay: "none"}); 
             return response.json();
-        }).then(json => {
-            obj.setState&&obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
+        }).then(json => { 
             data.successMethod(json,status);
             if(status >= 500){
                 // alert(status);
@@ -48,17 +47,17 @@ Tool.fetch = function(obj,data){
                 xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
             }
             xmlhttp.onreadystatechange=function()
-            {
+            {  
                 if (xmlhttp.readyState==4)
                 {
-                    let json=eval("("+ xmlhttp.responseText +")");
+                    obj.setState&&obj.setState({ajaxDisplay: "none",maskDisplay: "none"});
+                    let json=xmlhttp.responseText?eval("("+ xmlhttp.responseText +")"):xmlhttp.responseText;
                     if(xmlhttp.status >= 500){
                         // if(json.code == -1){
                         //     json.message = '网络繁忙，请稍后再试';
                         // }
                         obj.setState({ tipContent: json.message?json.message:'网络繁忙，请稍后再试',display: 'toasts' });
                     }
-                    obj.setState({ajaxDisplay: "none",maskDisplay: "none"});  
                     status = xmlhttp.status;
                     if(!xmlhttp.responseText){
                         data.successMethod(xmlhttp.responseText,status);

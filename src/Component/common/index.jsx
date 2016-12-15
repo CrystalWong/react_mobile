@@ -148,7 +148,7 @@ export class AddressSelect extends Component {
 
     getProvince(obj,first){
         if(first != 0){
-            this.setState({index: 0,status: 0,select:"请选择",province:"",city:""});
+            this.setState({index: 0,status: 0,select:"请选择",province:"",city:"",country:"",xz:""});
             obj = this;
         }
         Tool.fetch(obj,{
@@ -236,7 +236,7 @@ export class AddressSelect extends Component {
         return (
             <section className = "cascade-select" style={{WebkitTransform: `translate3d(0,${_style},0)`,transform: `translate3d(0,${_style},0)`}}>
                 <header>所在地区<span onClick={this.props.close}>+</span></header>
-                <div className="select-value"><span style={{color: "#ff6600"}}>{this.state.select}</span><span ref="province" onClick={this.getProvince.bind(this)}>{this.state.province}</span><span ref="city" onClick={this.getCity.bind(this)}>{this.state.city}</span><span ref="country" onClick={this.getCountry.bind(this)}>{this.state.country}</span><span ref="xz" onClick={this.getXz.bind(this)}>{this.state.xz}</span></div>
+                <div className="select-value"><span style={{color: "#ff6600",marginRight: "0"}}>{this.state.select}</span><span ref="province" onClick={this.getProvince.bind(this)}>{this.state.province}</span><span ref="city" onClick={this.getCity.bind(this)}>{this.state.city}</span><span ref="country" onClick={this.getCountry.bind(this)}>{this.state.country}</span><span ref="xz" onClick={this.getXz.bind(this)}>{this.state.xz}</span></div>
                 <div className="select-scroll">
                    <ul ref="list">
                    {
