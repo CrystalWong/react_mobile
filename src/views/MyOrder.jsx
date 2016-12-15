@@ -488,7 +488,7 @@ var NoList = React.createClass({
   render: function() {
     return (
         <div style={{ display: this.props.display }} className="no-list">
-            <img src={require("../images/appointment/icon-appoint.png")} />
+            <img src={require("../images/myorder/empty.png")} style={{width: "1.63rem"}} />
             <p>订单还是空的，去逛逛吧~ <br/></p>
             <a href="http://m.jyall.com"><button>去逛逛</button></a>
         </div>
@@ -510,3 +510,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(MyOrder);
+process.env.NODE_ENV !== 'production'||module.hot.accept();
