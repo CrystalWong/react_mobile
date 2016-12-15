@@ -86,7 +86,7 @@
 .orderClose .tanm dl dt img {
 	width: 1.6rem;
     height: 1.5rem;
-    border: solid 1px #b9b9b9;
+    border: solid 1px #dfdfdf;
 }
 .orderClose .tanm dl dt span {
 	position: absolute;
@@ -122,13 +122,16 @@
     overflow: hidden;
 }
 .orderClose .tanm dl dd p span {
-	color: grey;
+	color: #333;
     display: inline-block;
 }
-.orderClose .tanm dl dd p span.orename{    width: 2.4rem;
+.orderClose .tanm dl dd p span.orename{    
+	width: 2.4rem;
     height: .8rem;
     overflow: hidden;
     text-overflow:ellipsis ;
+    font-size: .24rem;
+    color: #666;
 }
 
 .orderClose .tanm dl dd p.price {

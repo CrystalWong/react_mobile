@@ -338,7 +338,7 @@ class MyOrder extends Component {
                         <li id="30">待收货</li>
                     </ul>
                 </div>
-                <div style={{height: window.innerHeight*0.78}}>
+                <div style={{height: window.innerHeight*0.88}}>
                     <ReactIScroll iScroll={iScroll} options={this.state.options} onScrollEnd={this.onScrollEnd.bind(this)}>
                     <div ref="OrderCon">
                         {

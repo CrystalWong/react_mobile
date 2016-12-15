@@ -1,4 +1,4 @@
-body{background-image:none;font-size: "微软雅黑"}
+body{background-image:none;font-family: "微软雅黑"}
 /*预约列表 没有数据*/
 .no-list{
 	position: absolute;top:50%;margin-top:-4rem;width:100%;text-align:center;
@@ -41,6 +41,7 @@ body{background-image:none;font-size: "微软雅黑"}
 					height:.88rem;
 					font-size: .3rem;
 					line-height: .55rem;
+					font-weight: 500;
 				}
 				p{
 					font-size:.28rem;
@@ -57,10 +58,11 @@ body{background-image:none;font-size: "微软雅黑"}
 						button{
 							width: 1.6rem;
 							height: .6rem;
-							font-weight: 700;
 							border-radius: .06rem;
 							border: 1px solid #bbb;
 							background-color: #fff;
+							color: #333;
+    						font-size: .28rem;
 						}
 					}
 				}
