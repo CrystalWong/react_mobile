@@ -265,7 +265,7 @@ class OrderDetail extends Component {
     render() {
         console.log(this.state.ajdata.invoice);
         return (
-            <div style={{'height':'100%'}}>
+            <div style={{'height':'100%','overflow':'auto'}}>
                 <Header title="订单详情" leftIcon="fanhui" />
                 <div className="order-detail">
                     <div className="num">
@@ -332,9 +332,6 @@ class OrderDetail extends Component {
                                 <dd style={{color: '#D4D1D1'}}>下单时间:{Tool.formatSeconds(this.state.ajdata.orderDate)}</dd>
                             </dl>
                     </div>
-                    <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
-                    <Confirm  {...this.state.confirm}/>
-                    <div className="mask" style={{display: this.state.maskDisplay}}></div>
                     <ul style={{display: this.state.cancelDisplay}}>
                         <li>请选择取消订单的原因</li>
                         <li onClick={this.cancelConfirm.bind(this)} className="6">改买其他商品</li>
@@ -356,6 +353,10 @@ class OrderDetail extends Component {
                 <div className="bootmdetail" style={{display: this.state.ajdata.orderStatus==70?"block":"none"}}>
                     <a className="subbtn1" onClick={this.deleateOrder.bind(this)}>删除订单</a>
                 </div>
+                <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
+                <Confirm  {...this.state.confirm}/>
+                <div className="mask" style={{display: this.state.maskDisplay}}></div>                
+                <AjaxTip display={this.state.ajaxDisplay} />
             </div>
         );
     }

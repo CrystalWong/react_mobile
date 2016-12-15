@@ -362,7 +362,7 @@ class OrderClosed extends Component {
                             <div className="adinfo1">
                                 <h3>{this.state.choseAddress.consigneeName!=''&&this.state.ajdata.address!=null?this.state.choseAddress.consigneeName:this.state.ajdata.address.consigneeName}&nbsp;
                                 {this.state.choseAddress.consigneeMobile!=undefined&&this.state.ajdata.address!=null?this.state.choseAddress.consigneeMobile:this.state.ajdata.address.consigneeMobile}</h3>
-                                <span>地址：</span><span>{this.state.choseAddress.locationInfo!=undefined&&this.state.ajdata.address!=null?this.state.choseAddress.locationInfo+this.state.choseAddress.detailInfo:(this.state.ajdata.address.detailInfo?(this.state.ajdata.address.locationInfo+this.state.ajdata.address.detailInfo):"请选择地址")}</span>
+                                <div style={{display: 'table'}}><span style={{width: '.95rem'}}>地址：</span><span className='adinfo1-right'>{this.state.choseAddress.locationInfo!=undefined&&this.state.ajdata.address!=null?this.state.choseAddress.locationInfo+this.state.choseAddress.detailInfo:(this.state.ajdata.address.detailInfo?(this.state.ajdata.address.locationInfo+this.state.ajdata.address.detailInfo):"请选择地址")}</span></div>
                             </div>
                         </div>
     				    <OrderClosedList {...this.state.ajdata} getLiu={this.getLiu.bind(this)}/>

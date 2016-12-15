@@ -51,7 +51,18 @@
 .orderClose .address1 .adinfo1 h3 {
 	margin: .5rem 0rem .3rem 0;
 }
-
+.orderClose .address1 .adinfo1 span{
+	display: table-cell;
+	font-size: 12px;
+}
+.orderClose .address1 .adinfo1 .adinfo1-right{
+	padding-right: 10px;
+    overflow: hidden;
+    word-break: break-all;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+}
 .orderClose .address img {
 	vertical-align: middle;
 	margin: .2rem;
