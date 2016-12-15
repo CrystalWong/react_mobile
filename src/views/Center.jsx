@@ -175,3 +175,4 @@ class Center extends Component {
 }
 
 export default Center;
+process.env.NODE_ENV !== 'production'||module.hot.accept();

@@ -370,7 +370,7 @@ var NoList = React.createClass({
                     {
                         this.props.recommentList.map((item,index) =>(
                             <li key={index}>
-                                <a className="clearfix" href={item.URL}>
+                                <a className="clearfix" href={item.mURL}>
                                     <div className="lf-thumb">
                                         <img src={item.image} title="" />
                                     </div>
