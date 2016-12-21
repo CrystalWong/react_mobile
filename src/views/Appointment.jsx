@@ -30,7 +30,7 @@ class Appointment extends Component {
                // userId : Cookie.load('userId'),
                pageNo : 1,
                pageSize : 10,
-               more:'上拉加载更多',
+               more:'',
                nextPage: false, //下一页控制器
                scrollNoData: false, //分页没有数据
                y:'',
@@ -75,6 +75,7 @@ class Appointment extends Component {
                               }else{
                                    _this.state.more="";
                                    _this.state.scrollNoData = true;
+                                   
                               }
                              
                          }else{
