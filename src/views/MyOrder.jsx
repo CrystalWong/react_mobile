@@ -352,7 +352,7 @@ class MyOrder extends Component {
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} />
                 <div className="mask" style={{display:this.state.displayMark?"none":"block"}}></div>
                 <Confirm  {...this.state.confirm}/>
-                <div className="mask" style={{display: this.state.display}}></div>
+                <div className="mask c-mask" style={{display: this.state.display}}></div>
                 <ul className="order-cancel" style={{display: this.state.cancelDisplay}}>
                     <li>请选择取消订单的原因</li>
                     <li onClick={this.cancelConfirm.bind(this)} className="6">改买其他商品</li>
