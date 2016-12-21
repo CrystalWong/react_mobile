@@ -458,3 +458,4 @@ function mapStateToProps(state,ownProps) {
 }
 
 export default connect(mapStateToProps)(OrderClosed);
+process.env.NODE_ENV !== 'production'||module.hot.accept();

@@ -230,3 +230,4 @@ var NoList = React.createClass({
 });
 
 export default Appointment;
+process.env.NODE_ENV !== 'production'||module.hot.accept();
