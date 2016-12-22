@@ -6,7 +6,7 @@ import URLS from '../constants/urls.js';
 import {Header} from '../Component/common/index';
 import {AddressItem} from '../Component/addressItem';
 import {Tool, merged} from '../Tool';
-import {Toast,Confirm} from '../Component/common/Tip';
+import {Toast,Confirm,AjaxTip} from '../Component/common/Tip';
 import {COMMON_HEADERS_POST} from '../constants/headers';
 import '../Style/address';
 import {address} from '../Action/Address';
@@ -14,12 +14,12 @@ import {address} from '../Action/Address';
 class Address extends Component {
 	constructor(props){
 		super(props);
-		Tool.loginChecked(this);
+		// Tool.loginChecked(this);
 		this.state = {
 			userId : Cookie.load('userId'),
 			display : '',
 			tipContent: '',
-			nolist : 'none',
+			nolist : 'block',
 			addressMsg : [],
 			confirm: {
             	title: "",
@@ -29,15 +29,17 @@ class Address extends Component {
             	rightText: "确定",
             	rightMethod: null,
             	display: "none"
-            }
+            },
+            ajaxDisplay: "none",
+            maskDisplay: "none"
 		};
 		this.getAddress = () => {
 			let _this = this;
+			_this.setState({ajaxDisplay: "block",maskDisplay: "block"}); 
 			Tool.fetch(this,{
                 url: URLS.Address + "/user/" + this.state.userId+"?_t="+Cookie.load('tokenid'),
                 type: "get",
-
-                successMethod: function(json){
+                successMethod: function(json,status){
                 	if(!json){
                 		json = [];
                 	}
@@ -51,8 +53,6 @@ class Address extends Component {
                 }
             });
 		}
-
-		this.getAddress();
 	}
 
 	// componentWillMount(){
@@ -88,7 +88,7 @@ class Address extends Component {
 				content: "",
             	leftText: "取消",
             	leftMethod: ()=>{
-            		_this.setState({confirm : {display : 'none'}});
+            		_this.setState({confirm : {display : 'none'},maskDisplay:'none'});
             	},
             	rightText: "确定",
             	rightMethod: ()=>{
@@ -103,7 +103,8 @@ class Address extends Component {
 			        });
             	},
             	display: "block"
-			}
+			},
+			maskDisplay:'block'
 		})
 	}
 
@@ -115,6 +116,14 @@ class Address extends Component {
         this.props.saveAddressInfo({id: ""});
         Tool.history.push("/address-add");
 	}
+	toastDisplay(state){
+        this.setState({
+          display: state
+        });
+    }
+    componentDidMount(){
+        this.getAddress();
+    }
 
 	render(){
 		// function mapStateToProps(state,ownProps) {
@@ -132,7 +141,7 @@ class Address extends Component {
 
 		let AddressItemConnect = connect(mapStateToProps,mapDispatchToProps)(AddressItem);
 		return(
-			<div style={{height: '100%',overflow: 'auto'}}>
+			<div style={{height: '100%',overflow: 'hidden'}}>
 				<Header title="管理收货地址" leftIcon="fanhui" />
 				<ul className="address-list">
 					{
@@ -143,8 +152,10 @@ class Address extends Component {
 				</ul>
 				<Nolist display={this.state.nolist} />
 				<a href="javascript:;" className="add-address-btn" onClick={this.addAddress.bind(this)}>+ 新增收货地址</a>
+				<Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
 				<Confirm  {...this.state.confirm}/>
-	            <div className="mask" style={{display: this.state.confirm.display}}></div>
+                <AjaxTip display={this.state.ajaxDisplay} />
+                <div className="mask" style={{display: this.state.maskDisplay}}></div>	            
 			</div>
 		)
 	}
@@ -181,3 +192,4 @@ let mapDispatchToProps = function(dispatch){
 
 // export default Address;
 export default connect(mapStateToProps,mapDispatchToProps)(Address);
+process.env.NODE_ENV !== 'production'||module.hot.accept();

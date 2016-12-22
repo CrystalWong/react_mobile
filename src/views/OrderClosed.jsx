@@ -118,7 +118,8 @@ class OrderClosed extends Component {
         }
         Tool.fetch(this, data);
         this.submitOrder = () => {
-            console.log('提交订单..');
+            //清除记录的数据
+            sessionStorage.removeItem("sessionLiuList");
             if (props.address.id == undefined || this.state.ajdata.address.id == undefined) {
                 // alert('没地址,调试..');
                 return;
@@ -295,6 +296,8 @@ class OrderClosed extends Component {
                     content: "东西这么实惠，真的要离我而去么",
                     leftText: "去意已决",
                     leftMethod: function() {
+                        //清除记录的数据
+                        sessionStorage.removeItem("sessionLiuList");
                         Tool.history.goBack();
                     },
                     rightText: "我再想想",
@@ -311,7 +314,9 @@ class OrderClosed extends Component {
                 maskDisplay:"block"
             });
         }
-        window.onunload =function (){
+        window.onbeforeunload =function (){
+            // alert('页面卸载...');
+            //清除记录的数据
             sessionStorage.removeItem("sessionLiuList");
         }
         // setTimeout(function(){
@@ -357,7 +362,7 @@ class OrderClosed extends Component {
                             <div className="adinfo1">
                                 <h3>{this.state.choseAddress.consigneeName!=''&&this.state.ajdata.address!=null?this.state.choseAddress.consigneeName:this.state.ajdata.address.consigneeName}&nbsp;
                                 {this.state.choseAddress.consigneeMobile!=undefined&&this.state.ajdata.address!=null?this.state.choseAddress.consigneeMobile:this.state.ajdata.address.consigneeMobile}</h3>
-                                <span>地址：</span><span>{this.state.choseAddress.locationInfo!=undefined&&this.state.ajdata.address!=null?this.state.choseAddress.locationInfo+this.state.choseAddress.detailInfo:(this.state.ajdata.address.detailInfo?(this.state.ajdata.address.locationInfo+this.state.ajdata.address.detailInfo):"请选择地址")}</span>
+                                <div style={{display: 'table'}}><span style={{width: '.95rem'}}>地址：</span><span className='adinfo1-right'>{this.state.choseAddress.locationInfo!=undefined&&this.state.ajdata.address!=null?this.state.choseAddress.locationInfo+this.state.choseAddress.detailInfo:(this.state.ajdata.address.detailInfo?(this.state.ajdata.address.locationInfo+this.state.ajdata.address.detailInfo):"请选择地址")}</span></div>
                             </div>
                         </div>
     				    <OrderClosedList {...this.state.ajdata} getLiu={this.getLiu.bind(this)}/>
@@ -453,3 +458,4 @@ function mapStateToProps(state,ownProps) {
 }
 
 export default connect(mapStateToProps)(OrderClosed);
+process.env.NODE_ENV !== 'production'||module.hot.accept();

@@ -134,3 +134,4 @@ class RegisterPro extends Component {
 }
 
 export default RegisterPro;
+process.env.NODE_ENV !== 'production'||module.hot.accept();

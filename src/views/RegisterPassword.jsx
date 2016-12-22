@@ -33,7 +33,7 @@ class RegisterPassword extends Component {
                 return;
             }            
 
-            let headers = COMMON_HEADERS('sign', SIGN);
+            let headers = COMMON_HEADERS();
             // headers = COMMON_HEADERS('deviceid', "M");
             if(this.props.login.pwd == "findpwd"){
                 Tool.fetch(this,{
@@ -107,3 +107,4 @@ function mapStateToProps(state,ownProps) {
 }
 
 export default connect(mapStateToProps)(RegisterPassword);
+process.env.NODE_ENV !== 'production'||module.hot.accept();

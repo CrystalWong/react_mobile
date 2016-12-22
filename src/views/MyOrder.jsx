@@ -173,8 +173,8 @@ class MyOrder extends Component {
         display: "block",
         confirm : {
           display: "block",
-          title: "确认删除此订单吗?",
-          content: "",
+          title: "确定删除此订单?",
+          content: "订单删除后将无法恢复",
           leftText: "取消",
           leftMethod: ()=>{
             _this.setState({display: "none",confirm : {display : 'none'}});
@@ -186,11 +186,12 @@ class MyOrder extends Component {
                 type: "post",
                 headers: headers,
                 successMethod: function(json){
-                  console.log('删除成功');
-                  thisNode.parentNode.removeChild(thisNode);
-                  _this.state.confirm.leftMethod();
                 }
             });
+            setTimeout(function(){
+                _this.setState({display: "none",confirm : {display : 'none'}});
+                location.reload();
+           },1000);
           }
         }
       })
@@ -337,7 +338,7 @@ class MyOrder extends Component {
                         <li id="30">待收货</li>
                     </ul>
                 </div>
-                <div style={{height: window.innerHeight - 95}}>
+                <div style={{height: window.innerHeight*0.88}}>
                     <ReactIScroll iScroll={iScroll} options={this.state.options} onScrollEnd={this.onScrollEnd.bind(this)}>
                     <div ref="OrderCon">
                         {
@@ -351,7 +352,7 @@ class MyOrder extends Component {
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} />
                 <div className="mask" style={{display:this.state.displayMark?"none":"block"}}></div>
                 <Confirm  {...this.state.confirm}/>
-                <div className="mask" style={{display: this.state.display}}></div>
+                <div className="mask c-mask" style={{display: this.state.display}}></div>
                 <ul className="order-cancel" style={{display: this.state.cancelDisplay}}>
                     <li>请选择取消订单的原因</li>
                     <li onClick={this.cancelConfirm.bind(this)} className="6">改买其他商品</li>
@@ -377,11 +378,17 @@ var OrderList = React.createClass({
         this.props.callbackLog(orderId);
     },
     //确认收货
-    receipt:function(id,e){
-      e.stopPropagation(); 
-      e.preventDefault();
-      let dId = id.id;
-      this.props.callbackReceipt(dId);
+    receipt:function(id){
+      let dId = id.id,headers = COMMON_HEADERS_POST();
+      Tool.fetch(this,{
+          url: `${URLS.ConfirmGetDoods}`+dId,
+          type: "post",
+          headers: headers,
+          successMethod: function(json,status){
+              // alert('成功回调!');
+          }
+      })
+      location.reload();
     },
     //取消订单
     cancelOrder:function(id,e){
@@ -455,7 +462,7 @@ var OrderList = React.createClass({
                                             <p>{item.goodSpec}</p>
                                         </div>
                                         <div className="ml-col3">
-                                            <div className="ml-price">￥{Tool.toDecimal2(item.storePrice)}</div>
+                                            <div className="ml-price">¥{Tool.toDecimal2(item.storePrice)}</div>
                                             <div className="ml-num">X{item.count}</div>
                                         </div>
                                     </Link>
@@ -464,11 +471,11 @@ var OrderList = React.createClass({
                         })
                     }
                     </ul>
-                    <div className="mm-total">共{productList.length}件商品 合计：{actualCost}(含运费￥{freight})</div>
+                    <div className="mm-total">共{productList.length}件商品 合计：¥{Tool.toDecimal2(actualCost)}(含运费¥{freight==''||freight==null?'0.00':Tool.toDecimal2(freight)})</div>
                     <div className="mm-total clearfix" style={{display:osDispaly}}>
-                        <span className="mm-but but-org" onClick={this.payment.bind(null,{id})} style={{display:orderStatus == 10 ?"block":"none"}}>付款</span>
+                        <span className="mm-but but-org" onClick={this.payment.bind(null,{id})} style={{display:orderStatus == 10 ?"none":"none"}}>付款</span>
                         <span className="mm-but but-def" onClick={this.cancelOrder.bind(null,{id})} style={{display:orderStatus == 10 ?"block":"none"}}>取消订单</span>
-                        <span className="mm-but but-org" onClick={this.goShopping.bind(null,{productList})} style={{display:orderStatus == 40 ?"block":"none"}}>再次购买</span>
+                        <span className="mm-but but-org" onClick={this.goShopping.bind(null,{productList})} style={{display:orderStatus == 40&&productList[0].groupId!=null ?"block":"none"}}>再次购买</span>
                         <span className="mm-but but-def" onClick={this.delOrder.bind(null,{id})} style={{display:orderStatus == 70 ?"block":"none"}}>删除订单</span>
                         <span className="mm-but but-org" onClick={this.receipt.bind(null,{id})} style={{display:orderStatus == 30 ?"block":"none"}}>确认收货</span>
                         <span className="mm-but but-def" onClick={this.logistics.bind(null,{orderId})} style={{display:orderStatus == 30 ?"block":"none"}}>查看物流</span>
@@ -481,7 +488,7 @@ var NoList = React.createClass({
   render: function() {
     return (
         <div style={{ display: this.props.display }} className="no-list">
-            <img src={require("../images/appointment/icon-appoint.png")} />
+            <img src={require("../images/myorder/empty.png")} style={{width: "1.63rem"}} />
             <p>订单还是空的，去逛逛吧~ <br/></p>
             <a href="http://m.jyall.com"><button>去逛逛</button></a>
         </div>
@@ -503,3 +510,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(MyOrder);
+process.env.NODE_ENV !== 'production'||module.hot.accept();

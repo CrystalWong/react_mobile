@@ -43,7 +43,9 @@ class OrderDetail extends Component {
                 },
                 invoice:{
                     invoiceCompanyName:'',
-                    invoiceType:''
+                    invoiceType:'',
+                    invoiceHead:'',
+                    invoicePathAndName:''
                 }
             },
             show0:"none",
@@ -56,17 +58,18 @@ class OrderDetail extends Component {
                 content: "",
                 leftText: "取消",
                 leftMethod: function() {
-                    alert("取消");
+                    
                 },
                 rightText: "确定",
                 rightMethod: function() {
-                    alert("确定");
+                    
                 },
                 display: "none"
             },
             ajaxDisplay: "block",
             maskDisplay: "block",
-            cancelDisplay:"none"
+            cancelDisplay:"none",
+            title: '订单详情',
         };
         //枚举类 开票类型
         this.getkaipType=(val)=>{
@@ -97,10 +100,13 @@ class OrderDetail extends Component {
                 body:"",
                 headers: headers,
                 successMethod: function(json){
-                    self.setState({ajdata:json});
                     if(json.invoice!=null){
                         self.getkaipType(json.invoice.invoiceType);
+                    }else{
+                        // json.invoice.invoicePathAndName='';
+                        // json.invoice.invoiceHead='';
                     }
+                    self.setState({ajdata:json});
                 }
             });
             this.choseAddress=()=>{
@@ -141,22 +147,31 @@ class OrderDetail extends Component {
                     body:JSON.stringify({"id":this.state.ajdata.id}),
                     headers: headers,
                     successMethod: function(json){
-                        console.log(json);
-                    }
+                                            }
                 });
+                location.reload();
             }
             //删除订单
             this.deleateOrder=()=>{
                 self.setState({
                 confirm: {
-                    title: "",
-                    content: "确定删除此订单?",
-                    leftText: "确定",
+                    title: "确定删除此订单?",
+                    content: "订单删除后将无法恢复",
+                    leftText: "取消",
                     leftMethod: function() {
+                        self.setState({
+                            confirm: {
+                                display: "none"
+                            },
+                            maskDisplay: "none"
+                        });
+                    },
+                    rightText: "确定",
+                    rightMethod: function() {
                         Tool.fetch(this,{
                             url: `${URLS.DeleateOrder}`+urlId,
                             type: "post",
-                            body:{},//JSON.stringify({"id":this.state.ajdata.id}),
+                            body:{},
                             headers: headers,
                             successMethod: function(json,status){
                                 if(status==200){
@@ -164,15 +179,15 @@ class OrderDetail extends Component {
                                 }
                             }
                         });
-                    },
-                    rightText: "取消",
-                    rightMethod: function() {
-                        self.setState({
-                            confirm: {
-                                display: "none"
-                            },
-                            maskDisplay: "none"
-                        });
+                        setTimeout(function(){
+                            self.setState({
+                                confirm: {
+                                    display: "none"
+                                },
+                                maskDisplay: "none"
+                            });
+                            location.reload();
+                        },1000);
                     },
                     display: "block"
                 },
@@ -248,96 +263,100 @@ class OrderDetail extends Component {
         }
         }
     render() {
-        console.log(this.state.ajdata);
-        console.log("-------------------------------");
-        console.log((this.state.ajdata.periodOrderList)[0]);
+        console.log(this.state.ajdata.invoice);
         return (
-            <div className="order-detail">
+            <div style={{'height':'100%','overflow':'auto'}}>
                 <Header title="订单详情" leftIcon="fanhui" />
-                <div className="num">
-                    <p className="ordernum">订单号:{this.state.ajdata.orderId}</p>
-                    <p className="orderstate">{this.orderState[this.state.ajdata.orderStatus]}</p>
-                </div>
-                <div className="address1">
-                    <div className="adinfo2">
-                    <p>{this.state.ajdata.userAddress.trueName}&nbsp;{this.state.ajdata.userAddress.mobile}<span style={{display: this.state.ajdata.userAddress==1?"block":"none"}}>默认</span></p>
-                        <span>地址：</span><span>{this.state.ajdata.userAddress.locationInfo}{this.state.ajdata.userAddress.detailInfo}</span>
+                <div className="order-detail">
+                    <div className="num">
+                        <p className="ordernum">订单号:{this.state.ajdata.orderId}</p>
+                        <p className="orderstate">{this.orderState[this.state.ajdata.orderStatus]}</p>
                     </div>
+                    <div className="address1">
+                        <div className="adinfo2">
+                        <p style={{'paddingTop': this.state.ajdata.orderIndustry==1?'.4rem':'0rem'}}>{this.state.ajdata.userAddress.trueName}&nbsp;{this.state.ajdata.userAddress.mobile}<span style={{display: this.state.ajdata.userAddress==1?"block":"none"}}>默认</span></p>
+                            <span style={{display: this.state.ajdata.orderIndustry==1?'none':'inline-block'}}>地址：</span><span>{this.state.ajdata.userAddress.locationInfo}{this.state.ajdata.userAddress.detailInfo}</span>
+                        </div>
+                    </div>
+                    <div className="orderClose">
+                                <a className="tanm">
+                                    <OrderClosedListItemSun {...this.state.ajdata.productList[0]}/>
+                                    <div className="liu"><label>留言:</label>{this.state.ajdata.remark}</div>
+                                </a>
+                    </div>
+                    <dl className="line"><dt>支付方式</dt><dd>{this.state.ajdata.periodOrderList[0].payModeMsg}</dd></dl>
+                    <dl className="line"><dt>配送方式</dt><dd>快递</dd></dl>
+                    <div style={{display: this.state.ajdata.orderIndustry==1?'none':'block'}}>
+                        <dl className="line" style={{display: this.state.show0}}><dt>发票</dt><dd>不开发票</dd></dl>
+                        <div className="jinediv" style={{display: this.state.show1}}>
+                                    <dl className="line jine">
+                                        <dt>发票信息</dt>
+                                        <dd>纸质发票</dd>
+                                    </dl>
+                                    <dl className="line jine" style={{color: '#D4D1D1'}}>
+                                        <dt className="fpname">发票抬头</dt>
+                                        <dd className="fptype">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceHead:''}</dd>
+                                    </dl>
+                        </div>
+                        <div className="jinediv" style={{display: this.state.show2}}>
+                                <dl className="line jine">
+                                    <dt>发票信息</dt>
+                                    <dd><Link to={this.state.ajdata.invoice==null?'':this.state.ajdata.invoice.invoicePathAndName} 
+                                    className={this.state.ajdata.invoice==null?'':(this.state.ajdata.invoice.invoicePathAndName==""||this.state.ajdata.invoice.invoicePathAndName==null?"elefp":"elefp1")}>
+                                    {this.state.ajdata.invoice==null?'':(this.state.ajdata.invoice.invoicePathAndName==""||this.state.ajdata.invoice.invoicePathAndName==null?"电子发票":"查看电子发票")}
+                                    </Link></dd>
+                                </dl>
+                                <dl className="line jine" style={{color: '#D4D1D1'}}>
+                                    <dt className="fpname">发票抬头</dt>
+                                    <dd className="fptype">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceHead:''}</dd>
+                                </dl>
+                        </div>
+                    </div>
+                    <div className="jinediv">
+                            <dl className="line jine">
+                                <dt>商品总金额</dt>
+                                <dd><span>¥{Tool.toDecimal2(this.state.ajdata.totalGoodsCost)}</span></dd>
+                            </dl>
+                            <dl className="line jine" style={{display: this.state.ajdata.orderIndustry==1?'none':'block'}}>
+                                <dt>运费</dt>
+                                <dd><span>¥{Tool.toDecimal2(this.state.ajdata.freight)}</span></dd>
+                            </dl>
+                    </div>
+                    <div className="jinediv">
+                            <dl className="line jine">
+                                <dt></dt>
+                                <dd>实付款:<span>¥{Tool.toDecimal2(this.state.ajdata.actualCost)}</span></dd>
+                            </dl>
+                            <dl className="line jine">
+                                <dt></dt>
+                                <dd style={{color: '#D4D1D1'}}>下单时间:{Tool.formatSeconds(this.state.ajdata.orderDate)}</dd>
+                            </dl>
+                    </div>
+                    <ul style={{display: this.state.cancelDisplay}}>
+                        <li>请选择取消订单的原因</li>
+                        <li onClick={this.cancelConfirm.bind(this)} className="6">改买其他商品</li>
+                        <li onClick={this.cancelConfirm.bind(this)} className="7">从其他商家购买</li>
+                        <li onClick={this.cancelConfirm.bind(this)} className="5">其他原因</li>
+                    </ul>
                 </div>
-                <div className="orderClose">
-                            <a className="tanm">
-                                <OrderClosedListItemSun {...this.state.ajdata.productList[0]}/>
-                                <div className="liu"><label>留言:</label>{this.state.ajdata.remark}</div>
-                            </a>
-                </div>
-                <dl className="line"><dt>支付方式</dt><dd>{this.state.ajdata.periodOrderList[0].payModeMsg}</dd></dl>
-                <dl className="line"><dt>配送方式</dt><dd>快递</dd></dl>
-                <dl className="line" style={{display: this.state.show0}}><dt>发票</dt><dd>不开发票</dd></dl>
-                <div className="jinediv" style={{display: this.state.show1}}>
-                        <dl className="line jine">
-                            <dt>发票信息</dt>
-                            <dd>纸质发票</dd>
-                        </dl>
-                        <dl className="line jine" style={{color: '#D4D1D1'}}>
-                            <dt className="fpname">发票抬头</dt>
-                            <dd className="fptype">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceHead:''}</dd>
-                        </dl>
-                </div>
-                <div className="jinediv" style={{display: this.state.show2}}>
-                        <dl className="line jine">
-                            <dt>发票信息</dt>
-                            <dd><Link to={this.state.ajdata.invoice.invoicePathAndName} className={this.state.ajdata.invoice.invoicePathAndName==""||this.state.ajdata.invoice.invoicePathAndName==null?"elefp":"elefp1"}>
-                            {this.state.ajdata.invoice.invoicePathAndName==""||this.state.ajdata.invoice.invoicePathAndName==null?"电子发票":"查看电子发票"}
-                            </Link></dd>
-                        </dl>
-                        <dl className="line jine" style={{color: '#D4D1D1'}}>
-                            <dt className="fpname">发票抬头</dt>
-                            <dd className="fptype">{this.state.ajdata.invoice!=null?this.state.ajdata.invoice.invoiceHead:''}</dd>
-                        </dl>
-                </div>
-                <div className="jinediv">
-                        <dl className="line jine">
-                            <dt>商品总金额</dt>
-                            <dd><span>¥{Tool.toDecimal2(this.state.ajdata.totalGoodsCost)}</span></dd>
-                        </dl>
-                        <dl className="line jine">
-                            <dt>运费</dt>
-                            <dd><span>¥{Tool.toDecimal2(this.state.ajdata.freight)}</span></dd>
-                        </dl>
-                </div>
-                <div className="jinediv">
-                        <dl className="line jine">
-                            <dt></dt>
-                            <dd>实付款:<span>¥{Tool.toDecimal2(this.state.ajdata.actualCost)}</span></dd>
-                        </dl>
-                        <dl className="line jine">
-                            <dt></dt>
-                            <dd style={{color: '#D4D1D1'}}>下单时间:{Tool.formatSeconds(this.state.ajdata.orderDate)}</dd>
-                        </dl>
-                </div>
-                <div className="bootm" style={{display: this.state.ajdata.orderStatus==10?"block":"none"}}>
-                    <a className="subbtn" onClick={this.payment.bind(this)}>付款</a>
+                 <div className="bootmdetail" style={{display: this.state.ajdata.orderStatus==10?"block":"none"}}>
+                    <a style={{'display':'none'}} className="subbtn" onClick={this.payment.bind(this)}>付款</a>
                     <a className="subbtn1" onClick={this.cancelOrder.bind(this)}>取消订单</a>
                 </div>
-                <div className="bootm" style={{display: this.state.ajdata.orderStatus==30?"block":"none"}}>
+                <div className="bootmdetail" style={{display: this.state.ajdata.orderStatus==30?"block":"none"}}>
                     <a className="subbtn" onClick={this.confirmGetDoods.bind(this)}>确认收货</a>
                     <a style={{display:"none"}} className="subbtn1" onClick={this.toExpressinfo.bind(this)}>查看物流</a>
                 </div>
-                <div className="bootm" style={{display: this.state.ajdata.orderStatus==40&&this.state.ajdata.productList[0].groupId!=null?"block":"none"}}>
+                <div className="bootmdetail" style={{display: this.state.ajdata.orderStatus==40&&this.state.ajdata.productList[0].groupId!=null?"block":"none"}}>
                     <a className="subbtn" href="javascript:;" onClick={this.goShopping.bind(this)}>再次购买</a>
                 </div>
-                <div className="bootm" style={{display: this.state.ajdata.orderStatus==70?"block":"none"}}>
+                <div className="bootmdetail" style={{display: this.state.ajdata.orderStatus==70?"block":"none"}}>
                     <a className="subbtn1" onClick={this.deleateOrder.bind(this)}>删除订单</a>
                 </div>
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
                 <Confirm  {...this.state.confirm}/>
-                <div className="mask" style={{display: this.state.maskDisplay}}></div>
-                <ul style={{display: this.state.cancelDisplay}}>
-                    <li>请选择取消订单的原因</li>
-                    <li onClick={this.cancelConfirm.bind(this)} className="6">改买其他商品</li>
-                    <li onClick={this.cancelConfirm.bind(this)} className="7">从其他商家购买</li>
-                    <li onClick={this.cancelConfirm.bind(this)} className="5">其他原因</li>
-                </ul>
+                <div className="mask" style={{display: this.state.maskDisplay}}></div>                
+                <AjaxTip display={this.state.ajaxDisplay} />
             </div>
         );
     }
@@ -356,3 +375,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(OrderDetail);
+process.env.NODE_ENV !== 'production'||module.hot.accept();

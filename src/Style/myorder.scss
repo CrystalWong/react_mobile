@@ -94,6 +94,7 @@ $deSize: .28rem;
 				color: $deColor;
 				height: .72rem;
 				overflow: hidden;
+				font-weight: 500;
 			}
 			p{
 				font-size: .24rem;
@@ -125,7 +126,7 @@ $deSize: .28rem;
 .mm-total{
 	background: #fff;
 	border-bottom: 1px solid #f5f5f5;
-	font-size: .24rem;
+	font-size: .26rem;
 	text-align: right;
 	height: .88rem;
 	line-height: .88rem; 
@@ -141,7 +142,7 @@ $deSize: .28rem;
 		color: #333;
 		border-radius: 3px;
 		border:  1px solid #bbb;
-		line-height: .6rem;
+		line-height: .57rem;
 		height: .6rem;
 		width: 1.6rem;
 		text-align: center;
@@ -197,4 +198,14 @@ $deSize: .28rem;
         border-top: solid 1px #F3F2F2;
         color: grey;
     }
+}
+.pull-up{
+	text-align: center;
+    color: #666666;
+}
+.my-order .confirm{
+	z-index: 1001;
+}
+.c-mask{
+	z-index: 1000;
 }

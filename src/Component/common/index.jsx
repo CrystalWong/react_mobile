@@ -45,13 +45,21 @@ export class Header extends Component {
        }
     }
 
+    goBack(){
+        if(this.props.type == "center"){
+            location.href = "http://m.jyall.com/";
+        }else{
+            this.context.router.goBack();
+        }
+    }
+
     render() {
-        let {title, leftIcon , hadeScreen="",hClass="h-screen"} = this.props;
+        let {title, leftIcon , hadeScreen="",hClass="h-screen",type=""} = this.props;
         let left = null,
             hScreen = null;
         if (leftIcon === 'fanhui') { //返回上一页
             left = (
-                <a onClick={this.context.router.goBack}>
+                <a href = "javascript:;" onClick={this.goBack.bind(this)}>
                     <i></i>
                 </a>
             );
@@ -140,7 +148,7 @@ export class AddressSelect extends Component {
 
     getProvince(obj,first){
         if(first != 0){
-            this.setState({index: 0,status: 0,select:"请选择",province:"",city:""});
+            this.setState({index: 0,status: 0,select:"请选择",province:"",city:"",country:"",xz:""});
             obj = this;
         }
         Tool.fetch(obj,{
@@ -228,7 +236,7 @@ export class AddressSelect extends Component {
         return (
             <section className = "cascade-select" style={{WebkitTransform: `translate3d(0,${_style},0)`,transform: `translate3d(0,${_style},0)`}}>
                 <header>所在地区<span onClick={this.props.close}>+</span></header>
-                <div className="select-value"><span style={{color: "#ff6600"}}>{this.state.select}</span><span ref="province" onClick={this.getProvince.bind(this)}>{this.state.province}</span><span ref="city" onClick={this.getCity.bind(this)}>{this.state.city}</span><span ref="country" onClick={this.getCountry.bind(this)}>{this.state.country}</span><span ref="xz" onClick={this.getXz.bind(this)}>{this.state.xz}</span></div>
+                <div className="select-value"><span style={{color: "#ff6600",marginRight: "0"}}>{this.state.select}</span><span ref="province" onClick={this.getProvince.bind(this)}>{this.state.province}</span><span ref="city" onClick={this.getCity.bind(this)}>{this.state.city}</span><span ref="country" onClick={this.getCountry.bind(this)}>{this.state.country}</span><span ref="xz" onClick={this.getXz.bind(this)}>{this.state.xz}</span></div>
                 <div className="select-scroll">
                    <ul ref="list">
                    {
@@ -241,6 +249,70 @@ export class AddressSelect extends Component {
         );
     }
 }
+
+
+/**
+ * 跳转app
+ * 
+ * @export
+ * @class Downloadapp
+ * @extends {Component}
+ */
+export const Downloadapp = (obj) => {
+    var downloadUrl = "http://m.jyall.com/download.html",
+        linkApp = "myapp://m.jyall.app/openwith";
+    var downDom = document.getElementsByClassName("j-downAppBtn"),
+        length = downDom.length;   
+
+    document.body.addEventListener("click",function(e){
+        // e.stopPropagation(); 
+        // e.preventDefault();        
+        if(e.target.className == "j-downAppBtn"){
+            if (navigator.userAgent.match(/MicroMessenger/i) == 'MicroMessenger'){ return; }
+            if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+                var loadDateTime = new Date(),
+                    aLink = document.createElement("a");
+                aLink.href = downloadUrl;
+                //a.style.display = "none";
+                document.body.appendChild(aLink);
+                var ev = document.createEvent('HTMLEvents');
+                ev.initEvent('click', false, true);
+
+                window.setTimeout(function() {
+                    // tip.toast("未检测到本地应用，<br>现跳转到下载页面！");
+                    // obj.setState({tipContent: '未检测到本地应用，<br>现跳转到下载页面！',display: 'toasts',});
+                    var timeOutDateTime = new Date();
+                    if (timeOutDateTime - loadDateTime < 5000) {
+                        aLink.dispatchEvent(ev);
+                        setTimeout(function(){
+                            // tip.toast("app iPhone|iPod|iPad  暂无下载地址链接！！！！");
+                            // obj.setState({tipContent: 'app iPhone|iPod|iPad  暂无下载地址链接！！！',display: 'toasts',});
+                        },500);
+                    } else {
+                        window.close();
+                    }
+                }, 2000);
+                window.location = linkApp;
+            } else if (navigator.userAgent.match(/android/i)) {
+                var ifr = null;
+                try {
+                    ifr = document.createElement("iframe");
+                    ifr.setAttribute('src', linkApp);
+                    ifr.setAttribute('style', 'display:none');
+                    document.body.appendChild(ifr);
+                } catch (e) {}
+                setTimeout(function(){
+                    // tip.toast("未检测到本地应用，<br>现跳转到下载页面！");
+                    // obj.setState({tipContent: '未检测到本地应用，<br>现跳转到下载页面！',display: 'toasts',});
+                    // tip.toast("app android 下载开始，链接地址！！！！");
+                    // obj.setState({tipContent: 'app android 下载开始，链接地址！！！',display: 'toasts',});
+                    window.location = downloadUrl;
+                },2000);
+            }                 
+        }
+    },false);   
+} 
+
 
 
 

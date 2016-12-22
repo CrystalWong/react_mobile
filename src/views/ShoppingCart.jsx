@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import cookie from 'react-cookie';
 import { Link } from 'react-router';
-import {Header} from '../Component/common/index';
+import {Header,Downloadapp} from '../Component/common/index';
 import '../Style/shoppingcart';
 import {ShoppingItem} from '../Component/ShoppingItem';
 import {Tool, merged} from '../Tool';
@@ -26,7 +26,7 @@ class ShoppingCart extends Component {
         console.log(this.props);
         this.props.saveAddressInfo({id:""});
         this.state = {
-            title: "购物车()",
+            title: "购物车",
             list: [],
             allMoney: 0,
             allNum: 0,
@@ -101,7 +101,7 @@ class ShoppingCart extends Component {
                 }
                 self.setState({ 
                 	list: json.cartItems,
-                	title: "购物车("+ (self.totalCount>999?'999+':self.totalCount) +")",
+                	title: "购物车"+(self.totalCount>0?"("+ (self.totalCount>999?'999+':self.totalCount) +")":""),
                 	allMoney: self.allMoney,
                 	allNum: self.allNum,
                     nolist: json.cartItems.length==0?"block":"none"
@@ -248,19 +248,37 @@ class ShoppingCart extends Component {
     statement(e){ //结算
         e.stopPropagation(); 
         e.preventDefault();
-        if(this.selectItem <= 0){
-            this.setState({tipContent: '请选择商品',display: 'toasts',});
-            return;
-        } 
-        if(this.noStock){
-            this.setState({tipContent: '库存不足',display: 'toasts',});
-            return;            
-        }
-        if(this.onOut){
-            Tool.history.push("/");   
-        }else{
-            Tool.history.push("/orderclosed");
-        }
+        var self = this;
+        this.setState({
+            confirm : {
+                title: "",
+                content: "去app端购买有机会享优惠哦~",
+                leftText: "取消",
+                leftMethod: ()=>{
+                    self.setState({maskDisplay: 'none',confirm : {display : 'none'}});
+                },
+                rightText: "确定",
+                rightMethod: ()=>{
+                    self.setState({maskDisplay: 'none',confirm : {display : 'none'}});
+                },
+                rightClass: "j-downAppBtn",
+                display: "block"
+            },
+            maskDisplay: "block"
+        }); 
+        // if(this.selectItem <= 0){
+        //     this.setState({tipContent: '请选择商品',display: 'toasts',});
+        //     return;
+        // } 
+        // if(this.noStock){
+        //     this.setState({tipContent: '库存不足',display: 'toasts',});
+        //     return;            
+        // }
+        // if(this.onOut){
+        //     Tool.history.push("/");   
+        // }else{
+        //     Tool.history.push("/orderclosed");
+        // }
              
     }
 
@@ -304,6 +322,9 @@ class ShoppingCart extends Component {
     // shouldComponentUpdate(nextProps, nextState) {
     //       return this.state.ajaxDisplay !== nextState.ajaxDisplay;
     // }
+    componentDidMount(){
+        Downloadapp(this);//跳转下载
+    }
     render() {
         return (
             <div style={{height: '100%'}}>
@@ -318,7 +339,7 @@ class ShoppingCart extends Component {
                 	</ul>
                 	<footer onClick={this.selectAll.bind(this)}>
                 		<span className="no-select-all" ref="selectAll">全选</span>
-                		<div className="fr">合计:<span style={{color: "#cc0000",marginRight: ".2rem"}}>￥{Tool.toDecimal2(this.state.allMoney)}</span><a href="javascript:;"><b className="statement" onClick={this.statement.bind(this)}>结算(<span>{this.state.allNum}</span>)</b></a></div>
+                		<div className="fr">合计:<span style={{color: "#cc0000",marginRight: ".2rem"}}>¥{Tool.toDecimal2(this.state.allMoney)}</span><a href="javascript:;"><b className="statement" onClick={this.statement.bind(this)}>结算(<span>{this.state.allNum}</span>)</b></a></div>
                 	</footer>
                 </div>
                 <NoList display={this.state.nolist} recommentList={this.state.recommentList} />
@@ -349,7 +370,7 @@ var NoList = React.createClass({
                     {
                         this.props.recommentList.map((item,index) =>(
                             <li key={index}>
-                                <a className="clearfix" href={item.URL}>
+                                <a className="clearfix" href={item.mURL}>
                                     <div className="lf-thumb">
                                         <img src={item.image} title="" />
                                     </div>
@@ -383,3 +404,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 export default connect(mapStateToProps,mapDispatchToProps)(ShoppingCart);
+process.env.NODE_ENV !== 'production'||module.hot.accept();

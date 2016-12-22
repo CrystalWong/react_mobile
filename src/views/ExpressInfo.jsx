@@ -112,6 +112,4 @@ function mapStateToProps(state,ownProps) {
 }
 
 export default connect(mapStateToProps)(ExpressInfo);
-
-// <p><span>物流状态</span> &nbsp;<span style={{color: "#00A53E"}}>已签收</span></p>
-                              // <p><span>官方电话</span> &nbsp;<a href="tel:95543">95543</a></p>
+process.env.NODE_ENV !== 'production'||module.hot.accept();

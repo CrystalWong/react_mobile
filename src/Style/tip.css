@@ -60,16 +60,19 @@
     color: #333;
     background: #fff;
 }
-.confirm header{line-height: 1.4;}
+.confirm header{line-height: 1.4;font-weight: 700;}
 .confirm header,.confirm .content{
     margin: 0 .4rem;
 }
 .confirm .content{
-    margin-top: .24rem;
+    margin-top: .22rem;
     margin-bottom: .48rem;
     overflow-x: auto;
     width: 4.8rem;
-    white-space: nowrap
+    white-space: nowrap;
+    font-size: .30rem;
+    overflow: hidden;
+    line-height: 1.1;
 }
 .confirm .content img{
     margin: 0 .2rem;
@@ -356,5 +359,5 @@
     top: 0;
     left: 0;
     bottom: 0;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.2);
 }

@@ -3,7 +3,7 @@
 	input::-webkit-input-placeholder{color:#666;}
 	input:-moz-placeholder{color:#666;}
 	.addren{ background:#fff; width:100%;}
-	.addren ul li{ margin:0; border-bottom:1px solid #eee; padding-left:.07rem; color:#999; position:relative;}
+	.addren ul li{ margin:0;overflow: hidden; border-bottom:1px solid #eee; padding-left:.07rem; color:#999; position:relative;}
 	.addren ul li input{ color:#333; border:none;padding:.30rem 0;width:100%; font-size:.32rem;}
 	.addren ul li:last-child{ border-bottom:none;}
 	.addren .identifyCode input, .addren .img-code input {

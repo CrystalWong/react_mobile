@@ -30,7 +30,7 @@ class Appointment extends Component {
                // userId : Cookie.load('userId'),
                pageNo : 1,
                pageSize : 10,
-               more:'上拉加载更多',
+               more:'',
                nextPage: false, //下一页控制器
                scrollNoData: false, //分页没有数据
                y:'',
@@ -75,6 +75,7 @@ class Appointment extends Component {
                               }else{
                                    _this.state.more="";
                                    _this.state.scrollNoData = true;
+                                   
                               }
                              
                          }else{
@@ -197,8 +198,9 @@ var OrderList = React.createClass({
                infoAddress= '';
           tellNum = tellNum.replace(/(\d+)-(\d+)-(\d+)-(\d+)/, "$1$2$3,$4");
           if(variableMap.addressInfo){
-            let addressTwo = variableMap.addressInfo.doorNum?variableMap.addressInfo.doorNum:"";
-            infoAddress = addressTwo;
+            let addressOne = variableMap.addressInfo.community?variableMap.addressInfo.community:"",
+                addressTwo = variableMap.addressInfo.doorNum?variableMap.addressInfo.doorNum:"";
+            infoAddress = addressOne + addressTwo;
           }
           return (
                <div className="appointmentlist">
@@ -220,7 +222,7 @@ var NoList = React.createClass({
   render: function() {
     return (
         <div style={{ display: this.props.display }} className="no-list">
-            <img src={require("../images/appointment/icon-appoint.png")} />
+            <img src={require("../images/appointment/icon-appoint.png")} style={{width: '1.63rem'}} />
             <p>预约单还是空的，去逛逛吧~ <br/></p>
             <a href="http://m.jyall.com"><button>继续逛逛</button></a>
         </div>
@@ -229,3 +231,4 @@ var NoList = React.createClass({
 });
 
 export default Appointment;
+process.env.NODE_ENV !== 'production'||module.hot.accept();

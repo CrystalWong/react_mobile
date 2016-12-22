@@ -51,7 +51,18 @@
 .orderClose .address1 .adinfo1 h3 {
 	margin: .5rem 0rem .3rem 0;
 }
-
+.orderClose .address1 .adinfo1 span{
+	display: table-cell;
+	font-size: 12px;
+}
+.orderClose .address1 .adinfo1 .adinfo1-right{
+	padding-right: 10px;
+    overflow: hidden;
+    word-break: break-all;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+}
 .orderClose .address img {
 	vertical-align: middle;
 	margin: .2rem;
@@ -61,13 +72,13 @@
 	display: inline-block;
 	width: 100%;
 	background-color: #fff;
-	margin: .2rem 0 .1rem 0;
+	margin: .15rem 0 0rem 0;
 	border-bottom: solid 1px #D2D2D2;
 }
 
 .orderClose .tanm dl {
 	padding: 10px;
-	float: left;
+
 	width: 100%
 }
 .orderClose .tanm .sxp{
@@ -86,7 +97,7 @@
 .orderClose .tanm dl dt img {
 	width: 1.6rem;
     height: 1.5rem;
-    border: solid 1px #b9b9b9;
+    border: solid 1px #dfdfdf;
 }
 .orderClose .tanm dl dt span {
 	position: absolute;
@@ -122,8 +133,16 @@
     overflow: hidden;
 }
 .orderClose .tanm dl dd p span {
-	color: grey;
+	color: #333;
     display: inline-block;
+}
+.orderClose .tanm dl dd p span.orename{    
+	width: 5.2rem;
+    height: .8rem;
+    overflow: hidden;
+    text-overflow:ellipsis ;
+    font-size: .24rem;
+    color: #666;
 }
 
 .orderClose .tanm dl dd p.price {
@@ -248,7 +267,7 @@
 	text-align: center;
 	width: 49%;
 	line-height: 1.2rem;
-	font-size: 24px;
+	font-size: 18px;
 	display: inline-block;
 	float: left;
 }
