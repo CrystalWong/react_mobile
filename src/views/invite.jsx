@@ -90,4 +90,4 @@ class Invite extends Component {
 }
 
 export default Invite;
-process.env.NODE_ENV !== 'production'||module.hot.accept();
+process.env.NODE_ENV !== 'production' && module.hot.accept();

@@ -192,4 +192,4 @@ let mapDispatchToProps = function(dispatch){
 
 // export default Address;
 export default connect(mapStateToProps,mapDispatchToProps)(Address);
-process.env.NODE_ENV !== 'production'||module.hot.accept();
+process.env.NODE_ENV !== 'production' && module.hot.accept();
