@@ -33,6 +33,10 @@ if (process.argv.indexOf('-p') > -1) {//生产环境
           './src/App'
         ]
     }
+}else{
+    plugins.push(new webpack.optimize.OccurenceOrderPlugin());
+    plugins.push(new webpack.HotModuleReplacementPlugin());
+    plugins.push(new webpack.NoErrorsPlugin());    
 }
 plugins.push(new ExtractTextPlugin('[name].css?[hash:8]'));//css单独打包
 
@@ -43,9 +47,7 @@ plugins.push(new HtmlWebpackPlugin({//根据模板插入css/js等生成最终HTM
     chunks: ['app']
 }));
 
-plugins.push(new webpack.optimize.OccurenceOrderPlugin());
-plugins.push(new webpack.HotModuleReplacementPlugin());
-plugins.push(new webpack.NoErrorsPlugin());
+
 plugins.push(new webpack.optimize.UglifyJsPlugin({
       output: {
         comments: false,// remove all comments

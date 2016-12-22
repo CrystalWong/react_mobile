@@ -280,13 +280,13 @@ export const Downloadapp = (obj) => {
 
                 window.setTimeout(function() {
                     // tip.toast("未检测到本地应用，<br>现跳转到下载页面！");
-                    obj.setState({tipContent: '未检测到本地应用，<br>现跳转到下载页面！',display: 'toasts',});
+                    // obj.setState({tipContent: '未检测到本地应用，<br>现跳转到下载页面！',display: 'toasts',});
                     var timeOutDateTime = new Date();
                     if (timeOutDateTime - loadDateTime < 5000) {
                         aLink.dispatchEvent(ev);
                         setTimeout(function(){
                             // tip.toast("app iPhone|iPod|iPad  暂无下载地址链接！！！！");
-                            obj.setState({tipContent: 'app iPhone|iPod|iPad  暂无下载地址链接！！！',display: 'toasts',});
+                            // obj.setState({tipContent: 'app iPhone|iPod|iPad  暂无下载地址链接！！！',display: 'toasts',});
                         },500);
                     } else {
                         window.close();
@@ -303,9 +303,9 @@ export const Downloadapp = (obj) => {
                 } catch (e) {}
                 setTimeout(function(){
                     // tip.toast("未检测到本地应用，<br>现跳转到下载页面！");
-                    obj.setState({tipContent: '未检测到本地应用，<br>现跳转到下载页面！',display: 'toasts',});
+                    // obj.setState({tipContent: '未检测到本地应用，<br>现跳转到下载页面！',display: 'toasts',});
                     // tip.toast("app android 下载开始，链接地址！！！！");
-                    obj.setState({tipContent: 'app android 下载开始，链接地址！！！',display: 'toasts',});
+                    // obj.setState({tipContent: 'app android 下载开始，链接地址！！！',display: 'toasts',});
                     window.location = downloadUrl;
                 },2000);
             }                 
