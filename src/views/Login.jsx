@@ -187,4 +187,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(Login);
-process.env.NODE_ENV !== 'production'||module.hot.accept();//ererer
+process.env.NODE_ENV !== 'production' && module.hot.accept();

@@ -404,4 +404,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 export default connect(mapStateToProps,mapDispatchToProps)(ShoppingCart);
-process.env.NODE_ENV !== 'production'||module.hot.accept();
+process.env.NODE_ENV !== 'production' && module.hot.accept();
