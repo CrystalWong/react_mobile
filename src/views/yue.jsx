@@ -105,7 +105,7 @@ class Yue extends Component {
                         tip = "预约成功";
                         self.setState({tipContent : '预约成功',display : 'toasts' });
                         setTimeout(function(){
-                          location.href = domain+"/app/scues-fals.html?name="+self.nameParams+"&stewardname="+json.businessPeople.butler.empName+"&stewardnum="+json.businessPeople.butler.mobile;
+                          location.href = domain+"/app/scues-fals.html?name="+self.nameParams+"&stewardname="+json.businessPeople.butler.empName+"&stewardnum="+json.businessPeople.butler.serviceTel;
                         },1500);
                     }else {
                         tip = json.message;
