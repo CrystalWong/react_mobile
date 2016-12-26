@@ -125,6 +125,13 @@
     padding-top: 0rem;
     height: auto;
 }
+.order-detail .bwtk{
+    height: .6rem;
+    line-height: .63rem;
+    text-align: center;
+    color: #999999;
+    font-size: .24rem;
+}
 .order-detail .jinediv .jine {
     margin: 0;
 }
