@@ -132,4 +132,4 @@ class SetBill extends Component {
 }
 console.log(OrderClosed);
 export default SetBill;
-process.env.NODE_ENV !== 'production'||module.hot.accept();
+process.env.NODE_ENV !== 'production' && module.hot.accept();

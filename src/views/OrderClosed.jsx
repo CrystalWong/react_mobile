@@ -385,6 +385,9 @@ class OrderClosed extends Component {
     							<dd><span>¥{Tool.toDecimal2(this.state.ajdata.totalShipFee)}</span></dd>
     						</dl>
     					</div>
+                        <div className="bwtk">
+                            备注:虚拟商品不涉及商家发货和确认收货环节
+                        </div>
                     </div>
                     <a className="tanm" style={{display: this.state.ajdata.errorGoodsList.length>=1?'inline-block':'none'}}>
                                 {
@@ -458,4 +461,4 @@ function mapStateToProps(state,ownProps) {
 }
 
 export default connect(mapStateToProps)(OrderClosed);
-process.env.NODE_ENV !== 'production'||module.hot.accept();
+process.env.NODE_ENV !== 'production' && module.hot.accept();
