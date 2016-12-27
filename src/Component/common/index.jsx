@@ -78,6 +78,8 @@ export class Header extends Component {
                             <li id="4"><span>家电订单</span></li>
                             <li id="3"><span>家具订单</span></li>
                             <li id="5"><span>家政订单</span></li>
+                            <li id="6"><span>汽车订单</span></li>
+                            <li id="7"><span>旅行订单</span></li>
                         </ul>
                     </div>
                 </div>
