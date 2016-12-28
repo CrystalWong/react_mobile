@@ -156,7 +156,7 @@ const rootRoute = {
     {
       path: 'aboutus*',
       getComponent(nextState, cb) {
-        require.ensure([], (require) => {cb(null, require('../views/AboutUs').default)}, 'expressinfo')
+        require.ensure([], (require) => {cb(null, require('../views/AboutUs').default)}, 'aboutus')
       }
     }            
   ]
