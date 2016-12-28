@@ -280,7 +280,11 @@ class OrderDetail extends Component {
                     </div>
                     <div className="orderClose">
                                 <a className="tanm">
-                                    <OrderClosedListItemSun {...this.state.ajdata.productList[0]}/>
+                                    {
+                                        this.state.ajdata.productList.map((item,index)=>
+                                            <OrderClosedListItemSun key={index} {...item}/>
+                                        )
+                                    }
                                     <div className="liu"><label>留言:</label>{this.state.ajdata.remark}</div>
                                 </a>
                     </div>
