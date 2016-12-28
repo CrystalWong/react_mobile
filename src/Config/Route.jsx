@@ -152,7 +152,13 @@ const rootRoute = {
       getComponent(nextState, cb) {
         require.ensure([], (require) => {cb(null, require('../views/ExpressInfo').default)}, 'expressinfo')
       }
-    }        
+    },
+    {
+      path: 'aboutus*',
+      getComponent(nextState, cb) {
+        require.ensure([], (require) => {cb(null, require('../views/AboutUs').default)}, 'expressinfo')
+      }
+    }            
   ]
 };
 
