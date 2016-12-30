@@ -52,7 +52,6 @@ class ShoppingCart extends Component {
             maskDisplay: "block"
         };
 
-        let headers = COMMON_HEADERS();
         let self = this;
         this.onOut = false;
         Tool.loginChecked(this,function(){
@@ -61,72 +60,6 @@ class ShoppingCart extends Component {
         this.count = 0;
         this.selectItem = 0;//选中的个数
         this.validCount = 0;//可以选择的个数
-        let params = cookie.load('tokenid')?("&tokenId="+cookie.load('tokenid')):(cookie.load('jycart_uKey')?"&uKey="+cookie.load('jycart_uKey'):'');
-        
-        Tool.fetch(this,{
-            url: `${URLS.QUERYCART}?source=2${params}`,
-            type: "get",
-            body: "",
-            headers: headers,
-            successMethod: function(json){
-                if(json.uKey){//未登录 游客
-                    var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"jyall.com":"") }
-                    cookie.save('jycart_uKey', json.uKey, cookieObj);
-                    self.setState({uKey: json.uKey});
-                }
-            	self.allMoney = 0;
-            	self.allNum = 0;
-            	json.cartItems.map(item => {
-                    if(item.state==1&&item.status==1&&item.salesState==2&&item.select){
-                        self.allMoney += item.count*item.sellPrice;
-                        self.allNum += item.count;
-                    }
-            	})
-
-            	// if(json.totalGoodsCount > 999){json.totalGoodsCount = "999+";}
-                self.totalCount = json.totalGoodsCount;
-                // json.cartItems = [];
-                if(json.cartItems.length == 0){
-                    // self.setState({ajaxDisplay: "block",maskDisplay: "block"});
-                    Tool.fetch(self,{
-                        url: `${URLS.RECOMMENDGOODS}1?userId=${cookie.load("userId")}&num=4`,
-                        type: "get",
-                        headers: COMMON_HEADERS,
-                        successMethod: function(json,status){
-                            if(status == 200){
-                                self.setState({recommentList:json});
-                            }
-                        }
-                    });
-                }
-                self.setState({ 
-                	list: json.cartItems,
-                	title: "购物车"+(self.totalCount>0?"("+ (self.totalCount>999?'999+':self.totalCount) +")":""),
-                	allMoney: self.allMoney,
-                	allNum: self.allNum,
-                    nolist: json.cartItems.length==0?"block":"none"
-                });
-
-                let selectAll = 0;
-                // for(let i of json.cartItems){
-                json.cartItems.forEach(function(i){
-                    if(i.state==1&&i.status==1&&i.salesState==2&&i.stock>0&&i.count <= i.stock){
-                        selectAll++;
-                        if(i.select){
-                            self.selectItem++;
-                        }
-                        self.validCount++;
-                    }
-                });    
-
-                // }
-                if(self.selectItem>0 && self.selectItem == selectAll){
-                    self.refs.selectAll.className = "no-select-all selectall";
-                }else{
-                    self.refs.selectAll.className = "no-select-all";
-                }  
-            }
-        });
     }
 
     toastDisplay(state){
@@ -323,6 +256,74 @@ class ShoppingCart extends Component {
     //       return this.state.ajaxDisplay !== nextState.ajaxDisplay;
     // }
     componentDidMount(){
+        let headers = COMMON_HEADERS(),
+            self = this;
+        let params = cookie.load('tokenid')?("&tokenId="+cookie.load('tokenid')):(cookie.load('jycart_uKey')?"&uKey="+cookie.load('jycart_uKey'):'');
+        self.setState({ajaxDisplay: "block",maskDisplay: "block"});
+        Tool.fetch(this,{
+            url: `${URLS.QUERYCART}?source=2${params}`,
+            type: "get",
+            body: "",
+            headers: headers,
+            successMethod: function(json){
+                if(json.uKey){//未登录 游客
+                    var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"jyall.com":"") }
+                    cookie.save('jycart_uKey', json.uKey, cookieObj);
+                    self.setState({uKey: json.uKey});
+                }
+                self.allMoney = 0;
+                self.allNum = 0;
+                json.cartItems.map(item => {
+                    if(item.state==1&&item.status==1&&item.salesState==2&&item.select){
+                        self.allMoney += item.count*item.sellPrice;
+                        self.allNum += item.count;
+                    }
+                })
+
+                // if(json.totalGoodsCount > 999){json.totalGoodsCount = "999+";}
+                self.totalCount = json.totalGoodsCount;
+                // json.cartItems = [];
+                if(json.cartItems.length == 0){
+                    // self.setState({ajaxDisplay: "block",maskDisplay: "block"});
+                    Tool.fetch(self,{
+                        url: `${URLS.RECOMMENDGOODS}1?userId=${cookie.load("userId")}&num=4`,
+                        type: "get",
+                        headers: COMMON_HEADERS,
+                        successMethod: function(json,status){
+                            if(status == 200){
+                                self.setState({recommentList:json});
+                            }
+                        }
+                    });
+                }
+                self.setState({ 
+                    list: json.cartItems,
+                    title: "购物车"+(self.totalCount>0?"("+ (self.totalCount>999?'999+':self.totalCount) +")":""),
+                    allMoney: self.allMoney,
+                    allNum: self.allNum,
+                    nolist: json.cartItems.length==0?"block":"none"
+                });
+
+                let selectAll = 0;
+                // for(let i of json.cartItems){
+                json.cartItems.forEach(function(i){
+                    if(i.state==1&&i.status==1&&i.salesState==2&&i.stock>0&&i.count <= i.stock){
+                        selectAll++;
+                        if(i.select){
+                            self.selectItem++;
+                        }
+                        self.validCount++;
+                    }
+                });    
+
+                // }
+                if(self.selectItem>0 && self.selectItem == selectAll){
+                    self.refs.selectAll.className = "no-select-all selectall";
+                }else{
+                    self.refs.selectAll.className = "no-select-all";
+                }  
+            }
+        });        
         Downloadapp(this);//跳转下载
     }
     render() {

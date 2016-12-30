@@ -28,7 +28,6 @@ class AboutUs extends Component {
     render() {
         return (
             <div className="about-us">
-               <Header title="关于我们" leftIcon="fanhui" />
                <div className="title-icon"></div>
                <div className="version">金色家园网 {this.state.version}</div>
                <div className="content">
