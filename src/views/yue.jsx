@@ -21,7 +21,7 @@ class Yue extends Component {
       this.state = {
         tipContent: '',
         display: '',
-        addressSelectStyle: "100%",
+        addressSelectStyle: "150%",
         provinceId: "",
         province: "",
         cityId: "",
@@ -105,7 +105,7 @@ class Yue extends Component {
                         tip = "预约成功";
                         self.setState({tipContent : '预约成功',display : 'toasts' });
                         setTimeout(function(){
-                          location.href = domain+"/app/scues-fals.html?name="+self.nameParams+"&stewardname="+json.businessPeople.butler.empName+"&stewardnum="+json.businessPeople.butler.mobile;
+                          location.href = domain+"/app/scues-fals.html?name="+self.nameParams+"&stewardname="+json.businessPeople.butler.empName+"&stewardnum="+json.businessPeople.butler.serviceTel;
                         },1500);
                     }else {
                         tip = json.message;
@@ -122,7 +122,7 @@ class Yue extends Component {
     toastDisplay(state){this.setState({display: state}); }
 
     closeAddress(){
-      this.setState({addressSelectStyle: "100%",maskDisplay: "none"});
+      this.setState({addressSelectStyle: "150%",maskDisplay: "none"});
     }
 
     addressSelect(){
@@ -131,7 +131,7 @@ class Yue extends Component {
 
     addressResult(data){//获取四级地址结果
       this.setState({
-        addressSelectStyle: "100%",
+        addressSelectStyle: "150%",
         maskDisplay: "none",
         provinceId: data.provinceId,
         province: data.province,
@@ -202,7 +202,7 @@ class Yue extends Component {
 
     render() {
         return (
-            <div className="yue">
+            <div className="yue" style={{height: '100%',overflow: 'auto'}}>
                 <Header title={this.state.title} leftIcon="fanhui" />
                 <section>
                   <div className="main">

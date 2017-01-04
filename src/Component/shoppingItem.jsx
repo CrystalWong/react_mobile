@@ -140,6 +140,9 @@ export class ShoppingItem extends Component {
             this.className = "delete-cli";
         }, false);
     }
+    shouldComponentUpdate(nextProps, nextState) {
+          return this.props.select !== nextProps.select;
+    }
     render() {
         console.log(this.props);
         let {skuName,mainImg,speczs,sellPrice,state,count,select,status,salesState ,stock } = this.props;

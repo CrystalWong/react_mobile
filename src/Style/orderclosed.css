@@ -6,7 +6,7 @@
 }
 .orderClose {
 	font-size: .28rem;
-	padding-bottom:1.4rem;
+	padding-bottom:1.16rem;
 	height: 100%;
     position: relative;
     overflow: auto;
@@ -241,7 +241,13 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-
+.orderClose .bwtk{
+    height: .6rem;
+    line-height: .62rem;
+    text-align: center;
+    color: #999999;
+    font-size: .24rem;
+}
 .orderClose .jinediv .jine {
 	margin: 0;
 }

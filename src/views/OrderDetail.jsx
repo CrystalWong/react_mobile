@@ -280,7 +280,11 @@ class OrderDetail extends Component {
                     </div>
                     <div className="orderClose">
                                 <a className="tanm">
-                                    <OrderClosedListItemSun {...this.state.ajdata.productList[0]}/>
+                                    {
+                                        this.state.ajdata.productList.map((item,index)=>
+                                            <OrderClosedListItemSun key={index} {...item}/>
+                                        )
+                                    }
                                     <div className="liu"><label>留言:</label>{this.state.ajdata.remark}</div>
                                 </a>
                     </div>
@@ -321,6 +325,14 @@ class OrderDetail extends Component {
                                 <dt>运费</dt>
                                 <dd><span>¥{Tool.toDecimal2(this.state.ajdata.freight)}</span></dd>
                             </dl>
+                            <dl className="line jine" style={{display: this.state.ajdata.discountAmount>0?'block':'none'}}>
+                                <dt>优惠</dt>
+                                <dd><span>-¥{Tool.toDecimal2(this.state.ajdata.discountAmount)}</span></dd>
+                            </dl>
+                            <dl className="line jine" style={{display: this.state.ajdata.homeBeans>0?'block':'none'}}>
+                                <dt>家园豆减扣</dt>
+                                <dd><span>-¥{Tool.toDecimal2(this.state.ajdata.homeBeans)}</span></dd>
+                            </dl>
                     </div>
                     <div className="jinediv">
                             <dl className="line jine">
@@ -331,6 +343,9 @@ class OrderDetail extends Component {
                                 <dt></dt>
                                 <dd style={{color: '#D4D1D1'}}>下单时间:{Tool.formatSeconds(this.state.ajdata.orderDate)}</dd>
                             </dl>
+                    </div>
+                    <div className="bwtk">
+                        备注:虚拟商品不涉及商家发货和确认收货环节
                     </div>
                     <ul style={{display: this.state.cancelDisplay}}>
                         <li>请选择取消订单的原因</li>
