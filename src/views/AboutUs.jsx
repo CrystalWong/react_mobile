@@ -14,6 +14,7 @@ class AboutUs extends Component {
         this.state = {
             version: ''
         };
+        document.title = "关于我们";
     }  
     componentDidMount(){
         var search = location.href.split("?")[1],

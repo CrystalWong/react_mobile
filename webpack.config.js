@@ -138,8 +138,14 @@ module.exports = {
     plugins,
     resolve: {
         extensions: ['', '.js', '.jsx','.css', '.less' , '.scss'],//后缀名自动补全
+        alias: {
+            define: 'define'
+        }
     },
     node: {
         Buffer: false
-    }
+    },
+    externals:[
+        require('webpack-require-http')
+    ]
 };
