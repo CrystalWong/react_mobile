@@ -15,6 +15,7 @@ class AboutUs extends Component {
             version: ''
         };
         document.title = "关于我们";
+        document.body.style.background = "#fff";
     }  
     componentDidMount(){
         var search = location.href.split("?")[1],
