@@ -196,11 +196,12 @@ class Yue extends Component {
           } else if(item.split("=")[0] == "name"){
             self.nameParams = decodeURIComponent(item.split("=")[1]);
             self.setState({title: self.nameParams});
-          } else if(item.split("=")[0] == "source"&&item.split("=")[1] == "app"){
-            document.getElementsByClassName("common-header")[0].style.display = "none";
-            document.getElementsByClassName("route-div")[0].style.paddingTop = "0";
           }
       });
+      if(localStorage.getItem("source")){
+          document.getElementsByClassName("common-header")[0].style.display = "none";
+          document.getElementsByClassName("route-div")[0].style.paddingTop = "0";        
+      }
     }
 
     render() {
