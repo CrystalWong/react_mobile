@@ -1,3 +1,9 @@
+.yue-title{
+	padding: 0 .5rem;
+	white-space: nowrap;
+	text-overflow:ellipsis; 
+	overflow:hidden;
+}
 .yue{
 	.main{ overflow:hidden; background:#eee;font-size: .34rem}
 	input::-webkit-input-placeholder{color:#666;}
