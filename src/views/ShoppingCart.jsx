@@ -270,6 +270,7 @@ class ShoppingCart extends Component {
                     var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"jyall.com":"") }
                     cookie.save('jycart_uKey', json.uKey, cookieObj);
                     self.setState({uKey: json.uKey});
+                    return;
                 }
                 self.allMoney = 0;
                 self.allNum = 0;
