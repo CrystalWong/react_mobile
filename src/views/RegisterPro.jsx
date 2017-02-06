@@ -10,6 +10,8 @@ import '../Style/RegisterPro.css';
  */
 class RegisterPro extends Component {
     render() {
+     //书写title值
+     document.getElementsByTagName('title')[0].innerHTML='家园网用户服务协议'
         return (
             <div className="xieyi">
                 <Header title="用户服务协议" leftIcon="fanhui" />
