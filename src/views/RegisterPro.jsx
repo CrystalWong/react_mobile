@@ -132,13 +132,7 @@ class RegisterPro extends Component {
         );
     }
     componentDidMount(){
-        this.getQueryString = (name) => {
-            let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-            let r = window.location.href.split("?")[1] ? window.location.href.split("?")[1].match(reg) : null;
-            if (r != null) return decodeURIComponent(r[2]);
-            return "";
-        };
-        if(this.getQueryString('source')=='app'){
+        if(location.href.indexOf('source=app')!=-1){
           document.getElementsByTagName('header')[0].style.display='none';
           document.getElementById('route_div').style.paddingTop='.14rem';
         }
