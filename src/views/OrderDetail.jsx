@@ -355,7 +355,7 @@ class OrderDetail extends Component {
                     </ul>
                 </div>
                  <div className="bootmdetail" style={{display: this.state.ajdata.orderStatus==10?"block":"none"}}>
-                    <a style={{'display':'none'}} className="subbtn" onClick={this.payment.bind(this)}>付款</a>
+                    <a style={{'display':'block'}} className="subbtn" onClick={this.payment.bind(this)}>付款</a>
                     <a className="subbtn1" onClick={this.cancelOrder.bind(this)}>取消订单</a>
                 </div>
                 <div className="bootmdetail" style={{display: this.state.ajdata.orderStatus==30?"block":"none"}}>
