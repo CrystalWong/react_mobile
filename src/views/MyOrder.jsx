@@ -328,7 +328,7 @@ class MyOrder extends Component {
     render() {
 
         return (
-            <div className="my-order">
+            <div className="my-order" style={{height: '100%',overflow: 'hidden'}}>
                 <Header title="全部订单" leftIcon="fanhui" hadeScreen="true" callback={this.subScreen.bind(this)} callbackParent={this.markDisplay.bind(this)} />
                 <div className="mo-nav">
                     <ul className="clearfix" onClick={this.orderStatusFun.bind(this)} ref="orderStatus">
@@ -338,7 +338,7 @@ class MyOrder extends Component {
                         <li id="30">待收货</li>
                     </ul>
                 </div>
-                <div style={{height: window.innerHeight*0.88}}>
+                <div style={{height: '100%',paddingBottom: '.8rem'}}>
                     <ReactIScroll iScroll={iScroll} options={this.state.options} onScrollEnd={this.onScrollEnd.bind(this)}>
                     <div ref="OrderCon">
                         {
