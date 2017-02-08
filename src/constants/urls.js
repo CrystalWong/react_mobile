@@ -23,6 +23,8 @@ export default {
 	QUERYCART: `${domain}/jygoods-api/v1/jycart/queryCart`,
 	//购物车物品数量加1
 	ADDITEM: `${domain}/jygoods-api/v1/jycart/addItem/`,
+	//购物车物品数量批量添加
+	BATCHADDITEM: `${domain}/jygoods-api/v1/jycart/batchAddItem/`,
 	//购物车物品数量减1
 	MINUSITEM: `${domain}/jygoods-api/v1/jycart/minusItem/`,
 	//选择购物项

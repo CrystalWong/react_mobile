@@ -54,7 +54,7 @@ export class Header extends Component {
     }
 
     render() {
-        let {title, leftIcon , hadeScreen="",hClass="h-screen",type=""} = this.props;
+        let {title, leftIcon , hadeScreen="",hClass="h-screen",type="",className} = this.props;
         let left = null,
             hScreen = null;
         if (leftIcon === 'fanhui') { //返回上一页
@@ -91,7 +91,7 @@ export class Header extends Component {
                 <div className="left-arrow">
                     {left}
                 </div>
-                <h2 className="title"><span ref="sHead">{title}</span>
+                <h2 className={className?"title "+className:"title"}><span ref="sHead">{title}</span>
                     {hScreen}
                 </h2>
             </header>

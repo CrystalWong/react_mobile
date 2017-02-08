@@ -182,36 +182,36 @@ class ShoppingCart extends Component {
         e.stopPropagation(); 
         e.preventDefault();
         var self = this;
-        this.setState({
-            confirm : {
-                title: "",
-                content: "去app端购买有机会享优惠哦~",
-                leftText: "取消",
-                leftMethod: ()=>{
-                    self.setState({maskDisplay: 'none',confirm : {display : 'none'}});
-                },
-                rightText: "确定",
-                rightMethod: ()=>{
-                    self.setState({maskDisplay: 'none',confirm : {display : 'none'}});
-                },
-                rightClass: "j-downAppBtn",
-                display: "block"
-            },
-            maskDisplay: "block"
-        }); 
-        // if(this.selectItem <= 0){
-        //     this.setState({tipContent: '请选择商品',display: 'toasts',});
-        //     return;
-        // } 
-        // if(this.noStock){
-        //     this.setState({tipContent: '库存不足',display: 'toasts',});
-        //     return;            
-        // }
-        // if(this.onOut){
-        //     Tool.history.push("/");   
-        // }else{
-        //     Tool.history.push("/orderclosed");
-        // }
+        // this.setState({
+        //     confirm : {
+        //         title: "",
+        //         content: "去app端购买有机会享优惠哦~",
+        //         leftText: "取消",
+        //         leftMethod: ()=>{
+        //             self.setState({maskDisplay: 'none',confirm : {display : 'none'}});
+        //         },
+        //         rightText: "确定",
+        //         rightMethod: ()=>{
+        //             self.setState({maskDisplay: 'none',confirm : {display : 'none'}});
+        //         },
+        //         rightClass: "j-downAppBtn",
+        //         display: "block"
+        //     },
+        //     maskDisplay: "block"
+        // }); 
+        if(this.selectItem <= 0){
+            this.setState({tipContent: '请选择商品',display: 'toasts',});
+            return;
+        } 
+        if(this.noStock){
+            this.setState({tipContent: '库存不足',display: 'toasts',});
+            return;            
+        }
+        if(this.onOut){
+            Tool.history.push("/");   
+        }else{
+            Tool.history.push("/orderclosed");
+        }
              
     }
 
@@ -266,10 +266,11 @@ class ShoppingCart extends Component {
             body: "",
             headers: headers,
             successMethod: function(json){
-                if(json.uKey){//未登录 游客
+                if(!json.cartItems){//未登录 游客
                     var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"jyall.com":"") }
                     cookie.save('jycart_uKey', json.uKey, cookieObj);
                     self.setState({uKey: json.uKey});
+                    json.cartItems = [];
                 }
                 self.allMoney = 0;
                 self.allNum = 0;

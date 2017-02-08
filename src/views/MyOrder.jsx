@@ -144,18 +144,15 @@ class MyOrder extends Component {
                       more: "正在加载",
                       nextPage:true
                   });
-                console.log("2222scrollNoData====="+this.state.scrollNoData);
 
               }else {
                   this.setState({
                       more: "上拉加载更多",
                       nextPage:false
                   });
-                console.log("33333scrollNoData====="+this.state.scrollNoData);
 
               }
               if(this.state.nextPage){
-                console.log("4444scrollNoData====="+this.state.scrollNoData);
 
                   this.state.pageNo = this.state.pageNo;
                    this.state.pageNo++;
@@ -198,38 +195,71 @@ class MyOrder extends Component {
     } 
     //再次购买
     callbackShop(productList){
-
-        let isLogin = 0,
-            uKey = cookie.load('tokenid'),
-            groupSkuId = (productList.productList[0].groupId==null?'':productList.productList[0].groupId) + "_" + productList.productList[0].goodsId,
-            count = 1,self=this;
+      console.log('------------------------------------');
+      console.log(productList);
+      productList=productList.productList;
+      let isLogin = 0,
+          uKey = cookie.load('tokenid'),
+          groupSkuId = '',
+          count = 1,
+          self = this;
         if (uKey) isLogin = 1;
-        
+      if (productList.length == 1) {
+          groupSkuId = (productList[0].groupId == null ? '' : productList[0].groupId) + "_" + productList[0].goodsId;
         Tool.fetch(this, {
-            url: `${URLS.ADDITEM}${isLogin}/${uKey}/${groupSkuId}/${count}`,
-            type: "post",
-            headers: COMMON_HEADERS_POST,
-            successMethod: function(json,status) {
-              if(status == 200){
-                if (json.flag == true) {
-                    Tool.history.push("/shoppingcart");
-                } else {
-                    console.log(json.message);
-                    self.setState({
-                        tipContent: json.message,
-                        display: 'toasts'
-                    });
-                }
-              }else if(status == 400){
-                console.log(self);
-                console.log(json.message);
-                  self.setState({
-                      tipContent: json.message,
-                      display: 'toasts'
-                  });
+          url: `${URLS.ADDITEM}${isLogin}/${uKey}/${groupSkuId}/${count}`,
+          type: "post",
+          headers: COMMON_HEADERS_POST,
+          successMethod: function(json, status) {
+            if (status == 200) {
+              if (json.flag == true) {
+                Tool.history.push("/shoppingcart");
+              } else {
+                self.setState({
+                  tipContent: json.message,
+                  display: 'toasts'
+                });
               }
+            } else if (status == 400) {
+              self.setState({
+                tipContent: json.message,
+                display: 'toasts'
+              });
             }
+          }
         });
+      } else {
+        productList.forEach(function(item,index){
+          if(index+1==productList.length){
+            groupSkuId += item.groupId+ "_" + item.goodsId;
+          }else{
+            groupSkuId += item.groupId+ "_" + item.goodsId+',';
+          }
+        });
+        let source=2,param='?groupSkuIds='+groupSkuId+'&source='+source;
+        Tool.fetch(this, {
+          url: `${URLS.BATCHADDITEM}${isLogin}/${uKey}${param}`,
+          type: "post",
+          headers: COMMON_HEADERS_POST,
+          successMethod: function(json, status) {
+            if (status == 200) {
+              if (json.flag == true) {
+                Tool.history.push("/shoppingcart");
+              } else {
+                self.setState({
+                  tipContent: json.message,
+                  display: 'toasts'
+                });
+              }
+            } else if (status == 400) {
+              self.setState({
+                tipContent: json.message,
+                display: 'toasts'
+              });
+            }
+          }
+        });
+      }
     }
     //付款
     callbackPay(dId){
@@ -239,7 +269,6 @@ class MyOrder extends Component {
             type: "get",
             headers: COMMON_HEADERS(),
             successMethod: function(str,status) {
-                console.log("payment====="+str.payCode);
                 //alert("111=="+status+"payCode=="+str.payCode);
                  Tool.fetch(self, { //获取支付地址
                       url: `${URLS.TOPAY}${str.payCode}?source=WAP`,
@@ -248,7 +277,6 @@ class MyOrder extends Component {
                       successMethod: function(json,status) {
                        // alert("222==="+status);
                         if(status == 200){
-                          console.log(json.wapPayUrl);
                             location.href = json.wapPayUrl;
                         }else{
                             self.setState({
@@ -263,7 +291,6 @@ class MyOrder extends Component {
     }
     //查看物流
     callbackLog(oId){
-      console.log(oId);
       this.props.saveOrderId({orderId: oId.orderId});
       Tool.history.push("/expressinfo");
     }
@@ -304,7 +331,6 @@ class MyOrder extends Component {
           type: "post",
           headers: headers,
           successMethod: function(json,status){
-              console.log("dId===="+dId);
               self.setState({
                   tipContent: '已确认收货',
                   display: 'toasts'
@@ -315,10 +341,7 @@ class MyOrder extends Component {
       })
     }
     componentDidUpdate(){
-        console.log('this.state.more==============='+this.state.more);
-        console.log('this.state.scrollNoData==============='+this.state.scrollNoData);
-        console.log('this.state.pageNo==============='+this.state.pageNo);
-        console.log('this.state.cancelDisplay==============='+this.state.cancelDisplay);
+
     }
     //渲染完成之后再执行
     //componentDidMount(){
@@ -328,7 +351,7 @@ class MyOrder extends Component {
     render() {
 
         return (
-            <div className="my-order">
+            <div className="my-order" style={{height: '100%',overflow: 'hidden'}}>
                 <Header title="全部订单" leftIcon="fanhui" hadeScreen="true" callback={this.subScreen.bind(this)} callbackParent={this.markDisplay.bind(this)} />
                 <div className="mo-nav">
                     <ul className="clearfix" onClick={this.orderStatusFun.bind(this)} ref="orderStatus">
@@ -338,7 +361,7 @@ class MyOrder extends Component {
                         <li id="30">待收货</li>
                     </ul>
                 </div>
-                <div style={{height: window.innerHeight*0.88}}>
+                <div style={{height: '100%',paddingBottom: '.8rem'}}>
                     <ReactIScroll iScroll={iScroll} options={this.state.options} onScrollEnd={this.onScrollEnd.bind(this)}>
                     <div ref="OrderCon">
                         {
@@ -473,7 +496,7 @@ var OrderList = React.createClass({
                     </ul>
                     <div className="mm-total">共{productList.length}件商品 合计：¥{Tool.toDecimal2(actualCost)}(含运费¥{freight==''||freight==null?'0.00':Tool.toDecimal2(freight)})</div>
                     <div className="mm-total clearfix" style={{display:osDispaly}}>
-                        <span className="mm-but but-org" onClick={this.payment.bind(null,{id})} style={{display:orderStatus == 10 ?"none":"none"}}>付款</span>
+                        <span className="mm-but but-org" onClick={this.payment.bind(null,{id})} style={{display:orderStatus == 10 ?"block":"none"}}>付款</span>
                         <span className="mm-but but-def" onClick={this.cancelOrder.bind(null,{id})} style={{display:orderStatus == 10 ?"block":"none"}}>取消订单</span>
                         <span className="mm-but but-org" onClick={this.goShopping.bind(null,{productList})} style={{display:orderStatus == 40&&productList[0].groupId!=null ?"block":"none"}}>再次购买</span>
                         <span className="mm-but but-def" onClick={this.delOrder.bind(null,{id})} style={{display:orderStatus == 70 ?"block":"none"}}>删除订单</span>

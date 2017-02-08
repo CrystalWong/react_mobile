@@ -207,7 +207,7 @@ class Yue extends Component {
     render() {
         return (
             <div className="yue" style={{height: '100%',overflow: 'auto'}}>
-                <Header title={this.state.title} leftIcon="fanhui" />
+                <Header title={this.state.title} leftIcon="fanhui" className="yue-title" />
                 <section>
                   <div className="main">
                     <div className="addren">

@@ -171,7 +171,7 @@ class Register extends Component {
                             <input ref="num" type="num" placeholder="请输入验证码" className="code" />
                             <span onClick={this.getRandomCode.bind(this)} ref="codeText" style={{lineHeight: ".5rem",top: "1.1rem"}}>{this.state.codeText}</span>
                         </div>
-                        <div className="protocol" style={{display: this.state.protocolDisplay}}><span onClick={this.readProtocol.bind(this)} className={this.state.protocolClass}></span>我已经阅读并同意遵守<Link to="/registerpro" style={{color: '#45b3fc'}}>《金色家园用户服务协议》</Link></div>
+                        <div className="protocol" style={{display: this.state.protocolDisplay}}><span onClick={this.readProtocol.bind(this)} className={this.state.protocolClass}></span>我已经阅读并同意遵守<Link to="/registerpro" style={{color: '#45b3fc'}}>《家园网用户服务协议》</Link></div>
                         <button className="btn" onClick={this.validate.bind(this)}>{this.state.button}</button>
                     </div>
                 </div>
