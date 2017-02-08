@@ -129,7 +129,7 @@
 .orderClose .tanm dl dd p .biaoName {
 	text-overflow: ellipsis;
     height: .8rem;
-    width: 2.4rem;
+    width: 3.2rem;
     overflow: hidden;
 }
 .orderClose .tanm dl dd p span {
