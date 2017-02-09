@@ -124,7 +124,7 @@ class MyOrder extends Component {
                 this.refs.orderStatus.childNodes[i].className = " ";
             }
             e.target.className = "active"; 
-            this.setState({ statusPar: e.target.id });
+            this.setState({ statusPar: e.target.id,list: [] });
             // this.refs.OrderCon.innerHTML = "";
             this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":e.target.id});
        }
