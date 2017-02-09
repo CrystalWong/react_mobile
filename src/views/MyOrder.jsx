@@ -124,7 +124,7 @@ class MyOrder extends Component {
             }
             e.target.className = "active"; 
             this.setState({ statusPar: e.target.id });
-            this.refs.OrderCon.innerHTML = "";
+            // this.refs.OrderCon.innerHTML = "";
             this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":e.target.id});
        }
     };
@@ -361,7 +361,7 @@ class MyOrder extends Component {
                         <li id="30">待收货</li>
                     </ul>
                 </div>
-                <div style={{height: '100%',paddingBottom: '.8rem'}}>
+                <div style={{height: '100%',paddingBottom: '.4rem'}}>
                     <ReactIScroll iScroll={iScroll} options={this.state.options} onScrollEnd={this.onScrollEnd.bind(this)}>
                     <div ref="OrderCon">
                         {
