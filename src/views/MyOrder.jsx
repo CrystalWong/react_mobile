@@ -99,6 +99,7 @@ class MyOrder extends Component {
                     _this.setState({
                         scrollNoData: true,
                         more : "",
+                        list: [],
                         nolist : 'block'
                      });
                   }
