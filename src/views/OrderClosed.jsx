@@ -386,7 +386,10 @@ class OrderClosed extends Component {
     						</dl>
     					</div>
                         <div className="bwtk">
-                            备注:虚拟商品不涉及商家发货和确认收货环节
+                            {this.state.ajdata.piccDeclare}
+                        </div>
+                        <div className="bwtk">
+                            {this.state.ajdata.piccGuarantee}
                         </div>
                     </div>
                     <a className="tanm" style={{display: this.state.ajdata.errorGoodsList.length>=1?'inline-block':'none'}}>
