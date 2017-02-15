@@ -249,6 +249,7 @@
     font-size: .24rem;
     background: url(../images/orderclosed/001@2x.png) no-repeat .1rem center;
     background-size: .32rem .32rem;
+    background-color: #f8f8f8;
 }
 .orderClose .bwtk1{
     height: .6rem;
@@ -258,6 +259,7 @@
     font-size: .24rem;
     background: url(../images/orderclosed/002@2x.png) no-repeat .1rem center;
     background-size: .32rem .32rem;
+    background-color: #f8f8f8;
 }
 .orderClose .jinediv .jine {
 	margin: 0;
