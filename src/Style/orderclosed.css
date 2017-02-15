@@ -244,9 +244,20 @@
 .orderClose .bwtk{
     height: .6rem;
     line-height: .62rem;
-    padding-left: .18rem;
+    padding-left: .48rem;
     color: #999999;
     font-size: .24rem;
+    background: url(../images/orderclosed/001@2x.png) no-repeat .1rem center;
+    background-size: .32rem .32rem;
+}
+.orderClose .bwtk1{
+    height: .6rem;
+    line-height: .62rem;
+    padding-left: .48rem;
+    color: #999999;
+    font-size: .24rem;
+    background: url(../images/orderclosed/002@2x.png) no-repeat .1rem center;
+    background-size: .32rem .32rem;
 }
 .orderClose .jinediv .jine {
 	margin: 0;
