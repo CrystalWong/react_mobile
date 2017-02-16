@@ -385,8 +385,12 @@ class OrderClosed extends Component {
     							<dd><span>¥{Tool.toDecimal2(this.state.ajdata.totalShipFee)}</span></dd>
     						</dl>
     					</div>
+                        
                         <div className="bwtk">
-                            备注:虚拟商品不涉及商家发货和确认收货环节
+                            {this.state.ajdata.piccGuarantee}
+                        </div>
+                        <div className="bwtk1">
+                            {this.state.ajdata.piccDeclare}
                         </div>
                     </div>
                     <a className="tanm" style={{display: this.state.ajdata.errorGoodsList.length>=1?'inline-block':'none'}}>
