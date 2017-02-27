@@ -54,15 +54,18 @@ export class Header extends Component {
     }
 
     render() {
-        let {title, leftIcon , hadeScreen="",hClass="h-screen",type="",className} = this.props;
+        let {title, leftIcon , hadeScreen="",hasRight="",hClass="h-screen",type="",className} = this.props;
         let left = null,
-            hScreen = null;
+            hScreen = null,isRight=null;
         if (leftIcon === 'fanhui') { //返回上一页
             left = (
                 <a href = "javascript:;" onClick={this.goBack.bind(this)}>
                     <i></i>
                 </a>
             );
+        }
+        if(hasRight){
+            isRight=<span className="coupon-intro">使用说明</span>
         }
         if(hadeScreen === 'true'){//头部筛选
 
@@ -92,7 +95,7 @@ export class Header extends Component {
                     {left}
                 </div>
                 <h2 className={className?"title "+className:"title"}><span ref="sHead">{title}</span>
-                    {hScreen}
+                    {hScreen}{isRight}
                 </h2>
             </header>
         );

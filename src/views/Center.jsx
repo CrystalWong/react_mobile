@@ -129,7 +129,7 @@ class Center extends Component {
 		this.checkOut("/appointment");
 	}
 	coupon(){
-		this.checkOut("/my-coupon");
+		this.checkOut("/mycoupon");
 	}
 	myorder(){
 		this.checkOut("/myorder");

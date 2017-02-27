@@ -162,7 +162,7 @@ const rootRoute = {
     {
       path: 'mycoupon*',
       getComponent(nextState, cb) {
-        require.ensure([], (require) => {cb(null, require('../views/Mycoupon').default)}, 'mycoupon')
+        require.ensure([], (require) => {cb(null, require('../views/My-coupon').default)}, 'mycoupon')
       }
     }            
   ]

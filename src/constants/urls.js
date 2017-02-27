@@ -68,5 +68,7 @@ export default {
 	//跳转到支付
 	TOPAY: `${domain}/jyorder-center/v1/order/app/pay/`,
 	//付款
-	CORRELATION:`${domain}/jyorder-center/v1/order/app/correlation/`
+	CORRELATION:`${domain}/jyorder-center/v1/order/app/correlation/`,
+	//优惠券列表
+	COUPONLIST:`${domain}/jysales-api/v1/coupon/queryMemberUserCouponAll`,
 };

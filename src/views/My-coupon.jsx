@@ -20,6 +20,7 @@ class Mycoupon extends Component {
           super(props);
           Tool.loginChecked(this);
           this.state = {
+               couponStatus:'1',//优惠券状态参数
                pageNo : 1,
                pageSize : 10,
                more:'',
@@ -33,7 +34,7 @@ class Mycoupon extends Component {
                let _this = this,
                     headers = COMMON_HEADERS('tokenid', Cookie.load("tokenid"));
                Tool.fetch(this,{
-                    url: URLS.APPOINTMENTLIST+"?pageSize="+this.state.pageSize+"&pageNo="+this.state.pageNo,// + this.state.userId,
+                    url: URLS.COUPONLIST+"?pageSize="+this.state.pageSize+"&pageNo="+this.state.pageNo+"&memberId="+Cookie.load("userId")+"&couponStatus="+this.state.couponStatus,// + this.state.userId,
                     type: "get",
                     headers:headers,
                     successMethod: function(json){
@@ -58,6 +59,7 @@ class Mycoupon extends Component {
      render() {
         return (
                 <div className="my-coupon">
+                <Header title="我的优惠券" leftIcon="fanhui" hasRight="true"/>
                   <div className="mo-nav">
                       <ul className="clearfix">
                           <li id="0" className="active">未使用(1)</li>
@@ -66,7 +68,7 @@ class Mycoupon extends Component {
                       </ul>
                   </div>
                   <div className="activation">
-                      <input type="num" placeholder="请输入优惠券编码">
+                      <input type="num" placeholder="请输入优惠券编码"/>
                       <span>激活</span>
                   </div>
                   <div className="no-coupon">没有对应优惠券</div>
@@ -101,14 +103,6 @@ class Mycoupon extends Component {
         );
     }
 }
-
-// Points.defaultProps = {
-//     options: {
-//         mouseWheel: true,
-//         scrollbars: true
-//     }
-// }
-
 var OrderList = React.createClass({
      render: function() {
           let {lastUpdateTime,variableMap} = this.props,
@@ -148,5 +142,5 @@ var NoList = React.createClass({
   }
 });
 
-export default Appointment;
+export default Mycoupon;
 process.env.NODE_ENV !== 'production' && module.hot.accept();
