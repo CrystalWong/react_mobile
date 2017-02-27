@@ -128,7 +128,9 @@ class Center extends Component {
 	appointment(){
 		this.checkOut("/appointment");
 	}
-
+	coupon(){
+		this.checkOut("/my-coupon");
+	}
 	myorder(){
 		this.checkOut("/myorder");
 	}
@@ -158,6 +160,9 @@ class Center extends Component {
 				<ul className="center-menu">
 					{/*<p className="ch-quantity">优惠券：（{this.state.couponTotal}）</p> <li><a href="#" className="cm-message">消息<i></i></a></li>*/}
 					<li><Link to="/shoppingcart" className="cm-cart">购物车<em>{this.state.totalItemCount}</em></Link></li>
+				</ul>
+				<ul className="center-menu">
+					<li><a href="javascript:;" onClick={this.coupon.bind(this)} className="cm-coupon">优惠券({this.state.couponTotal})</a></li>
 				</ul>
 				<ul className="center-menu">
 					<li><a href="javascript:;" onClick={this.appointment.bind(this)} className="cm-yue">我的预约单</a></li>

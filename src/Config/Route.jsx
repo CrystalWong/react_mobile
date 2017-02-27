@@ -158,6 +158,12 @@ const rootRoute = {
       getComponent(nextState, cb) {
         require.ensure([], (require) => {cb(null, require('../views/AboutUs').default)}, 'aboutus')
       }
+    },
+    {
+      path: 'mycoupon*',
+      getComponent(nextState, cb) {
+        require.ensure([], (require) => {cb(null, require('../views/Mycoupon').default)}, 'mycoupon')
+      }
     }            
   ]
 };
