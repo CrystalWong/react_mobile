@@ -71,4 +71,6 @@ export default {
 	CORRELATION:`${domain}/jyorder-center/v1/order/app/correlation/`,
 	//优惠券列表
 	COUPONLIST:`${domain}/jysales-api/v1/coupon/queryMemberUserCouponAll`,
+	//优惠券列表
+	USERCOUPONCODE:`${domain}/jysales-api/v1/coupon/userBindCouponsByRedemptionCode`,
 };

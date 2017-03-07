@@ -1,23 +1,23 @@
-			.my-coupon{
+			.use-coupon{
 				height:100%;
 				padding-bottom: .8rem;
 			}
-			.my-coupon .wrapdiv{
+			.use-coupon .wrapdiv{
 				height: 100%;
     			overflow: auto;
 			}
-			.my-coupon .mo-nav{
+			.use-coupon .mo-nav{
 				border-bottom: 1px solid #d3d3d3;
     			background: #fff;
 			}
-			.my-coupon .mo-nav ul{
+			.use-coupon .mo-nav ul{
 				    height: .9rem;
 				    line-height: .9rem;
 				    display: -webkit-box;
 				    display: -ms-flexbox;
 				    display: flex;
 			}
-			.my-coupon .mo-nav ul li{
+			.use-coupon .mo-nav ul li{
 				    -webkit-box-flex: 1;
 				    -ms-flex: 1;
 				    flex: 1;
@@ -26,14 +26,14 @@
 				    text-align: center;
 				    position: relative;
 			}
-			.my-coupon .mo-nav ul li.active{
+			.use-coupon .mo-nav ul li.active{
 				    color: #f60;
 			}
-			.my-coupon .activation{
+			.use-coupon .activation{
 				    position: relative;
     				margin: .1rem;
 			}
-			.my-coupon .activation input{
+			.use-coupon .activation input{
 				    height: .71rem;
 				    display: inline-block;
 				    vertical-align: middle;
@@ -44,7 +44,7 @@
 				    visibility: visible;
 				    padding-left: .1rem;
 			}
-			.my-coupon .activation span{
+			.use-coupon .activation span{
 				    line-height: 0.7rem;
 				    display: inline-block;
 				    vertical-align: middle;
@@ -55,7 +55,7 @@
 				    border-radius: 1px;
 				    color: #fff;
 			}
-			.my-coupon .no-coupon{
+			.use-coupon .no-coupon{
 				height: 10rem;
 				background: url('../images/mycoupon/no-coupon.png') no-repeat center .5rem;
 				background-position:center center;
@@ -66,7 +66,7 @@
 			    color: #888;
 			    display: none;
 			}
-			.my-coupon .get-coupon-button{
+			.use-coupon .get-coupon-button{
 				z-index: 10;
 			    border: 1px solid #d3d3d3;
 			    position: fixed;
@@ -79,7 +79,7 @@
 			    text-align: center;
 			    color: #f60;
 			}
-			.my-coupon .get-coupon-button i{
+			.use-coupon .get-coupon-button i{
 			    display: inline-block;
 			    width: .24rem;
 			    height: .24rem;
@@ -88,33 +88,54 @@
 			    -webkit-transform: rotate(225deg);
 			    transform: rotate(225deg);
 			}
-			.my-coupon .get-coupon-button a{
+			.use-coupon .get-coupon-button a{
 			    color: #f60;
 			}
-			.my-coupon .coupon-list{
+			.use-coupon .coupon-list{
 			    
 			}
-			.my-coupon .coupon-list ul li{
+			.use-coupon .coupon-list ul li{
 		        height: 2.4rem;
 				background: url('../images/mycoupon/juchi.png') repeat-x #fff;
 				background-size: .17rem .15rem;
 				margin: .2rem .1rem 0rem .1rem;
 			}
-			.my-coupon .coupon-list ul li .div-inline *{
+			.use-coupon .coupon-list ul li .span{
+		        display: inline-block;
+			    width: 5%;
+			    height: 70%;
+			    line-height: 2.5rem;
+			}
+			.use-coupon .coupon-list ul li .check{
+			    background: url('../images/mycoupon/check.png') no-repeat #fff;
+			    background-position: center;
+			    background-size: 83%;
+			}
+			.use-coupon .coupon-list ul li .uncheck{
+			    background: url('../images/mycoupon/uncheck.png') no-repeat #fff;
+			    background-position: center;
+			    background-size: 83%;
+			}
+			.use-coupon .coupon-list ul li .check-div{
+		        width: 95%;
+    			display: inline-block;
+			}
+			.use-coupon .coupon-list ul li .div-inline *{
 			    display: inline-block;
 			}
-			.my-coupon .coupon-list ul li .name-info{
+			.use-coupon .coupon-list ul li .name-info{
 			    height: 1.5rem;
     			line-height: 1.6rem;
     			border-bottom: solid 1px #f1f1f1;
+    			width: 100%;
 			}
-			.my-coupon .coupon-list ul li .name-info .left-div{
+			.use-coupon .coupon-list ul li .name-info .left-div{
 			    width: 48%;
-    			margin-left: .2rem;
     			color: #ff575d;
     			vertical-align: middle;
+    			margin-left: .2rem;
 			}
-			.my-coupon .coupon-list ul li .name-info a{
+			.use-coupon .coupon-list ul li .name-info a{
 				width: 49%;
 			    text-align: right;
     			padding-right: .2rem;
@@ -123,7 +144,7 @@
 			    overflow: hidden;
 			    vertical-align: middle;
 			}
-			.my-coupon .coupon-list ul li .name-info i{
+			.use-coupon .coupon-list ul li .name-info i{
 				display: inline-block;
 			    width: .24rem;
 			    height: .24rem;
@@ -132,17 +153,18 @@
 			    -webkit-transform: rotate(225deg);
 			    transform: rotate(225deg);
 			}
-			.my-coupon .coupon-list ul li .date-info{
+			.use-coupon .coupon-list ul li .date-info{
 			    height: .8rem;
     			line-height: .9rem;
 				color: #b6b6b6;
+				width: 100%;
 			}
-			.my-coupon .coupon-list ul li .date-info p{
+			.use-coupon .coupon-list ul li .date-info p{
 			    width: 60%;
 			    margin-left: .2rem;
 			    vertical-align: middle;
 			}
-			.my-coupon .coupon-list ul li .date-info .right-div{
+			.use-coupon .coupon-list ul li .date-info .right-div{
 			    width: 36%;
 				text-align: right;
     			padding-right: .2rem;
@@ -151,14 +173,14 @@
 			    vertical-align: middle;
 			    overflow-y:hidden;
 			}
-			.my-coupon .coupon-intro{
+			.use-coupon .coupon-intro{
 			    display: inline-block;
 			    position: absolute;
 			    right: .1rem;
 			    font-size: .28rem;
 			    color: #666;
 			}
-			.my-coupon .no-coupon-tip{
+			.use-coupon .no-coupon-tip{
 			    text-align: center;
     			color: #999;
     		}

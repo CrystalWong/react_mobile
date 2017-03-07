@@ -19,8 +19,8 @@ import {Toast} from '../Component/common/Tip';
 class Login extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props);
-        console.log(3333333333);
+        //console.log(this.props);
+        //console.log(3333333333);
         this.state = {
             button: '登录',
             tipContent: '',
@@ -174,7 +174,7 @@ Login.contextTypes = {//父组件跨级传数据
 }
 
 function mapStateToProps(state,ownProps) {
-  console.log(state);  
+  //console.log(state);  
   return {
     login: state.login
   };

@@ -29,7 +29,9 @@ class Mycoupon extends Component {
                display: '',
                nolist : 'block',
                unUsedCount :'',
+               noCouponTip :'none',
                usedCount :'',
+               value:'',
                expiredCount :'',
                couponState:'active',
                dataList:[]
@@ -39,34 +41,94 @@ class Mycoupon extends Component {
               item.className='';
             });
             e.target.className='active';
+            //console.log(e.target.id);
+            // this.setState({
+            //   couponStatus:e.target.id
+            // });
+            this.state.couponStatus=e.target.id;
+            this.getAppointmentList();
           }
           this.couponScroll=(e)=>{
-            console.log(e.target.scrollHeight);//元素的高度
-            console.log(e.target.clientHeight);//窗口高度
-            console.log(e.target.scrollTop);//收进去的高度
-            if(e.target.clientHeight+e.target.scrollTop+54>=e.target.scrollHeight){
-              console.log('滚动..');
+            ////console.log(e.target.scrollHeight);//元素的高度
+            ////console.log(e.target.clientHeight);//窗口高度
+            ////console.log(e.target.scrollTop);//收进去的高度
+            this.setState({
+                  noCouponTip:'none'
+            });
+            if(e.target.clientHeight+e.target.scrollTop>=e.target.scrollHeight){
+              ////console.log('滚动..');
+              if(this.state.nextPage){
+                this.getAppointmentList();
+              }else{
+                this.setState({
+                  noCouponTip:'block'
+                });
+              }
             }
           }
           this.getAppointmentList = () => {
                let _this = this,
                     headers = COMMON_HEADERS('tokenid', Cookie.load("tokenid"));
                Tool.fetch(this,{
-                    url: URLS.COUPONLIST+"?pageSize="+this.state.pageSize+"&pageNo="+this.state.pageNo+"&memberId="+Cookie.load("userId")+"&couponStatus="+this.state.couponStatus,// + this.state.userId,
+                    url: URLS.COUPONLIST+"?pageSize="+_this.state.pageSize+"&pageNo="+_this.state.pageNo+"&memberId="+Cookie.load("userId")+"&couponStatus="+_this.state.couponStatus,// + this.state.userId,
                     type: "get",
                     headers:headers,
                     successMethod: function(json){
-                      _this.setState({
-                          dataList: json.data,
-                          unUsedCount: json.unUsedCount,
-                          usedCount:json.usedCount,
-                          expiredCount:json.expiredCount
-                      });
-                      if(json.data.length=10){
+                      if(_this.state.nextPage&&_this.state.pageNo>1){
+                          _this.setState({
+                              dataList: _this.state.dataList.concat(json.data),
+                              unUsedCount: json.unUsedCount,
+                              usedCount:json.usedCount,
+                              expiredCount:json.expiredCount
+                          });
+                        }else if(!_this.state.nextPage&&_this.state.pageNo==1){
+                          _this.setState({
+                              dataList: json.data,
+                              unUsedCount: json.unUsedCount,
+                              usedCount:json.usedCount,
+                              expiredCount:json.expiredCount
+                          });
+                        }
+                      if(json.data.length==10){
+                        // _this.setState({
+                        //     pageNo: _this.state.pageNo++
+                        // });
+                        _this.state.pageNo++;
+                        _this.state.nextPage=true;
+                      }else{
+                        _this.state.nextPage=false;
                         _this.setState({
-                            pageNo: _this.state.pageNo++
+                          noCouponTip:'block'
                         });
                       }
+                    },
+
+               });
+
+          }
+          this.handleChange=(e)=>{
+            this.setState({
+              value:e.target.value
+            });
+          }
+          this.userCode = () => {
+            //console.log(this.refs.coupon_code.value);
+               if(this.refs.coupon_code.value==''){
+                this.setState({ tipContent: '请输入优惠券编码',display: 'toasts' });
+                return;
+               }
+               let _this = this,
+                    headers = COMMON_HEADERS('tokenid', Cookie.load("tokenid"));
+               Tool.fetch(this,{
+                    url: URLS.USERCOUPONCODE+"?memberId="+Cookie.load("userId")+"&redemptionCode="+this.refs.coupon_code.value,// + this.state.userId,
+                    type: "post",
+                    headers:headers,
+                    successMethod: function(json){
+                      //console.log(json);
+                      _this.setState({ tipContent: json.message,display: 'toasts' });
+                      _this.setState({
+                        value:''
+                      });
                     },
 
                });
@@ -91,14 +153,14 @@ class Mycoupon extends Component {
                 <div className="wrapdiv">
                     <div className="mo-nav">
                         <ul className="clearfix" onClick={this.getCouponBy.bind(this)} ref="couponState">
-                            <li id="0" className="active">未使用({this.state.unUsedCount})</li>
-                            <li id="10">已使用({this.state.usedCount})</li>
-                            <li id="20">已过期({this.state.expiredCount})</li>
+                            <li id="1" className="active">未使用({this.state.unUsedCount})</li>
+                            <li id="2">已使用({this.state.usedCount})</li>
+                            <li id="3">已过期({this.state.expiredCount})</li>
                         </ul>
                     </div>
                     <div className="activation">
-                        <input type="num" placeholder="请输入优惠券编码"/>
-                        <span>激活</span>
+                        <input type="num" placeholder="请输入优惠券编码" ref="coupon_code" value={this.state.value} onChange={this.handleChange.bind(this)}/>
+                        <span onClick={this.userCode.bind(this)}>激活</span>
                     </div>
                     <div className="no-coupon" style={{display: this.state.dataList.length==0?'block':'none'}}>没有对应优惠券</div>
                     <div className="coupon-list" style={{display: this.state.dataList.length==0?'none':'block'}}>
@@ -109,12 +171,13 @@ class Mycoupon extends Component {
                                 )
                            }
                       </ul>
+                      <div style={{display: this.state.noCouponTip}} className="no-coupon-tip">没有更多了</div>
                     </div>
                   </div>
                   <div className="get-coupon-button">
-                    领取更多好券<i></i>
+                    <a href="//m.jyall.com/list/coupon/couponCenter.html">领取更多好券<i></i></a>
                   </div>
-
+                  <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} />
                 </div>
         );
     }
@@ -128,25 +191,28 @@ class CouponList extends Component {
       this.subStrTime=(str)=>{
             return str.split(' ')[0];
       }
+      this.toCouponList=(id,e)=>{
+        location.href='//m.jyall.com/list/goods/coupon-'+id;
+      }
      }
      render(){
-          let {groupValue,groupType,couponName,goodsRange,startUseTime,endUseTime} = this.props;
+          let {couponId,groupValue,groupType,couponName,goodsRange,startUseTime,endUseTime} = this.props;
           return (
-                      <li>
+                      <li onClick={this.toCouponList.bind(this,couponId)}>
                         <div className="div-inline name-info">
-                          <div className="left-div"><h1>¥{groupValue}</h1><span>({groupType})</span></div>
-                          <a href="">{couponName}<i></i></a>
+                          <div className="left-div"><h1>¥{groupValue}</h1><span>({groupType==1?'满减券':'满折券'})</span></div>
+                          <a>{goodsRange}<i></i></a>
                         </div>
                         <div className="div-inline date-info">
                           <p>有效期:{this.subStrTime(startUseTime)}-{this.subStrTime(endUseTime)}</p>
-                          <div className="right-div">{goodsRange}</div>
+                          <div className="right-div">{couponName}</div>
                         </div>
                       </li>
           );
      }
 }
 // var CouponList = React.createClass({
-//       console.log(this);
+//       //console.log(this);
 //       subStrTime=(str)=>{
 //             return str.split(' ')[0];
 //       }

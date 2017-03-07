@@ -73,7 +73,7 @@ class Address extends Component {
             body:JSON.stringify(data),
             headers: headers,
             successMethod: function(json){
-            	console.log('成功设置为默认地址');
+            	//console.log('成功设置为默认地址');
             	_this.getAddress();
             }
         });
@@ -96,7 +96,7 @@ class Address extends Component {
 			            url: URLS.Address + '/' + id+'?_t='+Cookie.load('tokenid'),
 			            type : "delete",
 			            successMethod: function(json){
-			            	console.log('删除成功');
+			            	//console.log('删除成功');
 			            	_this.getAddress();
 			            	_this.state.confirm.leftMethod();
 			            }

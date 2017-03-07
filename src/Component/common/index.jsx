@@ -65,7 +65,7 @@ export class Header extends Component {
             );
         }
         if(hasRight){
-            isRight=<span className="coupon-intro">使用说明</span>
+            isRight=<a href="//m.jyall.com/app/popup/jycoupon.html"><span className="coupon-intro">使用说明</span></a>
         }
         if(hadeScreen === 'true'){//头部筛选
 
@@ -214,7 +214,7 @@ export class AddressSelect extends Component {
             this.refs.city.innerText = data.name;
             this.setState({city: data.name,cityId: data.id,index: data.index});
             this.getCountry(data.id,0);
-            console.log(this.state.provinceId);
+            //console.log(this.state.provinceId);
         }else if(data.status == 2){
             this.refs.country.innerText = data.name;
             this.setState({country: data.name,countryId: data.id,index: data.index});

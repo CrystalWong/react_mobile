@@ -7,10 +7,10 @@ import React, {Component, PropTypes} from 'react';
 export class OrderClosedItemSunCancel extends Component {
     render() {
         //let {address,couponUserList,goodsTotalFee,orderTotalFee,storeVOList,totalShipFee} = this.props;
-        console.log('订单结取消页面...');
-        console.log(this.props);
+        //console.log('订单结取消页面...');
+        //console.log(this.props);
         let {skuStatusCode,stock,goodsName,goodsMainPhoto,goodsPrice,storePrice,count,spec,goodSpec}=this.props;
-        console.log(spec);console.log(goodSpec);
+        //console.log(spec);//console.log(goodSpec);
         return (
                             <dl className="clearfix">
                                     <dt>

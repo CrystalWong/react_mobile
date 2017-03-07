@@ -20,21 +20,30 @@ class OrderClosed extends Component {
     constructor(props) {
         super(props);
         // Tool.loginChecked(this);
-        console.log('代理到本地12...');
+        //console.log('代理到本地12...');
         this.getQueryString = (name) => {
             let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
             let r = window.location.href.split("?")[1] ? window.location.href.split("?")[1].match(reg) : null;
             if (r != null) return decodeURIComponent(r[2]);
             return "";
         };
+        //sessionStorage.removeItem('couponList');
+        
         let choseAddress;
         props.address.consigneeName == null || props.address.consigneeName == undefined ? choseAddress = {
             consigneeName: ""
         } : choseAddress = props.address;
+        //document.getElementById('route_div').setAttribute('couponList','');
         this.state = {
             liuList:[],
+            useCouponList:JSON.parse(sessionStorage.getItem('useCouponList'))||[{
+                activityId:'',
+                couponId:'',
+                groupValue:''
+            }],
             tipContent: '',
             display: '',
+            couponDisplay:'block',
             choseAddress: choseAddress,
             setBillData: {
                 fptype: this.getQueryString("fptype") || 0,
@@ -51,7 +60,8 @@ class OrderClosed extends Component {
                 goodsTotalFee: "",
                 orderTotalFee: "",
                 storeVOList: [],
-                errorGoodsList: []
+                errorGoodsList: [],
+                couponUserList:[]
             },
             isShow: {
                 adOn: 'block',
@@ -83,7 +93,7 @@ class OrderClosed extends Component {
             params = JSON.parse(this.getQueryString('cartParamJson'));
             params.addressId=props.address.id;
             params = JSON.stringify(params);
-            console.log(params);
+            //console.log(params);
         } else {
             params = JSON.stringify({
                 "cartFlag": "1",
@@ -104,6 +114,12 @@ class OrderClosed extends Component {
                         self.state.isShow.adOn = "none";
                         self.state.isShow.adOff = "block";
                         json.address = self.state.ajdata.address;
+                    }
+                    if(json.couponUserList.length!=0){
+                        self.setState({
+                            couponDisplay: 'none'
+                        });
+                        sessionStorage.setItem('couponList',JSON.stringify(json.couponUserList));
                     }
                     self.setState({
                         ajdata: json
@@ -139,7 +155,7 @@ class OrderClosed extends Component {
                     "addressVO": {
                         "addressId": props.address.id || this.state.ajdata.address.id
                     },
-                    "couponList": [], //优惠券列表
+                    "couponList": [{activityId:this.state.useCouponList[0].activityId,couponId:this.state.useCouponList[0].couponId}],//JSON.stringify(this.state.useCouponList), //优惠券列表
                     "goodsListVO": goodsListVO,
                     "invoiceVO": {
                         "invoiceClass": this.state.setBillData.fptype1,
@@ -148,7 +164,7 @@ class OrderClosed extends Component {
                     },
                     remarkList:liuList.length==0?this.state.liuList:liuList
                 };
-            this.setState({ajaxDisplay: "block",maskDisplay: "block"});           
+            this.setState({ajaxDisplay: "block",maskDisplay: "block"});
             Tool.fetch(this, {
                 url: `${URLS.SubmitOrder}`,
                 type: "post",
@@ -156,7 +172,7 @@ class OrderClosed extends Component {
                 headers: headers,
                 successMethod: function(json, status) {
                     // if(status>=500){
-                    //     console.log(json);
+                    //     //console.log(json);
                     //     return;
                     // }
                     if (json.errorList == undefined) {
@@ -260,10 +276,10 @@ class OrderClosed extends Component {
         //留言参数
         let sessionLiuList=[],liuList=[];
         this.getLiu = (e) => {
-            console.log('获取留言参数');
+            //console.log('获取留言参数');
             var value=e.target.getAttribute('value');
             var supplier_payment=e.target.getAttribute('class');
-            console.log(sessionLiuList);
+            //console.log(sessionLiuList);
             if(liuList.length>0){
                 for(var i=0;i<liuList.length;i++){
                     //修改留言
@@ -286,7 +302,7 @@ class OrderClosed extends Component {
                 liuList.push({'supplier_payment':supplier_payment,'remark':value});
                 sessionLiuList.push(supplier_payment+'/'+value);
             }
-            console.log(liuList);
+            //console.log(liuList);
             sessionStorage.setItem('sessionLiuList',sessionLiuList.join(','));
         }
         this.goBack = () => {
@@ -318,6 +334,8 @@ class OrderClosed extends Component {
             // alert('页面卸载...');
             //清除记录的数据
             sessionStorage.removeItem("sessionLiuList");
+            sessionStorage.removeItem("useCouponList");
+            sessionStorage.removeItem("couponList");
         }
         // setTimeout(function(){
         //     backfill();
@@ -375,6 +393,35 @@ class OrderClosed extends Component {
     						<dd><Link to={linkBill}><span>{fpInfoTypeShow[this.state.setBillData.fptype]}{this.state.setBillData.fptype=='0'?'不开发票':fpInfoShow[this.state.setBillData.fptype1]}<em className="fpttshow">{this.state.setBillData.fptt}</em></span><img src={require("../images/orderclosed/fp@2x.png")}/></Link></dd>
 
     					</dl>
+                        <dl className="line fp" style={{display: this.state.couponDisplay}}>
+                            <dt>优惠券</dt>
+                            <dd>
+                            <Link>
+                            <span>无可用</span>
+                            <img src={require("../images/orderclosed/fp@2x.png")}/>
+                            </Link>
+                            </dd>
+                        </dl>
+                        <dl className="line fp" style={{display: this.state.couponDisplay=='none'?'block':'none'}}>
+                            <dt>优惠券</dt>
+                            <dd>
+                            <Link to={'/usecoupon'}>
+                            <span className="coupon">
+                            <em className="fpttshow">{this.state.ajdata.couponUserList.length}张可用</em>
+                            </span><span>未使用</span>
+                            <img src={require("../images/orderclosed/fp@2x.png")}/>
+                            </Link>
+                            </dd>
+                        </dl>
+                        <dl className="line fp" style={{display: this.state.useCouponList[0].couponId!=''?'block':'none'}}>
+                            <dt>优惠券</dt>
+                            <dd>
+                            <Link>
+                            <span>已优惠<i className="couponi">¥{Tool.toDecimal2(this.state.useCouponList[0].groupValue)}</i></span>
+                            <img src={require("../images/orderclosed/fp@2x.png")}/>
+                            </Link>
+                            </dd>
+                        </dl>
     					<div className="jinediv">
     						<dl className="line jine">
     							<dt>商品总金额</dt>
@@ -435,7 +482,7 @@ class OrderClosed extends Component {
             }
         }
         function backfill(){
-            console.log(sessionStorage.getItem('sessionLiuList'));
+            //console.log(sessionStorage.getItem('sessionLiuList'));
             if(sessionStorage.getItem('sessionLiuList')!=null){
                 let liuList=sessionStorage.getItem('sessionLiuList').split(','),backLiulist=[];
                 liuList.forEach(function(item){

@@ -54,7 +54,7 @@ class SetBill extends Component {
 		}
 		this.getFptype = (e) => {
 			//是否开发票,发票大类
-			console.log(e.target.innerHTML)
+			//console.log(e.target.innerHTML)
 			e.target.setAttribute("class","active");
 			siblings(e.target).forEach(function(item){
 				item.setAttribute("class","");
@@ -66,7 +66,7 @@ class SetBill extends Component {
 			}else{
 				this.setState({isShowBg:"none"});
 			}
-			console.log(this.state)
+			//console.log(this.state)
 		}
 		this.perchange = (e) => {
 			//单位还是个人发票
@@ -77,7 +77,7 @@ class SetBill extends Component {
 			}else{
 				this.setState({isShowSm:"none"});
 			}
-			console.log(this.state);
+			//console.log(this.state);
 		}
 		this.getVal = (e) => {
 			//如果是单位发票,抬头不为空
@@ -90,7 +90,7 @@ class SetBill extends Component {
 				Tool.history.push(urlParam);
 				//location.href="/orderclosed?fptype="+this.state.fptype+"&fptype1="+this.state.fptype1+"&fptt="+encodeURIComponent(this.refs.fptt.value.trim())
 			}
-			console.log(this.state);
+			//console.log(this.state);
 			
 		}
 	}
@@ -130,6 +130,6 @@ class SetBill extends Component {
         );
     }
 }
-console.log(OrderClosed);
+//console.log(OrderClosed);
 export default SetBill;
 process.env.NODE_ENV !== 'production' && module.hot.accept();

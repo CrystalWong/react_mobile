@@ -111,7 +111,7 @@ Tool.fetch = function(obj,data){
             //     }
             // },timeout);
         } catch(e) {
-            console.log(e.name +" "+ e.message);
+            //console.log(e.name +" "+ e.message);
         } finally {
 
         }
