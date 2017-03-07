@@ -132,6 +132,13 @@
 			    -webkit-transform: rotate(225deg);
 			    transform: rotate(225deg);
 			}
+			.my-coupon .coupon-list ul li .name-info .text{
+				height: 100%;
+			    display: inline-block;
+			    width: 90%;
+			    vertical-align: middle;
+   				line-height: 1.45rem;
+			}
 			.my-coupon .coupon-list ul li .date-info{
 			    height: .8rem;
     			line-height: .9rem;
