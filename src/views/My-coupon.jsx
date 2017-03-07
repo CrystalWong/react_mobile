@@ -41,11 +41,10 @@ class Mycoupon extends Component {
               item.className='';
             });
             e.target.className='active';
-            //console.log(e.target.id);
-            // this.setState({
-            //   couponStatus:e.target.id
-            // });
             this.state.couponStatus=e.target.id;
+            //切换状态初始化
+            this.state.nextPage=false;
+            this.state.pageNo=1;
             this.getAppointmentList();
           }
           this.couponScroll=(e)=>{
