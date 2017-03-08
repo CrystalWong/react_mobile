@@ -6,7 +6,7 @@ export function COMMON_HEADERS(key, value) {
 	let result = {
 		"content-type": "application/json",
 		"sign": "50970DC4C28118A4F76411505B277B7D",
-		"deviceid": "M",
+		"deviceid": cookie.load('_track_d').split('.')[0]==undefined?'':cookie.load('_track_d').split('.')[0],
 		"tokenid": cookie.load('tokenid'),
 		"APPkey": "b40538ab5bef1ffd18605efda7f820d9",
 		"version": "2.0.0"
@@ -24,7 +24,7 @@ export function COMMON_HEADERS_POST(key, value){
 		// "content-type": "application/x-www-form-urlencoded"  //post默认
 		"content-type": "application/json",
 		"sign": "50970DC4C28118A4F76411505B277B7D",
-		"deviceid": "M",
+		"deviceid": cookie.load('_track_d').split('.')[0]==undefined?'':cookie.load('_track_d').split('.')[0],
 		"tokenid": cookie.load('tokenid'),
 		"APPkey": "b40538ab5bef1ffd18605efda7f820d9",
 		"version": "2.0.0"
