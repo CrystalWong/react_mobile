@@ -449,7 +449,7 @@ class OrderClosed extends Component {
                     </a>
                 </div>
             	<div className="bootm">
-                <a className="heji"><em style={{'fontSize': '22px'}}></em>合计:<span>¥{Tool.toDecimal2(this.state.ajdata.orderTotalFee)}</span></a>
+                <a className="heji"><em style={{'fontSize': '22px'}}></em>合计:<span>¥{Tool.toDecimal2(this.state.ajdata.orderTotalFee-this.state.useCouponList[0].groupValue)}</span></a>
 					<a className="subbtn" onClick={this.submitOrder.bind(this)}>提交订单</a>
 				</div>
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />

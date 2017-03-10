@@ -123,11 +123,17 @@ class Mycoupon extends Component {
                     type: "post",
                     headers:headers,
                     successMethod: function(json){
-                      //console.log(json);
-                      _this.setState({ tipContent: json.message,display: 'toasts' });
-                      _this.setState({
-                        value:''
-                      });
+                      if(json.message){
+                        _this.setState({ tipContent: json.message,display: 'toasts' });
+                        _this.setState({
+                          value:''
+                        });
+                      }else{
+                        _this.setState({ tipContent: '激活成功',display: 'toasts' });
+                        setTimeout(function(){
+                          location.reload();
+                        },1500);
+                      }
                     },
 
                });

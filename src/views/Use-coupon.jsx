@@ -171,7 +171,7 @@ class UseCouponList extends Component {
                             <a>{couponTag}</a>
                           </div>
                           <div className="div-inline date-info">
-                            <p>有效期:{this.subStrTime(startUseTime)}-{this.subStrTime(endUseTime)}</p>
+                            <p>有效期:{this.subStrTime(startUseTime)}--{this.subStrTime(endUseTime)}</p>
                             <div className="right-div">满{useLimitAmount}元使用</div>
                           </div>
                         </div>
