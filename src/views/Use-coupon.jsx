@@ -38,18 +38,24 @@ class Usecoupon extends Component {
                value:'',
                expiredCount :'',
                couponState:'active',
-               dataList:JSON.parse(sessionStorage.getItem('couponList'))
+               dataList:JSON.parse(sessionStorage.getItem('couponList'))==null||JSON.parse(sessionStorage.getItem('couponList'))==undefined?[]:JSON.parse(sessionStorage.getItem('couponList'))
           }
           this.confirmUse=(e)=>{
-            let couponList=[],couponObj={};
-            couponObj.activityId=document.getElementsByClassName('span check')[0].id.split('_')[0];
-            couponObj.couponId=document.getElementsByClassName('span check')[0].id.split('_')[1];
-            couponObj.groupValue=document.getElementsByClassName('span check')[0].id.split('_')[2];
-            couponList.push(couponObj);
-            sessionStorage.setItem('useCouponList',JSON.stringify(couponList))
-            //Tool.history.push("/orderclosed");
-            //this.context.router.goBack();
-            window.history.go( -1 );
+            if(this.state.dataList.length==0){
+              window.history.go( -1 );
+            }else{
+              let couponList=[],checkArry=document.getElementsByClassName('span check'),len=checkArry.length;
+              for(let i=0;i<len;i++){
+                let couponObj={};
+                couponObj.activityId=checkArry[i].id.split('_')[0];
+                couponObj.couponId=checkArry[i].id.split('_')[1];
+                couponObj.groupValue=checkArry[i].id.split('_')[2];
+                couponList.push(couponObj);
+              }
+              //console.log(couponList);
+              sessionStorage.setItem('useCouponList',JSON.stringify(couponList))
+              window.history.go( -1 );
+            }
           }
           this.handleChange=(e)=>{
             this.setState({
@@ -57,7 +63,7 @@ class Usecoupon extends Component {
             });
           }
           this.userCode = () => {
-            //console.log(this.refs.coupon_code.value);
+            ////console.log(this.refs.coupon_code.value);
                if(this.refs.coupon_code.value==''){
                 this.setState({ tipContent: '请输入优惠券编码',display: 'toasts' });
                 return;
@@ -69,11 +75,17 @@ class Usecoupon extends Component {
                     type: "post",
                     headers:headers,
                     successMethod: function(json){
-                      //console.log(json);
-                      _this.setState({ tipContent: json.message,display: 'toasts' });
-                      _this.setState({
-                        value:''
-                      });
+                      if(json.message){
+                        _this.setState({ tipContent: json.message,display: 'toasts' });
+                        _this.setState({
+                          value:''
+                        });
+                      }else{
+                        _this.setState({ tipContent: '激活成功',display: 'toasts' });
+                        setTimeout(function(){
+                          location.reload();
+                        },1500);
+                      }
                     },
 
                });
@@ -148,13 +160,16 @@ class UseCouponList extends Component {
       }
       //选择优惠券
       this.checkCoupon=(couponId,e)=>{
-          var arry=document.getElementsByClassName('span check');
-          var len=arry.length;
+          let arry=document.getElementsByClassName('span check');
+          let len=arry.length,targetActivityId=e.target.getAttribute('name');
+          //console.log(e.target.getAttribute('name'));
         if(e.target.className=='span uncheck'){
-          for(var i=0;i<len;i++){
-            arry[i].className='span uncheck';
-          }
           e.target.className='span check';
+          for(var i=0;i<len;i++){
+            if(arry[i].getAttribute('name')==targetActivityId){
+              arry[i].className='span uncheck';
+            }
+          }
         }else{
           e.target.className='span uncheck';
         }
@@ -164,7 +179,7 @@ class UseCouponList extends Component {
           let {couponId,groupValue,groupType,couponTag,goodsRange,useLimitAmount,startUseTime,endUseTime,activityId} = this.props;
           return (
                       <li>
-                        <span id={activityId+'_'+couponId+'_'+groupValue} name={couponId+'_'+groupValue} className="span uncheck"  onClick={this.checkCoupon.bind(this,couponId)}></span>
+                        <span id={activityId+'_'+couponId+'_'+groupValue} name={activityId} className="span uncheck"  onClick={this.checkCoupon.bind(this,couponId)}></span>
                         <div className="check-div">
                           <div className="div-inline name-info">
                             <div className="left-div"><h1>¥{groupValue}</h1><span>({groupType==1?'满减券':'满折券'})</span></div>

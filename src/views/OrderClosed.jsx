@@ -27,13 +27,10 @@ class OrderClosed extends Component {
             if (r != null) return decodeURIComponent(r[2]);
             return "";
         };
-        //sessionStorage.removeItem('couponList');
-        
         let choseAddress;
         props.address.consigneeName == null || props.address.consigneeName == undefined ? choseAddress = {
             consigneeName: ""
         } : choseAddress = props.address;
-        //document.getElementById('route_div').setAttribute('couponList','');
         this.state = {
             liuList:[],
             useCouponList:JSON.parse(sessionStorage.getItem('useCouponList'))||[{
@@ -41,6 +38,8 @@ class OrderClosed extends Component {
                 couponId:'',
                 groupValue:''
             }],
+            discountAmountList:[],
+            discountAmount:0,
             tipContent: '',
             display: '',
             couponDisplay:'block',
@@ -85,6 +84,17 @@ class OrderClosed extends Component {
             // ,
             // { tipContent: '网络繁忙，请稍后再试',display: 'toasts' }
         };
+        //使用优惠券数据拼装
+        let handleCouponList=this.state.useCouponList,_this=this;
+        if(handleCouponList[0].activityId!=''){
+            handleCouponList.forEach(function(item,index){
+                let submitObj={};
+                submitObj.activityId=item.activityId;
+                submitObj.couponId=item.couponId;
+                _this.state.discountAmountList.push(submitObj);
+                _this.state.discountAmount+=Number(item.groupValue);
+            });
+        }
         let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),
             self = this,
             data = {},
@@ -93,14 +103,12 @@ class OrderClosed extends Component {
             params = JSON.parse(this.getQueryString('cartParamJson'));
             params.addressId=props.address.id;
             params = JSON.stringify(params);
-            //console.log(params);
         } else {
             params = JSON.stringify({
                 "cartFlag": "1",
                 "addressId": props.address.id
             });
         }
-        //this.setState({ajaxDisplay: "block",maskDisplay: "block"});
         data = {
             url: `${URLS.OrderClosed}`,
             type: "post",
@@ -109,11 +117,13 @@ class OrderClosed extends Component {
             tokenid: cookie.load('tokenid'),
             successMethod: function(json, status) {
                 if (status == 200) {
-                    //self.setState({ajaxDisplay: "none",maskDisplay: "none"});
                     if (json.address == null) {
                         self.state.isShow.adOn = "none";
                         self.state.isShow.adOff = "block";
                         json.address = self.state.ajdata.address;
+                    }
+                    if(json.couponUserList==undefined){
+                        json.couponUserList=[];
                     }
                     if(json.couponUserList.length!=0){
                         self.setState({
@@ -155,7 +165,7 @@ class OrderClosed extends Component {
                     "addressVO": {
                         "addressId": props.address.id || this.state.ajdata.address.id
                     },
-                    "couponList": [{activityId:this.state.useCouponList[0].activityId,couponId:this.state.useCouponList[0].couponId}],//JSON.stringify(this.state.useCouponList), //优惠券列表
+                    "couponList": this.state.discountAmountList,//JSON.stringify(this.state.useCouponList), //优惠券列表
                     "goodsListVO": goodsListVO,
                     "invoiceVO": {
                         "invoiceClass": this.state.setBillData.fptype1,
@@ -396,7 +406,7 @@ class OrderClosed extends Component {
                         <dl className="line fp" style={{display: this.state.couponDisplay}}>
                             <dt>优惠券</dt>
                             <dd>
-                            <Link>
+                            <Link to={'/usecoupon'}>
                             <span>无可用</span>
                             <img src={require("../images/orderclosed/fp@2x.png")}/>
                             </Link>
@@ -417,7 +427,7 @@ class OrderClosed extends Component {
                             <dt>优惠券</dt>
                             <dd>
                             <Link>
-                            <span>已优惠<i className="couponi">¥{Tool.toDecimal2(this.state.useCouponList[0].groupValue)}</i></span>
+                            <span>已优惠<i className="couponi">¥{Tool.toDecimal2(this.state.discountAmount)}</i></span>
                             <img src={require("../images/orderclosed/fp@2x.png")}/>
                             </Link>
                             </dd>
@@ -449,7 +459,7 @@ class OrderClosed extends Component {
                     </a>
                 </div>
             	<div className="bootm">
-                <a className="heji"><em style={{'fontSize': '22px'}}></em>合计:<span>¥{Tool.toDecimal2(this.state.ajdata.orderTotalFee-this.state.useCouponList[0].groupValue)}</span></a>
+                <a className="heji"><em style={{'fontSize': '22px'}}></em>合计:<span>¥{Tool.toDecimal2(this.state.ajdata.orderTotalFee-this.state.discountAmount)}</span></a>
 					<a className="subbtn" onClick={this.submitOrder.bind(this)}>提交订单</a>
 				</div>
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
