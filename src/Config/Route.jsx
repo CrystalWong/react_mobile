@@ -170,7 +170,7 @@ const rootRoute = {
       getComponent(nextState, cb) {
         require.ensure([], (require) => {cb(null, require('../views/Use-coupon').default)}, 'usecoupon')
       }
-    }            
+    }
   ]
 };
 
