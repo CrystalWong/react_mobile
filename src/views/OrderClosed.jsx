@@ -146,6 +146,7 @@ class OrderClosed extends Component {
         this.submitOrder = () => {
             //清除记录的数据
             sessionStorage.removeItem("sessionLiuList");
+            sessionStorage.removeItem("useCouponList");
             if (props.address.id == undefined || this.state.ajdata.address.id == undefined) {
                 // alert('没地址,调试..');
                 return;
@@ -324,6 +325,7 @@ class OrderClosed extends Component {
                     leftMethod: function() {
                         //清除记录的数据
                         sessionStorage.removeItem("sessionLiuList");
+                        sessionStorage.removeItem("useCouponList");
                         Tool.history.goBack();
                     },
                     rightText: "我再想想",
