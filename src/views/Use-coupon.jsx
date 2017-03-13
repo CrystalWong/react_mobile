@@ -45,6 +45,10 @@ class Usecoupon extends Component {
               window.history.go( -1 );
             }else{
               let couponList=[],checkArry=document.getElementsByClassName('span check'),len=checkArry.length;
+              if(len==0){
+                this.setState({ tipContent: '请选择优惠券',display: 'toasts' });
+                return;
+              }
               for(let i=0;i<len;i++){
                 let couponObj={};
                 couponObj.activityId=checkArry[i].id.split('_')[0];
@@ -82,7 +86,22 @@ class Usecoupon extends Component {
                         });
                       }else{
                         _this.setState({ tipContent: '激活成功',display: 'toasts' });
+                        // let activationObj={
+                        //     activityId: json.activityId,
+                        //     couponId: json.couponId,
+                        //     couponTag: json.couponTag[0].tagName,
+                        //     createTime: json.createTime,
+                        //     endUseTime: json.endUseTime,
+                        //     groupId: json.groupId,
+                        //     groupType: json.groupType,
+                        //     groupValue: json.groupValue,
+                        //     startUseTime: json.startUseTime,
+                        //     updateTime: json.updateTime,
+                        //     useLimitAmount: json.useLimitAmount
+                        // };
+                        // sessionStorage.getItem('couponList').push(activationObj);
                         setTimeout(function(){
+                          //history.go(-1);
                           location.reload();
                         },1500);
                       }
@@ -124,8 +143,8 @@ class Usecoupon extends Component {
                       <div style={{display: this.state.noCouponTip}} className="no-coupon-tip">没有更多了</div>
                     </div>
                   </div>
-                  <div className="get-coupon-button">
-                    <a onClick={this.confirmUse.bind(this)}>确定</a>
+                  <div className="get-coupon-button" style={{display: this.state.dataList.length==0?'none':'block'}}>
+                    <a  onClick={this.confirmUse.bind(this)}>确定</a>
                   </div>
                   <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} />
                 </div>

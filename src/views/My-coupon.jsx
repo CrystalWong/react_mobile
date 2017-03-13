@@ -209,7 +209,7 @@ class CouponList extends Component {
                           <a><span className="text">{goodsRange}</span><i></i></a>
                         </div>
                         <div className="div-inline date-info">
-                          <p>有效期:{this.subStrTime(startUseTime)}-{this.subStrTime(endUseTime)}</p>
+                          <p>有效期:{this.subStrTime(startUseTime)}--{this.subStrTime(endUseTime)}</p>
                           <div className="right-div">{couponName}</div>
                         </div>
                       </li>
