@@ -21,7 +21,7 @@ class Mycoupon extends Component {
           Tool.loginChecked(this);
           this.state = {
                couponStatus:'1',//优惠券状态参数
-               pageNo : 1,
+               pageNum : 1,
                pageSize : 10,
                more:'',
                nextPage: false, //下一页控制器
@@ -44,7 +44,7 @@ class Mycoupon extends Component {
             this.state.couponStatus=e.target.id;
             //切换状态初始化
             this.state.nextPage=false;
-            this.state.pageNo=1;
+            this.state.pageNum=1;
             this.getAppointmentList();
           }
           this.couponScroll=(e)=>{
@@ -69,18 +69,18 @@ class Mycoupon extends Component {
                let _this = this,
                     headers = COMMON_HEADERS('tokenid', Cookie.load("tokenid"));
                Tool.fetch(this,{
-                    url: URLS.COUPONLIST+"?pageSize="+_this.state.pageSize+"&pageNo="+_this.state.pageNo+"&memberId="+Cookie.load("userId")+"&couponStatus="+_this.state.couponStatus,// + this.state.userId,
+                    url: URLS.COUPONLIST+"?pageSize="+_this.state.pageSize+"&pageNum="+_this.state.pageNum+"&memberId="+Cookie.load("userId")+"&couponStatus="+_this.state.couponStatus,// + this.state.userId,
                     type: "get",
                     headers:headers,
                     successMethod: function(json){
-                      if(_this.state.nextPage&&_this.state.pageNo>1){
+                      if(_this.state.nextPage&&_this.state.pageNum>1){
                           _this.setState({
                               dataList: _this.state.dataList.concat(json.data),
                               unUsedCount: json.unUsedCount,
                               usedCount:json.usedCount,
                               expiredCount:json.expiredCount
                           });
-                        }else if(!_this.state.nextPage&&_this.state.pageNo==1){
+                        }else if(!_this.state.nextPage&&_this.state.pageNum==1){
                           _this.setState({
                               dataList: json.data,
                               unUsedCount: json.unUsedCount,
@@ -90,9 +90,9 @@ class Mycoupon extends Component {
                         }
                       if(json.data.length==10){
                         // _this.setState({
-                        //     pageNo: _this.state.pageNo++
+                        //     pageNum: _this.state.pageNum++
                         // });
-                        _this.state.pageNo++;
+                        _this.state.pageNum++;
                         _this.state.nextPage=true;
                       }else{
                         _this.state.nextPage=false;
