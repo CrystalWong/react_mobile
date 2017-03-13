@@ -175,7 +175,7 @@ class UseCouponList extends Component {
      constructor(props){
       super(props);
       this.subStrTime=(str)=>{
-            return str.split(' ')[0];
+            return str.split(' ')[0].replace(/-/g,'.');
       }
       //选择优惠券
       this.checkCoupon=(couponId,e)=>{
@@ -183,12 +183,15 @@ class UseCouponList extends Component {
           let len=arry.length,targetActivityId=e.target.getAttribute('name');
           //console.log(e.target.getAttribute('name'));
         if(e.target.className=='span uncheck'){
-          e.target.className='span check';
           for(var i=0;i<len;i++){
+
             if(arry[i].getAttribute('name')==targetActivityId){
+
               arry[i].className='span uncheck';
+              break;
             }
           }
+          e.target.className='span check';
         }else{
           e.target.className='span uncheck';
         }

@@ -194,7 +194,7 @@ class CouponList extends Component {
      constructor(props){
       super(props);
       this.subStrTime=(str)=>{
-            return str.split(' ')[0];
+            return str.split(' ')[0].replace(/-/g,'.');
       }
       this.toCouponList=(id,e)=>{
         location.href='//m.jyall.com/list/goods/coupon-'+id;
