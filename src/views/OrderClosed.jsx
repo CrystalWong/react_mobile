@@ -149,6 +149,10 @@ class OrderClosed extends Component {
             sessionStorage.removeItem("useCouponList");
             if (props.address.id == undefined || this.state.ajdata.address.id == undefined) {
                 // alert('没地址,调试..');
+                this.setState({
+                        tipContent: '亲,请添加收货地址~',
+                        display: 'toasts'
+                });
                 return;
             }
             let goodsListVO = [];
@@ -168,6 +172,7 @@ class OrderClosed extends Component {
                     },
                     "couponList": this.state.discountAmountList,//JSON.stringify(this.state.useCouponList), //优惠券列表
                     "goodsListVO": goodsListVO,
+                    "activityId": goodsListVO[0].activityId,
                     "invoiceVO": {
                         "invoiceClass": this.state.setBillData.fptype1,
                         "invoiceType": this.state.setBillData.fptype,
@@ -387,7 +392,7 @@ class OrderClosed extends Component {
     						<img src={require('../images/orderclosed/add@2x.png')} alt="添加"/> 新增收货地址
     	                </div>
 
-                        <div className="address1" onClick={this.choseAddress.bind(this)}>
+                        <div className="address1" onClick={this.choseAddress.bind(this)} style={{display: this.state.isShow.adOn}}>
                             <img src={require("../images/orderclosed/address@2x.png")}/>
                             <div className="adinfo1">
                                 <h3>{this.state.choseAddress.consigneeName!=''&&this.state.ajdata.address!=null?this.state.choseAddress.consigneeName:this.state.ajdata.address.consigneeName}&nbsp;
@@ -414,7 +419,7 @@ class OrderClosed extends Component {
                             </Link>
                             </dd>
                         </dl>
-                        <dl className="line fp" style={{display: this.state.couponDisplay=='none'?'block':'none'}}>
+                        <dl className="line fp" style={{display: this.state.couponDisplay=='block'||this.state.useCouponList[0].couponId!=''?'none':'block'}}>
                             <dt>优惠券</dt>
                             <dd>
                             <Link to={'/usecoupon'}>
@@ -428,7 +433,7 @@ class OrderClosed extends Component {
                         <dl className="line fp" style={{display: this.state.useCouponList[0].couponId!=''?'block':'none'}}>
                             <dt>优惠券</dt>
                             <dd>
-                            <Link>
+                            <Link to={'/usecoupon'}>
                             <span>已优惠<i className="couponi">¥{Tool.toDecimal2(this.state.discountAmount)}</i></span>
                             <img src={require("../images/orderclosed/fp@2x.png")}/>
                             </Link>

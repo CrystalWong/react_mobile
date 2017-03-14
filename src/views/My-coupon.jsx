@@ -216,8 +216,8 @@ class CouponList extends Component {
           );
      }
 }
-// var CouponList = React.createClass({
-//       //console.log(this);
+// var CouponList = React.createClass(
+//       //console.log(this);       
 //       subStrTime=(str)=>{
 //             return str.split(' ')[0];
 //       }
