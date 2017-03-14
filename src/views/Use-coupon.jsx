@@ -38,7 +38,7 @@ class Usecoupon extends Component {
                value:'',
                expiredCount :'',
                couponState:'active',
-               dataList:JSON.parse(sessionStorage.getItem('couponList'))==null||JSON.parse(sessionStorage.getItem('couponList'))==undefined?[]:JSON.parse(sessionStorage.getItem('couponList'))
+               dataList:JSON.parse(localStorage.getItem('couponList'))==null||JSON.parse(localStorage.getItem('couponList'))==undefined?[]:JSON.parse(localStorage.getItem('couponList'))
           }
           this.confirmUse=(e)=>{
             if(this.state.dataList.length==0){
@@ -57,7 +57,7 @@ class Usecoupon extends Component {
                 couponList.push(couponObj);
               }
               //console.log(couponList);
-              sessionStorage.setItem('useCouponList',JSON.stringify(couponList))
+              localStorage.setItem('useCouponList',JSON.stringify(couponList))
               window.history.go( -1 );
             }
           }
@@ -127,7 +127,7 @@ class Usecoupon extends Component {
                 <div className="use-coupon">
                 <Header title="使用优惠券" leftIcon="fanhui" hasRight="true"/>
                 <div className="wrapdiv">
-                    <div className="activation">
+                    <div className="activation" style={{display:'none'}}>
                         <input type="num" placeholder="请输入优惠券编码" ref="coupon_code" value={this.state.value} onChange={this.handleChange.bind(this)}/>
                         <span onClick={this.userCode.bind(this)}>激活</span>
                     </div>
@@ -208,7 +208,7 @@ class UseCouponList extends Component {
                             <a>{couponTag}</a>
                           </div>
                           <div className="div-inline date-info">
-                            <p>有效期:{this.subStrTime(startUseTime)}--{this.subStrTime(endUseTime)}</p>
+                            <p>有效期:{this.subStrTime(startUseTime)}-{this.subStrTime(endUseTime)}</p>
                             <div className="right-div">满{useLimitAmount}元使用</div>
                           </div>
                         </div>
