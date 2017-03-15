@@ -130,6 +130,8 @@ class OrderClosed extends Component {
                             couponDisplay: 'none'
                         });
                         localStorage.setItem('couponList',JSON.stringify(json.couponUserList));
+                    }else{
+                        localStorage.removeItem("couponList");
                     }
                     self.setState({
                         ajdata: json
