@@ -129,7 +129,7 @@ class OrderClosed extends Component {
                         self.setState({
                             couponDisplay: 'none'
                         });
-                        localStorage.setItem('couponList',JSON.stringify(json.couponUserList));
+                        sessionStorage.setItem('couponList',JSON.stringify(json.couponUserList));
                     }
                     self.setState({
                         ajdata: json
@@ -146,7 +146,7 @@ class OrderClosed extends Component {
         this.submitOrder = () => {
             //清除记录的数据
             sessionStorage.removeItem("sessionLiuList");
-            localStorage.removeItem("useCouponList");
+            sessionStorage.removeItem("useCouponList");
             if (props.address.id == undefined || this.state.ajdata.address.id == undefined) {
                 // alert('没地址,调试..');
                 this.setState({
@@ -330,7 +330,7 @@ class OrderClosed extends Component {
                     leftMethod: function() {
                         //清除记录的数据
                         sessionStorage.removeItem("sessionLiuList");
-                        localStorage.removeItem("useCouponList");
+                        sessionStorage.removeItem("useCouponList");
                         Tool.history.goBack();
                     },
                     rightText: "我再想想",
@@ -351,8 +351,8 @@ class OrderClosed extends Component {
             // alert('页面卸载...');
             //清除记录的数据
             sessionStorage.removeItem("sessionLiuList");
-            localStorage.removeItem("useCouponList");
-            localStorage.removeItem("couponList");
+            sessionStorage.removeItem("useCouponList");
+            sessionStorage.removeItem("couponList");
         }
         // setTimeout(function(){
         //     backfill();
