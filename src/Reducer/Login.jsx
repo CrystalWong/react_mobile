@@ -18,7 +18,7 @@ const initLogin = {
 };
 
 export default function login(login = initLogin, action) {
-  console.log(action);
+  //console.log(action);
   switch (action.type) {
   case LOGIN:
   	// login = merged(action)

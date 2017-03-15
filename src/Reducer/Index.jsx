@@ -12,8 +12,8 @@ import { default as order } from './Order';
 //  * @returns Object
 //  */
 // const User = (state = JSON.parse(Tool.localItem('User')), action) => {
-//         console.log("User");
-//         console.log(action);
+//         //console.log("User");
+//         //console.log(action);
 //     switch (action.type) {
 //         case 'signinSuccess': //登录成功
 //             Tool.localItem('User', JSON.stringify(action.target));
@@ -51,8 +51,8 @@ import { default as order } from './Order';
 //         }
 //     }
 //     return (state = {}, action = {}) => {
-//         console.log("db");
-//         console.log(action);
+//         //console.log("db");
+//         //console.log(action);
 //         if (action._ID && action._ID !== _ID) {
 //             return state;
 //         } else if (cb[action.type]) {

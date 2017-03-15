@@ -23,7 +23,7 @@ class ShoppingCart extends Component {
 	constructor(props) {
         
         super(props);
-        console.log(this.props);
+        //console.log(this.props);
         this.props.saveAddressInfo({id:""});
         this.state = {
             title: "购物车",
@@ -268,7 +268,7 @@ class ShoppingCart extends Component {
             successMethod: function(json){
                 if(!json.cartItems){//未登录 游客
                     var cookieObj = { expires:new Date("2100-01-01"),path:"/",domain:(ONLINE?"jyall.com":"") }
-                    cookie.save('jycart_uKey', json.uKey, cookieObj);
+                    cookie.save('jycart_uKey', json.uKey==null?'':json.uKey, cookieObj);
                     self.setState({uKey: json.uKey});
                     json.cartItems = [];
                 }

@@ -1,6 +1,6 @@
 export default (_ID) => {
-    console.log(_ID);
-    console.log(111111111111111);
+    //console.log(_ID);
+    //console.log(111111111111111);
     var action = {};
     var arr = [
         'signinSuccess', //登录成功

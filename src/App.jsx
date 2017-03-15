@@ -10,7 +10,7 @@ import './Style/tip';
 import './Style/index';
 
 store.subscribe(function () {
-    // console.log(store.getState());
+    // //console.log(store.getState());
 });
 let App = document.createElement('div')
     App.className= "appwrap"

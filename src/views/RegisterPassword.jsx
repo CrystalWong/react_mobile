@@ -16,7 +16,7 @@ import {Tool, merged} from '../Tool';
 class RegisterPassword extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
+        //console.log(props);
         this.state = {
             button: '完成',
             tipContent: '',
@@ -41,7 +41,7 @@ class RegisterPassword extends Component {
                     type: "get",
                     headers: headers,
                     successMethod: function(json,status){
-                        console.log(json);
+                        //console.log(json);
                         if(status == 200){
                             self.setState({ tipContent: '重置密码成功！',display: 'toasts' });
                             Tool.history.go('-2');
@@ -57,7 +57,7 @@ class RegisterPassword extends Component {
                     headers: headers,
                     body: '{mobile:'+this.props.login.phone+',loginName:"",password:"'+ password +'",source:"app",userType:"1"}',
                     successMethod: function(json,status){
-                        console.log(json);
+                        //console.log(json);
                         if(status == 200){
                             self.setState({ tipContent: '注册成功！',display: 'toasts' });
                             Tool.history.go('-2');
@@ -102,7 +102,7 @@ class RegisterPassword extends Component {
 }
 
 function mapStateToProps(state,ownProps) {
-    console.log(state);
+    //console.log(state);
   return state;
 }
 

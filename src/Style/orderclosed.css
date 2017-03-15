@@ -15,7 +15,7 @@
 	width: 100%;
 	height: 1rem;
 	background: #fff;
-	line-height: .9rem;
+	line-height: 1rem;
 }
 
 .orderClose .address1 {
@@ -230,16 +230,27 @@
 .orderClose .fp span {
 	vertical-align: middle;
 	color: black;
-	line-height: .46rem;
+	line-height: .55rem;
+}
+.orderClose .fp span .couponi{
+	color: #ce0000;
+    font-style: normal;
+    margin-left: .1rem;
+}
+.orderClose .fp .coupon {
+	background: #FF5559;
+    color: #fff;
+    margin-right: .1rem;
 }
 .orderClose .fp .fpttshow{
-	max-width: 2rem;
-    overflow: hidden;
+    max-width: 2rem;
+    overflow-x: hidden;
     display: inline-block;
-    height: .35rem;
+    height: .37rem;
     font-style: normal;
     text-overflow: ellipsis;
     white-space: nowrap;
+    line-height: .55rem;
 }
 .orderClose .bwtk{
     height: .6rem;

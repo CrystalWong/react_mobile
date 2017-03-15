@@ -57,6 +57,9 @@
 			&.cm-address{
 				&:before{background-image:url(../images/center/address.png);}
 			}
+			&.cm-coupon{
+				&:before{background-image:url(../images/center/my-coupon.png);}
+			}
 		}
 		&:last-child{
 			a{border-bottom:none}

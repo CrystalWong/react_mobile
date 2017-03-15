@@ -16,7 +16,7 @@ export class AddReduce extends Component {
             num: this.props.num,
             color: '#333333'
         };
-        // console.log(this.props);
+        // //console.log(this.props);
         
     }
 

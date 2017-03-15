@@ -20,7 +20,7 @@ class OrderClosed extends Component {
     constructor(props) {
         super(props);
         // Tool.loginChecked(this);
-        console.log('代理到本地12...');
+        //console.log('代理到本地12...');
         this.getQueryString = (name) => {
             let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
             let r = window.location.href.split("?")[1] ? window.location.href.split("?")[1].match(reg) : null;
@@ -33,8 +33,16 @@ class OrderClosed extends Component {
         } : choseAddress = props.address;
         this.state = {
             liuList:[],
+            useCouponList:JSON.parse(localStorage.getItem('useCouponList'))||[{
+                activityId:'',
+                couponId:'',
+                groupValue:''
+            }],
+            discountAmountList:[],
+            discountAmount:0,
             tipContent: '',
             display: '',
+            couponDisplay:'block',
             choseAddress: choseAddress,
             setBillData: {
                 fptype: this.getQueryString("fptype") || 0,
@@ -51,7 +59,8 @@ class OrderClosed extends Component {
                 goodsTotalFee: "",
                 orderTotalFee: "",
                 storeVOList: [],
-                errorGoodsList: []
+                errorGoodsList: [],
+                couponUserList:[]
             },
             isShow: {
                 adOn: 'block',
@@ -75,6 +84,17 @@ class OrderClosed extends Component {
             // ,
             // { tipContent: '网络繁忙，请稍后再试',display: 'toasts' }
         };
+        //使用优惠券数据拼装
+        let handleCouponList=this.state.useCouponList,_this=this;
+        if(handleCouponList[0].activityId!=''){
+            handleCouponList.forEach(function(item,index){
+                let submitObj={};
+                submitObj.activityId=item.activityId;
+                submitObj.couponId=item.couponId;
+                _this.state.discountAmountList.push(submitObj);
+                _this.state.discountAmount+=Number(item.groupValue);
+            });
+        }
         let headers = COMMON_HEADERS_POST('tokenid', cookie.load('tokenid')),
             self = this,
             data = {},
@@ -83,14 +103,12 @@ class OrderClosed extends Component {
             params = JSON.parse(this.getQueryString('cartParamJson'));
             params.addressId=props.address.id;
             params = JSON.stringify(params);
-            console.log(params);
         } else {
             params = JSON.stringify({
                 "cartFlag": "1",
                 "addressId": props.address.id
             });
         }
-        //this.setState({ajaxDisplay: "block",maskDisplay: "block"});
         data = {
             url: `${URLS.OrderClosed}`,
             type: "post",
@@ -99,11 +117,21 @@ class OrderClosed extends Component {
             tokenid: cookie.load('tokenid'),
             successMethod: function(json, status) {
                 if (status == 200) {
-                    //self.setState({ajaxDisplay: "none",maskDisplay: "none"});
                     if (json.address == null) {
                         self.state.isShow.adOn = "none";
                         self.state.isShow.adOff = "block";
                         json.address = self.state.ajdata.address;
+                    }
+                    if(json.couponUserList==undefined){
+                        json.couponUserList=[];
+                    }
+                    if(json.couponUserList.length!=0){
+                        self.setState({
+                            couponDisplay: 'none'
+                        });
+                        localStorage.setItem('couponList',JSON.stringify(json.couponUserList));
+                    }else{
+                        localStorage.removeItem("couponList");
                     }
                     self.setState({
                         ajdata: json
@@ -119,9 +147,15 @@ class OrderClosed extends Component {
         Tool.fetch(this, data);
         this.submitOrder = () => {
             //清除记录的数据
-            sessionStorage.removeItem("sessionLiuList");
+            localStorage.removeItem("sessionLiuList");
+            localStorage.removeItem("useCouponList");
+            localStorage.removeItem("couponList");
             if (props.address.id == undefined || this.state.ajdata.address.id == undefined) {
                 // alert('没地址,调试..');
+                this.setState({
+                        tipContent: '亲,请添加收货地址~',
+                        display: 'toasts'
+                });
                 return;
             }
             let goodsListVO = [];
@@ -139,8 +173,9 @@ class OrderClosed extends Component {
                     "addressVO": {
                         "addressId": props.address.id || this.state.ajdata.address.id
                     },
-                    "couponList": [], //优惠券列表
+                    "couponList": this.state.discountAmountList,//JSON.stringify(this.state.useCouponList), //优惠券列表
                     "goodsListVO": goodsListVO,
+                    "activityId": goodsListVO[0].activityId,
                     "invoiceVO": {
                         "invoiceClass": this.state.setBillData.fptype1,
                         "invoiceType": this.state.setBillData.fptype,
@@ -148,7 +183,7 @@ class OrderClosed extends Component {
                     },
                     remarkList:liuList.length==0?this.state.liuList:liuList
                 };
-            this.setState({ajaxDisplay: "block",maskDisplay: "block"});           
+            this.setState({ajaxDisplay: "block",maskDisplay: "block"});
             Tool.fetch(this, {
                 url: `${URLS.SubmitOrder}`,
                 type: "post",
@@ -156,7 +191,7 @@ class OrderClosed extends Component {
                 headers: headers,
                 successMethod: function(json, status) {
                     // if(status>=500){
-                    //     console.log(json);
+                    //     //console.log(json);
                     //     return;
                     // }
                     if (json.errorList == undefined) {
@@ -260,10 +295,10 @@ class OrderClosed extends Component {
         //留言参数
         let sessionLiuList=[],liuList=[];
         this.getLiu = (e) => {
-            console.log('获取留言参数');
+            //console.log('获取留言参数');
             var value=e.target.getAttribute('value');
             var supplier_payment=e.target.getAttribute('class');
-            console.log(sessionLiuList);
+            //console.log(sessionLiuList);
             if(liuList.length>0){
                 for(var i=0;i<liuList.length;i++){
                     //修改留言
@@ -286,8 +321,8 @@ class OrderClosed extends Component {
                 liuList.push({'supplier_payment':supplier_payment,'remark':value});
                 sessionLiuList.push(supplier_payment+'/'+value);
             }
-            console.log(liuList);
-            sessionStorage.setItem('sessionLiuList',sessionLiuList.join(','));
+            //console.log(liuList);
+            localStorage.setItem('sessionLiuList',sessionLiuList.join(','));
         }
         this.goBack = () => {
             self.setState({
@@ -297,7 +332,9 @@ class OrderClosed extends Component {
                     leftText: "去意已决",
                     leftMethod: function() {
                         //清除记录的数据
-                        sessionStorage.removeItem("sessionLiuList");
+                        localStorage.removeItem("sessionLiuList");
+                        localStorage.removeItem("useCouponList");
+                        localStorage.removeItem("couponList");
                         Tool.history.goBack();
                     },
                     rightText: "我再想想",
@@ -317,7 +354,9 @@ class OrderClosed extends Component {
         window.onbeforeunload =function (){
             // alert('页面卸载...');
             //清除记录的数据
-            sessionStorage.removeItem("sessionLiuList");
+            localStorage.removeItem("sessionLiuList");
+            localStorage.removeItem("useCouponList");
+            localStorage.removeItem("couponList");
         }
         // setTimeout(function(){
         //     backfill();
@@ -357,7 +396,7 @@ class OrderClosed extends Component {
     						<img src={require('../images/orderclosed/add@2x.png')} alt="添加"/> 新增收货地址
     	                </div>
 
-                        <div className="address1" onClick={this.choseAddress.bind(this)}>
+                        <div className="address1" onClick={this.choseAddress.bind(this)} style={{display: this.state.isShow.adOn}}>
                             <img src={require("../images/orderclosed/address@2x.png")}/>
                             <div className="adinfo1">
                                 <h3>{this.state.choseAddress.consigneeName!=''&&this.state.ajdata.address!=null?this.state.choseAddress.consigneeName:this.state.ajdata.address.consigneeName}&nbsp;
@@ -375,6 +414,35 @@ class OrderClosed extends Component {
     						<dd><Link to={linkBill}><span>{fpInfoTypeShow[this.state.setBillData.fptype]}{this.state.setBillData.fptype=='0'?'不开发票':fpInfoShow[this.state.setBillData.fptype1]}<em className="fpttshow">{this.state.setBillData.fptt}</em></span><img src={require("../images/orderclosed/fp@2x.png")}/></Link></dd>
 
     					</dl>
+                        <dl className="line fp" style={{display: this.state.couponDisplay}}>
+                            <dt>优惠券</dt>
+                            <dd>
+                            <Link to={'/usecoupon'}>
+                            <span>无可用</span>
+                            <img src={require("../images/orderclosed/fp@2x.png")}/>
+                            </Link>
+                            </dd>
+                        </dl>
+                        <dl className="line fp" style={{display: this.state.couponDisplay=='block'||this.state.useCouponList[0].couponId!=''?'none':'block'}}>
+                            <dt>优惠券</dt>
+                            <dd>
+                            <Link to={'/usecoupon'}>
+                            <span className="coupon">
+                            {this.state.ajdata.couponUserList.length}张可用
+                            </span><span>未使用</span>
+                            <img src={require("../images/orderclosed/fp@2x.png")}/>
+                            </Link>
+                            </dd>
+                        </dl>
+                        <dl className="line fp" style={{display: this.state.useCouponList[0].couponId!=''?'block':'none'}}>
+                            <dt>优惠券</dt>
+                            <dd>
+                            <Link to={'/usecoupon'}>
+                            <span>已优惠<i className="couponi">¥{Tool.toDecimal2(this.state.discountAmount)}</i></span>
+                            <img src={require("../images/orderclosed/fp@2x.png")}/>
+                            </Link>
+                            </dd>
+                        </dl>
     					<div className="jinediv">
     						<dl className="line jine">
     							<dt>商品总金额</dt>
@@ -402,7 +470,7 @@ class OrderClosed extends Component {
                     </a>
                 </div>
             	<div className="bootm">
-                <a className="heji"><em style={{'fontSize': '22px'}}></em>合计:<span>¥{Tool.toDecimal2(this.state.ajdata.orderTotalFee)}</span></a>
+                <a className="heji"><em style={{'fontSize': '22px'}}></em>合计:<span>¥{Tool.toDecimal2(this.state.ajdata.orderTotalFee-this.state.discountAmount)}</span></a>
 					<a className="subbtn" onClick={this.submitOrder.bind(this)}>提交订单</a>
 				</div>
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} parent={this} />
@@ -435,9 +503,9 @@ class OrderClosed extends Component {
             }
         }
         function backfill(){
-            console.log(sessionStorage.getItem('sessionLiuList'));
-            if(sessionStorage.getItem('sessionLiuList')!=null){
-                let liuList=sessionStorage.getItem('sessionLiuList').split(','),backLiulist=[];
+            //console.log(localStorage.getItem('sessionLiuList'));
+            if(localStorage.getItem('sessionLiuList')!=null){
+                let liuList=localStorage.getItem('sessionLiuList').split(','),backLiulist=[];
                 liuList.forEach(function(item){
                     var obj={};
                     var liuClass=item.split('/')[0];

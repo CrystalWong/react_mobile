@@ -54,15 +54,18 @@ export class Header extends Component {
     }
 
     render() {
-        let {title, leftIcon , hadeScreen="",hClass="h-screen",type="",className} = this.props;
+        let {title, leftIcon , hadeScreen="",hasRight="",hClass="h-screen",type="",className} = this.props;
         let left = null,
-            hScreen = null;
+            hScreen = null,isRight=null;
         if (leftIcon === 'fanhui') { //返回上一页
             left = (
                 <a href = "javascript:;" onClick={this.goBack.bind(this)}>
                     <i></i>
                 </a>
             );
+        }
+        if(hasRight){
+            isRight=<a href="//m.jyall.com/app/popup/jycoupon.html"><span className="coupon-intro">使用说明</span></a>
         }
         if(hadeScreen === 'true'){//头部筛选
 
@@ -92,7 +95,7 @@ export class Header extends Component {
                     {left}
                 </div>
                 <h2 className={className?"title "+className:"title"}><span ref="sHead">{title}</span>
-                    {hScreen}
+                    {hScreen}{isRight}
                 </h2>
             </header>
         );
@@ -211,7 +214,7 @@ export class AddressSelect extends Component {
             this.refs.city.innerText = data.name;
             this.setState({city: data.name,cityId: data.id,index: data.index});
             this.getCountry(data.id,0);
-            console.log(this.state.provinceId);
+            //console.log(this.state.provinceId);
         }else if(data.status == 2){
             this.refs.country.innerText = data.name;
             this.setState({country: data.name,countryId: data.id,index: data.index});

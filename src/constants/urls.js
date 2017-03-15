@@ -1,5 +1,6 @@
 import {ONLINE} from '../constants/common';
-const domain = ONLINE?'//m.jyall.com':'http://localhost:3000';
+//const domain = ONLINE?'//m.jyall.com':'http://localhost:3000';
+const domain = ONLINE?'//m.jyall.com':'http://192.168.51.127:3000';
 
 /**
  * URL常量.
@@ -68,5 +69,9 @@ export default {
 	//跳转到支付
 	TOPAY: `${domain}/jyorder-center/v1/order/app/pay/`,
 	//付款
-	CORRELATION:`${domain}/jyorder-center/v1/order/app/correlation/`
+	CORRELATION:`${domain}/jyorder-center/v1/order/app/correlation/`,
+	//优惠券列表
+	COUPONLIST:`${domain}/jysales-api/v1/coupon/queryMemberUserCouponAll`,
+	//优惠券列表
+	USERCOUPONCODE:`${domain}/jysales-api/v1/coupon/userBindCouponsByRedemptionCode`,
 };

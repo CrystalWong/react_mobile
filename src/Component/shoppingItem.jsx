@@ -37,7 +37,7 @@ export class ShoppingItem extends Component {
                 type: "put",
                 headers: COMMON_HEADERS,
                 successMethod: function(json){
-                    console.log(json);
+                    //console.log(json);
                     if(json.data.select == true){
                         self.refs.icon.src = require('../images/shopping/select.png');
                         self.props.obj.selectItem++;
@@ -90,8 +90,8 @@ export class ShoppingItem extends Component {
             case "touchend":  
                 // alert(event.type);
                 this.ex = event.changedTouches[0].clientX;  
-                console.log(this.sx);
-                console.log(this.ex);
+                //console.log(this.sx);
+                //console.log(this.ex);
                 if(this.sx - this.ex > 40){
                     this.refs.del.className = "delete-cli delete-cli-out";
                 }else if(this.sx - this.ex < -40){
@@ -110,8 +110,8 @@ export class ShoppingItem extends Component {
             case "touchmove":  
                 event.preventDefault();  
                 this.ey = event.touches[0].clientY;
-                console.log(this.ey-this.sy);
-                console.log(this.outScroll.scrollTop);
+                //console.log(this.ey-this.sy);
+                //console.log(this.outScroll.scrollTop);
                 this.outScroll.scrollTop = this.outScroll.scrollTop-(this.ey-this.sy);
                 this.sy = this.ey;
                 break;  
@@ -144,7 +144,7 @@ export class ShoppingItem extends Component {
           return this.props.select !== nextProps.select;
     }
     render() {
-        console.log(this.props);
+        //console.log(this.props);
         let {skuName,mainImg,speczs,sellPrice,state,count,select,status,salesState ,stock } = this.props;
         let icon = (state==1&&status==1&&salesState==2)?(select?require("../images/shopping/select.png"):require("../images/shopping/no_select.png")):require("../images/shopping/invalid.png"),
             width = (state==1&&status==1&&salesState==2&&stock>0)?".4rem":".6rem",
