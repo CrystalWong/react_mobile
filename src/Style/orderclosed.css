@@ -230,7 +230,7 @@
 .orderClose .fp span {
 	vertical-align: middle;
 	color: black;
-	line-height: .46rem;
+	line-height: .55rem;
 }
 .orderClose .fp span .couponi{
 	color: #ce0000;
@@ -243,13 +243,23 @@
     margin-right: .1rem;
 }
 .orderClose .fp .fpttshow{
-	max-width: 2rem;
-    overflow: hidden;
+    max-width: 2rem;
+    overflow-x: hidden;
+    display: inline-block;
+    height: .37rem;
+    font-style: normal;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: .55rem;
+}
+.orderClose .fp .coupon .fpttshow{
     display: inline-block;
     height: .35rem;
     font-style: normal;
     text-overflow: ellipsis;
     white-space: nowrap;
+    line-height: .55rem;
+    overflow: hidden;
 }
 .orderClose .bwtk{
     height: .6rem;
