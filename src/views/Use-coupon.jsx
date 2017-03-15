@@ -140,7 +140,7 @@ class Usecoupon extends Component {
                                 )
                            }
                       </ul>
-                      <div style={{display: this.state.noCouponTip}} className="no-coupon-tip">没有更多了</div>
+                      <div style={{display: 'none'}} className="no-coupon-tip">没有更多了</div>
                     </div>
                   </div>
                   <div className="get-coupon-button" style={{display: this.state.dataList.length==0?'none':'block'}}>

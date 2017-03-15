@@ -428,7 +428,7 @@ class OrderClosed extends Component {
                             <dd>
                             <Link to={'/usecoupon'}>
                             <span className="coupon">
-                            <em className="fpttshow">{this.state.ajdata.couponUserList.length}张可用</em>
+                            {this.state.ajdata.couponUserList.length}张可用
                             </span><span>未使用</span>
                             <img src={require("../images/orderclosed/fp@2x.png")}/>
                             </Link>

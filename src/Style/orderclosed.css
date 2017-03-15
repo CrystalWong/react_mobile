@@ -252,15 +252,6 @@
     white-space: nowrap;
     line-height: .55rem;
 }
-.orderClose .fp .coupon .fpttshow{
-    display: inline-block;
-    height: .35rem;
-    font-style: normal;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    line-height: .55rem;
-    overflow: hidden;
-}
 .orderClose .bwtk{
     height: .6rem;
     line-height: .62rem;
