@@ -33,7 +33,7 @@ class OrderClosed extends Component {
         } : choseAddress = props.address;
         this.state = {
             liuList:[],
-            useCouponList:JSON.parse(sessionStorage.getItem('useCouponList'))||[{
+            useCouponList:JSON.parse(localStorage.getItem('useCouponList'))||[{
                 activityId:'',
                 couponId:'',
                 groupValue:''
@@ -129,7 +129,7 @@ class OrderClosed extends Component {
                         self.setState({
                             couponDisplay: 'none'
                         });
-                        sessionStorage.setItem('couponList',JSON.stringify(json.couponUserList));
+                        localStorage.setItem('couponList',JSON.stringify(json.couponUserList));
                     }
                     self.setState({
                         ajdata: json
@@ -145,8 +145,9 @@ class OrderClosed extends Component {
         Tool.fetch(this, data);
         this.submitOrder = () => {
             //清除记录的数据
-            sessionStorage.removeItem("sessionLiuList");
-            sessionStorage.removeItem("useCouponList");
+            localStorage.removeItem("sessionLiuList");
+            localStorage.removeItem("useCouponList");
+            localStorage.removeItem("couponList");
             if (props.address.id == undefined || this.state.ajdata.address.id == undefined) {
                 // alert('没地址,调试..');
                 this.setState({
@@ -319,7 +320,7 @@ class OrderClosed extends Component {
                 sessionLiuList.push(supplier_payment+'/'+value);
             }
             //console.log(liuList);
-            sessionStorage.setItem('sessionLiuList',sessionLiuList.join(','));
+            localStorage.setItem('sessionLiuList',sessionLiuList.join(','));
         }
         this.goBack = () => {
             self.setState({
@@ -329,8 +330,9 @@ class OrderClosed extends Component {
                     leftText: "去意已决",
                     leftMethod: function() {
                         //清除记录的数据
-                        sessionStorage.removeItem("sessionLiuList");
-                        sessionStorage.removeItem("useCouponList");
+                        localStorage.removeItem("sessionLiuList");
+                        localStorage.removeItem("useCouponList");
+                        localStorage.removeItem("couponList");
                         Tool.history.goBack();
                     },
                     rightText: "我再想想",
@@ -350,9 +352,9 @@ class OrderClosed extends Component {
         window.onbeforeunload =function (){
             // alert('页面卸载...');
             //清除记录的数据
-            sessionStorage.removeItem("sessionLiuList");
-            sessionStorage.removeItem("useCouponList");
-            sessionStorage.removeItem("couponList");
+            localStorage.removeItem("sessionLiuList");
+            localStorage.removeItem("useCouponList");
+            localStorage.removeItem("couponList");
         }
         // setTimeout(function(){
         //     backfill();
@@ -499,9 +501,9 @@ class OrderClosed extends Component {
             }
         }
         function backfill(){
-            //console.log(sessionStorage.getItem('sessionLiuList'));
-            if(sessionStorage.getItem('sessionLiuList')!=null){
-                let liuList=sessionStorage.getItem('sessionLiuList').split(','),backLiulist=[];
+            //console.log(localStorage.getItem('sessionLiuList'));
+            if(localStorage.getItem('sessionLiuList')!=null){
+                let liuList=localStorage.getItem('sessionLiuList').split(','),backLiulist=[];
                 liuList.forEach(function(item){
                     var obj={};
                     var liuClass=item.split('/')[0];

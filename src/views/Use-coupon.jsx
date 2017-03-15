@@ -38,7 +38,7 @@ class Usecoupon extends Component {
                value:'',
                expiredCount :'',
                couponState:'active',
-               dataList:JSON.parse(sessionStorage.getItem('couponList'))==null||JSON.parse(sessionStorage.getItem('couponList'))==undefined?[]:JSON.parse(sessionStorage.getItem('couponList'))
+               dataList:JSON.parse(localStorage.getItem('couponList'))==null||JSON.parse(localStorage.getItem('couponList'))==undefined?[]:JSON.parse(localStorage.getItem('couponList'))
           }
           this.confirmUse=(e)=>{
             if(this.state.dataList.length==0){
@@ -57,7 +57,7 @@ class Usecoupon extends Component {
                 couponList.push(couponObj);
               }
               //console.log(couponList);
-              sessionStorage.setItem('useCouponList',JSON.stringify(couponList))
+              localStorage.setItem('useCouponList',JSON.stringify(couponList))
               window.history.go( -1 );
             }
           }
@@ -99,7 +99,7 @@ class Usecoupon extends Component {
                         //     updateTime: json.updateTime,
                         //     useLimitAmount: json.useLimitAmount
                         // };
-                        // sessionStorage.getItem('couponList').push(activationObj);
+                        // localStorage.getItem('couponList').push(activationObj);
                         setTimeout(function(){
                           //history.go(-1);
                           location.reload();
