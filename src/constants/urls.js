@@ -1,6 +1,6 @@
 import {ONLINE} from '../constants/common';
-const domain = ONLINE?'//m.jyall.com':'http://localhost:3000';
-//const domain = ONLINE?'//m.jyall.com':'http://192.168.51.127:3000';
+//const domain = ONLINE?'//m.jyall.com':'http://localhost:3000';
+const domain = ONLINE?'//m.jyall.com':'http://192.168.51.127:3000';
 
 /**
  * URL常量.

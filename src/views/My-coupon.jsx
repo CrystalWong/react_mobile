@@ -37,9 +37,12 @@ class Mycoupon extends Component {
                dataList:[]
           }
           this.getCouponBy=(e)=>{
-            this.refs.couponState.childNodes.forEach(function(item,index){
-              item.className='';
-            });
+            // this.refs.couponState.childNodes.forEach(function(item,index){
+            //   item.className='';
+            // });
+            for(let i=0;i<this.refs.couponState.childNodes.length;i++){
+              this.refs.couponState.childNodes[i].className='';
+            }
             e.target.className='active';
             this.state.couponStatus=e.target.id;
             //切换状态初始化
