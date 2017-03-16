@@ -102,22 +102,21 @@
 			}
 			.use-coupon .coupon-list ul li .span{
 		        display: inline-block;
-			    width: 5%;
+			    width: 7%;
 			    height: 70%;
 			    line-height: 2.5rem;
 			}
 			.use-coupon .coupon-list ul li .check{
 			    background: url('../images/mycoupon/check.png') no-repeat #fff;
-			    background-position: center;
-			    background-size: 83%;
+			    background-position: 100% 54%;
+    			background-size: 70% 21%;
 			}
 			.use-coupon .coupon-list ul li .uncheck{
 			    background: url('../images/mycoupon/uncheck.png') no-repeat #fff;
-			    background-position: center;
-			    background-size: 83%;
-			}
+			    background-position: 100% 54%;
+    			background-size: 70% 21%;			}
 			.use-coupon .coupon-list ul li .check-div{
-		        width: 95%;
+		        width: 93%;
     			display: inline-block;
 			}
 			.use-coupon .coupon-list ul li .div-inline *{

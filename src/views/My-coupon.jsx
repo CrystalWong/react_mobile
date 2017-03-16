@@ -18,6 +18,7 @@ import {Toast} from '../Component/common/Tip';
 class Mycoupon extends Component {
      constructor(props){
           super(props);
+          //document.getElementById('route_div').style.paddingTop='.9rem';
           Tool.loginChecked(this);
           this.state = {
                couponStatus:'1',//优惠券状态参数
@@ -33,6 +34,7 @@ class Mycoupon extends Component {
                usedCount :'',
                value:'',
                expiredCount :'',
+               list_style:'coupon-list',
                couponState:'active',
                dataList:[]
           }
@@ -44,6 +46,15 @@ class Mycoupon extends Component {
               this.refs.couponState.childNodes[i].className='';
             }
             e.target.className='active';
+            if(e.target.id!='1'){
+              this.setState({
+                list_style:'coupon-list-grey'
+              });
+            }else{
+              this.setState({
+                list_style:'coupon-list'
+              });
+            }
             this.state.couponStatus=e.target.id;
             //切换状态初始化
             this.state.nextPage=false;
@@ -171,10 +182,11 @@ class Mycoupon extends Component {
                         <span onClick={this.userCode.bind(this)}>激活</span>
                     </div>
                     <div className="no-coupon" style={{display: this.state.dataList.length==0?'block':'none'}}>没有对应优惠券</div>
-                    <div className="coupon-list" style={{display: this.state.dataList.length==0?'none':'block'}}>
+                    <div className={this.state.list_style} style={{display: this.state.dataList.length==0?'none':'block'}}>
                       <ul>
                           {
-                                this.state.dataList.map((item,index) => 
+                                this.state.dataList.map((item,index) =>
+
                                      <CouponList key={index}{...item} />
                                 )
                            }
@@ -196,17 +208,20 @@ process.env.NODE_ENV !== 'production' && module.hot.accept();
 class CouponList extends Component {
      constructor(props){
       super(props);
+      console.log(this.props);
       this.subStrTime=(str)=>{
             return str.split(' ')[0].replace(/-/g,'.');
       }
-      this.toCouponList=(id,e)=>{
-        location.href='//m.jyall.com/list/goods/coupon-'+id;
+      this.toCouponList=(status,id,e)=>{
+        if(status=='1'){
+          location.href='//m.jyall.com/list/goods/coupon-'+id;
+        }
       }
      }
      render(){
-          let {couponId,groupValue,groupType,couponName,goodsRange,startUseTime,endUseTime} = this.props;
+          let {couponId,groupValue,groupType,couponName,goodsRange,startUseTime,endUseTime,status} = this.props;
           return (
-                      <li onClick={this.toCouponList.bind(this,couponId)}>
+                      <li onClick={this.toCouponList.bind(this,status,couponId)}>
                         <div className="div-inline name-info">
                           <div className="left-div"><h1>¥{groupValue}</h1><span>({groupType==1?'满减券':'满折券'})</span></div>
                           <a><span className="text">{goodsRange}</span><i></i></a>
