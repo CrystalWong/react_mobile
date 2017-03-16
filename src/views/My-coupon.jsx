@@ -224,7 +224,7 @@ class CouponList extends Component {
                       <li onClick={this.toCouponList.bind(this,status,couponId)}>
                         <div className="div-inline name-info">
                           <div className="left-div"><h1>¥{groupValue}</h1><span>({groupType==1?'满减券':'满折券'})</span></div>
-                          <a><span className="text">{goodsRange}</span><i></i></a>
+                          <a><span className="text">{couponTag}</span><i></i></a>
                         </div>
                         <div className="div-inline date-info">
                           <p>有效期:{this.subStrTime(startUseTime)}-{this.subStrTime(endUseTime)}</p>
