@@ -219,7 +219,7 @@ class CouponList extends Component {
       }
      }
      render(){
-          let {couponId,groupValue,groupType,couponName,goodsRange,startUseTime,endUseTime,status} = this.props;
+          let {couponId,groupValue,groupType,couponName,couponTag,goodsRange,startUseTime,endUseTime,status} = this.props;
           return (
                       <li onClick={this.toCouponList.bind(this,status,couponId)}>
                         <div className="div-inline name-info">
@@ -228,7 +228,7 @@ class CouponList extends Component {
                         </div>
                         <div className="div-inline date-info">
                           <p>有效期:{this.subStrTime(startUseTime)}-{this.subStrTime(endUseTime)}</p>
-                          <div className="right-div">{couponName}</div>
+                          <div className="right-div">{couponTag}</div>
                         </div>
                       </li>
           );
