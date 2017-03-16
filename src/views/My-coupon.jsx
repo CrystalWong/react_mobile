@@ -18,6 +18,7 @@ import {Toast} from '../Component/common/Tip';
 class Mycoupon extends Component {
      constructor(props){
           super(props);
+          //document.getElementById('route_div').style.paddingTop='.9rem';
           Tool.loginChecked(this);
           this.state = {
                couponStatus:'1',//优惠券状态参数
