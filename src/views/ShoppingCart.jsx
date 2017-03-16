@@ -179,6 +179,7 @@ class ShoppingCart extends Component {
     }
 
     statement(e){ //结算
+        localStorage.removeItem("useCouponList");
         e.stopPropagation(); 
         e.preventDefault();
         var self = this;
