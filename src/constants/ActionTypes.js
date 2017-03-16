@@ -7,3 +7,5 @@ export const SHOPPINGCARTCOUNT = "SHOPPINGCART_COUNT";//购物车数量
 export const ADDRESS = "ADDRESS_ITEM";//收货地址
 
 export const ORDER = "ORDER";//收货地址
+
+export const COUPON_ID = "COUPON_ID";//优惠券id

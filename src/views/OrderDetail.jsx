@@ -27,7 +27,7 @@ class OrderDetail extends Component {
             return "";
         };
         var urlId=this.getQueryString('orderId');
-        console.log(urlId);
+        //console.log(urlId);
         this.state = {
             ajdata:{
                 productList:[],
@@ -209,7 +209,7 @@ class OrderDetail extends Component {
                     type: "get",
                     headers: headers,
                     successMethod: function(str,status) {
-                        console.log("payment====="+str.payCode);
+                        //console.log("payment====="+str.payCode);
                          Tool.fetch(self, { //获取支付地址
                               url: `${URLS.TOPAY}${str.payCode}?source=WAP`,
                               type: "post",
@@ -228,7 +228,7 @@ class OrderDetail extends Component {
                 productList = this.state.ajdata.productList,
                 groupSkuId = (productList[0].groupId==null?'':productList[0].groupId) + "_" + productList[0].goodsId,
                 count = 1,self=this;
-                console.log(productList[0]);
+                //console.log(productList[0]);
             this.more = true;
             if (uKey) isLogin = 1;
             if (this.state.num >= this.props.stock) {
@@ -246,7 +246,7 @@ class OrderDetail extends Component {
                     if (json.flag == true) {
                         Tool.history.push("/shoppingcart");
                     } else {
-                        console.log(json.message);
+                        //console.log(json.message);
                         self.setState({
                             tipContent: json.message,
                             display: 'toasts'
@@ -263,7 +263,7 @@ class OrderDetail extends Component {
         }
         }
     render() {
-        console.log(this.state.ajdata.invoice);
+        //console.log(this.state.ajdata.invoice);
         return (
             <div style={{'height':'100%','overflow':'auto'}}>
                 <Header title="订单详情" leftIcon="fanhui" />

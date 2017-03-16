@@ -17,7 +17,7 @@ import {Toast} from '../Component/common/Tip';
 class Invite extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
+        //console.log(props);
         this.state = {
             button: '登录',
             tipContent: '',

@@ -130,7 +130,7 @@ class Appointment extends Component {
      onScrollStart(iScrollInstance){
      // let yScroll = iScrollInstance.y;
 
-     //   console.log("vertical position:" + yScroll);
+     //   //console.log("vertical position:" + yScroll);
      //      // if((iScrollInstance.maxScrollY < 0 && Math.abs(iScrollInstance.startY) - Math.abs(iScrollInstance.maxScrollY) > 30) || (iScrollInstance.maxScrollY > 0 && iScrollInstance.directionY == 1 && iScrollInstance.distY > 30)){
 
           
@@ -144,7 +144,7 @@ class Appointment extends Component {
      onRefresh(iScrollInstance,state) {
        // let yScroll = iScrollInstance.y;
 
-       // console.log("onRefresh vertical position:" + yScroll)
+       // //console.log("onRefresh vertical position:" + yScroll)
 
      }
 

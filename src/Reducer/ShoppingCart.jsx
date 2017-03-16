@@ -10,7 +10,7 @@ const initShoppingCart = {
 };
 
 export default function shoppingCart(shoppingCart = initShoppingCart, action) {
-  console.log(action);
+  //console.log(action);
   switch (action.type) {
   case SHOPPINGCARTCOUNT:
   	// login = merged(action)

@@ -27,7 +27,7 @@ import {Tool, merged} from '../Tool';
 class Roots extends Component {
 
     render() {
-        console.log(this.props);
+        //console.log(this.props);
         return (
             <div className="route-div" id="route_div">{this.props.children}</div>
         );
@@ -158,7 +158,19 @@ const rootRoute = {
       getComponent(nextState, cb) {
         require.ensure([], (require) => {cb(null, require('../views/AboutUs').default)}, 'aboutus')
       }
-    }            
+    },
+    {
+      path: 'mycoupon*',
+      getComponent(nextState, cb) {
+        require.ensure([], (require) => {cb(null, require('../views/My-coupon').default)}, 'mycoupon')
+      }
+    },
+    {
+      path: 'usecoupon*',
+      getComponent(nextState, cb) {
+        require.ensure([], (require) => {cb(null, require('../views/Use-coupon').default)}, 'usecoupon')
+      }
+    }
   ]
 };
 

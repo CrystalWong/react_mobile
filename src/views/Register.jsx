@@ -17,7 +17,7 @@ import {Tool, merged} from '../Tool';
 class Register extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
+        //console.log(props);
         this.state = {
             button: '下一步',
             tipContent: '',
@@ -49,7 +49,7 @@ class Register extends Component {
                 type: "get",
                 headers: headers,
                 successMethod: function(json){
-                    // console.log(json.uuid);
+                    // //console.log(json.uuid);
                     if(json.uuid){
                         self.props.register({uuid:json.uuid,phone:phone});
                         // var history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHistory;
@@ -101,7 +101,7 @@ class Register extends Component {
                             type: "get",
                             headers: headers,
                             successMethod: function(json){
-                                console.log(typeof json);
+                                //console.log(typeof json);
                                 if(typeof json == "object"){
                                     self.setState({ tipContent: json.message,display: 'toasts' });
                                     return;
@@ -127,7 +127,7 @@ class Register extends Component {
                 type: "get",
                 headers: headers,
                 successMethod: function(json){
-                    console.log(typeof json);
+                    //console.log(typeof json);
                     if(typeof json == "object"){
                         self.setState({ tipContent: json.message,display: 'toasts' });
                         return;

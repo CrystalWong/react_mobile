@@ -196,8 +196,8 @@ class MyOrder extends Component {
     } 
     //再次购买
     callbackShop(productList){
-      console.log('------------------------------------');
-      console.log(productList);
+      //console.log('------------------------------------');
+      //console.log(productList);
       productList=productList.productList;
       let isLogin = 0,
           uKey = cookie.load('tokenid'),

@@ -16,7 +16,7 @@ export class OrderClosedListItem extends Component {
     render() {
         //let {address,couponUserList,goodsTotalFee,orderTotalFee,storeVOList,totalShipFee} = this.props;
         let {goodsVOList,payType,storeId,getLiu}=this.props;
-        console.log(getLiu);
+        //console.log(getLiu);
         return (
                             <a className="tanm">
                                 {

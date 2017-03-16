@@ -29,9 +29,7 @@ server.app.use(require("webpack-dev-middleware")(compiler, {
     noInfo: true, publicPath: config.output.publicPath
 }));
 server.app.use(require("webpack-hot-middleware")(compiler));
-console.log("**************************");
-console.log(config.output.publicPath);
-console.log("**************************");
+console.log("Server listening on http://localhost:3000");
 //将其他路由，全部返回index.html
 // server.app.get('*', function (req,res) {
 //     res.sendFile('/index.html')
