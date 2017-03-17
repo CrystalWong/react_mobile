@@ -76,7 +76,7 @@ export class Header extends Component {
                     <div className="h-s-list" style={{display: this.state.hPar?"block":"none"}}>
                         <ul className="clearfix" onClick={this.industry.bind(this)} ref="industry">
                             <li id="0" className="active"><span>全部订单</span></li>
-                            <li id="1"><span>家居订单</span></li>
+                            <li id="1"><span>房产订单</span></li>
                             <li id="2"><span>装修订单</span></li>
                             <li id="4"><span>家电订单</span></li>
                             <li id="3"><span>家具订单</span></li>
