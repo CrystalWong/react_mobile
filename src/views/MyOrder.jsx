@@ -97,9 +97,9 @@ class MyOrder extends Component {
                        });
                   }else if(json.totalPage == 0){
                     _this.setState({
-                        scrollNoData: true,
-                        more : "",
-                        list: [],
+                        // scrollNoData: true,
+                        // more : "",
+                        // list: [],
                         nolist : 'block'
                      });
                   }
@@ -123,8 +123,8 @@ class MyOrder extends Component {
             for(var i = 0; i < this.refs.orderStatus.childNodes.length;i++){
                 this.refs.orderStatus.childNodes[i].className = " ";
             }
-            e.target.className = "active"; 
-            this.setState({ statusPar: e.target.id,list: [] });
+            e.target.className = "active";
+            this.setState({ statusPar: e.target.id});
             // this.refs.OrderCon.innerHTML = "";
             this.fetch({"userId":cookie.load('userId'),"industry":this.state.industry,"status":e.target.id});
        }
@@ -362,7 +362,7 @@ class MyOrder extends Component {
                         <li id="30">待收货</li>
                     </ul>
                 </div>
-                <div style={{height: '100%',paddingBottom: '.4rem'}}>
+                <div style={{height: '100%',paddingBottom: '.4rem',display:this.state.nolist=='block'?'none':'block'}}>
                     <ReactIScroll iScroll={iScroll} options={this.state.options} onScrollEnd={this.onScrollEnd.bind(this)}>
                     <div ref="OrderCon">
                         {
