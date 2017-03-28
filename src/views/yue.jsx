@@ -62,9 +62,13 @@ class Yue extends Component {
           this.setState({tipContent : '请输入验证码',display : 'toasts' });return;
         }
 
-
+        var _track_d='';
+            if(cookie.load('_track_d')){
+              _track_d=cookie.load('_track_d').split('.')[0];
+            }
         var data = {
             userName: "",
+            deviceId:_track_d,
             userId: cookie.load("userId"),
             userPhone: "",
             remark: this.refs.remark.value,
