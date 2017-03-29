@@ -61,6 +61,11 @@ export default {
 	myOrder: `${domain}/jyorder-center/v1/order/app/queryOrderList`,	
 	//预约
 	YUYUE: `${domain}/jyall-workflowV2/v1/order/yuyue/stateless`,
+	//委托发房
+	ENTRUST: `${domain}/entrust/add.html`,
+	//委托发房短信验证码
+	ENTRUSTVCODE: `${domain}/entrust/add.html`,
+	//验证码
 	YUYUECODE: `${domain}/jyall-workflowV2/v1/order/yuyue/sendIdentifyCode/`,
 	//商品推荐
 	RECOMMENDGOODS: `${domain}/jygoods-api/v1/goods/recommend/goods/`,
