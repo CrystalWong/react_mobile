@@ -94,8 +94,8 @@ class EntrustedRoom extends Component {
         +'&mobileCode='+encodeURIComponent(data.mobileCode)
         +'&contacter='+encodeURIComponent(data.contacter);
         +'&mobilePhone='+encodeURIComponent(data.mobilePhone)
-        console.log(dataStr);
-        let headers = COMMON_HEADERS_POST();
+        console.log(dataStr);//let headers = COMMON_HEADERS_POST('Accept','application/json'),
+        let headers = COMMON_HEADERS_POST('content-type','application/x-www-form-urlencoded');
         let domain = ONLINE?"http://m.jyall.com":"http://m.jyall.com";
         this.setState({ajaxDisplay: "block",maskDisplay: "block"});
         Tool.fetch(this,{
