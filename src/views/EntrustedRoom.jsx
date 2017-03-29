@@ -41,7 +41,7 @@ class EntrustedRoom extends Component {
 
     goYue(){
         let address = this.refs.address.value,
-          detail = this.refs.detail.value,
+          //detail = this.refs.detail.value,
           name = this.refs.name.value,
           phone = this.refs.phone.value,
           code = this.refs.code.value,
