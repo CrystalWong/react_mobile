@@ -64,7 +64,7 @@ export default {
 	//委托发房
 	ENTRUST: `${domain}/entrust/add.html`,
 	//委托发房短信验证码
-	ENTRUSTVCODE: `${domain}/entrust/add.html`,
+	ENTRUSTVCODE: `${domain}/entrust/sendvcode?callback=callbackMobile&mobile=`,
 	//验证码
 	YUYUECODE: `${domain}/jyall-workflowV2/v1/order/yuyue/sendIdentifyCode/`,
 	//商品推荐

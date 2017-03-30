@@ -156,29 +156,37 @@ class EntrustedRoom extends Component {
         }
         this.clickControl = false;
         this.setState({ajaxDisplay: "block",maskDisplay: "block"});
-        Tool.fetch(this,{
-                  url: `${URLS.YUYUECODE}${phone}`,//提交地址
-                  type: "get",
-                  headers: headers,
-                  successMethod: function(json,status){
-                    if(status == 200){
-                      self.identifyType = json.identifyType;
-                      var count = 60;
-                      self.inte = setInterval(function(){
-                        count--;
-                        if(count == 0){
-                            clearInterval(self.inte);
-                            self.setState({codeText: '获取验证码',background: "#f60"});
-                            self.clickControl = true;
-                        }else{
-                            self.setState({codeText: '获取验证码('+count+')',background: "#ccc"});
-                        }
-                      },1000);
-                    }else{
-                      self.clickControl = true;
-                    }
-                  }
-              });
+        var JSONP=document.createElement("script");
+            JSONP.type="text/javascript";  
+            JSONP.src=`${URLS.ENTRUSTVCODE}${phone}`;  
+            document.getElementsByTagName("head")[0].appendChild(JSONP);
+            //查询城市列表
+            window.callbackMobile = function(data) { //jsonp取城市列表
+                console.log(data);
+            };
+        // Tool.fetch(this,{
+        //           url: `${URLS.ENTRUSTVCODE}${phone}`,//提交地址
+        //           type: "get",
+        //           headers: headers,
+        //           successMethod: function(json,status){
+        //             if(status == 200){
+        //               self.identifyType = json.identifyType;
+        //               var count = 60;
+        //               self.inte = setInterval(function(){
+        //                 count--;
+        //                 if(count == 0){
+        //                     clearInterval(self.inte);
+        //                     self.setState({codeText: '获取验证码',background: "#f60"});
+        //                     self.clickControl = true;
+        //                 }else{
+        //                     self.setState({codeText: '获取验证码('+count+')',background: "#ccc"});
+        //                 }
+        //               },1000);
+        //             }else{
+        //               self.clickControl = true;
+        //             }
+        //           }
+        //       });
     }
 
     componentDidMount(){
