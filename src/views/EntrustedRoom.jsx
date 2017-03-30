@@ -92,8 +92,8 @@ class EntrustedRoom extends Component {
         +'&townName='+encodeURIComponent(data.townName)
         +'&townId='+data.townId
         +'&mobileCode='+encodeURIComponent(data.mobileCode)
-        +'&contacter='+encodeURIComponent(data.contacter);
-        +'&mobilePhone='+encodeURIComponent(data.mobilePhone)
+        +'&contacter='+encodeURIComponent(data.contacter)
+        +'&mobilePhone='+encodeURIComponent(data.mobilePhone);
         console.log(dataStr);//let headers = COMMON_HEADERS_POST('Accept','application/json'),
         let headers = COMMON_HEADERS_POST('content-type','application/x-www-form-urlencoded');
         let domain = ONLINE?"http://m.jyall.com":"http://m.jyall.com";
