@@ -83,7 +83,7 @@ class EntrustedRoom extends Component {
             mobilePhone: phone,
         };
         let dataStr='type=1&activityId=BM201612050000000001&activityName='+encodeURIComponent('卖房委托')
-        +'&provinceName='+encodeURIComponent(data.province)
+        +'&provinceName='+encodeURIComponent(data.provinceName)
         +'&provinceId='+data.provinceId
         +'&cityName='+encodeURIComponent(data.cityName)
         +'&cityId='+data.cityId
@@ -93,7 +93,7 @@ class EntrustedRoom extends Component {
         +'&townId='+data.townId
         +'&mobileCode='+encodeURIComponent(data.mobileCode)
         +'&contacter='+encodeURIComponent(data.contacter)
-        +'&mobilePhone='+encodeURIComponent(data.mobilePhone);
+        +'&mobilePhone='+data.mobilePhone;
         console.log(dataStr);//let headers = COMMON_HEADERS_POST('Accept','application/json'),
         let headers = COMMON_HEADERS_POST('content-type','application/x-www-form-urlencoded');
         let domain = ONLINE?"http://m.jyall.com":"http://m.jyall.com";
