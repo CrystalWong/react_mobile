@@ -164,7 +164,7 @@ class EntrustedRoom extends Component {
             window.callbackMobile = function(data) { //jsonp取城市列表
                 console.log(data);
                 if(data.state == '1'){
-                      self.identifyType = json.identifyType;
+                      //self.identifyType = json.identifyType;
                       var count = 60;
                       self.inte = setInterval(function(){
                         count--;
