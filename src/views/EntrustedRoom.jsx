@@ -163,6 +163,7 @@ class EntrustedRoom extends Component {
             //查询城市列表
             window.callbackMobile = function(data) { //jsonp取城市列表
                 console.log(data);
+                this.setState({ajaxDisplay: "none",maskDisplay: "none"});
                 if(data.state == '1'){
                       //self.identifyType = json.identifyType;
                       var count = 60;
