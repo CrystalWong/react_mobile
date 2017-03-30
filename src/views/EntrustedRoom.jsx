@@ -163,6 +163,22 @@ class EntrustedRoom extends Component {
             //查询城市列表
             window.callbackMobile = function(data) { //jsonp取城市列表
                 console.log(data);
+                if(data.state == '1'){
+                      self.identifyType = json.identifyType;
+                      var count = 60;
+                      self.inte = setInterval(function(){
+                        count--;
+                        if(count == 0){
+                            clearInterval(self.inte);
+                            self.setState({codeText: '获取验证码',background: "#f60"});
+                            self.clickControl = true;
+                        }else{
+                            self.setState({codeText: '获取验证码('+count+')',background: "#ccc"});
+                        }
+                      },1000);
+                    }else{
+                      self.clickControl = true;
+                    }
             };
         // Tool.fetch(this,{
         //           url: `${URLS.ENTRUSTVCODE}${phone}`,//提交地址
