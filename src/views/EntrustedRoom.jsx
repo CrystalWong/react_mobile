@@ -67,9 +67,9 @@ class EntrustedRoom extends Component {
               _track_d=cookie.load('_track_d').split('.')[0];
             }
         var data = {
-            type:'1',
-            activityId:'BM201612050000000001',
-            activityName:'卖房委托',
+            type:'15',
+            activityId:'BM201703230000000002',
+            activityName:'二手房交易',
             provinceName:this.state.province,
             provinceId:this.state.provinceId,
             cityName:this.state.city,
