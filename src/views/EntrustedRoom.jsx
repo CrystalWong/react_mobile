@@ -93,6 +93,7 @@ class EntrustedRoom extends Component {
         +'&townName='+encodeURIComponent(data.townName)
         +'&townId='+data.townId
         +'&mobileCode='+encodeURIComponent(data.mobileCode)
+        +'&deviceId='+_track_d
         +'&contacter='+encodeURIComponent(data.contacter)
         +'&mobilePhone='+data.mobilePhone;
         console.log(dataStr);//let headers = COMMON_HEADERS_POST('Accept','application/json'),
