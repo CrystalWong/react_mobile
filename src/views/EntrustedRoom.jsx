@@ -83,7 +83,9 @@ class EntrustedRoom extends Component {
             deviceId:_track_d,
             mobilePhone: phone
         };
-        let dataStr='type='+data.type+'&activityId='+data.activityId+'&activityName='+encodeURIComponent(data.activityName)
+        let dataStr='type='+data.type
+        +'&activityId='+data.activityId
+        +'&activityName='+encodeURIComponent(data.activityName)
         +'&provinceName='+encodeURIComponent(data.provinceName)
         +'&provinceId='+data.provinceId
         +'&cityName='+encodeURIComponent(data.cityName)
@@ -101,7 +103,7 @@ class EntrustedRoom extends Component {
         let domain = ONLINE?"http://m.jyall.com":"http://m.jyall.com";
         this.setState({ajaxDisplay: "block",maskDisplay: "block"});
         Tool.fetch(this,{
-                  url: `${URLS.ENTRUST}?deviceId=${_track_d}`,//提交地址
+                  url: `${URLS.ENTRUST}?dataStr`,//提交地址
                   type: "post",
                   headers: headers,
                   body: dataStr,
