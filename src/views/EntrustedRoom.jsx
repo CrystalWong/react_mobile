@@ -106,7 +106,7 @@ class EntrustedRoom extends Component {
                   url: `${URLS.ENTRUST}?`+dataStr,//提交地址
                   type: "post",
                   headers: headers,
-                  body: dataStr,
+                  body: '',
                   successMethod: function(json,status){
                     let tip = "";
                     //console.log(json);
