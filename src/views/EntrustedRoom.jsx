@@ -103,7 +103,7 @@ class EntrustedRoom extends Component {
         let domain = ONLINE?"http://m.jyall.com":"http://m.jyall.com";
         this.setState({ajaxDisplay: "block",maskDisplay: "block"});
         Tool.fetch(this,{
-                  url: `${URLS.ENTRUST}?dataStr`,//提交地址
+                  url: `${URLS.ENTRUST}?{dataStr}`,//提交地址
                   type: "post",
                   headers: headers,
                   body: dataStr,
