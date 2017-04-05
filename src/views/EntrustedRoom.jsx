@@ -83,7 +83,7 @@ class EntrustedRoom extends Component {
             deviceId:_track_d,
             mobilePhone: phone
         };
-        let dataStr='type=1&activityId=BM201612050000000001&activityName='+encodeURIComponent('卖房委托')
+        let dataStr='type=15&activityId=BM201612050000000001&activityName='+encodeURIComponent('卖房委托')
         +'&provinceName='+encodeURIComponent(data.provinceName)
         +'&provinceId='+data.provinceId
         +'&cityName='+encodeURIComponent(data.cityName)
