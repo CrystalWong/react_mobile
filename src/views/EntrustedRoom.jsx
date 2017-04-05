@@ -80,7 +80,8 @@ class EntrustedRoom extends Component {
             townId:this.state.xzId,
             mobileCode: code,
             contacter: name,
-            mobilePhone: phone,
+            deviceId:_track_d,
+            mobilePhone: phone
         };
         let dataStr='type=1&activityId=BM201612050000000001&activityName='+encodeURIComponent('卖房委托')
         +'&provinceName='+encodeURIComponent(data.provinceName)
