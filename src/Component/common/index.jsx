@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { Router, Route, IndexRoute, browserHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
+import fetchJsonp  from 'fetch-jsonp';
 import action from '../../Action/Index';
 import {Tool, merged} from '../../Tool';
 import URLS from '../../constants/urls';
@@ -255,7 +256,148 @@ export class AddressSelect extends Component {
     }
 }
 
+/**
+ * 三级地址
+ * 
+ * @export
+ * @class AddressSelect
+ * @extends {Component}
+ */
+export class AddressSelectThree extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            list: [],
+            status: 0,
+            index: 0,
+            select: "请选择",
+            city: "",
+            cityId: "",
+            country: "",
+            countryId: "",
+            xz: "",
+            xzId: ""
+        };
+        this.getCity(this,0);
+    }
+
+    // getProvince(obj,first){
+    //     if(first != 0){
+    //         this.setState({index: 0,status: 0,select:"请选择",province:"",city:"",country:"",xz:""});
+    //         obj = this;
+    //     }
+    //     Tool.fetch(obj,{
+    //         url: `${URLS.PROVINCE}?containChilds=false`,
+    //         type: "get",
+    //         headers: COMMON_HEADERS,
+    //         successMethod: function(json){
+    //             obj.setState({list: json,status: 0});
+    //         }
+    //     });
+    // }
+
+    getCity(id,select){
+        fetchJsonp(`${URLS.CITYTHREE}`, {
+            method: 'GET',
+            timeout: 5000,
+            jsonpCallback: 'null',
+            mode: "cors",
+          })
+          .then(function(response) {
+            return response.json()
+          }).then(function(json) {
+            console.log('parsed json', json)
+          }).catch(function(ex) {
+            console.log('parsing failed', ex)
+        })
+        //if(select != 0){id = this.state.provinceId;}
+        let self = this;
+        Tool.fetch(this,{
+            url: `${URLS.CITYTHREE}`,
+            type: "get",
+            headers: COMMON_HEADERS,
+            successMethod: function(json){
+                self.setState({index: 0,list: json,status: 1,city: "",country: "",xz:""});
+            }
+        });
+    }
+
+    getCountry(id,select){
+        if(select != 0){id = this.state.cityId;}
+        let self = this;
+        Tool.fetch(this,{
+            url: `${URLS.COUNTRYTHREE}${id}`,
+            type: "get",
+            headers: COMMON_HEADERS,
+            successMethod: function(json){
+                self.setState({index: 0,list: json,status: 2,country: "",xz:""});
+            }
+        });
+    }   
+
+    getXz(id,select){
+        if(select != 0){id = this.state.xzId;}
+        let self = this;
+        Tool.fetch(this,{
+            url: `${URLS.XZTHREE}${id}`,
+            type: "get",
+            headers: COMMON_HEADERS,
+            successMethod: function(json){
+                self.setState({index: 0,list: json,status: 3,xz: ""});
+            }
+        });        
+    } 
+
+    selectItem(data){
+        // if(data.status == 0){
+        //     this.refs.province.innerText = data.name;
+        //     this.setState({province: data.name,provinceId: data.id,select: "",index: data.index});
+        //     this.getCity(data.id,0);
+        // }else 
+        if(data.status == 0){
+            this.refs.city.innerText = data.name;
+            this.setState({city: data.name,cityId: data.id,index: data.index});
+            this.getCountry(data.id,0);
+            //console.log(this.state.provinceId);
+        }else if(data.status == 1){
+            this.refs.country.innerText = data.name;
+            this.setState({country: data.name,countryId: data.id,index: data.index});
+            this.getXz(data.id,0);
+        }else if(data.status == 2){
+            this.refs.xz.innerText = data.name;
+            this.setState({xz: data.name,xzId: data.id,index: data.index});
+            this.props.addressResult({
+                //provinceId: this.state.provinceId,
+                //province: this.state.province,
+                cityId: this.state.cityId,
+                city: this.state.city,
+                countryId: this.state.countryId,
+                country: this.state.country,
+                xzId: data.id,
+                xz: data.name
+            });
+        }
+    }
+
+    render() {
+        let {_style} = this.props;
+        return (
+            <section className = "cascade-select" style={{WebkitTransform: `translate3d(0,${_style},0)`,transform: `translate3d(0,${_style},0)`}}>
+                <header>所在地区<span onClick={this.props.close}>+</span></header>
+                <div className="select-value"><span style={{color: "#ff6600",marginRight: "0"}}>{this.state.select}</span><span ref="city" onClick={this.getCity.bind(this)}>{this.state.city}</span><span ref="country" onClick={this.getCountry.bind(this)}>{this.state.country}</span><span ref="xz" onClick={this.getXz.bind(this)}>{this.state.xz}</span></div>
+                <div className="select-scroll">
+                   <ul ref="list">
+                   {
+                        this.state.list.map((item,index) =>
+                            <AddressSelectList key={index} index={index} selectIndex={this.state.index} status={this.state.status} {...item} callback={this.selectItem.bind(this)}/>)
+                   }
+                   </ul>
+                </div>
+            </section>
+        );
+    }
+}
 /**
  * 跳转app
  * 

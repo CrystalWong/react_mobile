@@ -21,6 +21,11 @@ var server = new WebpackDevServer(webpack(config), {
             // target: 'http://106.39.13.149',
             target: 'http://10.10.32.81',
             secure: false
+        },
+        '**/entrust/**': {
+            // target: 'http://106.39.13.149',
+            target: 'https://m.jyall.com',
+            secure: false
         }
     }
 });

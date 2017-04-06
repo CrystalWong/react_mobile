@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import cookie from 'react-cookie';
-import {Header,AddressSelect} from '../Component/common/index';
+import {Header,AddressSelectThree} from '../Component/common/index';
 import {Toast,AjaxTip} from '../Component/common/Tip';
 import {COMMON_HEADERS_POST} from '../constants/headers';
 import '../Style/yue';
@@ -261,7 +261,7 @@ class EntrustedRoom extends Component {
                     <a className="yue-but" style={{cursor: 'pointer'}} onClick={this.goYue.bind(this)}>立即预约</a> </div>
                 </section>
                 <Toast content={this.state.tipContent} display={this.state.display} callback={this.toastDisplay.bind(this)} />
-                <AddressSelect _style={this.state.addressSelectStyle} close = {this.closeAddress.bind(this)} addressResult={this.addressResult.bind(this)} />
+                <AddressSelectThree _style={this.state.addressSelectStyle} close = {this.closeAddress.bind(this)} addressResult={this.addressResult.bind(this)} />
                 <AjaxTip display={this.state.ajaxDisplay} />
                 <div className="mask" style={{display: this.state.maskDisplay}}></div>
             </div>

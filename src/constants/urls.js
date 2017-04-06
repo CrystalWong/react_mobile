@@ -57,6 +57,10 @@ export default {
 	CITY: `${domain}/common-city/v1/city/queryCitys/`, //130000000
 	COUNTRY: `${domain}/common-city/v1/country/queryCountrysByCityId/`,
 	XZ: `${domain}/common-city/v1/xz/getXzsByCountyId/`,
+	//三级地址
+	CITYTHREE: `https://m.jyall.com/entrust/queryOpenCityList`, //三级城市
+	COUNTRYTHREE: `https://m.jyall.com/entrust/queryCountry/`,
+	XZTHREE: `https://m.jyall.com/entrust/querTown/`,
 	//个人订单查询
 	myOrder: `${domain}/jyorder-center/v1/order/app/queryOrderList`,	
 	//预约
@@ -64,7 +68,7 @@ export default {
 	//委托发房
 	ENTRUST: `${domain}/entrust/add.html`,
 	//委托发房短信验证码
-	ENTRUSTVCODE: `${domain}/entrust/sendvcode?callback=callbackMobile&mobile=`,
+	ENTRUSTVCODE: `https://m.jyall.com/entrust/sendvcode?callback=callbackMobile&mobile=`,
 	//验证码
 	YUYUECODE: `${domain}/jyall-workflowV2/v1/order/yuyue/sendIdentifyCode/`,
 	//商品推荐
