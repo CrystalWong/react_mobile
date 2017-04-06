@@ -14,7 +14,6 @@
 	.addren ul li:last-child{ border-bottom:none;}
 	.addren .identifyCode input, .addren .img-code input {
 	    float: left;
-	    margin-right: .2rem;
 	    width: 66%;
 	}
 	.chose{ 
@@ -48,5 +47,6 @@
 	    color: #fff;
 	    border-radius: .04rem;
 	    font-size: .24rem;
+	    width:32%;
 	}
 }
