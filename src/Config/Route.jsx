@@ -92,6 +92,12 @@ const rootRoute = {
       getComponent(nextState, cb) {
         require.ensure([], (require) => {cb(null, require('../views/yue').default)}, 'yue')
       }
+    },
+    {
+      path: 'entrusted*',
+      getComponent(nextState, cb) {
+        require.ensure([], (require) => {cb(null, require('../views/EntrustedRoom').default)}, 'entrusted')
+      }
     },                
     {
       path: 'center',
