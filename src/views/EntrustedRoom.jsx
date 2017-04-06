@@ -83,7 +83,9 @@ class EntrustedRoom extends Component {
             deviceId:_track_d,
             mobilePhone: phone
         };
-        let dataStr='type=15&activityId=BM201612050000000001&activityName='+encodeURIComponent('卖房委托')
+        let dataStr='type='+data.type
+        +'&activityId='+data.activityId
+        +'&activityName='+encodeURIComponent(data.activityName)
         +'&provinceName='+encodeURIComponent(data.provinceName)
         +'&provinceId='+data.provinceId
         +'&cityName='+encodeURIComponent(data.cityName)
@@ -93,6 +95,7 @@ class EntrustedRoom extends Component {
         +'&townName='+encodeURIComponent(data.townName)
         +'&townId='+data.townId
         +'&mobileCode='+encodeURIComponent(data.mobileCode)
+        +'&deviceId='+_track_d
         +'&contacter='+encodeURIComponent(data.contacter)
         +'&mobilePhone='+data.mobilePhone;
         console.log(dataStr);//let headers = COMMON_HEADERS_POST('Accept','application/json'),
@@ -100,10 +103,10 @@ class EntrustedRoom extends Component {
         let domain = ONLINE?"http://m.jyall.com":"http://m.jyall.com";
         this.setState({ajaxDisplay: "block",maskDisplay: "block"});
         Tool.fetch(this,{
-                  url: `${URLS.ENTRUST}?deviceId=${_track_d}`,//提交地址
+                  url: `${URLS.ENTRUST}?`+dataStr,//提交地址
                   type: "post",
                   headers: headers,
-                  body: dataStr,
+                  body: '',
                   successMethod: function(json,status){
                     let tip = "";
                     //console.log(json);
