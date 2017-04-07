@@ -263,6 +263,28 @@ export class AddressSelect extends Component {
  * @class AddressSelect
  * @extends {Component}
  */
+let AddressSelectListThree = React.createClass({
+    // getInitialState() {
+    //     return {liked: false};
+    // }
+
+
+  render: function() {
+    let {index,id,name,status,selectIndex,cityId,cityName} = this.props;
+    if(id==undefined){
+        id=cityId;
+    }
+    if(name==undefined){
+        name=cityName;
+    }
+    this.callback = ()=>{
+        this.props.callback({index: index,name: name,id: id,status: status})
+    }
+    return (
+        <li className={index==selectIndex?"select":""} onClick={this.callback.bind(this)}>{name}</li>
+    );
+  }
+});
 export class AddressSelectThree extends Component {
 
     constructor(props) {
@@ -281,85 +303,69 @@ export class AddressSelectThree extends Component {
         };
         this.getCity(this,0);
     }
-
-    // getProvince(obj,first){
-    //     if(first != 0){
-    //         this.setState({index: 0,status: 0,select:"请选择",province:"",city:"",country:"",xz:""});
-    //         obj = this;
-    //     }
-    //     Tool.fetch(obj,{
-    //         url: `${URLS.PROVINCE}?containChilds=false`,
-    //         type: "get",
-    //         headers: COMMON_HEADERS,
-    //         successMethod: function(json){
-    //             obj.setState({list: json,status: 0});
-    //         }
-    //     });
-    // }
-
     getCity(id,select){
-        fetchJsonp(`${URLS.CITYTHREE}`, {
-            method: 'GET',
-            timeout: 5000,
-            jsonpCallback: 'null',
-            mode: "cors",
-          })
-          .then(function(response) {
-            return response.json()
-          }).then(function(json) {
-            console.log('parsed json', json)
-          }).catch(function(ex) {
-            console.log('parsing failed', ex)
-        })
-        //if(select != 0){id = this.state.provinceId;}
+        // fetchJsonp(`${URLS.CITYTHREE}?callback=aaa`, {
+        //     method: 'GET',
+        //     timeout: 5000,
+        //     jsonpCallback: 'aaa',
+        //     mode: "cors",
+        //     headers: COMMON_HEADERS
+        //   })
+        //   .then(function(response) {
+        //     console.log(response);
+        //     return response.json()
+        //   }).then(function(json) {
+        //     console.log('parsed json', json)
+        //   }).catch(function(ex) {
+        //     console.log('parsing failed', ex)
+        // })
+        if(select != 0){this.setState({index: 0,status: 0,select:"请选择",province:"",city:"",country:"",xz:""});}
         let self = this;
-        Tool.fetch(this,{
-            url: `${URLS.CITYTHREE}`,
-            type: "get",
-            headers: COMMON_HEADERS,
-            successMethod: function(json){
-                self.setState({index: 0,list: json,status: 1,city: "",country: "",xz:""});
-            }
-        });
+        var JSONP=document.createElement("script");
+            JSONP.type="text/javascript";  
+            JSONP.src=`${URLS.CITYTHREE}?callback=callbackgetCity`;  
+            document.getElementsByTagName("head")[0].appendChild(JSONP);
+            //查询城市列表
+            window.callbackgetCity = function(data) { //jsonp取城市列表
+                self.setState({list: data.resultList,status: 0});
+            };
     }
 
     getCountry(id,select){
         if(select != 0){id = this.state.cityId;}
         let self = this;
-        Tool.fetch(this,{
-            url: `${URLS.COUNTRYTHREE}${id}`,
-            type: "get",
-            headers: COMMON_HEADERS,
-            successMethod: function(json){
-                self.setState({index: 0,list: json,status: 2,country: "",xz:""});
-            }
-        });
+        var JSONP=document.createElement("script");
+            JSONP.type="text/javascript";  
+            JSONP.src=`${URLS.COUNTRYTHREE}${id}?callback=callbackgetCountry`;  
+            document.getElementsByTagName("head")[0].appendChild(JSONP);
+            //查询城市列表
+            window.callbackgetCountry = function(data) { //jsonp取城市列表
+                self.setState({index: 0,list: data.countries,status: 1,country: "",xz:""});
+            };
     }   
 
     getXz(id,select){
         if(select != 0){id = this.state.xzId;}
         let self = this;
-        Tool.fetch(this,{
-            url: `${URLS.XZTHREE}${id}`,
-            type: "get",
-            headers: COMMON_HEADERS,
-            successMethod: function(json){
-                self.setState({index: 0,list: json,status: 3,xz: ""});
-            }
-        });        
+        var JSONP=document.createElement("script");
+            JSONP.type="text/javascript";  
+            JSONP.src=`${URLS.XZTHREE}${id}?callback=callbackgetXz`;  
+            document.getElementsByTagName("head")[0].appendChild(JSONP);
+            //查询城市列表
+            window.callbackgetXz = function(data) { //jsonp取城市列表
+                self.setState({index: 0,list: data.towns,status: 2,xz:""});
+            };
     } 
 
     selectItem(data){
-        // if(data.status == 0){
-        //     this.refs.province.innerText = data.name;
-        //     this.setState({province: data.name,provinceId: data.id,select: "",index: data.index});
-        //     this.getCity(data.id,0);
-        // }else 
+        console.log(data);
         if(data.status == 0){
             this.refs.city.innerText = data.name;
-            this.setState({city: data.name,cityId: data.id,index: data.index});
+            // console.log(data.name);
+            // console.log(this.refs.city.innerText);
+            this.setState({select:'',city: data.name,cityId: data.id,index: data.index});
             this.getCountry(data.id,0);
-            //console.log(this.state.provinceId);
+            console.log(this.state.city);
         }else if(data.status == 1){
             this.refs.country.innerText = data.name;
             this.setState({country: data.name,countryId: data.id,index: data.index});
@@ -368,8 +374,8 @@ export class AddressSelectThree extends Component {
             this.refs.xz.innerText = data.name;
             this.setState({xz: data.name,xzId: data.id,index: data.index});
             this.props.addressResult({
-                //provinceId: this.state.provinceId,
-                //province: this.state.province,
+                provinceId: '',
+                province: '',
                 cityId: this.state.cityId,
                 city: this.state.city,
                 countryId: this.state.countryId,
@@ -390,7 +396,7 @@ export class AddressSelectThree extends Component {
                    <ul ref="list">
                    {
                         this.state.list.map((item,index) =>
-                            <AddressSelectList key={index} index={index} selectIndex={this.state.index} status={this.state.status} {...item} callback={this.selectItem.bind(this)}/>)
+                            <AddressSelectListThree key={index} index={index} selectIndex={this.state.index} status={this.state.status} {...item} callback={this.selectItem.bind(this)}/>)
                    }
                    </ul>
                 </div>

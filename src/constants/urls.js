@@ -58,7 +58,7 @@ export default {
 	COUNTRY: `${domain}/common-city/v1/country/queryCountrysByCityId/`,
 	XZ: `${domain}/common-city/v1/xz/getXzsByCountyId/`,
 	//三级地址
-	CITYTHREE: `https://m.jyall.com/entrust/queryOpenCityList`, //三级城市
+	CITYTHREE: `https://m.jyall.com/entrust/queryOpenCityList/`, //三级城市
 	COUNTRYTHREE: `https://m.jyall.com/entrust/queryCountry/`,
 	XZTHREE: `https://m.jyall.com/entrust/querTown/`,
 	//个人订单查询

@@ -243,7 +243,7 @@ class EntrustedRoom extends Component {
                     <div className="addren">
                       <ul>
                         <li id = "area_select">
-                          <input type="text" ref="address" placeholder="请选择服务区域" autoComplete="off" value={`${this.state.province}${this.state.city}${this.state.country}${this.state.xz}`} readOnly="readonly" onClick={this.addressSelect.bind(this)} />
+                          <input type="text" ref="address" placeholder="请选择服务区域" autoComplete="off" value={`${this.state.city}${this.state.country}${this.state.xz}`} readOnly="readonly" onClick={this.addressSelect.bind(this)} />
                           <a href = "javascript:"><span className="chose"></span></a>
                         </li>
                         <li>
